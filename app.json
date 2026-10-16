@@ -9,6 +9,13 @@
     "userInterfaceStyle": "dark",
     "backgroundColor": "#0a1524",
     "newArchEnabled": true,
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/05864276-1a7b-426f-aae8-3e7615b70cf6",
+      "requestHeaders": {
+        "expo-channel-name": "production"
+      }
+    },
     "ios": {
       "bundleIdentifier": "com.safa.FE",
       "buildNumber": "1",
@@ -28,6 +35,12 @@
     },
     "web": {
       "bundler": "metro"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "05864276-1a7b-426f-aae8-3e7615b70cf6"
+      }
+    },
+    "owner": "jinkato1914"
   }
 }

@@ -9,4 +9,7 @@ export const BUNDLED: Record<string, unknown> = {
   'content/chapters/ch5.json': require('../../content/chapters/ch5.json'),
   'content/chapters/ch6.json': require('../../content/chapters/ch6.json'),
   'content/index.json': require('../../content/index.json'),
+  'content/questions/ch1.json': require('../../content/questions/ch1.json'),
+  'content/questions/ch4.json': require('../../content/questions/ch4.json'),
+  'content/quizzes.json': require('../../content/quizzes.json'),
 };

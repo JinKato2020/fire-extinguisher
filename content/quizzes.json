@@ -1,0 +1,7 @@
+{
+  "note": "筆記問題セットの目次。問題本体は content/questions/<file>。自作問題のみ（著作物の複製は載せない）。",
+  "sets": [
+    { "id": "ch1", "chapter": "1", "title": "消防関係法令(共通)", "file": "content/questions/ch1.json", "count": 5 },
+    { "id": "ch4", "chapter": "4", "title": "消火器の構造・機能・整備", "file": "content/questions/ch4.json", "count": 5 }
+  ]
+}

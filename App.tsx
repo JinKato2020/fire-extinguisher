@@ -9,6 +9,8 @@ import Svg, { Circle, Path, G } from 'react-native-svg';
 import { BUILD_NUMBER } from './src/buildInfo';
 import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
+import { getQuizSets, getQuestions, getAllQuestions, type Question, type QuizSet } from './src/data/questions';
+import { loadHistory, recordAnswer, selectReview } from './src/data/history';
 
 // 参考画像「ミッドナイトキャンパス」から採取した配色
 const C = {
@@ -270,6 +272,182 @@ function TabBar({ tab, onTab, insetBottom }: { tab: TabKey; onTab: (t: TabKey) =
   );
 }
 
+// ---- 問題演習（模試タブ） ----
+const QLABEL = ['1', '2', '3', '4', '5'];
+
+function QuizFlow() {
+  const [session, setSession] = useState<{ title: string; questions: Question[] } | null>(null);
+
+  if (session) {
+    return <QuizPlayer title={session.title} questions={session.questions} onExit={() => setSession(null)} />;
+  }
+
+  const sets = getQuizSets();
+  const all = getAllQuestions();
+  const { weak } = selectReview(all.map((q) => q.id));
+
+  const startSet = (s: QuizSet) => setSession({ title: s.title, questions: getQuestions(s.file) });
+  const startReview = () => {
+    const { weak: w, unseen } = selectReview(all.map((q) => q.id));
+    const order = [...w, ...unseen];
+    const byId: Record<string, Question> = {};
+    for (const q of all) byId[q.id] = q;
+    setSession({ title: '弱点復習', questions: order.map((id) => byId[id]).filter(Boolean) });
+  };
+
+  return (
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
+      <View style={styles.pad}>
+        <View style={styles.viewHead}>
+          <Text style={styles.eyebrow}>PRACTICE</Text>
+          <Text style={styles.viewH2}>問題演習</Text>
+          <Text style={styles.viewSub}>章ごとに解いて、間違えた問題や「自信なし」は弱点復習でもう一度。</Text>
+        </View>
+
+        <Pressable
+          disabled={weak.length === 0}
+          onPress={startReview}
+          style={({ pressed }) => [styles.reviewBtn, weak.length === 0 && styles.btnDisabled, pressed && styles.pressed]}
+        >
+          <Text style={styles.reviewBtnTitle}>弱点復習</Text>
+          <Text style={styles.reviewBtnSub}>{weak.length > 0 ? `要復習 ${weak.length} 問` : '誤答・自信なしが貯まると出題されます'}</Text>
+        </Pressable>
+
+        <View style={{ gap: 10, marginTop: 14 }}>
+          {sets.map((s) => (
+            <Pressable key={s.id} style={({ pressed }) => [styles.ch, pressed && styles.pressed]} onPress={() => startSet(s)}>
+              <View style={styles.chNo}><Text style={styles.chNoTxt}>{s.chapter}</Text></View>
+              <View style={{ flex: 1, minWidth: 0 }}>
+                <Text style={styles.chTitle}>{s.title}</Text>
+                <Text style={styles.chSub}>{'筆記 ' + s.count + ' 問'}</Text>
+              </View>
+              <Text style={styles.chGo}>›</Text>
+            </Pressable>
+          ))}
+        </View>
+      </View>
+    </ScrollView>
+  );
+}
+
+function QuizPlayer({ title, questions, onExit }: { title: string; questions: Question[]; onExit: () => void }) {
+  const [idx, setIdx] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [revealed, setRevealed] = useState(false);
+  const [lowConf, setLowConf] = useState(false);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [finished, setFinished] = useState(false);
+
+  if (questions.length === 0) {
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={styles.readerBar}>
+          <Pressable onPress={onExit} hitSlop={10} style={({ pressed }) => [styles.backBtn, pressed && styles.pressed]}>
+            <Text style={styles.backTxt}>‹ 問題一覧</Text>
+          </Pressable>
+        </View>
+        <View style={styles.soon}><Text style={styles.soonBig}>対象なし</Text><Text style={styles.soonTxt}>いま出題できる問題がありません。</Text></View>
+      </View>
+    );
+  }
+
+  const reset = () => { setIdx(0); setSelected(null); setRevealed(false); setLowConf(false); setCorrectCount(0); setFinished(false); };
+
+  if (finished) {
+    const pct = Math.round((correctCount / questions.length) * 100);
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={styles.readerBar}>
+          <Pressable onPress={onExit} hitSlop={10} style={({ pressed }) => [styles.backBtn, pressed && styles.pressed]}>
+            <Text style={styles.backTxt}>‹ 問題一覧</Text>
+          </Pressable>
+        </View>
+        <View style={styles.soon}>
+          <Text style={styles.soonTitle}>おつかれさまでした</Text>
+          <Text style={styles.resultBig}>{correctCount} / {questions.length} 問正解</Text>
+          <Text style={styles.soonTxt}>正答率 {pct}%</Text>
+          <View style={{ flexDirection: 'row', gap: 10, marginTop: 18 }}>
+            <Pressable onPress={reset} style={({ pressed }) => [styles.ghostBtn, pressed && styles.pressed]}><Text style={styles.ghostBtnTxt}>もう一度</Text></Pressable>
+            <Pressable onPress={onExit} style={({ pressed }) => [styles.submitBtn, { paddingHorizontal: 22 }, pressed && styles.pressed]}><Text style={styles.submitTxt}>終了</Text></Pressable>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  const q = questions[idx];
+  const isLast = idx === questions.length - 1;
+
+  const submit = () => {
+    if (selected === null) return;
+    const ok = selected === q.answer;
+    if (ok) setCorrectCount((c) => c + 1);
+    void recordAnswer(q.id, ok, lowConf);
+    setRevealed(true);
+  };
+  const next = () => {
+    if (isLast) { setFinished(true); return; }
+    setIdx((i) => i + 1); setSelected(null); setRevealed(false); setLowConf(false);
+  };
+
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={styles.readerBar}>
+        <Pressable onPress={onExit} hitSlop={10} style={({ pressed }) => [styles.backBtn, pressed && styles.pressed]}>
+          <Text style={styles.backTxt}>‹ 問題一覧</Text>
+        </Pressable>
+        <Text style={styles.qProgress}>{title}　{idx + 1} / {questions.length}</Text>
+      </View>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pad, { paddingBottom: 40, paddingTop: 8 }]} showsVerticalScrollIndicator={false}>
+        {q.topic ? <Text style={styles.qTopic}>{q.topic}</Text> : null}
+        <Text style={styles.qStem}>{q.stem}</Text>
+        <View style={{ gap: 9, marginTop: 14 }}>
+          {q.choices.map((c, i) => {
+            const chosen = selected === i;
+            const isCorrect = i === q.answer;
+            const st = [
+              styles.choice,
+              revealed && isCorrect ? styles.choiceCorrect : null,
+              revealed && !isCorrect && chosen ? styles.choiceWrong : null,
+              !revealed && chosen ? styles.choiceSel : null,
+            ];
+            return (
+              <Pressable key={i} disabled={revealed} onPress={() => setSelected(i)} style={st}>
+                <Text style={styles.choiceNum}>{QLABEL[i]}</Text>
+                <Text style={styles.choiceTxt}>{c}</Text>
+              </Pressable>
+            );
+          })}
+        </View>
+
+        {!revealed ? (
+          <>
+            <Pressable onPress={() => setLowConf((v) => !v)} style={({ pressed }) => [styles.confToggle, lowConf && styles.confOn, pressed && styles.pressed]}>
+              <Text style={[styles.confTxt, lowConf && styles.confTxtOn]}>{(lowConf ? '☑ ' : '☐ ') + '自信なし（復習に回す）'}</Text>
+            </Pressable>
+            <Pressable disabled={selected === null} onPress={submit} style={({ pressed }) => [styles.submitBtn, selected === null && styles.btnDisabled, pressed && styles.pressed]}>
+              <Text style={styles.submitTxt}>解答する</Text>
+            </Pressable>
+          </>
+        ) : (
+          <View style={styles.explainBox}>
+            <Text style={[styles.verdict, selected === q.answer ? styles.vOk : styles.vNg]}>
+              {selected === q.answer ? '◯ 正解' : '✕ 不正解'}（正解：{QLABEL[q.answer]}）
+            </Text>
+            {q.explain ? <Text style={styles.explainTxt}>{q.explain}</Text> : null}
+            {selected !== null && selected !== q.answer && q.whyWrong && q.whyWrong[selected]
+              ? <Text style={styles.whyWrong}>{'あなたの選択（' + QLABEL[selected] + '）：' + q.whyWrong[selected]}</Text>
+              : null}
+            <Pressable onPress={next} style={({ pressed }) => [styles.submitBtn, { marginTop: 14 }, pressed && styles.pressed]}>
+              <Text style={styles.submitTxt}>{isLast ? '結果を見る' : '次の問題 ›'}</Text>
+            </Pressable>
+          </View>
+        )}
+      </ScrollView>
+    </View>
+  );
+}
+
 function Main() {
   const insets = useSafeAreaInsets();
   const [contentVersion, setContentVersion] = useState(0);
@@ -278,7 +456,10 @@ function Main() {
   const { width } = useWindowDimensions();
 
   // 起動時にコンテンツ初期化（同梱＋前回キャッシュを反映→裏でR2から最新を取り込み、更新あれば再描画）。
-  useEffect(() => { initContent(() => setContentVersion((v) => v + 1)); }, []);
+  useEffect(() => {
+    void loadHistory();
+    initContent(() => setContentVersion((v) => v + 1));
+  }, []);
   const chapters = useMemo(() => getChapters(), [contentVersion]);
   const openChapter = openNo ? (chapters.find((c) => c.no === openNo) ?? null) : null;
 
@@ -292,7 +473,7 @@ function Main() {
           {tab === 'learn' && (openChapter
             ? <Reader chapter={openChapter} onBack={() => setOpenNo(null)} />
             : <LearnScreen chapters={chapters} onOpen={(c) => setOpenNo(c.no)} />)}
-          {tab === 'mock' && <Placeholder emoji="📝" title="模擬試験" desc={'第1〜6回の本試験型。問題のすぐ後に解説がつきます。\n(この画面はこれから作ります)'} />}
+          {tab === 'mock' && <QuizFlow />}
           {tab === 'score' && <Placeholder emoji="📊" title="成績" desc={'学習進捗・正答率・弱点の推移をここに表示します。\n(この画面はこれから作ります)'} />}
           {tab === 'set' && <Placeholder emoji="⚙️" title="設定" desc={'表示・通知・学習リマインドなど。\nビルド番号: ' + BUILD_NUMBER} />}
         </View>
@@ -314,6 +495,36 @@ export default function App() {
 const styles = StyleSheet.create({
   appCol: { flex: 1, alignSelf: 'center', backgroundColor: C.app },
   pad: { paddingHorizontal: 16 },
+
+  // 問題演習
+  reviewBtn: { marginTop: 16, backgroundColor: '#15283f', borderWidth: 1, borderColor: 'rgba(58,215,166,0.35)', borderRadius: 14, padding: 15 },
+  reviewBtnTitle: { color: C.teal, fontSize: 16, fontWeight: '900' },
+  reviewBtnSub: { color: C.muted, fontSize: 12, marginTop: 3 },
+  qProgress: { color: C.muted, fontSize: 13, fontWeight: '700' },
+  qTopic: { color: C.teal, fontSize: 12, fontWeight: '800', marginBottom: 6 },
+  qStem: { color: C.fg, fontSize: 17, lineHeight: 26, fontWeight: '700' },
+  choice: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: C.card, borderWidth: 1, borderColor: C.line, borderRadius: 12, paddingVertical: 13, paddingHorizontal: 13 },
+  choiceSel: { borderColor: C.red, backgroundColor: '#1a2234' },
+  choiceCorrect: { borderColor: C.teal, backgroundColor: 'rgba(58,215,166,0.12)' },
+  choiceWrong: { borderColor: C.red, backgroundColor: 'rgba(216,56,61,0.12)' },
+  choiceNum: { color: C.muted, fontSize: 13, fontWeight: '900', width: 20, textAlign: 'center' },
+  choiceTxt: { color: C.fg, fontSize: 15, flex: 1, lineHeight: 21 },
+  confToggle: { marginTop: 16, alignSelf: 'flex-start', paddingVertical: 8, paddingHorizontal: 12, borderRadius: 10, borderWidth: 1, borderColor: C.line },
+  confOn: { borderColor: C.teal, backgroundColor: 'rgba(58,215,166,0.1)' },
+  confTxt: { color: C.muted, fontSize: 13, fontWeight: '700' },
+  confTxtOn: { color: C.teal },
+  submitBtn: { marginTop: 16, backgroundColor: C.red, borderRadius: 12, paddingVertical: 14, alignItems: 'center' },
+  submitTxt: { color: '#fff', fontSize: 15, fontWeight: '900' },
+  btnDisabled: { opacity: 0.4 },
+  ghostBtn: { borderWidth: 1, borderColor: C.line, borderRadius: 12, paddingVertical: 14, paddingHorizontal: 22, alignItems: 'center' },
+  ghostBtnTxt: { color: C.fg, fontSize: 15, fontWeight: '800' },
+  explainBox: { marginTop: 18, backgroundColor: C.card2, borderWidth: 1, borderColor: C.line, borderRadius: 14, padding: 15 },
+  verdict: { fontSize: 15, fontWeight: '900', marginBottom: 8 },
+  vOk: { color: C.teal },
+  vNg: { color: '#ff8488' },
+  explainTxt: { color: C.fg, fontSize: 14, lineHeight: 22 },
+  whyWrong: { color: C.muted, fontSize: 13, lineHeight: 21, marginTop: 8 },
+  resultBig: { color: C.fg, fontSize: 30, fontWeight: '900', marginTop: 10 },
 
   heroFade: { position: 'absolute', left: 0, right: 0, bottom: -1, height: 110, backgroundColor: 'transparent' },
 
