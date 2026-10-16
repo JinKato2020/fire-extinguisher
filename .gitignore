@@ -1,0 +1,31 @@
+# Expo / React Native
+node_modules/
+.expo/
+dist/
+web-build/
+
+# prebuild が生成するネイティブ。CIで毎回 expo prebuild --clean するのでコミットしない
+/ios/
+/android/
+
+# ビルド成果物
+*.ipa
+*.aab
+*.apk
+*.xcarchive
+
+# 署名(万一ローカルに展開されても誤コミット防止)
+*.p12
+*.mobileprovision
+*.p8
+*.keystore
+
+# macOS / editor
+.DS_Store
+*.log
+npm-debug.*
+yarn-error.*
+
+# env
+.env
+.env.*

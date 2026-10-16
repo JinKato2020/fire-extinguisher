@@ -1,0 +1,243 @@
+name: 消防6類 (iOS ビルド)
+run-name: "${{ inputs.build_number && format('消防6類 v{0} ({1}) — iOS ビルド', inputs.app_version, inputs.build_number) || format('消防6類 v{0} (番号未指定※tools/build_fire6.ps1推奨) — iOS ビルド', inputs.app_version) }}"
+
+# =============================================================================
+# 消防設備士6類アプリ — CAE(build-cae.yml)を土台に iOS専用へ簡素化。
+#   build-ios : 手動時 → iOS ビルド & TestFlight 提出 (com.safa.fire6)
+#   Android は iOS先行のため未設定。将来は CAE の build-android ジョブを移植する。
+#
+# 版番号(CLAUDE.md E2): run-name の先頭に必ず番号を出す。
+#   Build番号 = iOS CFBundleVersion = 1 + commit数。
+#   dispatch で渡した番号と実際の番号がズレたら黙って進めず落とす(版の追跡保護)。
+#
+# iOS 1日ビルド上限ガード(CLAUDE.md E3): 同一日に TestFlight へ上げ過ぎると Apple 非公開の
+#   1日上限(error 90382)に当たりその日は提出不可になる。既定でその日の提出回数を数え、
+#   上限(既定5回)で submit をブロック。どうしても超えたい時のみ force_ios=true。
+#
+# 必要な Secrets(新規リポジトリ fire6-exam-app 側に設定):
+#   署名証明書・Team ID・ASC APIキーは CAE/JLPT と同じ値を再登録してよい(アカウント共通):
+#     IOS_DIST_CERT_BASE64 / IOS_DIST_CERT_PASSWORD / IOS_TEAM_ID
+#     APP_STORE_CONNECT_KEY_ID / APP_STORE_CONNECT_ISSUER_ID / APP_STORE_CONNECT_API_KEY_BASE64
+#   プロビジョニングプロファイルのみ新規(bundleId=com.safa.fire6 専用を発行):
+#     IOS_PROVISIONING_PROFILE_FIRE6_BASE64
+# =============================================================================
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_number:
+        description: 'Build番号(=1+commit数)。空ならジョブ内で計算(空だとタイトルに番号は出ない)'
+        required: false
+        default: ''
+        type: string
+      app_version:
+        description: 'タイトル表示用のアプリ版(app.jsonのversionに合わせる)。例 1.0.0'
+        required: false
+        default: '1.0.0'
+        type: string
+      submit:
+        description: 'ビルド後 TestFlight へ提出(既定true)'
+        required: false
+        default: 'true'
+        type: choice
+        options: ['true', 'false']
+      force_ios:
+        description: '1日上限ガードを無視して強制提出(既定false)。error 90382 覚悟の時のみ'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  BUNDLE_ID: com.safa.FE
+  IOS_DAILY_LIMIT: '5'
+
+jobs:
+  build-ios:
+    runs-on: macos-26
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: iOS 1日ビルド上限ガード (Apple error 90382 予防・CLAUDE.md E3)
+        if: ${{ inputs.submit != 'false' && !inputs.force_ios }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          LIMIT=${IOS_DAILY_LIMIT}
+          COUNT=$(gh run list --workflow build-fire6.yml --limit 100 --json createdAt \
+            | node -e 'const a=JSON.parse(require("fs").readFileSync(0,"utf8"));const t=process.env.TODAY;console.log(a.filter(r=>String(r.createdAt).startsWith(t)).length)' \
+            || echo 0)
+          echo "::notice::本日(UTC $TODAY)の消防6類ビルド起動回数=$COUNT / 上限=$LIMIT"
+          if [ "$COUNT" -ge "$LIMIT" ]; then
+            echo "::error::本日のiOSビルドが上限($LIMIT回)に達しています。Apple 1日上限(error 90382)を避けるため提出を止めました。翌日まで待つか、どうしても必要なら force_ios=true で再実行してください。"
+            exit 1
+          fi
+
+      - name: Verify Xcode version
+        run: xcodebuild -version
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install npm dependencies
+        run: npm ci || npm install
+
+      - name: Calculate build number
+        run: |
+          BUILD_NUMBER=$((1 + $(git rev-list --count HEAD)))
+          WANT="${{ inputs.build_number }}"
+          if [ -n "$WANT" ] && [ "$WANT" != "$BUILD_NUMBER" ]; then
+            echo "::error::run-nameの番号($WANT)と実際のビルド番号($BUILD_NUMBER)が不一致。dispatch後にコミットが載った可能性。再実行してください"
+            exit 1
+          fi
+          echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
+          echo "export const BUILD_NUMBER = '$BUILD_NUMBER';" > src/buildInfo.ts
+          APP_VERSION=$(node -p "require('./app.json').expo.version" 2>/dev/null || echo "?")
+          echo "## 📦 ${BUILD_NUMBER} — iOS build ・ 消防6類 v$APP_VERSION (TestFlight)" >> $GITHUB_STEP_SUMMARY
+
+      - name: Expo prebuild (iOS)
+        env:
+          EXPO_NO_TELEMETRY: '1'
+        run: npx expo prebuild --platform ios --clean
+
+      - name: Detect Xcode project name
+        run: |
+          XCODEPROJ=$(ls -d ios/*.xcodeproj 2>/dev/null | head -1)
+          if [ -z "$XCODEPROJ" ]; then
+            echo "::error::No .xcodeproj found after prebuild"; ls -la ios/ || true; exit 1
+          fi
+          PROJECT_NAME=$(basename "$XCODEPROJ" .xcodeproj)
+          echo "PROJECT_NAME=$PROJECT_NAME" >> $GITHUB_ENV
+          echo "::notice::Project name: $PROJECT_NAME"
+
+      - name: Set build number in Info.plist
+        run: |
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" "ios/$PROJECT_NAME/Info.plist"
+          echo "::notice::Set CFBundleVersion to $BUILD_NUMBER"
+
+      - name: Install CocoaPods dependencies
+        run: |
+          cd ios
+          pod install
+
+      - name: Setup signing keychain
+        env:
+          CERT_B64: ${{ secrets.IOS_DIST_CERT_BASE64 }}
+          CERT_PWD: ${{ secrets.IOS_DIST_CERT_PASSWORD }}
+        run: |
+          CERT_PWD_CLEAN=$(printf '%s' "$CERT_PWD" | tr -d '\r\n[:space:]')
+          KEYCHAIN_PATH="$RUNNER_TEMP/build.keychain-db"
+          security create-keychain -p "tempkeychain" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "tempkeychain" "$KEYCHAIN_PATH"
+          printf '%s' "$CERT_B64" | base64 --decode > cert.p12
+          if [ ! -s cert.p12 ]; then echo "::error::Decoded .p12 is empty"; exit 1; fi
+          security import cert.p12 -k "$KEYCHAIN_PATH" -P "$CERT_PWD_CLEAN" -A -t cert -f pkcs12
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "tempkeychain" "$KEYCHAIN_PATH"
+          security list-keychains -d user -s "$KEYCHAIN_PATH" $(security list-keychains -d user | xargs)
+          rm cert.p12
+
+      - name: Install provisioning profile
+        env:
+          PROFILE_B64: ${{ secrets.IOS_PROVISIONING_PROFILE_FIRE6_BASE64 }}
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "$PROFILE_B64" | base64 --decode > profile.mobileprovision
+          PROFILE_UUID=$(security cms -D -i profile.mobileprovision | plutil -extract UUID raw -o - -)
+          echo "PROFILE_UUID=$PROFILE_UUID" >> $GITHUB_ENV
+          echo "::notice::Provisioning profile UUID: $PROFILE_UUID"
+          cp profile.mobileprovision "$HOME/Library/MobileDevice/Provisioning Profiles/$PROFILE_UUID.mobileprovision"
+          rm profile.mobileprovision
+
+      - name: Create ExportOptions.plist
+        env:
+          TEAM_ID_RAW: ${{ secrets.IOS_TEAM_ID }}
+        run: |
+          TEAM_ID=$(printf '%s' "$TEAM_ID_RAW" | tr -d '\r\n[:space:]')
+          cat > ExportOptions.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>app-store-connect</string>
+            <key>teamID</key>
+            <string>$TEAM_ID</string>
+            <key>signingStyle</key>
+            <string>manual</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>$BUNDLE_ID</key>
+              <string>$PROFILE_UUID</string>
+            </dict>
+            <key>uploadSymbols</key>
+            <true/>
+            <key>stripSwiftSymbols</key>
+            <true/>
+          </dict>
+          </plist>
+          EOF
+
+      - name: Build archive
+        env:
+          TEAM_ID_RAW: ${{ secrets.IOS_TEAM_ID }}
+        run: |
+          set -o pipefail
+          TEAM_ID=$(printf '%s' "$TEAM_ID_RAW" | tr -d '\r\n[:space:]')
+          cd ios
+          xcodebuild \
+            -workspace "${PROJECT_NAME}.xcworkspace" \
+            -scheme "${PROJECT_NAME}" \
+            -configuration Release \
+            -destination "generic/platform=iOS" \
+            -archivePath "build/App.xcarchive" \
+            CODE_SIGN_STYLE=Manual \
+            DEVELOPMENT_TEAM="$TEAM_ID" \
+            PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
+            archive
+
+      - name: Export IPA
+        run: |
+          set -o pipefail
+          cd ios
+          xcodebuild -exportArchive \
+            -archivePath build/App.xcarchive \
+            -exportPath build \
+            -exportOptionsPlist ../ExportOptions.plist
+          IPA_PATH=$(find build -name "*.ipa" | head -1)
+          if [ -z "$IPA_PATH" ]; then echo "::error::IPA export failed"; exit 1; fi
+          echo "::notice::IPA created: $IPA_PATH"
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: fire6-ios-ipa-build-${{ env.BUILD_NUMBER }}
+          path: ios/build/*.ipa
+          retention-days: 30
+
+      - name: Upload to TestFlight
+        if: ${{ inputs.submit != 'false' }}
+        env:
+          KEY_ID_RAW: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          ISSUER_ID_RAW: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          KEY_B64: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}
+        run: |
+          KEY_ID=$(printf '%s' "$KEY_ID_RAW" | tr -d '\r\n[:space:]')
+          ISSUER_ID=$(printf '%s' "$ISSUER_ID_RAW" | tr -d '\r\n[:space:]')
+          mkdir -p ~/.appstoreconnect/private_keys
+          printf '%s' "$KEY_B64" | base64 --decode > ~/.appstoreconnect/private_keys/AuthKey_${KEY_ID}.p8
+          IPA_PATH=$(find ios/build -name "*.ipa" | head -1)
+          echo "::notice::Uploading $IPA_PATH to TestFlight..."
+          xcrun altool --upload-app --file "$IPA_PATH" --type ios --apiKey "$KEY_ID" --apiIssuer "$ISSUER_ID"
+          rm -rf ~/.appstoreconnect
