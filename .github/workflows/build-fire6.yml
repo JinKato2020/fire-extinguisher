@@ -7,7 +7,7 @@ run-name: "${{ inputs.build_number && format('消防6類 v{0} ({1}) — iOS ビ�
 #   Android は iOS先行のため未設定。将来は CAE の build-android ジョブを移植する。
 #
 # 版番号(CLAUDE.md E2): run-name の先頭に必ず番号を出す。
-#   Build番号 = iOS CFBundleVersion = 1 + commit数。
+#   Build番号 = iOS CFBundleVersion = 999 + commit数(初回ビルド=1001)。
 #   dispatch で渡した番号と実際の番号がズレたら黙って進めず落とす(版の追跡保護)。
 #
 # iOS 1日ビルド上限ガード(CLAUDE.md E3): 同一日に TestFlight へ上げ過ぎると Apple 非公開の
@@ -94,7 +94,7 @@ jobs:
 
       - name: Calculate build number
         run: |
-          BUILD_NUMBER=$((1 + $(git rev-list --count HEAD)))
+          BUILD_NUMBER=$((999 + $(git rev-list --count HEAD)))
           WANT="${{ inputs.build_number }}"
           if [ -n "$WANT" ] && [ "$WANT" != "$BUILD_NUMBER" ]; then
             echo "::error::run-nameの番号($WANT)と実際のビルド番号($BUILD_NUMBER)が不一致。dispatch後にコミットが載った可能性。再実行してください"

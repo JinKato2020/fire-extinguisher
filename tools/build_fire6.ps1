@@ -1,6 +1,6 @@
 # 消防6類 ビルド起動スクリプト（CAE build_cae.ps1 を iOS専用へ）
 # ------------------------------------------------------------------
-# Build番号 = 1 + コミット数 を自動計算し、必ず -f build_number で渡す。
+# Build番号 = 999 + コミット数 を自動計算し、必ず -f build_number で渡す(初回=1001)。
 # → GitHub Actions の run 名が「消防6類 v<version> (<番号>) — iOS ビルド」になる。
 # アプリ設定画面のビルド番号表示(src/buildInfo.ts)も、この番号でビルド時に埋め込まれる。
 #
@@ -17,9 +17,9 @@ $ErrorActionPreference = 'Stop'
 $repo = Split-Path -Parent $PSScriptRoot
 Set-Location $repo
 
-# 1) ビルド番号 = 1 + コミット数
+# 1) ビルド番号 = 999 + コミット数(初回=1001)
 $commits = [int](git rev-list --count HEAD)
-$build = 1 + $commits
+$build = 999 + $commits
 
 # 2) アプリ版は app.json から取得(ベタ書きしない)
 $appVersion = (Get-Content app.json -Raw | ConvertFrom-Json).expo.version
