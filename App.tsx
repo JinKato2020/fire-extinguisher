@@ -7,7 +7,12 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, G } from 'react-native-svg';
 import { BUILD_NUMBER } from './src/buildInfo';
+import { CH1_BODY } from './src/content/ch1';
+import { CH2_BODY } from './src/content/ch2';
 import { CH3_TITLE, CH3_BODY } from './src/content/ch3';
+import { CH4_BODY } from './src/content/ch4';
+import { CH5_BODY } from './src/content/ch5';
+import { CH6_BODY } from './src/content/ch6';
 
 // 参考画像「ミッドナイトキャンパス」から採取した配色
 const C = {
@@ -32,12 +37,12 @@ type Chapter = {
 };
 
 const CHAPTERS: Chapter[] = [
-  { no: '1', title: '消防関係法令(共通)', sub: '全体に関わる法令。素直な暗記で安定得点。', tag: '得点源', tagKind: 'easy' },
-  { no: '2', title: '消防関係法令(第6類)', sub: '消火器に固有の設置基準・本数。' },
+  { no: '1', title: '消防関係法令(共通)', sub: '全体に関わる法令。素直な暗記で安定得点。', tag: '得点源', tagKind: 'easy', body: CH1_BODY },
+  { no: '2', title: '消防関係法令(第6類)', sub: '消火器に固有の設置基準・本数。', body: CH2_BODY },
   { no: '3', title: '機械に関する基礎的知識', sub: '力・モーメント・応力・圧力・材料。計算の要。', tag: '最難関', tagKind: 'hard', body: CH3_BODY },
-  { no: '4', title: '消火器の構造・機能・整備', sub: '各消火器のしくみと点検・整備の手順。', tag: '暗記多', tagKind: 'mid' },
-  { no: '5', title: '消火器の規格', sub: '放射時間・能力単位・温度など数値基準。', tag: '暗記多', tagKind: 'mid' },
-  { no: '6', title: '実技試験(鑑別等)', sub: '写真判別と整備手順を言葉で書く。足切り注意。', tag: '記述', tagKind: 'hard' },
+  { no: '4', title: '消火器の構造・機能・整備', sub: '各消火器のしくみと点検・整備の手順。', tag: '暗記多', tagKind: 'mid', body: CH4_BODY },
+  { no: '5', title: '消火器の規格', sub: '放射時間・能力単位・温度など数値基準。', tag: '暗記多', tagKind: 'mid', body: CH5_BODY },
+  { no: '6', title: '実技試験(鑑別等)', sub: '写真判別と整備手順を言葉で書く。足切り注意。', tag: '記述', tagKind: 'hard', body: CH6_BODY },
 ];
 
 // ---- アイコン(react-native-svg) ----
