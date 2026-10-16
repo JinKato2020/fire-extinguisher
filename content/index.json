@@ -1,0 +1,51 @@
+{
+  "app": "消防設備士6類",
+  "chapters": [
+    {
+      "no": "1",
+      "title": "消防関係法令(共通)",
+      "sub": "全体に関わる法令。素直な暗記で安定得点。",
+      "file": "content/chapters/ch1.json",
+      "tag": "得点源",
+      "tagKind": "easy"
+    },
+    {
+      "no": "2",
+      "title": "消防関係法令(第6類)",
+      "sub": "消火器に固有の設置基準・本数。",
+      "file": "content/chapters/ch2.json"
+    },
+    {
+      "no": "3",
+      "title": "機械に関する基礎的知識",
+      "sub": "力・モーメント・応力・圧力・材料。計算の要。",
+      "file": "content/chapters/ch3.json",
+      "tag": "最難関",
+      "tagKind": "hard"
+    },
+    {
+      "no": "4",
+      "title": "消火器の構造・機能・整備",
+      "sub": "各消火器のしくみと点検・整備の手順。",
+      "file": "content/chapters/ch4.json",
+      "tag": "暗記多",
+      "tagKind": "mid"
+    },
+    {
+      "no": "5",
+      "title": "消火器の規格",
+      "sub": "放射時間・能力単位・温度など数値基準。",
+      "file": "content/chapters/ch5.json",
+      "tag": "暗記多",
+      "tagKind": "mid"
+    },
+    {
+      "no": "6",
+      "title": "実技試験(鑑別等)",
+      "sub": "写真判別と整備手順を言葉で書く。足切り注意。",
+      "file": "content/chapters/ch6.json",
+      "tag": "記述",
+      "tagKind": "hard"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+name: 消防6類 コンテンツ配信 (R2 / OTA)
+run-name: "消防6類 教材を棚(R2)へ配信"
+
+# 手動実行のみ（push では走らない＝安全）。教材(content/*.json)を直したら、これを1回まわすだけで
+# アプリに配信される（ビルド不要・審査不要。反映はユーザーの次回起動）。
+# 前提: OTA機構入りの「土台ビルド」を1本入れたアプリがインストールされていること。
+on:
+  workflow_dispatch:
+
+# 配信先レイアウト（CAE/JLPTと同じ量産方式: 1バケットに アプリID prefix で相乗り）:
+#   r2:<R2_BUCKET>/fire6/_manifest.json
+#   r2:<R2_BUCKET>/fire6/content/**       ← content/ をそのまま（_manifest.json は除く）
+# アプリ側 BASE = https://content.safa-lang.com/fire6/   （CAEと同じ custom domain → 同バケット）
+#
+# 必要 secrets（CAEと同じ値を再登録＝アカウント共通）:
+#   R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY / R2_ENDPOINT / R2_BUCKET
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # 配信する実ファイルに合わせて _manifest.json（指紋台帳）を作り直す＝常に整合。
+      - name: Rebuild content manifest
+        run: |
+          python tools/content_manifest.py
+          echo "::notice::manifest 再生成完了"
+
+      - name: Sync content to Cloudflare R2
+        env:
+          RCLONE_CONFIG_R2_TYPE: s3
+          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+          RCLONE_CONFIG_R2_REGION: auto
+          RCLONE_CONFIG_R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${RCLONE_CONFIG_R2_ACCESS_KEY_ID:-}" ] || [ -z "${R2_BUCKET:-}" ]; then
+            echo "::error::R2 secrets 未設定（R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY / R2_ENDPOINT / R2_BUCKET）。CAEと同じ値を登録してください。"
+            exit 1
+          fi
+          # endpoint に混入しがちな末尾改行/空白を除去（JLPTで実害あり＝Invalid region誤表示の原因）。
+          RCLONE_CONFIG_R2_ENDPOINT=$(printf '%s' "$RCLONE_CONFIG_R2_ENDPOINT" | tr -d '[:space:]'); export RCLONE_CONFIG_R2_ENDPOINT
+          curl -fsSL https://rclone.org/install.sh | sudo bash
+
+          DEST="r2:${R2_BUCKET}/fire6"
+          FLAGS=(--s3-no-check-bucket --transfers 32 --checkers 32 --fast-list --header-upload "Cache-Control: no-cache")
+
+          # ① 先に実ファイル(content本体)を上げ、② 最後に manifest を上げる
+          #    （manifestが指すのにまだ無いファイル、を配信中に作らない＝DL失敗を防ぐ）。
+          rclone sync content "$DEST/content" --exclude "_manifest.json" "${FLAGS[@]}"
+          rclone copy content/_manifest.json "$DEST" "${FLAGS[@]}"
+
+          echo "::notice::配信完了 → https://content.safa-lang.com/fire6/_manifest.json"

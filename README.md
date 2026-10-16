@@ -51,7 +51,31 @@ iOSの署名は EAS managed ではなく、**証明書／プロファイルを G
 3. **Secrets登録**: 上表のうち証明書3種＋ASC APIキー3種は CAE/JLPT と同じ値を再登録。プロファイルのみ新規。
 4. 以上が済んだら `pwsh tools/build_fire6.ps1` で TestFlight まで出せる。
 
+## コンテンツ配信（R2 / OTA）— CAEと同じ方式
+教材（`content/*.json`）は**アプリ同梱**しつつ、**Cloudflare R2 経由で審査なし・ビルドなしに差し替え**できる。CAE/JLPTと同じ量産方式で、1つのR2バケットに **`fire6/` プレフィックスで相乗り**する。
+
+- アプリ側 BASE: `https://content.safa-lang.com/fire6/`（CAEと同じドメイン＝同じバケット）
+- 仕組み: `tools/content_manifest.py` が全ファイルの sha256 台帳 `content/_manifest.json` を作る → 端末は起動時に配信側 manifest と手持ち sha を比べ、**変わった章だけDL**（`src/data/contentOta.ts`）。同梱baseline（`src/data/bundled.generated.ts`）があるのでオフラインでも読める。
+
+### 教材を直したいとき（審査・ビルド不要）
+```bash
+# 1) 教材解説mdを直す → content/*.json を作り直す（生成器は scratchpad/gen_content_json.py）
+python tools/content_manifest.py     # 指紋台帳を再生成（CIでも自動実行される）
+python tools/gen_bundled.py          # 同梱baselineを更新（次の土台ビルド用）
+```
+→ そのうえで GitHub Actions の **「消防6類 コンテンツ配信 (R2 / OTA)」** を手動実行するだけ。ユーザーの次回起動で反映。
+
+### 必要 Secrets（R2・4個）— CAEと同じ値を再登録
+| Secret 名 | 中身 |
+|---|---|
+| `R2_ACCESS_KEY_ID` | Cloudflare R2 のアクセスキーID |
+| `R2_SECRET_ACCESS_KEY` | 同シークレット |
+| `R2_ENDPOINT` | R2 の S3 互換エンドポイント |
+| `R2_BUCKET` | バケット名（CAEと同じバケットでよい） |
+
+> **重要**: OTAの“仕組み”はビルドに焼き込まれるため、**この機構を入れた「土台ビルド」を1本出してから**でないとOTA配信は効かない。
+
 ## まだ入れていないもの（将来）
 - Android 対応（CAEの `build-android` ジョブ移植）
-- コンテンツOTA（R2配信）／課金（RevenueCat）／学習進捗の保存
-- 2〜6章の解説、問題・模試・成績画面の中身
+- 課金（RevenueCat）／学習進捗の保存
+- 問題・模試・成績画面の中身

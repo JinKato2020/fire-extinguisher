@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, Pressable, Image,
   useWindowDimensions,
@@ -7,12 +7,8 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, G } from 'react-native-svg';
 import { BUILD_NUMBER } from './src/buildInfo';
-import { CH1_BODY } from './src/content/ch1';
-import { CH2_BODY } from './src/content/ch2';
-import { CH3_TITLE, CH3_BODY } from './src/content/ch3';
-import { CH4_BODY } from './src/content/ch4';
-import { CH5_BODY } from './src/content/ch5';
-import { CH6_BODY } from './src/content/ch6';
+import { initContent } from './src/data/initContent';
+import { getChapters, type Chapter } from './src/data/chapters';
 
 // 参考画像「ミッドナイトキャンパス」から採取した配色
 const C = {
@@ -31,19 +27,7 @@ const C = {
 
 type TabKey = 'home' | 'learn' | 'mock' | 'score' | 'set';
 
-type Chapter = {
-  no: string; title: string; sub: string;
-  tag?: string; tagKind?: 'hard' | 'mid' | 'easy' | 'done'; body?: string;
-};
-
-const CHAPTERS: Chapter[] = [
-  { no: '1', title: '消防関係法令(共通)', sub: '全体に関わる法令。素直な暗記で安定得点。', tag: '得点源', tagKind: 'easy', body: CH1_BODY },
-  { no: '2', title: '消防関係法令(第6類)', sub: '消火器に固有の設置基準・本数。', body: CH2_BODY },
-  { no: '3', title: '機械に関する基礎的知識', sub: '力・モーメント・応力・圧力・材料。計算の要。', tag: '最難関', tagKind: 'hard', body: CH3_BODY },
-  { no: '4', title: '消火器の構造・機能・整備', sub: '各消火器のしくみと点検・整備の手順。', tag: '暗記多', tagKind: 'mid', body: CH4_BODY },
-  { no: '5', title: '消火器の規格', sub: '放射時間・能力単位・温度など数値基準。', tag: '暗記多', tagKind: 'mid', body: CH5_BODY },
-  { no: '6', title: '実技試験(鑑別等)', sub: '写真判別と整備手順を言葉で書く。足切り注意。', tag: '記述', tagKind: 'hard', body: CH6_BODY },
-];
+// 章一覧(Chapter型)は src/data/chapters.ts(content/index.json 起点)から取得する。OTAで差し替え可能。
 
 // ---- アイコン(react-native-svg) ----
 function Icon({ name, size = 23, color = C.muted2 }: { name: string; size?: number; color?: string }) {
@@ -205,7 +189,7 @@ function MenuTile({ icon, title, sub, teal, onPress }: { icon: string; title: st
   );
 }
 
-function LearnScreen({ onOpen }: { onOpen: (c: Chapter) => void }) {
+function LearnScreen({ chapters, onOpen }: { chapters: Chapter[]; onOpen: (c: Chapter) => void }) {
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
       <View style={styles.pad}>
@@ -215,7 +199,7 @@ function LearnScreen({ onOpen }: { onOpen: (c: Chapter) => void }) {
           <Text style={styles.viewSub}>章を選んで、読んで学ぶ。難しい章ほど解説を厚くしています。</Text>
         </View>
         <View style={{ gap: 10, marginTop: 16 }}>
-          {CHAPTERS.map((c) => (
+          {chapters.map((c) => (
             <Pressable key={c.no} style={({ pressed }) => [styles.ch, pressed && styles.pressed]} onPress={() => onOpen(c)}>
               <View style={styles.chNo}><Text style={styles.chNoTxt}>{c.no}</Text></View>
               <View style={{ flex: 1, minWidth: 0 }}>
@@ -288,20 +272,26 @@ function TabBar({ tab, onTab, insetBottom }: { tab: TabKey; onTab: (t: TabKey) =
 
 function Main() {
   const insets = useSafeAreaInsets();
+  const [contentVersion, setContentVersion] = useState(0);
   const [tab, setTab] = useState<TabKey>('home');
-  const [openCh, setOpenCh] = useState<Chapter | null>(null);
+  const [openNo, setOpenNo] = useState<string | null>(null);
   const { width } = useWindowDimensions();
 
-  const goTab = (t: TabKey) => { setTab(t); if (t !== 'learn') setOpenCh(null); };
+  // 起動時にコンテンツ初期化（同梱＋前回キャッシュを反映→裏でR2から最新を取り込み、更新あれば再描画）。
+  useEffect(() => { initContent(() => setContentVersion((v) => v + 1)); }, []);
+  const chapters = useMemo(() => getChapters(), [contentVersion]);
+  const openChapter = openNo ? (chapters.find((c) => c.no === openNo) ?? null) : null;
+
+  const goTab = (t: TabKey) => { setTab(t); if (t !== 'learn') setOpenNo(null); };
 
   return (
     <View style={{ flex: 1, backgroundColor: C.bg }}>
       <View style={[styles.appCol, { width: Math.min(width, 440) }]}>
-        <View style={{ flex: 1, paddingTop: tab === 'home' && !openCh ? 0 : insets.top }}>
+        <View style={{ flex: 1, paddingTop: tab === 'home' && !openChapter ? 0 : insets.top }}>
           {tab === 'home' && <HomeScreen onGo={goTab} />}
-          {tab === 'learn' && (openCh
-            ? <Reader chapter={openCh} onBack={() => setOpenCh(null)} />
-            : <LearnScreen onOpen={setOpenCh} />)}
+          {tab === 'learn' && (openChapter
+            ? <Reader chapter={openChapter} onBack={() => setOpenNo(null)} />
+            : <LearnScreen chapters={chapters} onOpen={(c) => setOpenNo(c.no)} />)}
           {tab === 'mock' && <Placeholder emoji="📝" title="模擬試験" desc={'第1〜6回の本試験型。問題のすぐ後に解説がつきます。\n(この画面はこれから作ります)'} />}
           {tab === 'score' && <Placeholder emoji="📊" title="成績" desc={'学習進捗・正答率・弱点の推移をここに表示します。\n(この画面はこれから作ります)'} />}
           {tab === 'set' && <Placeholder emoji="⚙️" title="設定" desc={'表示・通知・学習リマインドなど。\nビルド番号: ' + BUILD_NUMBER} />}
