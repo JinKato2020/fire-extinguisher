@@ -75,6 +75,25 @@ python tools/gen_bundled.py          # 同梱baselineを更新（次の土台ビ
 
 > **重要**: OTAの“仕組み”はビルドに焼き込まれるため、**この機構を入れた「土台ビルド」を1本出してから**でないとOTA配信は効かない。
 
+## コードのOTA（EAS Update）— 画面・ロジックを審査/ビルドなしで更新
+教材などの「コンテンツ」はR2で配るが、**画面やロジック（JS/TS）**はR2では運べない。これは **EAS Update**（CAEと同じ）で配る。
+
+- Expoプロジェクト: `@jinkato1914/fire6-exam-app`（projectId は app.json の `extra.eas.projectId`）
+- 仕組み: `app.json` の `updates.url`＋`runtimeVersion: "1.0.0"`＋`requestHeaders.expo-channel-name: "production"`。土台ビルド（**1004以降＝expo-updates入り**）を入れたアプリが、起動時に最新JSを取得して差し替える。
+- 発行:
+```powershell
+pwsh tools/update_fire6.ps1 "変更内容のメモ"
+# 中身: CI=1 npx eas update --branch production --platform ios --message "..."
+```
+> **注意**: 必ず `--platform ios`（app.json に `web` があるため `all` だと web依存で export 失敗）。反映は**実機アプリの再起動**時。土台ビルドに expo-updates が入っている必要がある（1002/1003は未搭載、**1004以降が対象**）。
+
+### 使い分け早見
+| 変えたもの | 配信方法 |
+|---|---|
+| 問題・教材・図（`content/*.json`） | GitHub Actions「消防6類 コンテンツ配信 (R2/OTA)」 |
+| 画面・ロジック（`App.tsx` などJS/TS） | `pwsh tools/update_fire6.ps1 "..."`（EAS Update） |
+| ネイティブ依存の追加・アイコン変更など | TestFlightビルド（`pwsh tools/build_fire6.ps1`） |
+
 ## まだ入れていないもの（将来）
 - Android 対応（CAEの `build-android` ジョブ移植）
 - 課金（RevenueCat）／学習進捗の保存
