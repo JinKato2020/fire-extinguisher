@@ -16,3 +16,17 @@ export function getContent<T = unknown>(key: string): T | null {
   if (Object.prototype.hasOwnProperty.call(BUNDLED, key)) return BUNDLED[key] as T;
   return null;
 }
+
+// ---- 図(figures)：OTAで落とした画像の asset名→ローカルURI の対応表 ----
+// 画像はテキストと違い require 同梱しない（R2配信のみ）。DL前は未登録＝本文では「準備中」表示。
+let figures: Record<string, string> = {};
+
+/** 起動時に、端末キャッシュから読んだ図(asset名→ファイルURI)をセットする。 */
+export function setFigures(map: Record<string, string> | null | undefined): void {
+  figures = map ?? {};
+}
+
+/** 図マーカー [[fig:asset]] の asset から表示用URIを引く。未DLなら null。 */
+export function getFigureUri(asset: string): string | null {
+  return Object.prototype.hasOwnProperty.call(figures, asset) ? figures[asset] : null;
+}

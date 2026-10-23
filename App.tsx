@@ -9,6 +9,7 @@ import Svg, { Circle, Path, G } from 'react-native-svg';
 import { BUILD_NUMBER } from './src/buildInfo';
 import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
+import { getFigureUri } from './src/data/contentStore';
 import { getQuizSets, getQuestions, getAllQuestions, type Question, type QuizSet } from './src/data/questions';
 import { loadHistory, recordAnswer, selectReview } from './src/data/history';
 
@@ -89,6 +90,8 @@ function Tag({ label, kind }: { label: string; kind: NonNullable<Chapter['tagKin
 
 // ---- 軽量マークダウン表示 ----
 function Markdown({ body }: { body: string }) {
+  const { width } = useWindowDimensions();
+  const imgW = Math.min(width - 32, 560);
   const blocks = useMemo(() => {
     const lines = body.split('\n');
     const out: { type: string; text: string }[] = [];
@@ -101,6 +104,11 @@ function Markdown({ body }: { body: string }) {
         inCode = !inCode; continue;
       }
       if (inCode) { code.push(raw); continue; }
+      // 図マーカー [[fig:asset|caption]] → 画像ブロック（build_figures.py が本文へ挿入）
+      const fig = ln.trim().match(/^\[\[fig:([^|\]]+)\|?([^\]]*)\]\]$/);
+      if (fig) { out.push({ type: 'fig', text: fig[1] + '\u0001' + (fig[2] || '') }); continue; }
+      // 未作図の【図】プレースホルダ → 控えめなキャプション表示
+      if (ln.trim().startsWith('【図】')) { out.push({ type: 'figpending', text: ln.trim().slice(3) }); continue; }
       if (ln === '') { out.push({ type: 'gap', text: '' }); continue; }
       if (ln.startsWith('### ')) { out.push({ type: 'h3', text: strip(ln.slice(4)) }); continue; }
       if (ln.startsWith('## ')) { out.push({ type: 'h2', text: strip(ln.slice(3)) }); continue; }
@@ -117,6 +125,21 @@ function Markdown({ body }: { body: string }) {
   return (
     <View>
       {blocks.map((b, i) => {
+        if (b.type === 'fig') {
+          const [asset, cap] = b.text.split('\u0001');
+          const uri = getFigureUri(asset);
+          return (
+            <View key={i} style={{ marginVertical: 10 }}>
+              {uri
+                ? <Image source={{ uri }} style={{ width: imgW, height: imgW / 1.6, backgroundColor: '#fff', borderRadius: 8 }} resizeMode="contain" />
+                : <View style={{ width: imgW, height: imgW / 1.6, borderRadius: 8, borderWidth: 1, borderColor: C.line, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text style={{ color: C.muted2, fontSize: 12 }}>図は準備中</Text>
+                  </View>}
+              {cap ? <Text style={{ color: C.muted, fontSize: 12, marginTop: 4 }}>{'図：' + cap}</Text> : null}
+            </View>
+          );
+        }
+        if (b.type === 'figpending') return <Text key={i} style={{ color: C.muted2, fontSize: 12, marginVertical: 4 }}>{'【図】' + b.text}</Text>;
         if (b.type === 'gap') return <View key={i} style={{ height: 8 }} />;
         if (b.type === 'hr') return <View key={i} style={styles.hr} />;
         if (b.type === 'h1') return <Text key={i} style={styles.mdH1}>{b.text}</Text>;

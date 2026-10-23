@@ -16,8 +16,14 @@ const DIR = FileSystem.documentDirectory + `${APP_ID}-content/`;
 const SHA_PATH = DIR + '_shas.json';
 const BUNDLE_TAG_PATH = DIR + '_bundle.tag';
 
-// OTA対象＝テキスト(content/*.json)のみ。
-const isOtaTarget = (key: string): boolean => key.startsWith('content/');
+// OTA対象＝テキスト(content/*.json)＋図(figures/*.jpg|png)。
+const isOtaTarget = (key: string): boolean => key.startsWith('content/') || key.startsWith('figures/');
+
+/** 図キー figures/ch1_f01.jpg → asset名 ch1_f01（拡張子・ディレクトリを除く）。 */
+function figureAsset(key: string): string {
+  const base = key.split('/').pop() || key;
+  return base.replace(/\.(jpg|jpeg|png)$/i, '');
+}
 
 const enc = (key: string): string => encodeURIComponent(key); // キー→安全なローカル名
 type ManifestFiles = Record<string, { sha256: string; size?: number }>;
@@ -59,11 +65,12 @@ async function effectiveShas(cachedShas: Record<string, string>): Promise<Record
 
 export type CacheLoad = {
   content: Record<string, unknown>;      // content/キー → parsed JSON
+  figures: Record<string, string>;       // 図asset名 → ローカルファイルURI
 };
 
 /** 起動時：端末キャッシュ済みの差し替え分を読む（無ければ空）。ネット不要・高速。 */
 export async function loadCache(): Promise<CacheLoad> {
-  const empty: CacheLoad = { content: {} };
+  const empty: CacheLoad = { content: {}, figures: {} };
   try {
     const info = await FileSystem.getInfoAsync(DIR);
     if (!info.exists) return empty;
@@ -71,7 +78,7 @@ export async function loadCache(): Promise<CacheLoad> {
     const storedTag = await FileSystem.readAsStringAsync(BUNDLE_TAG_PATH).catch(() => '');
     if (storedTag !== bundleTag()) return empty;
     const names = await FileSystem.readDirectoryAsync(DIR);
-    const out: CacheLoad = { content: {} };
+    const out: CacheLoad = { content: {}, figures: {} };
     for (const name of names) {
       if (name === '_shas.json' || name === '_bundle.tag') continue;
       const key = decodeURIComponent(name);
@@ -79,6 +86,8 @@ export async function loadCache(): Promise<CacheLoad> {
         const text = await FileSystem.readAsStringAsync(DIR + name).catch(() => '');
         if (!text) continue;
         try { out.content[key] = JSON.parse(text); } catch { /* 壊れは飛ばす */ }
+      } else if (key.startsWith('figures/')) {
+        out.figures[figureAsset(key)] = DIR + name;   // 画像はパースせずURIだけ持つ
       }
     }
     return out;

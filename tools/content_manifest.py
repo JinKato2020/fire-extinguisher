@@ -17,8 +17,8 @@ from datetime import datetime, timezone
 APP_ID = "fire6"
 # (manifestキーのprefix, ソースの実ディレクトリ, 対象拡張子)
 SOURCES = [
-    ("content", "content", (".json",)),  # テキスト: content/ 以下をそのままのキーで
-    # 図を使う場合は次を足す: ("figures", "assets/figures", (".png", ".jpg")),
+    ("content", "content", (".json",)),          # テキスト: content/ 以下をそのままのキーで
+    ("figures", "assets/figures", (".png", ".jpg")),  # 図: assets/figures/ → キー figures/<名>
 ]
 MANIFEST_OUT = "content/_manifest.json"
 EXCLUDE_BASENAMES = {"_manifest.json"}

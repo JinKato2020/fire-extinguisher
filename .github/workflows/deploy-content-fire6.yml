@@ -54,9 +54,15 @@ jobs:
           DEST="r2:${R2_BUCKET}/fire6"
           FLAGS=(--s3-no-check-bucket --transfers 32 --checkers 32 --fast-list --header-upload "Cache-Control: no-cache")
 
-          # ① 先に実ファイル(content本体)を上げ、② 最後に manifest を上げる
+          # ① 先に実ファイル(content本体＋図)を上げ、② 最後に manifest を上げる
           #    （manifestが指すのにまだ無いファイル、を配信中に作らない＝DL失敗を防ぐ）。
           rclone sync content "$DEST/content" --exclude "_manifest.json" "${FLAGS[@]}"
+          # 図（assets/figures/* → 配信キー figures/*）。無い/空でも失敗させない。
+          if [ -d assets/figures ] && [ -n "$(ls -A assets/figures 2>/dev/null)" ]; then
+            rclone sync assets/figures "$DEST/figures" "${FLAGS[@]}"
+          else
+            echo "::notice::assets/figures は空 → 図の配信はスキップ"
+          fi
           rclone copy content/_manifest.json "$DEST" "${FLAGS[@]}"
 
           echo "::notice::配信完了 → https://content.safa-lang.com/fire6/_manifest.json"

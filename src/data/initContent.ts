@@ -1,15 +1,17 @@
 // 起動時のコンテンツ初期化。App() のレンダー前に一度だけ呼ぶ。
 //  1) 端末キャッシュ（前回DLした差し替え分）を読み込み、override にセット
 //  2) 裏で最新を取り込む（起動は待たせない）。更新があれば "この起動中に" onApplied で画面へ反映。
-import { setOverrides } from './contentStore';
+import { setOverrides, setFigures } from './contentStore';
 import { loadCache, syncContent } from './contentOta';
 
 async function applyCache(): Promise<void> {
   try {
     const cached = await loadCache();
     setOverrides(cached.content);
+    setFigures(cached.figures);
   } catch {
     setOverrides({});
+    setFigures({});
   }
 }
 
