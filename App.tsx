@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   View, Text, ScrollView, Pressable, Image, TextInput,
-  useWindowDimensions, PanResponder,
+  useWindowDimensions, PanResponder, Alert, ActivityIndicator,
 } from 'react-native';
+import type { PurchasesPackage } from 'react-native-purchases';
+import { initPurchases, isProActive, subscribePro, getProPackage, purchasePro, restorePro } from './src/data/purchases';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BUILD_NUMBER } from './src/buildInfo';
@@ -29,7 +31,7 @@ import { Icon, Ring, Tag, RadarChart, StreakBars, Segmented, type RadarAxis, typ
 import { RELATION_MAPS } from './src/data/relationMaps.generated';
 
 type TabKey = 'home' | 'learn' | 'terms' | 'mock' | 'set';
-type ModalKey = 'bookmarks' | 'relation' | 'guide' | 'examdate' | null;
+type ModalKey = 'bookmarks' | 'relation' | 'guide' | 'examdate' | 'paywall' | null;
 
 const QLABEL = ['1', '2', '3', '4', '5'];
 const pad2 = (n: number) => String(n).padStart(2, '0');
@@ -200,7 +202,7 @@ function HomeScreen({ onGo, onModal, onFavTerms, ver }: { onGo: (t: TabKey) => v
             <Defs>
               <LinearGradient id="heroFade" x1="0" y1="0" x2="0" y2="1">
                 <Stop offset="0" stopColor={c.bg} stopOpacity={0} />
-                <Stop offset="0.65" stopColor={c.bg} stopOpacity={0.75} />
+                <Stop offset="0.6" stopColor={c.bg} stopOpacity={0.96} />
                 <Stop offset="1" stopColor={c.bg} stopOpacity={1} />
               </LinearGradient>
             </Defs>
@@ -254,6 +256,18 @@ function HomeScreen({ onGo, onModal, onFavTerms, ver }: { onGo: (t: TabKey) => v
         {/* 試験総合解説カード */}
         <Pressable style={({ pressed }) => [s.guideCard, pressed && s.pressed]} onPress={() => onModal('guide')}>
           <Image source={guideImg} style={s.guideImg} resizeMode="cover" />
+          {/* 下側だけグラデーション(画像の上部は明るいまま・文字は下で読める) */}
+          <View style={s.guideScrim} pointerEvents="none">
+            <Svg width="100%" height="100%">
+              <Defs>
+                <LinearGradient id="guideFade" x1="0" y1="0" x2="0" y2="1">
+                  <Stop offset="0" stopColor="#000" stopOpacity={0} />
+                  <Stop offset="1" stopColor="#000" stopOpacity={0.62} />
+                </LinearGradient>
+              </Defs>
+              <Rect x="0" y="0" width="100%" height="100%" fill="url(#guideFade)" />
+            </Svg>
+          </View>
           <View style={s.guideOverlay}>
             <Text style={s.guideEyebrow}>EXAM GUIDE</Text>
             <Text style={s.guideTitle}>試験の総合解説</Text>
@@ -283,11 +297,11 @@ function HomeScreen({ onGo, onModal, onFavTerms, ver }: { onGo: (t: TabKey) => v
         <View style={s.motiv}>
           <View style={s.motivRule}>
             <View style={s.motivLine} />
-            <Icon name="target" size={14} color={c.accent} />
+            <Icon name="flame" size={15} color={c.accent} />
             <View style={s.motivLine} />
           </View>
-          <Text style={s.motivMain}>コツコツが、合格への一番の近道。</Text>
-          <Text style={s.motivKicker}>KEEP GOING, PASS THE EXAM</Text>
+          <Text style={s.motivMain}>最初の一本で、火を制す。</Text>
+          <Text style={s.motivKicker}>THE FIRST LINE OF DEFENSE</Text>
         </View>
       </View>
     </ScrollView>
@@ -508,8 +522,12 @@ function TermCard({ term, onBump }: { term: Term; onBump: () => void }) {
 }
 
 // ---- 模試・成績 ----
-function MockScoreScreen({ onBump }: { onBump: () => void }) {
+// 無料=模試①②、Pro=模試③〜⑧＋弱点復習(買い切りProで解放)。
+const FREE_MOCK_COUNT = 2;
+
+function MockScoreScreen({ onBump, pro, onPaywall }: { onBump: () => void; pro: boolean; onPaywall: () => void }) {
   const [session, setSession] = useState<{ title: string; questions: Question[] } | null>(null);
+  const { c } = useTheme();
   const s = useStyles();
 
   if (session) {
@@ -521,8 +539,12 @@ function MockScoreScreen({ onBump }: { onBump: () => void }) {
   const { weak } = selectReview(all.map((qq) => qq.id));
   const stats = overallStats();
 
-  const startSet = (set: QuizSet) => setSession({ title: set.title, questions: getQuestions(set.file) });
+  const startSet = (set: QuizSet, locked: boolean) => {
+    if (locked) { onPaywall(); return; }
+    setSession({ title: set.title, questions: getQuestions(set.file) });
+  };
   const startReview = () => {
+    if (!pro) { onPaywall(); return; }
     const { weak: w, unseen } = selectReview(all.map((qq) => qq.id));
     const order = [...w, ...unseen];
     const byId: Record<string, Question> = {};
@@ -555,28 +577,49 @@ function MockScoreScreen({ onBump }: { onBump: () => void }) {
           </View>
         </View>
 
+        {/* Proアップグレード導線(未購入時のみ) */}
+        {!pro ? (
+          <Pressable onPress={onPaywall} style={({ pressed }) => [s.upgradeCard, pressed && s.pressed]}>
+            <View style={s.upgradeIcon}><Icon name="flame" size={20} color={c.accent} /></View>
+            <View style={{ flex: 1, minWidth: 0 }}>
+              <Text style={s.upgradeTitle}>Proで全8回＋弱点復習を解放</Text>
+              <Text style={s.upgradeSub}>模試③〜⑧と弱点復習がすべて使えます</Text>
+            </View>
+            <Text style={s.chGo}>›</Text>
+          </Pressable>
+        ) : null}
+
         {/* 弱点復習 */}
         <Pressable
-          disabled={weak.length === 0}
+          disabled={pro && weak.length === 0}
           onPress={startReview}
-          style={({ pressed }) => [s.reviewBtn, weak.length === 0 && s.btnDisabled, pressed && s.pressed]}
+          style={({ pressed }) => [s.reviewBtn, pro && weak.length === 0 && s.btnDisabled, pressed && s.pressed]}
         >
-          <Text style={s.reviewBtnTitle}>弱点復習</Text>
-          <Text style={s.reviewBtnSub}>{weak.length > 0 ? `要復習 ${weak.length} 問` : '誤答・自信なしが貯まると出題されます'}</Text>
+          <View style={s.reviewBtnHead}>
+            <Text style={s.reviewBtnTitle}>弱点復習</Text>
+            {!pro ? <View style={s.proPill}><Text style={s.proPillTxt}>Pro</Text></View> : null}
+          </View>
+          <Text style={s.reviewBtnSub}>
+            {!pro ? 'Proで解放 ・ 誤答や自信なしを集中復習' : (weak.length > 0 ? `要復習 ${weak.length} 問` : '誤答・自信なしが貯まると出題されます')}
+          </Text>
         </Pressable>
 
         <Text style={s.sectionHead}>問題セット</Text>
+        {!pro ? <Text style={s.mockHint}>模試①②は無料。③〜⑧はProで解放できます。</Text> : null}
         <View style={{ gap: 10 }}>
-          {sets.map((set) => (
-            <Pressable key={set.id} style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => startSet(set)}>
-              <View style={s.chNo}><Text style={s.chNoTxt}>{set.chapter}</Text></View>
-              <View style={{ flex: 1, minWidth: 0 }}>
-                <Text style={s.chTitle}>{set.title}</Text>
-                <Text style={s.chSub}>{'筆記 ' + set.count + ' 問'}</Text>
-              </View>
-              <Text style={s.chGo}>›</Text>
-            </Pressable>
-          ))}
+          {sets.map((set, i) => {
+            const locked = i >= FREE_MOCK_COUNT && !pro;
+            return (
+              <Pressable key={set.id} style={({ pressed }) => [s.ch, locked && s.chLocked, pressed && s.pressed]} onPress={() => startSet(set, locked)}>
+                <View style={s.chNo}><Text style={s.chNoTxt}>{set.chapter}</Text></View>
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <Text style={s.chTitle}>{set.title}</Text>
+                  <Text style={s.chSub}>{'筆記 ' + set.count + ' 問'}</Text>
+                </View>
+                {locked ? <View style={s.proPill}><Text style={s.proPillTxt}>Pro</Text></View> : <Text style={s.chGo}>›</Text>}
+              </Pressable>
+            );
+          })}
         </View>
       </View>
     </ScrollView>
@@ -714,16 +757,46 @@ function QuizPlayer({ title, questions, onExit, onBump }: { title: string; quest
 }
 
 // ---- 設定 ----
-function SettingsScreen({ onModal, onSync, syncing }: { onModal: (m: ModalKey) => void; onSync: () => void; syncing: boolean }) {
-  const { mode, setMode } = useTheme();
+function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalKey) => void; onSync: () => void; syncing: boolean; pro: boolean }) {
+  const { c, mode, setMode } = useTheme();
   const s = useStyles();
   const dateText = examDateText();
+  const [restoring, setRestoring] = useState(false);
+  const doRestore = async () => {
+    if (restoring) return;
+    setRestoring(true);
+    try {
+      const ok = await restorePro();
+      Alert.alert(ok ? '復元しました' : '購入が見つかりません', ok ? 'Proが有効になりました。' : '復元できる購入がありませんでした。');
+    } catch {
+      Alert.alert('復元できませんでした', '時間をおいて、もう一度お試しください。');
+    } finally { setRestoring(false); }
+  };
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
       <View style={s.pad}>
         <View style={s.viewHead}>
           <Text style={s.eyebrow}>SETTINGS</Text>
           <Text style={s.viewH2}>設定</Text>
+        </View>
+
+        <View style={s.setGroup}>
+          <Text style={s.setGroupTitle}>Pro</Text>
+          {pro ? (
+            <View style={s.setRow}>
+              <Text style={s.setLabel}>ステータス</Text>
+              <Text style={[s.setValue, { color: c.good }]}>購入済み</Text>
+            </View>
+          ) : (
+            <Pressable style={({ pressed }) => [s.setRow, pressed && s.pressed]} onPress={() => onModal('paywall')}>
+              <Text style={s.setLabel}>Proにアップグレード</Text>
+              <Text style={[s.setValue, { color: c.accent }]}>全8回＋弱点復習 ›</Text>
+            </Pressable>
+          )}
+          <Pressable disabled={restoring} style={({ pressed }) => [s.setRow, pressed && s.pressed, restoring && s.btnDisabled]} onPress={doRestore}>
+            <Text style={s.setLabel}>購入を復元</Text>
+            <Text style={s.setValue}>{restoring ? '復元中…' : '実行 ›'}</Text>
+          </Pressable>
         </View>
 
         <View style={s.setGroup}>
@@ -1008,6 +1081,96 @@ function ExamDateScreen({ onClose, onSaved }: { onClose: () => void; onSaved: ()
   );
 }
 
+// ---- モーダル: Pro(買い切り)ペイウォール ----
+function PaywallScreen({ onClose, onBump }: { onClose: () => void; onBump: () => void }) {
+  const { c } = useTheme();
+  const s = useStyles();
+  const [pkg, setPkg] = useState<PurchasesPackage | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    void getProPackage().then((p) => { if (alive) { setPkg(p); setLoading(false); } });
+    return () => { alive = false; };
+  }, []);
+
+  const price = pkg?.product?.priceString ?? '';
+
+  const buy = async () => {
+    if (!pkg || busy) return;
+    setBusy(true);
+    try {
+      const ok = await purchasePro(pkg);
+      if (ok) { onBump(); Alert.alert('ありがとうございます', 'Proが有効になりました。すべての模試と弱点復習が使えます。'); onClose(); }
+    } catch {
+      Alert.alert('購入できませんでした', '時間をおいて、もう一度お試しください。');
+    } finally { setBusy(false); }
+  };
+  const restore = async () => {
+    if (busy) return;
+    setBusy(true);
+    try {
+      const ok = await restorePro();
+      if (ok) { onBump(); Alert.alert('復元しました', 'Proが有効になりました。'); onClose(); }
+      else Alert.alert('購入が見つかりません', '復元できる購入がありませんでした。');
+    } catch {
+      Alert.alert('復元できませんでした', '時間をおいて、もう一度お試しください。');
+    } finally { setBusy(false); }
+  };
+
+  const features = [
+    '模試③〜⑧を解放(＝本番形式 全8回)',
+    '弱点復習で、誤答や自信なしを集中特訓',
+    '買い切り・1回のお支払いでずっと使える',
+    '教材・用語・相関図は無料のまま',
+  ];
+
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={s.modalBar}>
+        <Pressable onPress={onClose} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}><Text style={s.backTxt}>‹ 閉じる</Text></Pressable>
+        <Text style={s.modalTitle}>Pro</Text>
+        <View style={{ width: 56 }} />
+      </View>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40 }]} showsVerticalScrollIndicator={false}>
+        <View style={s.payHero}>
+          <View style={s.payHeroIcon}><Icon name="flame" size={30} color={c.accent} /></View>
+          <Text style={s.payTitle}>Proにアップグレード</Text>
+          <Text style={s.paySub}>本番形式の模試を全8回＋弱点復習で、合格をぐっと近づける。</Text>
+        </View>
+
+        <View style={s.payCard}>
+          {features.map((f, i) => (
+            <View key={i} style={s.payLi}>
+              <Text style={s.payCheck}>✓</Text>
+              <Text style={s.payLiTxt}>{f}</Text>
+            </View>
+          ))}
+        </View>
+
+        {loading ? (
+          <View style={{ paddingVertical: 24, alignItems: 'center' }}><ActivityIndicator color={c.accent} /></View>
+        ) : pkg ? (
+          <Pressable onPress={buy} disabled={busy} style={({ pressed }) => [s.payBuy, busy && s.btnDisabled, pressed && s.pressed]}>
+            {busy ? <ActivityIndicator color="#fff" /> : (
+              <Text style={s.payBuyTxt}>{price ? `${price} で購入（買い切り）` : 'Proを購入（買い切り）'}</Text>
+            )}
+          </Pressable>
+        ) : (
+          <Text style={[s.radarEmpty, { marginTop: 16 }]}>いま商品を読み込めませんでした。通信環境を確認して、もう一度お試しください。</Text>
+        )}
+
+        <Pressable onPress={restore} disabled={busy} style={({ pressed }) => [s.payRestore, pressed && s.pressed]}>
+          <Text style={s.payRestoreTxt}>購入を復元</Text>
+        </Pressable>
+
+        <Text style={s.payNote}>お支払いは App Store を通じて行われます。買い切り（非消耗型）のため自動更新はありません。同じ Apple ID なら「購入を復元」で再び有効にできます。</Text>
+      </ScrollView>
+    </View>
+  );
+}
+
 // ---- タブバー ----
 function TabBar({ tab, onTab, insetBottom }: { tab: TabKey; onTab: (t: TabKey) => void; insetBottom: number }) {
   const { c } = useTheme();
@@ -1046,6 +1209,7 @@ function Main() {
   const [openNo, setOpenNo] = useState<string | null>(null);
   const [modal, setModal] = useState<ModalKey>(null);
   const [syncing, setSyncing] = useState(false);
+  const [pro, setPro] = useState(isProActive());
   const { width } = useWindowDimensions();
 
   const bump = () => setDataVersion((v) => v + 1);
@@ -1057,6 +1221,12 @@ function Main() {
       await recordSnapshotIfNeeded();
     })();
     initContent(() => setContentVersion((v) => v + 1));
+  }, []);
+
+  useEffect(() => {
+    const unsub = subscribePro(() => setPro(isProActive()));
+    void initPurchases();
+    return unsub;
   }, []);
 
   const chapters = useMemo(() => getChapters(), [contentVersion]);
@@ -1085,6 +1255,7 @@ function Main() {
               {modal === 'relation' && <RelationMapScreen onClose={() => setModal(null)} />}
               {modal === 'guide' && <ExamGuideScreen onClose={() => setModal(null)} />}
               {modal === 'examdate' && <ExamDateScreen onClose={() => setModal(null)} onSaved={bump} />}
+              {modal === 'paywall' && <PaywallScreen onClose={() => setModal(null)} onBump={bump} />}
             </>
           ) : (
             <>
@@ -1093,8 +1264,8 @@ function Main() {
                 ? <Reader chapter={openChapter} chapters={chapters} onBack={() => setOpenNo(null)} onNavigate={(no) => setOpenNo(no)} />
                 : <LearnScreen chapters={chapters} onOpen={(x) => setOpenNo(x.no)} />)}
               {tab === 'terms' && <GlossaryScreen onBump={bump} ver={dataVersion} favInit={termsFav} />}
-              {tab === 'mock' && <MockScoreScreen onBump={bump} />}
-              {tab === 'set' && <SettingsScreen onModal={setModal} onSync={doSync} syncing={syncing} />}
+              {tab === 'mock' && <MockScoreScreen onBump={bump} pro={pro} onPaywall={() => setModal('paywall')} />}
+              {tab === 'set' && <SettingsScreen onModal={setModal} onSync={doSync} syncing={syncing} pro={pro} />}
             </>
           )}
         </View>

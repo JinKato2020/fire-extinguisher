@@ -16,7 +16,7 @@ export function makeStyles(c: Colors) {
     sectionHead: { color: c.fg, fontSize: 16, fontWeight: '900', marginTop: 20, marginBottom: 10 },
 
     // ---- ヒーロー ----
-    heroFade: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 150 },
+    heroFade: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 88 },
 
     // ---- 試験日カウントダウン ----
     countCard: { marginTop: 16, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 18, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 },
@@ -70,7 +70,8 @@ export function makeStyles(c: Colors) {
     // ---- 試験総合解説カード ----
     guideCard: { marginTop: 18, borderRadius: 18, overflow: 'hidden', borderWidth: 1, borderColor: c.line },
     guideImg: { width: '100%', height: 150 },
-    guideOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: c.overlayCard, padding: 16, justifyContent: 'flex-end' },
+    guideScrim: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 96 },
+    guideOverlay: { ...StyleSheet.absoluteFillObject, padding: 16, justifyContent: 'flex-end' },
     guideEyebrow: { color: '#fff', fontSize: 10, letterSpacing: 2, fontWeight: '800', opacity: 0.9 },
     guideTitle: { color: '#fff', fontSize: 20, fontWeight: '900', marginTop: 2 },
     guideSub: { color: '#fff', fontSize: 12, marginTop: 2, opacity: 0.92 },
@@ -137,6 +138,30 @@ export function makeStyles(c: Colors) {
     readerNavBtn: { flex: 1, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14, minHeight: 56, justifyContent: 'center' },
     readerNavTxt: { color: c.accent, fontSize: 13, fontWeight: '900' },
     readerNavSub: { color: c.muted, fontSize: 11.5, marginTop: 3 },
+
+    // ---- Pro / ペイウォール ----
+    upgradeCard: { flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 16, padding: 14, borderRadius: 14, backgroundColor: c.accentSoft, borderWidth: 1, borderColor: c.accent },
+    upgradeIcon: { width: 40, height: 40, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: c.card },
+    upgradeTitle: { color: c.fg, fontSize: 14.5, fontWeight: '900' },
+    upgradeSub: { color: c.muted, fontSize: 12, marginTop: 2 },
+    proPill: { backgroundColor: c.accent, borderRadius: 999, paddingHorizontal: 10, paddingVertical: 3 },
+    proPillTxt: { color: '#fff', fontSize: 11, fontWeight: '900', letterSpacing: 0.5 },
+    reviewBtnHead: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+    mockHint: { color: c.muted, fontSize: 12, marginTop: 4, marginBottom: 10 },
+    chLocked: { opacity: 0.86 },
+    payHero: { alignItems: 'center', paddingTop: 18, paddingBottom: 8 },
+    payHeroIcon: { width: 64, height: 64, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: c.accentSoft, borderWidth: 1, borderColor: c.accent, marginBottom: 14 },
+    payTitle: { color: c.fg, fontSize: 22, fontWeight: '900' },
+    paySub: { color: c.muted, fontSize: 13.5, lineHeight: 21, textAlign: 'center', marginTop: 8, paddingHorizontal: 8 },
+    payCard: { backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 16, padding: 18, marginTop: 20, gap: 14 },
+    payLi: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+    payCheck: { color: c.good, fontSize: 15, fontWeight: '900', lineHeight: 21 },
+    payLiTxt: { flex: 1, color: c.fg, fontSize: 14, lineHeight: 21 },
+    payBuy: { marginTop: 22, backgroundColor: c.accent, borderRadius: 14, paddingVertical: 16, alignItems: 'center', justifyContent: 'center' },
+    payBuyTxt: { color: '#fff', fontSize: 16, fontWeight: '900' },
+    payRestore: { marginTop: 12, paddingVertical: 12, alignItems: 'center' },
+    payRestoreTxt: { color: c.accent, fontSize: 14, fontWeight: '700' },
+    payNote: { color: c.faint, fontSize: 11.5, lineHeight: 18, marginTop: 16, textAlign: 'center' },
 
     // ---- 問題演習 ----
     reviewBtn: { marginTop: 16, backgroundColor: c.card, borderWidth: 1, borderColor: c.good, borderRadius: 14, padding: 15 },

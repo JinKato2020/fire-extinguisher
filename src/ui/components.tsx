@@ -38,6 +38,8 @@ export function Icon({ name, size = 23, color }: { name: string; size?: number; 
       return <Svg width={size} height={size} viewBox={vb}><Path {...p} d="M4 6h16v15H4z" /><Path {...p} d="M4 10h16M8 3v4M16 3v4" /></Svg>;
     case 'target':
       return <Svg width={size} height={size} viewBox={vb}><Circle {...p} cx={12} cy={12} r={8} /><Circle {...p} cx={12} cy={12} r={3.5} /></Svg>;
+    case 'flame':
+      return <Svg width={size} height={size} viewBox={vb}><Path {...p} d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z" /></Svg>;
     default:
       return null;
   }
