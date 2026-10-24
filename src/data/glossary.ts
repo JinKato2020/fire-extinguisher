@@ -8,6 +8,7 @@ export type Term = {
   chapter: string;      // "1".."6"
   def: string;
   related?: string[];
+  figure?: string;      // 関連する教材図版の asset名(例 ch1_f05)。OTAで取得して表示。
 };
 
 type GlossaryFile = { version?: number; terms: Term[] };

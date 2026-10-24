@@ -502,6 +502,7 @@ function TermCard({ term, onBump }: { term: Term; onBump: () => void }) {
   const { c } = useTheme();
   const s = useStyles();
   const fav = isFavTerm(term.term);
+  const figUri = term.figure ? getFigureUri(term.figure) : null;
   return (
     <View style={s.termCard}>
       <View style={s.termTop}>
@@ -514,6 +515,7 @@ function TermCard({ term, onBump }: { term: Term; onBump: () => void }) {
         </Pressable>
       </View>
       <Text style={s.termDef}>{term.def}</Text>
+      {figUri ? <Image source={{ uri: figUri }} style={s.termFig} resizeMode="contain" /> : null}
       {term.related && term.related.length > 0 ? (
         <Text style={s.termRel}>{'関連: ' + term.related.join('、')}</Text>
       ) : null}

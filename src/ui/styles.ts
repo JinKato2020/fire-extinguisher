@@ -222,6 +222,7 @@ export function makeStyles(c: Colors) {
     termReading: { color: c.faint, fontSize: 11, marginTop: 1 },
     termDef: { color: c.fg, fontSize: 13.5, lineHeight: 21, marginTop: 8 },
     termRel: { color: c.muted, fontSize: 11.5, marginTop: 8 },
+    termFig: { width: '100%', height: 160, marginTop: 10, borderRadius: 8, backgroundColor: '#fff', borderWidth: 1, borderColor: c.line },
     heart: { fontSize: 20 },
 
     // ---- 設定 ----
