@@ -11,6 +11,9 @@ export const BUNDLED: Record<string, unknown> = {
   'content/glossary.json': require('../../content/glossary.json'),
   'content/index.json': require('../../content/index.json'),
   'content/questions/mock1.json': require('../../content/questions/mock1.json'),
+  'content/questions/mock10.json': require('../../content/questions/mock10.json'),
+  'content/questions/mock11.json': require('../../content/questions/mock11.json'),
+  'content/questions/mock12.json': require('../../content/questions/mock12.json'),
   'content/questions/mock2.json': require('../../content/questions/mock2.json'),
   'content/questions/mock3.json': require('../../content/questions/mock3.json'),
   'content/questions/mock4.json': require('../../content/questions/mock4.json'),
@@ -18,5 +21,6 @@ export const BUNDLED: Record<string, unknown> = {
   'content/questions/mock6.json': require('../../content/questions/mock6.json'),
   'content/questions/mock7.json': require('../../content/questions/mock7.json'),
   'content/questions/mock8.json': require('../../content/questions/mock8.json'),
+  'content/questions/mock9.json': require('../../content/questions/mock9.json'),
   'content/quizzes.json': require('../../content/quizzes.json'),
 };
