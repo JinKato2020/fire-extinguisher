@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3400" height="2200" viewBox="0 0 3400 2200" role="img" aria-labelledby="title desc">
+<title id="title">第6章 実技試験（鑑別等）関連の相関図</title>
+<desc id="desc">中央の鑑別と記述から6つのテーマと18の主要項目へ枝分かれする相関図。</desc>
+<metadata>{&quot;chapter&quot;: 6, &quot;title&quot;: &quot;実技試験（鑑別等）関連&quot;, &quot;center&quot;: &quot;鑑別と記述&quot;, &quot;summary&quot;: [&quot;外観 → 名称 → 役割&quot;, &quot;根拠を言葉にする&quot;], &quot;branches&quot;: [{&quot;title&quot;: &quot;外観から判別&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;圧力計を見る&quot;, &quot;lines&quot;: [&quot;計器あり → 蓄圧式の手掛かり&quot;, &quot;CO₂・ハロン1301は計器なし&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;]}, {&quot;name&quot;: &quot;ノズルを見る&quot;, &quot;lines&quot;: [&quot;細い霧状・先広がり・発泡型&quot;, &quot;大きいホーンはCO₂の手掛かり&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;]}, {&quot;name&quot;: &quot;特徴を組み合せる&quot;, &quot;lines&quot;: [&quot;押し金具・レバー・塗色を確認&quot;, &quot;車輪あり → 車載式と判断&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;]}]}, {&quot;title&quot;: &quot;薬剤と方式&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;水系・泡&quot;, &quot;lines&quot;: [&quot;強化液のノズルと機械泡を比較&quot;, &quot;化学泡は独特のキャップを持つ&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;]}, {&quot;name&quot;: &quot;粉末&quot;, &quot;lines&quot;: [&quot;圧力計と内部のガス容器を確認&quot;, &quot;蓄圧式とガス加圧式を区別&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;]}, {&quot;name&quot;: &quot;二酸化炭素&quot;, &quot;lines&quot;: [&quot;緑と赤の塗分け・大きなホーン&quot;, &quot;ホーン握り → 凍傷を防ぐ&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;]}]}, {&quot;title&quot;: &quot;部品の目的&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;圧力源と配管&quot;, &quot;lines&quot;: [&quot;ガス容器 → 放射の圧力源&quot;, &quot;サイホン管 → 薬剤を導く&quot;], &quot;references&quot;: [&quot;Lesson 02&quot;]}, {&quot;name&quot;: &quot;詰まり・流入防止&quot;, &quot;lines&quot;: [&quot;ろ過網 → 異物による詰まり防止&quot;, &quot;粉上り防止用封板 → 流入防止&quot;], &quot;references&quot;: [&quot;Lesson 02&quot;]}, {&quot;name&quot;: &quot;圧力計の表示&quot;, &quot;lines&quot;: [&quot;緑帯＝使用圧力範囲&quot;, &quot;SUS＝圧力検出部がステンレス鋼&quot;], &quot;references&quot;: [&quot;Lesson 02&quot;]}]}, {&quot;title&quot;: &quot;工具の用途&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;固定・開閉&quot;, &quot;lines&quot;: [&quot;クランプ台 → 本体容器を固定&quot;, &quot;キャップスパナ → キャップ開閉&quot;], &quot;references&quot;: [&quot;Lesson 02&quot;]}, {&quot;name&quot;: &quot;清掃・観察&quot;, &quot;lines&quot;: [&quot;エアーガン → 清掃・通気確認&quot;, &quot;反射鏡 → 容器内部を観察&quot;], &quot;references&quot;: [&quot;Lesson 02&quot;]}, {&quot;name&quot;: &quot;圧力を扱う&quot;, &quot;lines&quot;: [&quot;耐圧試験機 → 水圧試験&quot;, &quot;圧力調整器 → ガスを減圧&quot;], &quot;references&quot;: [&quot;Lesson 02&quot;]}]}, {&quot;title&quot;: &quot;測定を読む&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;指示・標準圧力計&quot;, &quot;lines&quot;: [&quot;指示＝正常範囲かを見る&quot;, &quot;標準＝細かい圧力値を読む&quot;], &quot;references&quot;: [&quot;Lesson 02&quot;]}, {&quot;name&quot;: &quot;圧力の基準&quot;, &quot;lines&quot;: [&quot;絶対圧力＝真空を0とする&quot;, &quot;ゲージ圧力＝大気圧を0とする&quot;], &quot;references&quot;: [&quot;Lesson 02&quot;]}, {&quot;name&quot;: &quot;計算へつなぐ&quot;, &quot;lines&quot;: [&quot;与えられた量と単位を確認&quot;, &quot;第2章の設置数・第3章の式へ&quot;], &quot;references&quot;: [&quot;参考&quot;]}]}, {&quot;title&quot;: &quot;解答をつくる&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;正式名称&quot;, &quot;lines&quot;: [&quot;薬剤・加圧方式まで具体的に&quot;, &quot;見分けた根拠と名称を一致させる&quot;], &quot;references&quot;: [&quot;Lesson 03&quot;]}, {&quot;name&quot;: &quot;位置と目的&quot;, &quot;lines&quot;: [&quot;どこに付くか → 何を防ぐか&quot;, &quot;役割を一文で説明する&quot;], &quot;references&quot;: [&quot;Lesson 03&quot;]}, {&quot;name&quot;: &quot;練習の順序&quot;, &quot;lines&quot;: [&quot;外観 → 名称 → 方式 → 用途&quot;, &quot;6問の例で理由まで確認する&quot;], &quot;references&quot;: [&quot;Lesson 03&quot;]}]}], &quot;source&quot;: &quot;教材解説\\教材_第6章_実技試験(鑑別等)関連.md&quot;, &quot;officialSources&quot;: [{&quot;title&quot;: &quot;消防庁：検定制度について&quot;, &quot;url&quot;: &quot;https://www.fdma.go.jp/mission/prevention/post-15.html&quot;}, {&quot;title&quot;: &quot;消防庁：消防用設備等の点検基準・点検要領&quot;, &quot;url&quot;: &quot;https://www.fdma.go.jp/mission/prevention/post-1.html&quot;}, {&quot;title&quot;: &quot;消防試験研究センター：消防設備士試験&quot;, &quot;url&quot;: &quot;https://www.shoubo-shiken.or.jp/shoubou/&quot;}, {&quot;title&quot;: &quot;e-Gov：消防法施行規則&quot;, &quot;url&quot;: &quot;https://laws.e-gov.go.jp/law/336M50000008006&quot;}, {&quot;title&quot;: &quot;e-Gov：消火器の技術上の規格を定める省令&quot;, &quot;url&quot;: &quot;https://laws.e-gov.go.jp/law/339M50000008027&quot;}]}</metadata>
+<rect width="3400" height="2200" fill="#FFFFFF"/>
+<g font-family="Meiryo, Noto Sans CJK JP, sans-serif" fill="#233C50" stroke-linecap="round" stroke-linejoin="round">
+<text x="1700" y="78" text-anchor="middle" font-size="44" font-weight="700" fill="#233C50">第6章  実技試験（鑑別等）関連</text>
+<text x="1700" y="128" text-anchor="middle" font-size="30" font-weight="500" fill="#647B8C">中心から外へ、用語の役割とつながりをたどる</text>
+<path d="M 1510 1100 C 1440 1100 1450 430 1390 430 L 1080 430" fill="none" stroke="#326F9B" stroke-width="17" opacity="1"/>
+<text x="1090" y="402" text-anchor="start" font-size="48" font-weight="700" fill="#326F9B">外観から判別</text>
+<path d="M 1080 430 C 1025 430 1040 220 990 220 L 740 220" fill="none" stroke="#326F9B" stroke-width="7" opacity="0.85"/>
+<text x="755" y="202" text-anchor="start" font-size="36" font-weight="700" fill="#326F9B">圧力計を見る</text>
+<path d="M 740 220 C 690 220 695 188.0 640 188.0 L 90 188.0" fill="none" stroke="#326F9B" stroke-width="3" opacity="0.55"/>
+<text x="108" y="174.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">計器あり → 蓄圧式の手掛かり</text>
+<path d="M 740 220 C 690 220 695 252.0 640 252.0 L 90 252.0" fill="none" stroke="#326F9B" stroke-width="3" opacity="0.55"/>
+<text x="108" y="238.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">CO₂・ハロン1301は計器なし</text>
+<path d="M 1080 430 C 1025 430 1040 440 990 440 L 740 440" fill="none" stroke="#326F9B" stroke-width="7" opacity="0.85"/>
+<text x="755" y="422" text-anchor="start" font-size="36" font-weight="700" fill="#326F9B">ノズルを見る</text>
+<path d="M 740 440 C 690 440 695 408.0 640 408.0 L 90 408.0" fill="none" stroke="#326F9B" stroke-width="3" opacity="0.55"/>
+<text x="108" y="394.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">細い霧状・先広がり・発泡型</text>
+<path d="M 740 440 C 690 440 695 472.0 640 472.0 L 90 472.0" fill="none" stroke="#326F9B" stroke-width="3" opacity="0.55"/>
+<text x="108" y="458.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">大きいホーンはCO₂の手掛かり</text>
+<path d="M 1080 430 C 1025 430 1040 660 990 660 L 740 660" fill="none" stroke="#326F9B" stroke-width="7" opacity="0.85"/>
+<text x="755" y="642" text-anchor="start" font-size="28" font-weight="700" fill="#326F9B">特徴を組み合せる</text>
+<path d="M 740 660 C 690 660 695 628.0 640 628.0 L 90 628.0" fill="none" stroke="#326F9B" stroke-width="3" opacity="0.55"/>
+<text x="108" y="614.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">押し金具・レバー・塗色を確認</text>
+<path d="M 740 660 C 690 660 695 692.0 640 692.0 L 90 692.0" fill="none" stroke="#326F9B" stroke-width="3" opacity="0.55"/>
+<text x="108" y="678.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">車輪あり → 車載式と判断</text>
+<path d="M 1510 1100 C 1440 1100 1450 1090 1390 1090 L 1080 1090" fill="none" stroke="#527D94" stroke-width="17" opacity="1"/>
+<text x="1090" y="1062" text-anchor="start" font-size="48" font-weight="700" fill="#527D94">薬剤と方式</text>
+<path d="M 1080 1090 C 1025 1090 1040 880 990 880 L 740 880" fill="none" stroke="#527D94" stroke-width="7" opacity="0.85"/>
+<text x="755" y="862" text-anchor="start" font-size="36" font-weight="700" fill="#527D94">水系・泡</text>
+<path d="M 740 880 C 690 880 695 848.0 640 848.0 L 90 848.0" fill="none" stroke="#527D94" stroke-width="3" opacity="0.55"/>
+<text x="108" y="834.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">強化液のノズルと機械泡を比較</text>
+<path d="M 740 880 C 690 880 695 912.0 640 912.0 L 90 912.0" fill="none" stroke="#527D94" stroke-width="3" opacity="0.55"/>
+<text x="108" y="898.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">化学泡は独特のキャップを持つ</text>
+<path d="M 1080 1090 C 1025 1090 1040 1100 990 1100 L 740 1100" fill="none" stroke="#527D94" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1082" text-anchor="start" font-size="36" font-weight="700" fill="#527D94">粉末</text>
+<path d="M 740 1100 C 690 1100 695 1068.0 640 1068.0 L 90 1068.0" fill="none" stroke="#527D94" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1054.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">圧力計と内部のガス容器を確認</text>
+<path d="M 740 1100 C 690 1100 695 1132.0 640 1132.0 L 90 1132.0" fill="none" stroke="#527D94" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1118.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">蓄圧式とガス加圧式を区別</text>
+<path d="M 1080 1090 C 1025 1090 1040 1320 990 1320 L 740 1320" fill="none" stroke="#527D94" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1302" text-anchor="start" font-size="36" font-weight="700" fill="#527D94">二酸化炭素</text>
+<path d="M 740 1320 C 690 1320 695 1288.0 640 1288.0 L 90 1288.0" fill="none" stroke="#527D94" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1274.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">緑と赤の塗分け・大きなホーン</text>
+<path d="M 740 1320 C 690 1320 695 1352.0 640 1352.0 L 90 1352.0" fill="none" stroke="#527D94" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1338.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">ホーン握り → 凍傷を防ぐ</text>
+<path d="M 1510 1100 C 1440 1100 1450 1750 1390 1750 L 1080 1750" fill="none" stroke="#398574" stroke-width="17" opacity="1"/>
+<text x="1090" y="1722" text-anchor="start" font-size="48" font-weight="700" fill="#398574">部品の目的</text>
+<path d="M 1080 1750 C 1025 1750 1040 1540 990 1540 L 740 1540" fill="none" stroke="#398574" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1522" text-anchor="start" font-size="36" font-weight="700" fill="#398574">圧力源と配管</text>
+<path d="M 740 1540 C 690 1540 695 1508.0 640 1508.0 L 90 1508.0" fill="none" stroke="#398574" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1494.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">ガス容器 → 放射の圧力源</text>
+<path d="M 740 1540 C 690 1540 695 1572.0 640 1572.0 L 90 1572.0" fill="none" stroke="#398574" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1558.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">サイホン管 → 薬剤を導く</text>
+<path d="M 1080 1750 C 1025 1750 1040 1760 990 1760 L 740 1760" fill="none" stroke="#398574" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1742" text-anchor="start" font-size="28" font-weight="700" fill="#398574">詰まり・流入防止</text>
+<path d="M 740 1760 C 690 1760 695 1728.0 640 1728.0 L 90 1728.0" fill="none" stroke="#398574" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1714.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">ろ過網 → 異物による詰まり防止</text>
+<path d="M 740 1760 C 690 1760 695 1792.0 640 1792.0 L 90 1792.0" fill="none" stroke="#398574" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1778.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">粉上り防止用封板 → 流入防止</text>
+<path d="M 1080 1750 C 1025 1750 1040 1980 990 1980 L 740 1980" fill="none" stroke="#398574" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1962" text-anchor="start" font-size="36" font-weight="700" fill="#398574">圧力計の表示</text>
+<path d="M 740 1980 C 690 1980 695 1948.0 640 1948.0 L 90 1948.0" fill="none" stroke="#398574" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1934.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">緑帯＝使用圧力範囲</text>
+<path d="M 740 1980 C 690 1980 695 2012.0 640 2012.0 L 90 2012.0" fill="none" stroke="#398574" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1998.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">SUS＝圧力検出部がステンレス鋼</text>
+<path d="M 1890 1100 C 1960 1100 1950 430 2010 430 L 2320 430" fill="none" stroke="#AF792D" stroke-width="17" opacity="1"/>
+<text x="2310" y="402" text-anchor="end" font-size="48" font-weight="700" fill="#AF792D">工具の用途</text>
+<path d="M 2320 430 C 2375 430 2360 220 2410 220 L 2660 220" fill="none" stroke="#AF792D" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="202" text-anchor="end" font-size="36" font-weight="700" fill="#AF792D">固定・開閉</text>
+<path d="M 2660 220 C 2710 220 2705 188.0 2760 188.0 L 3310 188.0" fill="none" stroke="#AF792D" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="174.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">クランプ台 → 本体容器を固定</text>
+<path d="M 2660 220 C 2710 220 2705 252.0 2760 252.0 L 3310 252.0" fill="none" stroke="#AF792D" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="238.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">キャップスパナ → キャップ開閉</text>
+<path d="M 2320 430 C 2375 430 2360 440 2410 440 L 2660 440" fill="none" stroke="#AF792D" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="422" text-anchor="end" font-size="36" font-weight="700" fill="#AF792D">清掃・観察</text>
+<path d="M 2660 440 C 2710 440 2705 408.0 2760 408.0 L 3310 408.0" fill="none" stroke="#AF792D" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="394.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">エアーガン → 清掃・通気確認</text>
+<path d="M 2660 440 C 2710 440 2705 472.0 2760 472.0 L 3310 472.0" fill="none" stroke="#AF792D" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="458.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">反射鏡 → 容器内部を観察</text>
+<path d="M 2320 430 C 2375 430 2360 660 2410 660 L 2660 660" fill="none" stroke="#AF792D" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="642" text-anchor="end" font-size="36" font-weight="700" fill="#AF792D">圧力を扱う</text>
+<path d="M 2660 660 C 2710 660 2705 628.0 2760 628.0 L 3310 628.0" fill="none" stroke="#AF792D" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="614.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">耐圧試験機 → 水圧試験</text>
+<path d="M 2660 660 C 2710 660 2705 692.0 2760 692.0 L 3310 692.0" fill="none" stroke="#AF792D" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="678.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">圧力調整器 → ガスを減圧</text>
+<path d="M 1890 1100 C 1960 1100 1950 1090 2010 1090 L 2320 1090" fill="none" stroke="#B46758" stroke-width="17" opacity="1"/>
+<text x="2310" y="1062" text-anchor="end" font-size="48" font-weight="700" fill="#B46758">測定を読む</text>
+<path d="M 2320 1090 C 2375 1090 2360 880 2410 880 L 2660 880" fill="none" stroke="#B46758" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="862" text-anchor="end" font-size="28" font-weight="700" fill="#B46758">指示・標準圧力計</text>
+<path d="M 2660 880 C 2710 880 2705 848.0 2760 848.0 L 3310 848.0" fill="none" stroke="#B46758" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="834.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">指示＝正常範囲かを見る</text>
+<path d="M 2660 880 C 2710 880 2705 912.0 2760 912.0 L 3310 912.0" fill="none" stroke="#B46758" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="898.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">標準＝細かい圧力値を読む</text>
+<path d="M 2320 1090 C 2375 1090 2360 1100 2410 1100 L 2660 1100" fill="none" stroke="#B46758" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1082" text-anchor="end" font-size="36" font-weight="700" fill="#B46758">圧力の基準</text>
+<path d="M 2660 1100 C 2710 1100 2705 1068.0 2760 1068.0 L 3310 1068.0" fill="none" stroke="#B46758" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1054.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">絶対圧力＝真空を0とする</text>
+<path d="M 2660 1100 C 2710 1100 2705 1132.0 2760 1132.0 L 3310 1132.0" fill="none" stroke="#B46758" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1118.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">ゲージ圧力＝大気圧を0とする</text>
+<path d="M 2320 1090 C 2375 1090 2360 1320 2410 1320 L 2660 1320" fill="none" stroke="#B46758" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1302" text-anchor="end" font-size="36" font-weight="700" fill="#B46758">計算へつなぐ</text>
+<path d="M 2660 1320 C 2710 1320 2705 1288.0 2760 1288.0 L 3310 1288.0" fill="none" stroke="#B46758" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1274.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">与えられた量と単位を確認</text>
+<path d="M 2660 1320 C 2710 1320 2705 1352.0 2760 1352.0 L 3310 1352.0" fill="none" stroke="#B46758" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1338.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">第2章の設置数・第3章の式へ</text>
+<path d="M 1890 1100 C 1960 1100 1950 1750 2010 1750 L 2320 1750" fill="none" stroke="#7D8951" stroke-width="17" opacity="1"/>
+<text x="2310" y="1722" text-anchor="end" font-size="48" font-weight="700" fill="#7D8951">解答をつくる</text>
+<path d="M 2320 1750 C 2375 1750 2360 1540 2410 1540 L 2660 1540" fill="none" stroke="#7D8951" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1522" text-anchor="end" font-size="36" font-weight="700" fill="#7D8951">正式名称</text>
+<path d="M 2660 1540 C 2710 1540 2705 1508.0 2760 1508.0 L 3310 1508.0" fill="none" stroke="#7D8951" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1494.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">薬剤・加圧方式まで具体的に</text>
+<path d="M 2660 1540 C 2710 1540 2705 1572.0 2760 1572.0 L 3310 1572.0" fill="none" stroke="#7D8951" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1558.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">見分けた根拠と名称を一致させる</text>
+<path d="M 2320 1750 C 2375 1750 2360 1760 2410 1760 L 2660 1760" fill="none" stroke="#7D8951" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1742" text-anchor="end" font-size="36" font-weight="700" fill="#7D8951">位置と目的</text>
+<path d="M 2660 1760 C 2710 1760 2705 1728.0 2760 1728.0 L 3310 1728.0" fill="none" stroke="#7D8951" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1714.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">どこに付くか → 何を防ぐか</text>
+<path d="M 2660 1760 C 2710 1760 2705 1792.0 2760 1792.0 L 3310 1792.0" fill="none" stroke="#7D8951" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1778.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">役割を一文で説明する</text>
+<path d="M 2320 1750 C 2375 1750 2360 1980 2410 1980 L 2660 1980" fill="none" stroke="#7D8951" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1962" text-anchor="end" font-size="36" font-weight="700" fill="#7D8951">練習の順序</text>
+<path d="M 2660 1980 C 2710 1980 2705 1948.0 2760 1948.0 L 3310 1948.0" fill="none" stroke="#7D8951" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1934.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">外観 → 名称 → 方式 → 用途</text>
+<path d="M 2660 1980 C 2710 1980 2705 2012.0 2760 2012.0 L 3310 2012.0" fill="none" stroke="#7D8951" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1998.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">6問の例で理由まで確認する</text>
+<circle cx="1700" cy="1100" r="200" fill="#F1F6FA" stroke="#CFDFEC" stroke-width="3"/>
+<text x="1700" y="1040" text-anchor="middle" font-size="48" font-weight="700" fill="#233C50">鑑別と記述</text>
+<text x="1700" y="1092" text-anchor="middle" font-size="29" font-weight="600" fill="#233C50">外観 → 名称 → 役割</text>
+<text x="1700" y="1134" text-anchor="middle" font-size="29" font-weight="600" fill="#233C50">根拠を言葉にする</text>
+<circle cx="1680" cy="1195" r="34" fill="none" stroke="#326F9B" stroke-width="5"/>
+<path d="M 1705 1220 L 1745 1260" fill="none" stroke="#326F9B" stroke-width="7" opacity="1"/>
+</g></svg>

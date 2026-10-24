@@ -1,0 +1,1460 @@
+{
+  "format": "crane-style-six-branch-svg",
+  "size": [
+    3400,
+    2200
+  ],
+  "chapters": [
+    {
+      "chapter": 1,
+      "title": "消防関係法令（共通）",
+      "center": "消防法令",
+      "summary": [
+        "人・建物・設備を",
+        "ルールでつなぐ"
+      ],
+      "branches": [
+        {
+          "title": "消防の体制",
+          "topics": [
+            {
+              "name": "消防の組織",
+              "lines": [
+                "市町村 → 消防本部・消防署",
+                "消防団も地域の消防を担う"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            },
+            {
+              "name": "対象と関係者",
+              "lines": [
+                "防火対象物と消防対象物を区別",
+                "関係者＝所有者・管理者・占有者"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            },
+            {
+              "name": "命令と立入検査",
+              "lines": [
+                "命令権者と受命者を対応させる",
+                "火災予防・危険の除去につなぐ"
+              ],
+              "references": [
+                "Lesson 04"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "建物と管理",
+          "topics": [
+            {
+              "name": "用途を分ける",
+              "lines": [
+                "特定・非特定・複合用途",
+                "用途と利用者から危険性を見る"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            },
+            {
+              "name": "建築と消防同意",
+              "lines": [
+                "確認申請 → 消防同意 → 建築確認",
+                "建築計画と防火を結び付ける"
+              ],
+              "references": [
+                "Lesson 05"
+              ]
+            },
+            {
+              "name": "防火・防災管理",
+              "lines": [
+                "防火管理者 → 消防計画・訓練",
+                "防災管理 → 火災以外にも備える"
+              ],
+              "references": [
+                "Lesson 06",
+                "Lesson 07"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "設備を設ける",
+          "topics": [
+            {
+              "name": "設備の役割",
+              "lines": [
+                "消火・警報・避難のための設備",
+                "消防用水・消火活動上必要な施設"
+              ],
+              "references": [
+                "Lesson 10"
+              ]
+            },
+            {
+              "name": "設置単位と条例",
+              "lines": [
+                "原則は1棟 → 例外条件を確認",
+                "条例による基準も確認する"
+              ],
+              "references": [
+                "Lesson 11"
+              ]
+            },
+            {
+              "name": "既存建物の扱い",
+              "lines": [
+                "既存不遡及と遡及適用を区別",
+                "用途変更などの条件で判断する"
+              ],
+              "references": [
+                "Lesson 12"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "危険を抑える",
+          "topics": [
+            {
+              "name": "危険物の規制",
+              "lines": [
+                "指定数量で規制の枠を判断",
+                "取扱い資格と立会いを区別"
+              ],
+              "references": [
+                "Lesson 09"
+              ]
+            },
+            {
+              "name": "防炎の規制",
+              "lines": [
+                "対象となる場所・物品を確認",
+                "防炎性能で燃え広がりを抑える"
+              ],
+              "references": [
+                "Lesson 09"
+              ]
+            },
+            {
+              "name": "建物自体の点検",
+              "lines": [
+                "防火対象物点検と設備点検",
+                "対象・資格・報告を混同しない"
+              ],
+              "references": [
+                "Lesson 08"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "届け出・点検",
+          "topics": [
+            {
+              "name": "設置に伴う手続き",
+              "lines": [
+                "着工届と設置届を区別",
+                "届出 → 必要な検査へ"
+              ],
+              "references": [
+                "Lesson 13"
+              ]
+            },
+            {
+              "name": "設備点検の流れ",
+              "lines": [
+                "機器点検と総合点検を区別",
+                "設備の種類に応じて確認する"
+              ],
+              "references": [
+                "Lesson 14"
+              ]
+            },
+            {
+              "name": "点検結果の報告",
+              "lines": [
+                "特定・非特定で報告周期を区別",
+                "報告先＝消防長または消防署長"
+              ],
+              "references": [
+                "Lesson 14"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "資格と品質",
+          "topics": [
+            {
+              "name": "消防設備士の業務",
+              "lines": [
+                "甲種＝工事・整備／乙種＝整備",
+                "第6類の対象＝消火器"
+              ],
+              "references": [
+                "Lesson 16"
+              ]
+            },
+            {
+              "name": "検定の2段階",
+              "lines": [
+                "型式承認 → 型式適合検定",
+                "型式と個々の製品を確かめる"
+              ],
+              "references": [
+                "Lesson 15"
+              ]
+            },
+            {
+              "name": "免状と講習",
+              "lines": [
+                "交付・書換え・再交付を区別",
+                "免状取得後も講習で知識を更新"
+              ],
+              "references": [
+                "Lesson 17"
+              ]
+            }
+          ]
+        }
+      ],
+      "source": "教材解説\\教材_第1章_消防関係法令(共通).md",
+      "officialSources": [
+        {
+          "title": "消防庁：検定制度について",
+          "url": "https://www.fdma.go.jp/mission/prevention/post-15.html"
+        },
+        {
+          "title": "消防庁：消防用設備等の点検基準・点検要領",
+          "url": "https://www.fdma.go.jp/mission/prevention/post-1.html"
+        },
+        {
+          "title": "消防試験研究センター：消防設備士試験",
+          "url": "https://www.shoubo-shiken.or.jp/shoubou/"
+        },
+        {
+          "title": "e-Gov：消防法施行規則",
+          "url": "https://laws.e-gov.go.jp/law/336M50000008006"
+        },
+        {
+          "title": "e-Gov：消火器の技術上の規格を定める省令",
+          "url": "https://laws.e-gov.go.jp/law/339M50000008027"
+        }
+      ]
+    },
+    {
+      "chapter": 2,
+      "title": "消防関係法令（第6類）",
+      "center": "消火器の設置",
+      "summary": [
+        "どこに・何を・いくつ",
+        "置くかを結び付ける"
+      ],
+      "branches": [
+        {
+          "title": "対象を決める",
+          "topics": [
+            {
+              "name": "用途と規模",
+              "lines": [
+                "用途・面積から設置義務を判断",
+                "面積に関係なく必要な用途もある"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            },
+            {
+              "name": "階と開口部",
+              "lines": [
+                "地下階・無窓階などを確認",
+                "建物全体と各階の条件を区別"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            },
+            {
+              "name": "複合用途",
+              "lines": [
+                "用途ごとの部分に着目する",
+                "建物全体への規定も確認する"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "能力を数える",
+          "topics": [
+            {
+              "name": "2つの能力単位",
+              "lines": [
+                "能力単位＝消火器側の消火力",
+                "所要能力単位＝建物側の必要量"
+              ],
+              "references": [
+                "準備"
+              ]
+            },
+            {
+              "name": "面積から算定",
+              "lines": [
+                "床面積 ÷ 基準面積で求める",
+                "用途・構造に応じ基準を選ぶ"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            },
+            {
+              "name": "設置本数へ",
+              "lines": [
+                "設置する能力単位の合計を確認",
+                "端数処理と配置条件も確認"
+              ],
+              "references": [
+                "準備",
+                "Lesson 02"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "追加と緩和",
+          "topics": [
+            {
+              "name": "危険に応じて追加",
+              "lines": [
+                "危険物・指定可燃物・電気設備",
+                "火気使用場所の条件も確認"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            },
+            {
+              "name": "大型消火器",
+              "lines": [
+                "指定可燃物の多量貯蔵など",
+                "能力・薬剤量・配置を照合する"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            },
+            {
+              "name": "減少措置",
+              "lines": [
+                "他の消火設備の有効範囲を確認",
+                "減らせる範囲と下限を区別"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "薬剤を選ぶ",
+          "topics": [
+            {
+              "name": "消火器具の範囲",
+              "lines": [
+                "消火器＋簡易消火用具",
+                "水バケツ・水槽・乾燥砂など"
+              ],
+              "references": [
+                "準備",
+                "Lesson 02"
+              ]
+            },
+            {
+              "name": "火災への適応",
+              "lines": [
+                "油火災・電気火災への適応を確認",
+                "薬剤と放射形態を組み合わせる"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            },
+            {
+              "name": "場所の制限",
+              "lines": [
+                "換気不良の場所では薬剤に注意",
+                "地下街などの使用制限を確認"
+              ],
+              "references": [
+                "Lesson 04"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "届く位置に置く",
+          "topics": [
+            {
+              "name": "歩行距離",
+              "lines": [
+                "一般の消火器具は20m以下",
+                "大型消火器は該当基準で30m以下"
+              ],
+              "references": [
+                "Lesson 04"
+              ]
+            },
+            {
+              "name": "見つけやすさ",
+              "lines": [
+                "通行・避難・使用に便利な場所",
+                "標識を付け、すぐ取り出せる"
+              ],
+              "references": [
+                "Lesson 04"
+              ]
+            },
+            {
+              "name": "保管環境",
+              "lines": [
+                "湿気・振動・腐食を避ける",
+                "設置高さと転倒防止も確認"
+              ],
+              "references": [
+                "Lesson 04"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "危険物施設",
+          "topics": [
+            {
+              "name": "別の基準",
+              "lines": [
+                "一般建物と危険物施設を区別",
+                "施設の危険性に応じて選定"
+              ],
+              "references": [
+                "Lesson 05"
+              ]
+            },
+            {
+              "name": "設備の区分",
+              "lines": [
+                "第1種〜第5種の消火設備",
+                "大型消火器と小型消火器を区別"
+              ],
+              "references": [
+                "Lesson 05"
+              ]
+            },
+            {
+              "name": "所要単位",
+              "lines": [
+                "建築物・危険物などを分ける",
+                "所要単位に見合う消火設備へ"
+              ],
+              "references": [
+                "Lesson 05"
+              ]
+            }
+          ]
+        }
+      ],
+      "source": "教材解説\\教材_第2章_消防関係法令(第6類).md",
+      "officialSources": [
+        {
+          "title": "消防庁：検定制度について",
+          "url": "https://www.fdma.go.jp/mission/prevention/post-15.html"
+        },
+        {
+          "title": "消防庁：消防用設備等の点検基準・点検要領",
+          "url": "https://www.fdma.go.jp/mission/prevention/post-1.html"
+        },
+        {
+          "title": "消防試験研究センター：消防設備士試験",
+          "url": "https://www.shoubo-shiken.or.jp/shoubou/"
+        },
+        {
+          "title": "e-Gov：消防法施行規則",
+          "url": "https://laws.e-gov.go.jp/law/336M50000008006"
+        },
+        {
+          "title": "e-Gov：消火器の技術上の規格を定める省令",
+          "url": "https://laws.e-gov.go.jp/law/339M50000008027"
+        }
+      ]
+    },
+    {
+      "chapter": 3,
+      "title": "機械に関する基礎的知識",
+      "center": "機械の基礎",
+      "summary": [
+        "力・材料・圧力から",
+        "消火器のしくみを読む"
+      ],
+      "branches": [
+        {
+          "title": "力を読む",
+          "topics": [
+            {
+              "name": "三要素と作用線",
+              "lines": [
+                "大きさ・向き・作用点",
+                "剛体では作用線上を移せる"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            },
+            {
+              "name": "合成と分解",
+              "lines": [
+                "複数の力 → 合力にまとめる",
+                "1つの力 → 方向別に分ける"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            },
+            {
+              "name": "つり合いと反作用",
+              "lines": [
+                "つり合い＝同じ物体の合力0",
+                "作用反作用＝別々の2物体"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "回す・動かす",
+          "topics": [
+            {
+              "name": "モーメント",
+              "lines": [
+                "M＝F×d／dは垂直な腕の長さ",
+                "つり合い → 左右の回す力が等しい"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            },
+            {
+              "name": "仕事と仕事率",
+              "lines": [
+                "W＝Fs cosθ／移動方向が重要",
+                "仕事率＝仕事÷時間"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            },
+            {
+              "name": "摩擦",
+              "lines": [
+                "最大静止摩擦力＝μN",
+                "動き出した後は動摩擦力"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "材料の負担",
+          "topics": [
+            {
+              "name": "荷重と応力",
+              "lines": [
+                "引張・圧縮・せん断・曲げ",
+                "応力＝荷重÷断面積"
+              ],
+              "references": [
+                "Lesson 04"
+              ]
+            },
+            {
+              "name": "ひずみと弾性",
+              "lines": [
+                "ひずみ＝変形量÷元の長さ",
+                "比例範囲ではフックの法則"
+              ],
+              "references": [
+                "Lesson 04"
+              ]
+            },
+            {
+              "name": "限界と余裕",
+              "lines": [
+                "降伏 → 引張強さ → 破断",
+                "安全率＝基準強さ÷許容応力"
+              ],
+              "references": [
+                "Lesson 04"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "圧力を考える",
+          "topics": [
+            {
+              "name": "圧力の意味",
+              "lines": [
+                "p＝力÷面積／単位はPa",
+                "小さい面積ほど圧力は大きい"
+              ],
+              "references": [
+                "Lesson 05"
+              ]
+            },
+            {
+              "name": "水圧と深さ",
+              "lines": [
+                "静水圧p＝ρgh",
+                "深いほど増す／容器形状と無関係"
+              ],
+              "references": [
+                "Lesson 05"
+              ]
+            },
+            {
+              "name": "大気圧と単位",
+              "lines": [
+                "1hPa＝100Pa",
+                "1気圧＝101,325Pa"
+              ],
+              "references": [
+                "Lesson 05"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "気体の変化",
+          "topics": [
+            {
+              "name": "温度一定",
+              "lines": [
+                "ボイルの法則 → pV一定",
+                "体積を半分にすると圧力2倍"
+              ],
+              "references": [
+                "Lesson 05"
+              ]
+            },
+            {
+              "name": "圧力一定",
+              "lines": [
+                "シャルルの法則 → V/T一定",
+                "絶対温度Kに比例して体積が変化"
+              ],
+              "references": [
+                "Lesson 05"
+              ]
+            },
+            {
+              "name": "3つの量をつなぐ",
+              "lines": [
+                "一定量の気体ではpV/T一定",
+                "圧力は絶対圧、温度はKを使う"
+              ],
+              "references": [
+                "Lesson 05"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "金属と単位",
+          "topics": [
+            {
+              "name": "鋼の性質",
+              "lines": [
+                "炭素量で硬さ・粘り強さが変化",
+                "合金鋼は成分で性質を補う"
+              ],
+              "references": [
+                "Lesson 06"
+              ]
+            },
+            {
+              "name": "材料を整える",
+              "lines": [
+                "焼入れ・焼戻しなどの熱処理",
+                "めっきなどで表面を保護する"
+              ],
+              "references": [
+                "Lesson 06"
+              ]
+            },
+            {
+              "name": "計算の準備",
+              "lines": [
+                "cm→m／kN→Nなど単位を統一",
+                "力N・仕事J・モーメントN·m"
+              ],
+              "references": [
+                "準備"
+              ]
+            }
+          ]
+        }
+      ],
+      "source": "教材解説\\教材_第3章_機械に関する基礎的知識.md",
+      "officialSources": []
+    },
+    {
+      "chapter": 4,
+      "title": "消火器の構造・機能・整備",
+      "center": "消火器のしくみ",
+      "summary": [
+        "薬剤を圧力で送り",
+        "消火と整備をつなぐ"
+      ],
+      "branches": [
+        {
+          "title": "燃焼と消火",
+          "topics": [
+            {
+              "name": "燃える条件",
+              "lines": [
+                "可燃物・酸素供給源・点火源",
+                "連鎖反応が燃焼を継続させる"
+              ],
+              "references": [
+                "準備"
+              ]
+            },
+            {
+              "name": "消すしくみ",
+              "lines": [
+                "除去・窒息・冷却・抑制",
+                "燃焼条件のどれを断つか考える"
+              ],
+              "references": [
+                "準備"
+              ]
+            },
+            {
+              "name": "分類の3軸",
+              "lines": [
+                "薬剤・加圧方式・運搬方式",
+                "同じ薬剤でも方式が異なる"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "薬剤で分ける",
+          "topics": [
+            {
+              "name": "水・強化液",
+              "lines": [
+                "水系薬剤の冷却効果に着目",
+                "棒状と霧状で適応性が異なる"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            },
+            {
+              "name": "化学泡・機械泡",
+              "lines": [
+                "化学泡＝薬剤同士の反応で発泡",
+                "機械泡＝空気を取り込み発泡"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            },
+            {
+              "name": "ガス・粉末",
+              "lines": [
+                "二酸化炭素・ハロン・粉末",
+                "薬剤の性状と消火効果を対応"
+              ],
+              "references": [
+                "Lesson 04",
+                "Lesson 05"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "圧力をつくる",
+          "topics": [
+            {
+              "name": "蓄圧式",
+              "lines": [
+                "薬剤と圧縮ガスを常時収納",
+                "レバー操作で放射弁を開く"
+              ],
+              "references": [
+                "Lesson 01",
+                "Lesson 05"
+              ]
+            },
+            {
+              "name": "ガス加圧式",
+              "lines": [
+                "別容器のガスを本体へ導入",
+                "粉上り防止用封板などを備える"
+              ],
+              "references": [
+                "Lesson 05"
+              ]
+            },
+            {
+              "name": "反応式と配管",
+              "lines": [
+                "化学泡は反応で泡と圧力を発生",
+                "サイホン管 → ホース → ノズル"
+              ],
+              "references": [
+                "Lesson 03",
+                "Lesson 05"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "状態と安全",
+          "topics": [
+            {
+              "name": "指示圧力計",
+              "lines": [
+                "緑帯＝適正な使用圧力範囲",
+                "ブルドン管の変形で針が動く"
+              ],
+              "references": [
+                "Lesson 06"
+              ]
+            },
+            {
+              "name": "温度と蓄圧力",
+              "lines": [
+                "温度の変化で圧力も変わる",
+                "使用温度範囲と計器を確認"
+              ],
+              "references": [
+                "Lesson 06"
+              ]
+            },
+            {
+              "name": "誤操作を防ぐ",
+              "lines": [
+                "安全栓 → 不時の放射を防止",
+                "使用済表示 → 操作の有無を確認"
+              ],
+              "references": [
+                "Lesson 07"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "点検で確かめる",
+          "topics": [
+            {
+              "name": "外観点検",
+              "lines": [
+                "腐食・変形・漏れを確認",
+                "圧力・薬剤量・部品も照合"
+              ],
+              "references": [
+                "Lesson 08"
+              ]
+            },
+            {
+              "name": "内部・機能点検",
+              "lines": [
+                "方式・経過年数で対象を判断",
+                "抜取りの条件と全数確認を区別"
+              ],
+              "references": [
+                "Lesson 09"
+              ]
+            },
+            {
+              "name": "放射と耐圧",
+              "lines": [
+                "放射能力 → 薬剤の放射を確認",
+                "耐圧性能 → 水圧で容器を確認"
+              ],
+              "references": [
+                "Lesson 09"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "分解と充てん",
+          "topics": [
+            {
+              "name": "蓄圧式",
+              "lines": [
+                "排圧してからキャップを開く",
+                "薬剤充てん → 減圧してガス充てん"
+              ],
+              "references": [
+                "Lesson 10"
+              ]
+            },
+            {
+              "name": "ガス加圧式",
+              "lines": [
+                "ガス容器を外す → 安全栓を外す",
+                "粉末は吸湿を防ぎ乾燥清掃"
+              ],
+              "references": [
+                "Lesson 11"
+              ]
+            },
+            {
+              "name": "化学泡",
+              "lines": [
+                "A剤とB剤を別々に扱う",
+                "水洗い・木製てこ棒で整備"
+              ],
+              "references": [
+                "Lesson 12"
+              ]
+            }
+          ]
+        }
+      ],
+      "source": "教材解説\\教材_第4章_消火器の構造・機能・整備.md",
+      "officialSources": [
+        {
+          "title": "消防庁：検定制度について",
+          "url": "https://www.fdma.go.jp/mission/prevention/post-15.html"
+        },
+        {
+          "title": "消防庁：消防用設備等の点検基準・点検要領",
+          "url": "https://www.fdma.go.jp/mission/prevention/post-1.html"
+        },
+        {
+          "title": "消防試験研究センター：消防設備士試験",
+          "url": "https://www.shoubo-shiken.or.jp/shoubou/"
+        },
+        {
+          "title": "e-Gov：消防法施行規則",
+          "url": "https://laws.e-gov.go.jp/law/336M50000008006"
+        },
+        {
+          "title": "e-Gov：消火器の技術上の規格を定める省令",
+          "url": "https://laws.e-gov.go.jp/law/339M50000008027"
+        }
+      ]
+    },
+    {
+      "chapter": 5,
+      "title": "消火器の規格",
+      "center": "規格と品質",
+      "summary": [
+        "性能・操作・部品を",
+        "共通の基準で確かめる"
+      ],
+      "branches": [
+        {
+          "title": "品質を証明",
+          "topics": [
+            {
+              "name": "2つの省令",
+              "lines": [
+                "消火器本体と消火薬剤の規格",
+                "構造・性能・性状を定める"
+              ],
+              "references": [
+                "準備"
+              ]
+            },
+            {
+              "name": "検定の流れ",
+              "lines": [
+                "型式承認 → 型式適合検定",
+                "適合した製品に検定合格表示"
+              ],
+              "references": [
+                "準備"
+              ]
+            },
+            {
+              "name": "型式の失効",
+              "lines": [
+                "規格変更と承認の効力を確認",
+                "旧型式の経過措置も区別する"
+              ],
+              "references": [
+                "準備"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "性能を比べる",
+          "topics": [
+            {
+              "name": "能力単位",
+              "lines": [
+                "A・Bは能力を数字で表示",
+                "電気火災は適応の有無を表示"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            },
+            {
+              "name": "大型の要件",
+              "lines": [
+                "能力単位と薬剤充てん量",
+                "両方の要件を満たすことが必要"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            },
+            {
+              "name": "放射と温度",
+              "lines": [
+                "時間・距離・放射量を確保",
+                "使用温度範囲で正常に機能"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "操作のしくみ",
+          "topics": [
+            {
+              "name": "動作数",
+              "lines": [
+                "運搬方式・化学泡かどうかで区分",
+                "数に含めない準備動作に注意"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            },
+            {
+              "name": "分かりやすさ",
+              "lines": [
+                "操作手順を見やすく表示",
+                "容易・確実に放射を開始する"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            },
+            {
+              "name": "使う場所",
+              "lines": [
+                "自動車用は薬剤と振動を考慮",
+                "住宅用は構造・表示の特例を確認"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "表示で伝える",
+          "topics": [
+            {
+              "name": "製品と使用情報",
+              "lines": [
+                "薬剤・加圧方式・能力・製造情報",
+                "使用方法・注意・期限を確認"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            },
+            {
+              "name": "適応火災",
+              "lines": [
+                "普通＝白／油＝黄／電気＝青",
+                "背景色と炎・閃光の色を区別"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            },
+            {
+              "name": "本体の塗色",
+              "lines": [
+                "原則25%以上を赤色にする",
+                "二酸化炭素は緑色も確認",
+                "ハロン1301・1211は灰色も確認"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "部品を守る",
+          "topics": [
+            {
+              "name": "容器と放射経路",
+              "lines": [
+                "キャップ・弁・ホース・ノズル",
+                "ろ過網・液面表示の役割を確認"
+              ],
+              "references": [
+                "Lesson 04"
+              ]
+            },
+            {
+              "name": "安全と圧力源",
+              "lines": [
+                "安全栓・安全弁・ガス容器",
+                "作動と漏れ防止の条件を確認"
+              ],
+              "references": [
+                "Lesson 05"
+              ]
+            },
+            {
+              "name": "計器と調整器",
+              "lines": [
+                "指示圧力計＝圧力の状態を表示",
+                "圧力調整器＝使用する圧力へ減圧"
+              ],
+              "references": [
+                "Lesson 05"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "薬剤の品質",
+          "topics": [
+            {
+              "name": "共通の性状",
+              "lines": [
+                "有害性・腐食性・変質を抑える",
+                "液体と粉末で確認項目が異なる"
+              ],
+              "references": [
+                "Lesson 06"
+              ]
+            },
+            {
+              "name": "薬剤別の性質",
+              "lines": [
+                "強化液・泡・ハロゲン化物",
+                "成分・希釈・性状を整理する"
+              ],
+              "references": [
+                "Lesson 06"
+              ]
+            },
+            {
+              "name": "粉末と容器",
+              "lines": [
+                "種類と色・粒径・沈降を対応",
+                "薬剤容器の材質と表示も確認"
+              ],
+              "references": [
+                "Lesson 06"
+              ]
+            }
+          ]
+        }
+      ],
+      "source": "教材解説\\教材_第5章_消火器の規格.md",
+      "officialSources": [
+        {
+          "title": "消防庁：検定制度について",
+          "url": "https://www.fdma.go.jp/mission/prevention/post-15.html"
+        },
+        {
+          "title": "消防庁：消防用設備等の点検基準・点検要領",
+          "url": "https://www.fdma.go.jp/mission/prevention/post-1.html"
+        },
+        {
+          "title": "消防試験研究センター：消防設備士試験",
+          "url": "https://www.shoubo-shiken.or.jp/shoubou/"
+        },
+        {
+          "title": "e-Gov：消防法施行規則",
+          "url": "https://laws.e-gov.go.jp/law/336M50000008006"
+        },
+        {
+          "title": "e-Gov：消火器の技術上の規格を定める省令",
+          "url": "https://laws.e-gov.go.jp/law/339M50000008027"
+        }
+      ]
+    },
+    {
+      "chapter": 6,
+      "title": "実技試験（鑑別等）関連",
+      "center": "鑑別と記述",
+      "summary": [
+        "外観 → 名称 → 役割",
+        "根拠を言葉にする"
+      ],
+      "branches": [
+        {
+          "title": "外観から判別",
+          "topics": [
+            {
+              "name": "圧力計を見る",
+              "lines": [
+                "計器あり → 蓄圧式の手掛かり",
+                "CO₂・ハロン1301は計器なし"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            },
+            {
+              "name": "ノズルを見る",
+              "lines": [
+                "細い霧状・先広がり・発泡型",
+                "大きいホーンはCO₂の手掛かり"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            },
+            {
+              "name": "特徴を組み合せる",
+              "lines": [
+                "押し金具・レバー・塗色を確認",
+                "車輪あり → 車載式と判断"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "薬剤と方式",
+          "topics": [
+            {
+              "name": "水系・泡",
+              "lines": [
+                "強化液のノズルと機械泡を比較",
+                "化学泡は独特のキャップを持つ"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            },
+            {
+              "name": "粉末",
+              "lines": [
+                "圧力計と内部のガス容器を確認",
+                "蓄圧式とガス加圧式を区別"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            },
+            {
+              "name": "二酸化炭素",
+              "lines": [
+                "緑と赤の塗分け・大きなホーン",
+                "ホーン握り → 凍傷を防ぐ"
+              ],
+              "references": [
+                "Lesson 01"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "部品の目的",
+          "topics": [
+            {
+              "name": "圧力源と配管",
+              "lines": [
+                "ガス容器 → 放射の圧力源",
+                "サイホン管 → 薬剤を導く"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            },
+            {
+              "name": "詰まり・流入防止",
+              "lines": [
+                "ろ過網 → 異物による詰まり防止",
+                "粉上り防止用封板 → 流入防止"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            },
+            {
+              "name": "圧力計の表示",
+              "lines": [
+                "緑帯＝使用圧力範囲",
+                "SUS＝圧力検出部がステンレス鋼"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "工具の用途",
+          "topics": [
+            {
+              "name": "固定・開閉",
+              "lines": [
+                "クランプ台 → 本体容器を固定",
+                "キャップスパナ → キャップ開閉"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            },
+            {
+              "name": "清掃・観察",
+              "lines": [
+                "エアーガン → 清掃・通気確認",
+                "反射鏡 → 容器内部を観察"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            },
+            {
+              "name": "圧力を扱う",
+              "lines": [
+                "耐圧試験機 → 水圧試験",
+                "圧力調整器 → ガスを減圧"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "測定を読む",
+          "topics": [
+            {
+              "name": "指示・標準圧力計",
+              "lines": [
+                "指示＝正常範囲かを見る",
+                "標準＝細かい圧力値を読む"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            },
+            {
+              "name": "圧力の基準",
+              "lines": [
+                "絶対圧力＝真空を0とする",
+                "ゲージ圧力＝大気圧を0とする"
+              ],
+              "references": [
+                "Lesson 02"
+              ]
+            },
+            {
+              "name": "計算へつなぐ",
+              "lines": [
+                "与えられた量と単位を確認",
+                "第2章の設置数・第3章の式へ"
+              ],
+              "references": [
+                "参考"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "解答をつくる",
+          "topics": [
+            {
+              "name": "正式名称",
+              "lines": [
+                "薬剤・加圧方式まで具体的に",
+                "見分けた根拠と名称を一致させる"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            },
+            {
+              "name": "位置と目的",
+              "lines": [
+                "どこに付くか → 何を防ぐか",
+                "役割を一文で説明する"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            },
+            {
+              "name": "練習の順序",
+              "lines": [
+                "外観 → 名称 → 方式 → 用途",
+                "6問の例で理由まで確認する"
+              ],
+              "references": [
+                "Lesson 03"
+              ]
+            }
+          ]
+        }
+      ],
+      "source": "教材解説\\教材_第6章_実技試験(鑑別等)関連.md",
+      "officialSources": [
+        {
+          "title": "消防庁：検定制度について",
+          "url": "https://www.fdma.go.jp/mission/prevention/post-15.html"
+        },
+        {
+          "title": "消防庁：消防用設備等の点検基準・点検要領",
+          "url": "https://www.fdma.go.jp/mission/prevention/post-1.html"
+        },
+        {
+          "title": "消防試験研究センター：消防設備士試験",
+          "url": "https://www.shoubo-shiken.or.jp/shoubou/"
+        },
+        {
+          "title": "e-Gov：消防法施行規則",
+          "url": "https://laws.e-gov.go.jp/law/336M50000008006"
+        },
+        {
+          "title": "e-Gov：消火器の技術上の規格を定める省令",
+          "url": "https://laws.e-gov.go.jp/law/339M50000008027"
+        }
+      ]
+    }
+  ],
+  "verifiedOn": "2026-10-24"
+}

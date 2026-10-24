@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3400" height="2200" viewBox="0 0 3400 2200" role="img" aria-labelledby="title desc">
+<title id="title">第2章 消防関係法令（第6類）の相関図</title>
+<desc id="desc">中央の消火器の設置から6つのテーマと18の主要項目へ枝分かれする相関図。</desc>
+<metadata>{&quot;chapter&quot;: 2, &quot;title&quot;: &quot;消防関係法令（第6類）&quot;, &quot;center&quot;: &quot;消火器の設置&quot;, &quot;summary&quot;: [&quot;どこに・何を・いくつ&quot;, &quot;置くかを結び付ける&quot;], &quot;branches&quot;: [{&quot;title&quot;: &quot;対象を決める&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;用途と規模&quot;, &quot;lines&quot;: [&quot;用途・面積から設置義務を判断&quot;, &quot;面積に関係なく必要な用途もある&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;]}, {&quot;name&quot;: &quot;階と開口部&quot;, &quot;lines&quot;: [&quot;地下階・無窓階などを確認&quot;, &quot;建物全体と各階の条件を区別&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;]}, {&quot;name&quot;: &quot;複合用途&quot;, &quot;lines&quot;: [&quot;用途ごとの部分に着目する&quot;, &quot;建物全体への規定も確認する&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;]}]}, {&quot;title&quot;: &quot;能力を数える&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;2つの能力単位&quot;, &quot;lines&quot;: [&quot;能力単位＝消火器側の消火力&quot;, &quot;所要能力単位＝建物側の必要量&quot;], &quot;references&quot;: [&quot;準備&quot;]}, {&quot;name&quot;: &quot;面積から算定&quot;, &quot;lines&quot;: [&quot;床面積 ÷ 基準面積で求める&quot;, &quot;用途・構造に応じ基準を選ぶ&quot;], &quot;references&quot;: [&quot;Lesson 02&quot;]}, {&quot;name&quot;: &quot;設置本数へ&quot;, &quot;lines&quot;: [&quot;設置する能力単位の合計を確認&quot;, &quot;端数処理と配置条件も確認&quot;], &quot;references&quot;: [&quot;準備&quot;, &quot;Lesson 02&quot;]}]}, {&quot;title&quot;: &quot;追加と緩和&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;危険に応じて追加&quot;, &quot;lines&quot;: [&quot;危険物・指定可燃物・電気設備&quot;, &quot;火気使用場所の条件も確認&quot;], &quot;references&quot;: [&quot;Lesson 03&quot;]}, {&quot;name&quot;: &quot;大型消火器&quot;, &quot;lines&quot;: [&quot;指定可燃物の多量貯蔵など&quot;, &quot;能力・薬剤量・配置を照合する&quot;], &quot;references&quot;: [&quot;Lesson 03&quot;]}, {&quot;name&quot;: &quot;減少措置&quot;, &quot;lines&quot;: [&quot;他の消火設備の有効範囲を確認&quot;, &quot;減らせる範囲と下限を区別&quot;], &quot;references&quot;: [&quot;Lesson 03&quot;]}]}, {&quot;title&quot;: &quot;薬剤を選ぶ&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;消火器具の範囲&quot;, &quot;lines&quot;: [&quot;消火器＋簡易消火用具&quot;, &quot;水バケツ・水槽・乾燥砂など&quot;], &quot;references&quot;: [&quot;準備&quot;, &quot;Lesson 02&quot;]}, {&quot;name&quot;: &quot;火災への適応&quot;, &quot;lines&quot;: [&quot;油火災・電気火災への適応を確認&quot;, &quot;薬剤と放射形態を組み合わせる&quot;], &quot;references&quot;: [&quot;Lesson 03&quot;]}, {&quot;name&quot;: &quot;場所の制限&quot;, &quot;lines&quot;: [&quot;換気不良の場所では薬剤に注意&quot;, &quot;地下街などの使用制限を確認&quot;], &quot;references&quot;: [&quot;Lesson 04&quot;]}]}, {&quot;title&quot;: &quot;届く位置に置く&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;歩行距離&quot;, &quot;lines&quot;: [&quot;一般の消火器具は20m以下&quot;, &quot;大型消火器は該当基準で30m以下&quot;], &quot;references&quot;: [&quot;Lesson 04&quot;]}, {&quot;name&quot;: &quot;見つけやすさ&quot;, &quot;lines&quot;: [&quot;通行・避難・使用に便利な場所&quot;, &quot;標識を付け、すぐ取り出せる&quot;], &quot;references&quot;: [&quot;Lesson 04&quot;]}, {&quot;name&quot;: &quot;保管環境&quot;, &quot;lines&quot;: [&quot;湿気・振動・腐食を避ける&quot;, &quot;設置高さと転倒防止も確認&quot;], &quot;references&quot;: [&quot;Lesson 04&quot;]}]}, {&quot;title&quot;: &quot;危険物施設&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;別の基準&quot;, &quot;lines&quot;: [&quot;一般建物と危険物施設を区別&quot;, &quot;施設の危険性に応じて選定&quot;], &quot;references&quot;: [&quot;Lesson 05&quot;]}, {&quot;name&quot;: &quot;設備の区分&quot;, &quot;lines&quot;: [&quot;第1種〜第5種の消火設備&quot;, &quot;大型消火器と小型消火器を区別&quot;], &quot;references&quot;: [&quot;Lesson 05&quot;]}, {&quot;name&quot;: &quot;所要単位&quot;, &quot;lines&quot;: [&quot;建築物・危険物などを分ける&quot;, &quot;所要単位に見合う消火設備へ&quot;], &quot;references&quot;: [&quot;Lesson 05&quot;]}]}], &quot;source&quot;: &quot;教材解説\\教材_第2章_消防関係法令(第6類).md&quot;, &quot;officialSources&quot;: [{&quot;title&quot;: &quot;消防庁：検定制度について&quot;, &quot;url&quot;: &quot;https://www.fdma.go.jp/mission/prevention/post-15.html&quot;}, {&quot;title&quot;: &quot;消防庁：消防用設備等の点検基準・点検要領&quot;, &quot;url&quot;: &quot;https://www.fdma.go.jp/mission/prevention/post-1.html&quot;}, {&quot;title&quot;: &quot;消防試験研究センター：消防設備士試験&quot;, &quot;url&quot;: &quot;https://www.shoubo-shiken.or.jp/shoubou/&quot;}, {&quot;title&quot;: &quot;e-Gov：消防法施行規則&quot;, &quot;url&quot;: &quot;https://laws.e-gov.go.jp/law/336M50000008006&quot;}, {&quot;title&quot;: &quot;e-Gov：消火器の技術上の規格を定める省令&quot;, &quot;url&quot;: &quot;https://laws.e-gov.go.jp/law/339M50000008027&quot;}]}</metadata>
+<rect width="3400" height="2200" fill="#FFFFFF"/>
+<g font-family="Meiryo, Noto Sans CJK JP, sans-serif" fill="#233C50" stroke-linecap="round" stroke-linejoin="round">
+<text x="1700" y="78" text-anchor="middle" font-size="44" font-weight="700" fill="#233C50">第2章  消防関係法令（第6類）</text>
+<text x="1700" y="128" text-anchor="middle" font-size="30" font-weight="500" fill="#647B8C">中心から外へ、用語の役割とつながりをたどる</text>
+<path d="M 1510 1100 C 1440 1100 1450 430 1390 430 L 1080 430" fill="none" stroke="#326F9B" stroke-width="17" opacity="1"/>
+<text x="1090" y="402" text-anchor="start" font-size="48" font-weight="700" fill="#326F9B">対象を決める</text>
+<path d="M 1080 430 C 1025 430 1040 220 990 220 L 740 220" fill="none" stroke="#326F9B" stroke-width="7" opacity="0.85"/>
+<text x="755" y="202" text-anchor="start" font-size="36" font-weight="700" fill="#326F9B">用途と規模</text>
+<path d="M 740 220 C 690 220 695 188.0 640 188.0 L 90 188.0" fill="none" stroke="#326F9B" stroke-width="3" opacity="0.55"/>
+<text x="108" y="174.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">用途・面積から設置義務を判断</text>
+<path d="M 740 220 C 690 220 695 252.0 640 252.0 L 90 252.0" fill="none" stroke="#326F9B" stroke-width="3" opacity="0.55"/>
+<text x="108" y="238.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">面積に関係なく必要な用途もある</text>
+<path d="M 1080 430 C 1025 430 1040 440 990 440 L 740 440" fill="none" stroke="#326F9B" stroke-width="7" opacity="0.85"/>
+<text x="755" y="422" text-anchor="start" font-size="36" font-weight="700" fill="#326F9B">階と開口部</text>
+<path d="M 740 440 C 690 440 695 408.0 640 408.0 L 90 408.0" fill="none" stroke="#326F9B" stroke-width="3" opacity="0.55"/>
+<text x="108" y="394.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">地下階・無窓階などを確認</text>
+<path d="M 740 440 C 690 440 695 472.0 640 472.0 L 90 472.0" fill="none" stroke="#326F9B" stroke-width="3" opacity="0.55"/>
+<text x="108" y="458.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">建物全体と各階の条件を区別</text>
+<path d="M 1080 430 C 1025 430 1040 660 990 660 L 740 660" fill="none" stroke="#326F9B" stroke-width="7" opacity="0.85"/>
+<text x="755" y="642" text-anchor="start" font-size="36" font-weight="700" fill="#326F9B">複合用途</text>
+<path d="M 740 660 C 690 660 695 628.0 640 628.0 L 90 628.0" fill="none" stroke="#326F9B" stroke-width="3" opacity="0.55"/>
+<text x="108" y="614.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">用途ごとの部分に着目する</text>
+<path d="M 740 660 C 690 660 695 692.0 640 692.0 L 90 692.0" fill="none" stroke="#326F9B" stroke-width="3" opacity="0.55"/>
+<text x="108" y="678.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">建物全体への規定も確認する</text>
+<path d="M 1510 1100 C 1440 1100 1450 1090 1390 1090 L 1080 1090" fill="none" stroke="#527D94" stroke-width="17" opacity="1"/>
+<text x="1090" y="1062" text-anchor="start" font-size="48" font-weight="700" fill="#527D94">能力を数える</text>
+<path d="M 1080 1090 C 1025 1090 1040 880 990 880 L 740 880" fill="none" stroke="#527D94" stroke-width="7" opacity="0.85"/>
+<text x="755" y="862" text-anchor="start" font-size="34" font-weight="700" fill="#527D94">2つの能力単位</text>
+<path d="M 740 880 C 690 880 695 848.0 640 848.0 L 90 848.0" fill="none" stroke="#527D94" stroke-width="3" opacity="0.55"/>
+<text x="108" y="834.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">能力単位＝消火器側の消火力</text>
+<path d="M 740 880 C 690 880 695 912.0 640 912.0 L 90 912.0" fill="none" stroke="#527D94" stroke-width="3" opacity="0.55"/>
+<text x="108" y="898.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">所要能力単位＝建物側の必要量</text>
+<path d="M 1080 1090 C 1025 1090 1040 1100 990 1100 L 740 1100" fill="none" stroke="#527D94" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1082" text-anchor="start" font-size="36" font-weight="700" fill="#527D94">面積から算定</text>
+<path d="M 740 1100 C 690 1100 695 1068.0 640 1068.0 L 90 1068.0" fill="none" stroke="#527D94" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1054.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">床面積 ÷ 基準面積で求める</text>
+<path d="M 740 1100 C 690 1100 695 1132.0 640 1132.0 L 90 1132.0" fill="none" stroke="#527D94" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1118.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">用途・構造に応じ基準を選ぶ</text>
+<path d="M 1080 1090 C 1025 1090 1040 1320 990 1320 L 740 1320" fill="none" stroke="#527D94" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1302" text-anchor="start" font-size="36" font-weight="700" fill="#527D94">設置本数へ</text>
+<path d="M 740 1320 C 690 1320 695 1288.0 640 1288.0 L 90 1288.0" fill="none" stroke="#527D94" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1274.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">設置する能力単位の合計を確認</text>
+<path d="M 740 1320 C 690 1320 695 1352.0 640 1352.0 L 90 1352.0" fill="none" stroke="#527D94" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1338.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">端数処理と配置条件も確認</text>
+<path d="M 1510 1100 C 1440 1100 1450 1750 1390 1750 L 1080 1750" fill="none" stroke="#398574" stroke-width="17" opacity="1"/>
+<text x="1090" y="1722" text-anchor="start" font-size="48" font-weight="700" fill="#398574">追加と緩和</text>
+<path d="M 1080 1750 C 1025 1750 1040 1540 990 1540 L 740 1540" fill="none" stroke="#398574" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1522" text-anchor="start" font-size="28" font-weight="700" fill="#398574">危険に応じて追加</text>
+<path d="M 740 1540 C 690 1540 695 1508.0 640 1508.0 L 90 1508.0" fill="none" stroke="#398574" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1494.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">危険物・指定可燃物・電気設備</text>
+<path d="M 740 1540 C 690 1540 695 1572.0 640 1572.0 L 90 1572.0" fill="none" stroke="#398574" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1558.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">火気使用場所の条件も確認</text>
+<path d="M 1080 1750 C 1025 1750 1040 1760 990 1760 L 740 1760" fill="none" stroke="#398574" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1742" text-anchor="start" font-size="36" font-weight="700" fill="#398574">大型消火器</text>
+<path d="M 740 1760 C 690 1760 695 1728.0 640 1728.0 L 90 1728.0" fill="none" stroke="#398574" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1714.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">指定可燃物の多量貯蔵など</text>
+<path d="M 740 1760 C 690 1760 695 1792.0 640 1792.0 L 90 1792.0" fill="none" stroke="#398574" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1778.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">能力・薬剤量・配置を照合する</text>
+<path d="M 1080 1750 C 1025 1750 1040 1980 990 1980 L 740 1980" fill="none" stroke="#398574" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1962" text-anchor="start" font-size="36" font-weight="700" fill="#398574">減少措置</text>
+<path d="M 740 1980 C 690 1980 695 1948.0 640 1948.0 L 90 1948.0" fill="none" stroke="#398574" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1934.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">他の消火設備の有効範囲を確認</text>
+<path d="M 740 1980 C 690 1980 695 2012.0 640 2012.0 L 90 2012.0" fill="none" stroke="#398574" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1998.0" text-anchor="start" font-size="32" font-weight="500" fill="#233C50">減らせる範囲と下限を区別</text>
+<path d="M 1890 1100 C 1960 1100 1950 430 2010 430 L 2320 430" fill="none" stroke="#AF792D" stroke-width="17" opacity="1"/>
+<text x="2310" y="402" text-anchor="end" font-size="48" font-weight="700" fill="#AF792D">薬剤を選ぶ</text>
+<path d="M 2320 430 C 2375 430 2360 220 2410 220 L 2660 220" fill="none" stroke="#AF792D" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="202" text-anchor="end" font-size="32" font-weight="700" fill="#AF792D">消火器具の範囲</text>
+<path d="M 2660 220 C 2710 220 2705 188.0 2760 188.0 L 3310 188.0" fill="none" stroke="#AF792D" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="174.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">消火器＋簡易消火用具</text>
+<path d="M 2660 220 C 2710 220 2705 252.0 2760 252.0 L 3310 252.0" fill="none" stroke="#AF792D" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="238.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">水バケツ・水槽・乾燥砂など</text>
+<path d="M 2320 430 C 2375 430 2360 440 2410 440 L 2660 440" fill="none" stroke="#AF792D" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="422" text-anchor="end" font-size="36" font-weight="700" fill="#AF792D">火災への適応</text>
+<path d="M 2660 440 C 2710 440 2705 408.0 2760 408.0 L 3310 408.0" fill="none" stroke="#AF792D" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="394.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">油火災・電気火災への適応を確認</text>
+<path d="M 2660 440 C 2710 440 2705 472.0 2760 472.0 L 3310 472.0" fill="none" stroke="#AF792D" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="458.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">薬剤と放射形態を組み合わせる</text>
+<path d="M 2320 430 C 2375 430 2360 660 2410 660 L 2660 660" fill="none" stroke="#AF792D" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="642" text-anchor="end" font-size="36" font-weight="700" fill="#AF792D">場所の制限</text>
+<path d="M 2660 660 C 2710 660 2705 628.0 2760 628.0 L 3310 628.0" fill="none" stroke="#AF792D" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="614.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">換気不良の場所では薬剤に注意</text>
+<path d="M 2660 660 C 2710 660 2705 692.0 2760 692.0 L 3310 692.0" fill="none" stroke="#AF792D" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="678.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">地下街などの使用制限を確認</text>
+<path d="M 1890 1100 C 1960 1100 1950 1090 2010 1090 L 2320 1090" fill="none" stroke="#B46758" stroke-width="17" opacity="1"/>
+<text x="2310" y="1062" text-anchor="end" font-size="42" font-weight="700" fill="#B46758">届く位置に置く</text>
+<path d="M 2320 1090 C 2375 1090 2360 880 2410 880 L 2660 880" fill="none" stroke="#B46758" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="862" text-anchor="end" font-size="36" font-weight="700" fill="#B46758">歩行距離</text>
+<path d="M 2660 880 C 2710 880 2705 848.0 2760 848.0 L 3310 848.0" fill="none" stroke="#B46758" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="834.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">一般の消火器具は20m以下</text>
+<path d="M 2660 880 C 2710 880 2705 912.0 2760 912.0 L 3310 912.0" fill="none" stroke="#B46758" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="898.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">大型消火器は該当基準で30m以下</text>
+<path d="M 2320 1090 C 2375 1090 2360 1100 2410 1100 L 2660 1100" fill="none" stroke="#B46758" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1082" text-anchor="end" font-size="36" font-weight="700" fill="#B46758">見つけやすさ</text>
+<path d="M 2660 1100 C 2710 1100 2705 1068.0 2760 1068.0 L 3310 1068.0" fill="none" stroke="#B46758" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1054.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">通行・避難・使用に便利な場所</text>
+<path d="M 2660 1100 C 2710 1100 2705 1132.0 2760 1132.0 L 3310 1132.0" fill="none" stroke="#B46758" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1118.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">標識を付け、すぐ取り出せる</text>
+<path d="M 2320 1090 C 2375 1090 2360 1320 2410 1320 L 2660 1320" fill="none" stroke="#B46758" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1302" text-anchor="end" font-size="36" font-weight="700" fill="#B46758">保管環境</text>
+<path d="M 2660 1320 C 2710 1320 2705 1288.0 2760 1288.0 L 3310 1288.0" fill="none" stroke="#B46758" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1274.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">湿気・振動・腐食を避ける</text>
+<path d="M 2660 1320 C 2710 1320 2705 1352.0 2760 1352.0 L 3310 1352.0" fill="none" stroke="#B46758" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1338.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">設置高さと転倒防止も確認</text>
+<path d="M 1890 1100 C 1960 1100 1950 1750 2010 1750 L 2320 1750" fill="none" stroke="#7D8951" stroke-width="17" opacity="1"/>
+<text x="2310" y="1722" text-anchor="end" font-size="48" font-weight="700" fill="#7D8951">危険物施設</text>
+<path d="M 2320 1750 C 2375 1750 2360 1540 2410 1540 L 2660 1540" fill="none" stroke="#7D8951" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1522" text-anchor="end" font-size="36" font-weight="700" fill="#7D8951">別の基準</text>
+<path d="M 2660 1540 C 2710 1540 2705 1508.0 2760 1508.0 L 3310 1508.0" fill="none" stroke="#7D8951" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1494.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">一般建物と危険物施設を区別</text>
+<path d="M 2660 1540 C 2710 1540 2705 1572.0 2760 1572.0 L 3310 1572.0" fill="none" stroke="#7D8951" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1558.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">施設の危険性に応じて選定</text>
+<path d="M 2320 1750 C 2375 1750 2360 1760 2410 1760 L 2660 1760" fill="none" stroke="#7D8951" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1742" text-anchor="end" font-size="36" font-weight="700" fill="#7D8951">設備の区分</text>
+<path d="M 2660 1760 C 2710 1760 2705 1728.0 2760 1728.0 L 3310 1728.0" fill="none" stroke="#7D8951" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1714.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">第1種〜第5種の消火設備</text>
+<path d="M 2660 1760 C 2710 1760 2705 1792.0 2760 1792.0 L 3310 1792.0" fill="none" stroke="#7D8951" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1778.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">大型消火器と小型消火器を区別</text>
+<path d="M 2320 1750 C 2375 1750 2360 1980 2410 1980 L 2660 1980" fill="none" stroke="#7D8951" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1962" text-anchor="end" font-size="36" font-weight="700" fill="#7D8951">所要単位</text>
+<path d="M 2660 1980 C 2710 1980 2705 1948.0 2760 1948.0 L 3310 1948.0" fill="none" stroke="#7D8951" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1934.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">建築物・危険物などを分ける</text>
+<path d="M 2660 1980 C 2710 1980 2705 2012.0 2760 2012.0 L 3310 2012.0" fill="none" stroke="#7D8951" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1998.0" text-anchor="end" font-size="32" font-weight="500" fill="#233C50">所要単位に見合う消火設備へ</text>
+<circle cx="1700" cy="1100" r="200" fill="#F1F6FA" stroke="#CFDFEC" stroke-width="3"/>
+<text x="1700" y="1040" text-anchor="middle" font-size="48" font-weight="700" fill="#233C50">消火器の設置</text>
+<text x="1700" y="1092" text-anchor="middle" font-size="29" font-weight="600" fill="#233C50">どこに・何を・いくつ</text>
+<text x="1700" y="1134" text-anchor="middle" font-size="29" font-weight="600" fill="#233C50">置くかを結び付ける</text>
+<path d="M 1630 1245 L 1630 1188 L 1700 1155 L 1770 1188 L 1770 1245 Z M 1680 1245 L 1680 1205 L 1720 1205 L 1720 1245" fill="none" stroke="#326F9B" stroke-width="5" opacity="1"/>
+</g></svg>

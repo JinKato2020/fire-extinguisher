@@ -1,0 +1,6070 @@
+{
+  "textCount": 758,
+  "allWithinBounds": true,
+  "text": [
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "消防の体制",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "消防の組織",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "市町村 → 消防本部・消防署",
+      "fontSize": 32,
+      "width": 406.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "消防団も地域の消防を担う",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "対象と関係者",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "防火対象物と消防対象物を区別",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "関係者＝所有者・管理者・占有者",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "命令と立入検査",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "命令権者と受命者を対応させる",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "火災予防・危険の除去につなぐ",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "建物と管理",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "用途を分ける",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "特定・非特定・複合用途",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "用途と利用者から危険性を見る",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "建築と消防同意",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "確認申請 → 消防同意 → 建築確認",
+      "fontSize": 32,
+      "width": 492.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "建築計画と防火を結び付ける",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "防火・防災管理",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "防火管理者 → 消防計画・訓練",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "防災管理 → 火災以外にも備える",
+      "fontSize": 32,
+      "width": 470.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "設備を設ける",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "設備の役割",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "消火・警報・避難のための設備",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "消防用水・消火活動上必要な施設",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "設置単位と条例",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "原則は1棟 → 例外条件を確認",
+      "fontSize": 32,
+      "width": 426.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "条例による基準も確認する",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "既存建物の扱い",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "既存不遡及と遡及適用を区別",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "用途変更などの条件で判断する",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "危険を抑える",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "危険物の規制",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "指定数量で規制の枠を判断",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "取扱い資格と立会いを区別",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "防炎の規制",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "対象となる場所・物品を確認",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "防炎性能で燃え広がりを抑える",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "建物自体の点検",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "防火対象物点検と設備点検",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "対象・資格・報告を混同しない",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "届け出・点検",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "設置に伴う手続き",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "着工届と設置届を区別",
+      "fontSize": 32,
+      "width": 320.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "届出 → 必要な検査へ",
+      "fontSize": 32,
+      "width": 310.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "設備点検の流れ",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "機器点検と総合点検を区別",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "設備の種類に応じて確認する",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "点検結果の報告",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "特定・非特定で報告周期を区別",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "報告先＝消防長または消防署長",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "資格と品質",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "消防設備士の業務",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "甲種＝工事・整備／乙種＝整備",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "第6類の対象＝消火器",
+      "fontSize": 32,
+      "width": 308.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "検定の2段階",
+      "fontSize": 36,
+      "width": 202.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "型式承認 → 型式適合検定",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "型式と個々の製品を確かめる",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "免状と講習",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "交付・書換え・再交付を区別",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "免状取得後も講習で知識を更新",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "消防法令",
+      "fontSize": 48,
+      "width": 192.0,
+      "available": 370
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "人・建物・設備を",
+      "fontSize": 29,
+      "width": 232.0,
+      "available": 355
+    },
+    {
+      "chapter": 1,
+      "theme": "light",
+      "text": "ルールでつなぐ",
+      "fontSize": 29,
+      "width": 203.0,
+      "available": 355
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "消防の体制",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "消防の組織",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "市町村 → 消防本部・消防署",
+      "fontSize": 32,
+      "width": 406.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "消防団も地域の消防を担う",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "対象と関係者",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "防火対象物と消防対象物を区別",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "関係者＝所有者・管理者・占有者",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "命令と立入検査",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "命令権者と受命者を対応させる",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "火災予防・危険の除去につなぐ",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "建物と管理",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "用途を分ける",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "特定・非特定・複合用途",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "用途と利用者から危険性を見る",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "建築と消防同意",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "確認申請 → 消防同意 → 建築確認",
+      "fontSize": 32,
+      "width": 492.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "建築計画と防火を結び付ける",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "防火・防災管理",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "防火管理者 → 消防計画・訓練",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "防災管理 → 火災以外にも備える",
+      "fontSize": 32,
+      "width": 470.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "設備を設ける",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "設備の役割",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "消火・警報・避難のための設備",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "消防用水・消火活動上必要な施設",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "設置単位と条例",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "原則は1棟 → 例外条件を確認",
+      "fontSize": 32,
+      "width": 426.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "条例による基準も確認する",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "既存建物の扱い",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "既存不遡及と遡及適用を区別",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "用途変更などの条件で判断する",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "危険を抑える",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "危険物の規制",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "指定数量で規制の枠を判断",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "取扱い資格と立会いを区別",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "防炎の規制",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "対象となる場所・物品を確認",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "防炎性能で燃え広がりを抑える",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "建物自体の点検",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "防火対象物点検と設備点検",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "対象・資格・報告を混同しない",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "届け出・点検",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "設置に伴う手続き",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "着工届と設置届を区別",
+      "fontSize": 32,
+      "width": 320.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "届出 → 必要な検査へ",
+      "fontSize": 32,
+      "width": 310.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "設備点検の流れ",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "機器点検と総合点検を区別",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "設備の種類に応じて確認する",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "点検結果の報告",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "特定・非特定で報告周期を区別",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "報告先＝消防長または消防署長",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "資格と品質",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "消防設備士の業務",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "甲種＝工事・整備／乙種＝整備",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "第6類の対象＝消火器",
+      "fontSize": 32,
+      "width": 308.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "検定の2段階",
+      "fontSize": 36,
+      "width": 202.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "型式承認 → 型式適合検定",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "型式と個々の製品を確かめる",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "免状と講習",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "交付・書換え・再交付を区別",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "免状取得後も講習で知識を更新",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "消防法令",
+      "fontSize": 48,
+      "width": 192.0,
+      "available": 370
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "人・建物・設備を",
+      "fontSize": 29,
+      "width": 232.0,
+      "available": 355
+    },
+    {
+      "chapter": 1,
+      "theme": "dark",
+      "text": "ルールでつなぐ",
+      "fontSize": 29,
+      "width": 203.0,
+      "available": 355
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "対象を決める",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "用途と規模",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "用途・面積から設置義務を判断",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "面積に関係なく必要な用途もある",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "階と開口部",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "地下階・無窓階などを確認",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "建物全体と各階の条件を区別",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "複合用途",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "用途ごとの部分に着目する",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "建物全体への規定も確認する",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "能力を数える",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "2つの能力単位",
+      "fontSize": 34,
+      "width": 225.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "能力単位＝消火器側の消火力",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "所要能力単位＝建物側の必要量",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "面積から算定",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "床面積 ÷ 基準面積で求める",
+      "fontSize": 32,
+      "width": 400.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "用途・構造に応じ基準を選ぶ",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "設置本数へ",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "設置する能力単位の合計を確認",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "端数処理と配置条件も確認",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "追加と緩和",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "危険に応じて追加",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "危険物・指定可燃物・電気設備",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "火気使用場所の条件も確認",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "大型消火器",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "指定可燃物の多量貯蔵など",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "能力・薬剤量・配置を照合する",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "減少措置",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "他の消火設備の有効範囲を確認",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "減らせる範囲と下限を区別",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "薬剤を選ぶ",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "消火器具の範囲",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "消火器＋簡易消火用具",
+      "fontSize": 32,
+      "width": 320.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "水バケツ・水槽・乾燥砂など",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "火災への適応",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "油火災・電気火災への適応を確認",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "薬剤と放射形態を組み合わせる",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "場所の制限",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "換気不良の場所では薬剤に注意",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "地下街などの使用制限を確認",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "届く位置に置く",
+      "fontSize": 42,
+      "width": 294.0,
+      "available": 300
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "歩行距離",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "一般の消火器具は20m以下",
+      "fontSize": 32,
+      "width": 391.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "大型消火器は該当基準で30m以下",
+      "fontSize": 32,
+      "width": 487.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "見つけやすさ",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "通行・避難・使用に便利な場所",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "標識を付け、すぐ取り出せる",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "保管環境",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "湿気・振動・腐食を避ける",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "設置高さと転倒防止も確認",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "危険物施設",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "別の基準",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "一般建物と危険物施設を区別",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "施設の危険性に応じて選定",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "設備の区分",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "第1種〜第5種の消火設備",
+      "fontSize": 32,
+      "width": 360.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "大型消火器と小型消火器を区別",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "所要単位",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "建築物・危険物などを分ける",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "所要単位に見合う消火設備へ",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "消火器の設置",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 370
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "どこに・何を・いくつ",
+      "fontSize": 29,
+      "width": 290.0,
+      "available": 355
+    },
+    {
+      "chapter": 2,
+      "theme": "light",
+      "text": "置くかを結び付ける",
+      "fontSize": 29,
+      "width": 261.0,
+      "available": 355
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "対象を決める",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "用途と規模",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "用途・面積から設置義務を判断",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "面積に関係なく必要な用途もある",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "階と開口部",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "地下階・無窓階などを確認",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "建物全体と各階の条件を区別",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "複合用途",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "用途ごとの部分に着目する",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "建物全体への規定も確認する",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "能力を数える",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "2つの能力単位",
+      "fontSize": 34,
+      "width": 225.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "能力単位＝消火器側の消火力",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "所要能力単位＝建物側の必要量",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "面積から算定",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "床面積 ÷ 基準面積で求める",
+      "fontSize": 32,
+      "width": 400.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "用途・構造に応じ基準を選ぶ",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "設置本数へ",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "設置する能力単位の合計を確認",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "端数処理と配置条件も確認",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "追加と緩和",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "危険に応じて追加",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "危険物・指定可燃物・電気設備",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "火気使用場所の条件も確認",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "大型消火器",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "指定可燃物の多量貯蔵など",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "能力・薬剤量・配置を照合する",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "減少措置",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "他の消火設備の有効範囲を確認",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "減らせる範囲と下限を区別",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "薬剤を選ぶ",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "消火器具の範囲",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "消火器＋簡易消火用具",
+      "fontSize": 32,
+      "width": 320.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "水バケツ・水槽・乾燥砂など",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "火災への適応",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "油火災・電気火災への適応を確認",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "薬剤と放射形態を組み合わせる",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "場所の制限",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "換気不良の場所では薬剤に注意",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "地下街などの使用制限を確認",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "届く位置に置く",
+      "fontSize": 42,
+      "width": 294.0,
+      "available": 300
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "歩行距離",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "一般の消火器具は20m以下",
+      "fontSize": 32,
+      "width": 391.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "大型消火器は該当基準で30m以下",
+      "fontSize": 32,
+      "width": 487.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "見つけやすさ",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "通行・避難・使用に便利な場所",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "標識を付け、すぐ取り出せる",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "保管環境",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "湿気・振動・腐食を避ける",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "設置高さと転倒防止も確認",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "危険物施設",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "別の基準",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "一般建物と危険物施設を区別",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "施設の危険性に応じて選定",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "設備の区分",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "第1種〜第5種の消火設備",
+      "fontSize": 32,
+      "width": 360.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "大型消火器と小型消火器を区別",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "所要単位",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "建築物・危険物などを分ける",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "所要単位に見合う消火設備へ",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "消火器の設置",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 370
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "どこに・何を・いくつ",
+      "fontSize": 29,
+      "width": 290.0,
+      "available": 355
+    },
+    {
+      "chapter": 2,
+      "theme": "dark",
+      "text": "置くかを結び付ける",
+      "fontSize": 29,
+      "width": 261.0,
+      "available": 355
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "力を読む",
+      "fontSize": 48,
+      "width": 192.0,
+      "available": 300
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "三要素と作用線",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "大きさ・向き・作用点",
+      "fontSize": 32,
+      "width": 320.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "剛体では作用線上を移せる",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "合成と分解",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "複数の力 → 合力にまとめる",
+      "fontSize": 32,
+      "width": 406.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "1つの力 → 方向別に分ける",
+      "fontSize": 32,
+      "width": 394.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "つり合いと反作用",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "つり合い＝同じ物体の合力0",
+      "fontSize": 32,
+      "width": 404.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "作用反作用＝別々の2物体",
+      "fontSize": 32,
+      "width": 372.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "回す・動かす",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "モーメント",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "M＝F×d／dは垂直な腕の長さ",
+      "fontSize": 32,
+      "width": 429.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "つり合い → 左右の回す力が等しい",
+      "fontSize": 32,
+      "width": 502.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "仕事と仕事率",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "W＝Fs cosθ／移動方向が重要",
+      "fontSize": 32,
+      "width": 435.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "仕事率＝仕事÷時間",
+      "fontSize": 32,
+      "width": 282.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "摩擦",
+      "fontSize": 36,
+      "width": 72.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "最大静止摩擦力＝μN",
+      "fontSize": 32,
+      "width": 300.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "動き出した後は動摩擦力",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "材料の負担",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "荷重と応力",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "引張・圧縮・せん断・曲げ",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "応力＝荷重÷断面積",
+      "fontSize": 32,
+      "width": 282.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "ひずみと弾性",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "ひずみ＝変形量÷元の長さ",
+      "fontSize": 32,
+      "width": 378.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "比例範囲ではフックの法則",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "限界と余裕",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "降伏 → 引張強さ → 破断",
+      "fontSize": 32,
+      "width": 364.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "安全率＝基準強さ÷許容応力",
+      "fontSize": 32,
+      "width": 410.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "圧力を考える",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "圧力の意味",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "p＝力÷面積／単位はPa",
+      "fontSize": 32,
+      "width": 339.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "小さい面積ほど圧力は大きい",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "水圧と深さ",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "静水圧p＝ρgh",
+      "fontSize": 32,
+      "width": 205.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "深いほど増す／容器形状と無関係",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "大気圧と単位",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "1hPa＝100Pa",
+      "fontSize": 32,
+      "width": 208.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "1気圧＝101,325Pa",
+      "fontSize": 32,
+      "width": 285.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "気体の変化",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "温度一定",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "ボイルの法則 → pV一定",
+      "fontSize": 32,
+      "width": 351.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "体積を半分にすると圧力2倍",
+      "fontSize": 32,
+      "width": 404.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "圧力一定",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "シャルルの法則 → V/T一定",
+      "fontSize": 32,
+      "width": 398.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "絶対温度Kに比例して体積が変化",
+      "fontSize": 32,
+      "width": 469.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "3つの量をつなぐ",
+      "fontSize": 30,
+      "width": 229.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "一定量の気体ではpV/T一定",
+      "fontSize": 32,
+      "width": 395.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "圧力は絶対圧、温度はKを使う",
+      "fontSize": 32,
+      "width": 437.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "金属と単位",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "鋼の性質",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "炭素量で硬さ・粘り強さが変化",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "合金鋼は成分で性質を補う",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "材料を整える",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "焼入れ・焼戻しなどの熱処理",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "めっきなどで表面を保護する",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "計算の準備",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "cm→m／kN→Nなど単位を統一",
+      "fontSize": 32,
+      "width": 464.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "力N・仕事J・モーメントN·m",
+      "fontSize": 32,
+      "width": 424.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "機械の基礎",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 370
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "力・材料・圧力から",
+      "fontSize": 29,
+      "width": 261.0,
+      "available": 355
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
+      "text": "消火器のしくみを読む",
+      "fontSize": 29,
+      "width": 290.0,
+      "available": 355
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "力を読む",
+      "fontSize": 48,
+      "width": 192.0,
+      "available": 300
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "三要素と作用線",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "大きさ・向き・作用点",
+      "fontSize": 32,
+      "width": 320.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "剛体では作用線上を移せる",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "合成と分解",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "複数の力 → 合力にまとめる",
+      "fontSize": 32,
+      "width": 406.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "1つの力 → 方向別に分ける",
+      "fontSize": 32,
+      "width": 394.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "つり合いと反作用",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "つり合い＝同じ物体の合力0",
+      "fontSize": 32,
+      "width": 404.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "作用反作用＝別々の2物体",
+      "fontSize": 32,
+      "width": 372.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "回す・動かす",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "モーメント",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "M＝F×d／dは垂直な腕の長さ",
+      "fontSize": 32,
+      "width": 429.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "つり合い → 左右の回す力が等しい",
+      "fontSize": 32,
+      "width": 502.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "仕事と仕事率",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "W＝Fs cosθ／移動方向が重要",
+      "fontSize": 32,
+      "width": 435.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "仕事率＝仕事÷時間",
+      "fontSize": 32,
+      "width": 282.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "摩擦",
+      "fontSize": 36,
+      "width": 72.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "最大静止摩擦力＝μN",
+      "fontSize": 32,
+      "width": 300.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "動き出した後は動摩擦力",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "材料の負担",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "荷重と応力",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "引張・圧縮・せん断・曲げ",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "応力＝荷重÷断面積",
+      "fontSize": 32,
+      "width": 282.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "ひずみと弾性",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "ひずみ＝変形量÷元の長さ",
+      "fontSize": 32,
+      "width": 378.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "比例範囲ではフックの法則",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "限界と余裕",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "降伏 → 引張強さ → 破断",
+      "fontSize": 32,
+      "width": 364.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "安全率＝基準強さ÷許容応力",
+      "fontSize": 32,
+      "width": 410.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "圧力を考える",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "圧力の意味",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "p＝力÷面積／単位はPa",
+      "fontSize": 32,
+      "width": 339.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "小さい面積ほど圧力は大きい",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "水圧と深さ",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "静水圧p＝ρgh",
+      "fontSize": 32,
+      "width": 205.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "深いほど増す／容器形状と無関係",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "大気圧と単位",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "1hPa＝100Pa",
+      "fontSize": 32,
+      "width": 208.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "1気圧＝101,325Pa",
+      "fontSize": 32,
+      "width": 285.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "気体の変化",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "温度一定",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "ボイルの法則 → pV一定",
+      "fontSize": 32,
+      "width": 351.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "体積を半分にすると圧力2倍",
+      "fontSize": 32,
+      "width": 404.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "圧力一定",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "シャルルの法則 → V/T一定",
+      "fontSize": 32,
+      "width": 398.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "絶対温度Kに比例して体積が変化",
+      "fontSize": 32,
+      "width": 469.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "3つの量をつなぐ",
+      "fontSize": 30,
+      "width": 229.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "一定量の気体ではpV/T一定",
+      "fontSize": 32,
+      "width": 395.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "圧力は絶対圧、温度はKを使う",
+      "fontSize": 32,
+      "width": 437.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "金属と単位",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "鋼の性質",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "炭素量で硬さ・粘り強さが変化",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "合金鋼は成分で性質を補う",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "材料を整える",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "焼入れ・焼戻しなどの熱処理",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "めっきなどで表面を保護する",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "計算の準備",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "cm→m／kN→Nなど単位を統一",
+      "fontSize": 32,
+      "width": 464.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "力N・仕事J・モーメントN·m",
+      "fontSize": 32,
+      "width": 424.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "機械の基礎",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 370
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "力・材料・圧力から",
+      "fontSize": 29,
+      "width": 261.0,
+      "available": 355
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
+      "text": "消火器のしくみを読む",
+      "fontSize": 29,
+      "width": 290.0,
+      "available": 355
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "燃焼と消火",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "燃える条件",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "可燃物・酸素供給源・点火源",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "連鎖反応が燃焼を継続させる",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "消すしくみ",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "除去・窒息・冷却・抑制",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "燃焼条件のどれを断つか考える",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "分類の3軸",
+      "fontSize": 36,
+      "width": 166.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "薬剤・加圧方式・運搬方式",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "同じ薬剤でも方式が異なる",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "薬剤で分ける",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "水・強化液",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "水系薬剤の冷却効果に着目",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "棒状と霧状で適応性が異なる",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "化学泡・機械泡",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "化学泡＝薬剤同士の反応で発泡",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "機械泡＝空気を取り込み発泡",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "ガス・粉末",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "二酸化炭素・ハロン・粉末",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "薬剤の性状と消火効果を対応",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "圧力をつくる",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "蓄圧式",
+      "fontSize": 36,
+      "width": 108.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "薬剤と圧縮ガスを常時収納",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "レバー操作で放射弁を開く",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "ガス加圧式",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "別容器のガスを本体へ導入",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "粉上り防止用封板などを備える",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "反応式と配管",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "化学泡は反応で泡と圧力を発生",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "サイホン管 → ホース → ノズル",
+      "fontSize": 32,
+      "width": 460.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "状態と安全",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "指示圧力計",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "緑帯＝適正な使用圧力範囲",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "ブルドン管の変形で針が動く",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "温度と蓄圧力",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "温度の変化で圧力も変わる",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "使用温度範囲と計器を確認",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "誤操作を防ぐ",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "安全栓 → 不時の放射を防止",
+      "fontSize": 32,
+      "width": 406.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "使用済表示 → 操作の有無を確認",
+      "fontSize": 32,
+      "width": 470.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "点検で確かめる",
+      "fontSize": 42,
+      "width": 294.0,
+      "available": 300
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "外観点検",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "腐食・変形・漏れを確認",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "圧力・薬剤量・部品も照合",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "内部・機能点検",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "方式・経過年数で対象を判断",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "抜取りの条件と全数確認を区別",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "放射と耐圧",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "放射能力 → 薬剤の放射を確認",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "耐圧性能 → 水圧で容器を確認",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "分解と充てん",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "蓄圧式",
+      "fontSize": 36,
+      "width": 108.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "排圧してからキャップを開く",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "薬剤充てん → 減圧してガス充てん",
+      "fontSize": 32,
+      "width": 502.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "ガス加圧式",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "ガス容器を外す → 安全栓を外す",
+      "fontSize": 32,
+      "width": 470.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "粉末は吸湿を防ぎ乾燥清掃",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "化学泡",
+      "fontSize": 36,
+      "width": 108.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "A剤とB剤を別々に扱う",
+      "fontSize": 32,
+      "width": 332.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "水洗い・木製てこ棒で整備",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "消火器のしくみ",
+      "fontSize": 48,
+      "width": 336.0,
+      "available": 370
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "薬剤を圧力で送り",
+      "fontSize": 29,
+      "width": 232.0,
+      "available": 355
+    },
+    {
+      "chapter": 4,
+      "theme": "light",
+      "text": "消火と整備をつなぐ",
+      "fontSize": 29,
+      "width": 261.0,
+      "available": 355
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "燃焼と消火",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "燃える条件",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "可燃物・酸素供給源・点火源",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "連鎖反応が燃焼を継続させる",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "消すしくみ",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "除去・窒息・冷却・抑制",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "燃焼条件のどれを断つか考える",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "分類の3軸",
+      "fontSize": 36,
+      "width": 166.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "薬剤・加圧方式・運搬方式",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "同じ薬剤でも方式が異なる",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "薬剤で分ける",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "水・強化液",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "水系薬剤の冷却効果に着目",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "棒状と霧状で適応性が異なる",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "化学泡・機械泡",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "化学泡＝薬剤同士の反応で発泡",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "機械泡＝空気を取り込み発泡",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "ガス・粉末",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "二酸化炭素・ハロン・粉末",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "薬剤の性状と消火効果を対応",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "圧力をつくる",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "蓄圧式",
+      "fontSize": 36,
+      "width": 108.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "薬剤と圧縮ガスを常時収納",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "レバー操作で放射弁を開く",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "ガス加圧式",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "別容器のガスを本体へ導入",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "粉上り防止用封板などを備える",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "反応式と配管",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "化学泡は反応で泡と圧力を発生",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "サイホン管 → ホース → ノズル",
+      "fontSize": 32,
+      "width": 460.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "状態と安全",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "指示圧力計",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "緑帯＝適正な使用圧力範囲",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "ブルドン管の変形で針が動く",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "温度と蓄圧力",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "温度の変化で圧力も変わる",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "使用温度範囲と計器を確認",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "誤操作を防ぐ",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "安全栓 → 不時の放射を防止",
+      "fontSize": 32,
+      "width": 406.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "使用済表示 → 操作の有無を確認",
+      "fontSize": 32,
+      "width": 470.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "点検で確かめる",
+      "fontSize": 42,
+      "width": 294.0,
+      "available": 300
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "外観点検",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "腐食・変形・漏れを確認",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "圧力・薬剤量・部品も照合",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "内部・機能点検",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "方式・経過年数で対象を判断",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "抜取りの条件と全数確認を区別",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "放射と耐圧",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "放射能力 → 薬剤の放射を確認",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "耐圧性能 → 水圧で容器を確認",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "分解と充てん",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "蓄圧式",
+      "fontSize": 36,
+      "width": 108.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "排圧してからキャップを開く",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "薬剤充てん → 減圧してガス充てん",
+      "fontSize": 32,
+      "width": 502.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "ガス加圧式",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "ガス容器を外す → 安全栓を外す",
+      "fontSize": 32,
+      "width": 470.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "粉末は吸湿を防ぎ乾燥清掃",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "化学泡",
+      "fontSize": 36,
+      "width": 108.0,
+      "available": 230
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "A剤とB剤を別々に扱う",
+      "fontSize": 32,
+      "width": 332.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "水洗い・木製てこ棒で整備",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "消火器のしくみ",
+      "fontSize": 48,
+      "width": 336.0,
+      "available": 370
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "薬剤を圧力で送り",
+      "fontSize": 29,
+      "width": 232.0,
+      "available": 355
+    },
+    {
+      "chapter": 4,
+      "theme": "dark",
+      "text": "消火と整備をつなぐ",
+      "fontSize": 29,
+      "width": 261.0,
+      "available": 355
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "品質を証明",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "2つの省令",
+      "fontSize": 36,
+      "width": 166.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "消火器本体と消火薬剤の規格",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "構造・性能・性状を定める",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "検定の流れ",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "型式承認 → 型式適合検定",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "適合した製品に検定合格表示",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "型式の失効",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "規格変更と承認の効力を確認",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "旧型式の経過措置も区別する",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "性能を比べる",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "能力単位",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "A・Bは能力を数字で表示",
+      "fontSize": 32,
+      "width": 364.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "電気火災は適応の有無を表示",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "大型の要件",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "能力単位と薬剤充てん量",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "両方の要件を満たすことが必要",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "放射と温度",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "時間・距離・放射量を確保",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "使用温度範囲で正常に機能",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "操作のしくみ",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "動作数",
+      "fontSize": 36,
+      "width": 108.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "運搬方式・化学泡かどうかで区分",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "数に含めない準備動作に注意",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "分かりやすさ",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "操作手順を見やすく表示",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "容易・確実に放射を開始する",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "使う場所",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "自動車用は薬剤と振動を考慮",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "住宅用は構造・表示の特例を確認",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "表示で伝える",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "製品と使用情報",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "薬剤・加圧方式・能力・製造情報",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "使用方法・注意・期限を確認",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "適応火災",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "普通＝白／油＝黄／電気＝青",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "背景色と炎・閃光の色を区別",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "本体の塗色",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "原則25%以上を赤色にする",
+      "fontSize": 32,
+      "width": 393.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "二酸化炭素は緑色も確認",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "ハロン1301・1211は灰色も確認",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "部品を守る",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "容器と放射経路",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "キャップ・弁・ホース・ノズル",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "ろ過網・液面表示の役割を確認",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "安全と圧力源",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "安全栓・安全弁・ガス容器",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "作動と漏れ防止の条件を確認",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "計器と調整器",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "指示圧力計＝圧力の状態を表示",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "圧力調整器＝使用する圧力へ減圧",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "薬剤の品質",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "共通の性状",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "有害性・腐食性・変質を抑える",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "液体と粉末で確認項目が異なる",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "薬剤別の性質",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "強化液・泡・ハロゲン化物",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "成分・希釈・性状を整理する",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "粉末と容器",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "種類と色・粒径・沈降を対応",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "薬剤容器の材質と表示も確認",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "規格と品質",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 370
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "性能・操作・部品を",
+      "fontSize": 29,
+      "width": 261.0,
+      "available": 355
+    },
+    {
+      "chapter": 5,
+      "theme": "light",
+      "text": "共通の基準で確かめる",
+      "fontSize": 29,
+      "width": 290.0,
+      "available": 355
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "品質を証明",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "2つの省令",
+      "fontSize": 36,
+      "width": 166.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "消火器本体と消火薬剤の規格",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "構造・性能・性状を定める",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "検定の流れ",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "型式承認 → 型式適合検定",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "適合した製品に検定合格表示",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "型式の失効",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "規格変更と承認の効力を確認",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "旧型式の経過措置も区別する",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "性能を比べる",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "能力単位",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "A・Bは能力を数字で表示",
+      "fontSize": 32,
+      "width": 364.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "電気火災は適応の有無を表示",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "大型の要件",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "能力単位と薬剤充てん量",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "両方の要件を満たすことが必要",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "放射と温度",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "時間・距離・放射量を確保",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "使用温度範囲で正常に機能",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "操作のしくみ",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "動作数",
+      "fontSize": 36,
+      "width": 108.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "運搬方式・化学泡かどうかで区分",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "数に含めない準備動作に注意",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "分かりやすさ",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "操作手順を見やすく表示",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "容易・確実に放射を開始する",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "使う場所",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "自動車用は薬剤と振動を考慮",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "住宅用は構造・表示の特例を確認",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "表示で伝える",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "製品と使用情報",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "薬剤・加圧方式・能力・製造情報",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "使用方法・注意・期限を確認",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "適応火災",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "普通＝白／油＝黄／電気＝青",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "背景色と炎・閃光の色を区別",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "本体の塗色",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "原則25%以上を赤色にする",
+      "fontSize": 32,
+      "width": 393.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "二酸化炭素は緑色も確認",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "ハロン1301・1211は灰色も確認",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "部品を守る",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "容器と放射経路",
+      "fontSize": 32,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "キャップ・弁・ホース・ノズル",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "ろ過網・液面表示の役割を確認",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "安全と圧力源",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "安全栓・安全弁・ガス容器",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "作動と漏れ防止の条件を確認",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "計器と調整器",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "指示圧力計＝圧力の状態を表示",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "圧力調整器＝使用する圧力へ減圧",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "薬剤の品質",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "共通の性状",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "有害性・腐食性・変質を抑える",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "液体と粉末で確認項目が異なる",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "薬剤別の性質",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "強化液・泡・ハロゲン化物",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "成分・希釈・性状を整理する",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "粉末と容器",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "種類と色・粒径・沈降を対応",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "薬剤容器の材質と表示も確認",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "規格と品質",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 370
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "性能・操作・部品を",
+      "fontSize": 29,
+      "width": 261.0,
+      "available": 355
+    },
+    {
+      "chapter": 5,
+      "theme": "dark",
+      "text": "共通の基準で確かめる",
+      "fontSize": 29,
+      "width": 290.0,
+      "available": 355
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "外観から判別",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "圧力計を見る",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "計器あり → 蓄圧式の手掛かり",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "CO₂・ハロン1301は計器なし",
+      "fontSize": 32,
+      "width": 429.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "ノズルを見る",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "細い霧状・先広がり・発泡型",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "大きいホーンはCO₂の手掛かり",
+      "fontSize": 32,
+      "width": 445.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "特徴を組み合せる",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "押し金具・レバー・塗色を確認",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "車輪あり → 車載式と判断",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "薬剤と方式",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "水系・泡",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "強化液のノズルと機械泡を比較",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "化学泡は独特のキャップを持つ",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "粉末",
+      "fontSize": 36,
+      "width": 72.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "圧力計と内部のガス容器を確認",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "蓄圧式とガス加圧式を区別",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "二酸化炭素",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "緑と赤の塗分け・大きなホーン",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "ホーン握り → 凍傷を防ぐ",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "部品の目的",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "圧力源と配管",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "ガス容器 → 放射の圧力源",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "サイホン管 → 薬剤を導く",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "詰まり・流入防止",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "ろ過網 → 異物による詰まり防止",
+      "fontSize": 32,
+      "width": 470.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "粉上り防止用封板 → 流入防止",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "圧力計の表示",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "緑帯＝使用圧力範囲",
+      "fontSize": 32,
+      "width": 288.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "SUS＝圧力検出部がステンレス鋼",
+      "fontSize": 32,
+      "width": 479.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "工具の用途",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "固定・開閉",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "クランプ台 → 本体容器を固定",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "キャップスパナ → キャップ開閉",
+      "fontSize": 32,
+      "width": 470.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "清掃・観察",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "エアーガン → 清掃・通気確認",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "反射鏡 → 容器内部を観察",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "圧力を扱う",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "耐圧試験機 → 水圧試験",
+      "fontSize": 32,
+      "width": 342.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "圧力調整器 → ガスを減圧",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "測定を読む",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "指示・標準圧力計",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "指示＝正常範囲かを見る",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "標準＝細かい圧力値を読む",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "圧力の基準",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "絶対圧力＝真空を0とする",
+      "fontSize": 32,
+      "width": 372.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "ゲージ圧力＝大気圧を0とする",
+      "fontSize": 32,
+      "width": 436.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "計算へつなぐ",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "与えられた量と単位を確認",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "第2章の設置数・第3章の式へ",
+      "fontSize": 32,
+      "width": 424.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "解答をつくる",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "正式名称",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "薬剤・加圧方式まで具体的に",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "見分けた根拠と名称を一致させる",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "位置と目的",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "どこに付くか → 何を防ぐか",
+      "fontSize": 32,
+      "width": 406.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "役割を一文で説明する",
+      "fontSize": 32,
+      "width": 320.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "練習の順序",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "外観 → 名称 → 方式 → 用途",
+      "fontSize": 32,
+      "width": 418.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "6問の例で理由まで確認する",
+      "fontSize": 32,
+      "width": 404.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "鑑別と記述",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 370
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "外観 → 名称 → 役割",
+      "fontSize": 29,
+      "width": 272.0,
+      "available": 355
+    },
+    {
+      "chapter": 6,
+      "theme": "light",
+      "text": "根拠を言葉にする",
+      "fontSize": 29,
+      "width": 232.0,
+      "available": 355
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "外観から判別",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "圧力計を見る",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "計器あり → 蓄圧式の手掛かり",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "CO₂・ハロン1301は計器なし",
+      "fontSize": 32,
+      "width": 429.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "ノズルを見る",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "細い霧状・先広がり・発泡型",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "大きいホーンはCO₂の手掛かり",
+      "fontSize": 32,
+      "width": 445.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "特徴を組み合せる",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "押し金具・レバー・塗色を確認",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "車輪あり → 車載式と判断",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "薬剤と方式",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "水系・泡",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "強化液のノズルと機械泡を比較",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "化学泡は独特のキャップを持つ",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "粉末",
+      "fontSize": 36,
+      "width": 72.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "圧力計と内部のガス容器を確認",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "蓄圧式とガス加圧式を区別",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "二酸化炭素",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "緑と赤の塗分け・大きなホーン",
+      "fontSize": 32,
+      "width": 448.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "ホーン握り → 凍傷を防ぐ",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "部品の目的",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "圧力源と配管",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "ガス容器 → 放射の圧力源",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "サイホン管 → 薬剤を導く",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "詰まり・流入防止",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "ろ過網 → 異物による詰まり防止",
+      "fontSize": 32,
+      "width": 470.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "粉上り防止用封板 → 流入防止",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "圧力計の表示",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "緑帯＝使用圧力範囲",
+      "fontSize": 32,
+      "width": 288.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "SUS＝圧力検出部がステンレス鋼",
+      "fontSize": 32,
+      "width": 479.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "工具の用途",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "固定・開閉",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "クランプ台 → 本体容器を固定",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "キャップスパナ → キャップ開閉",
+      "fontSize": 32,
+      "width": 470.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "清掃・観察",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "エアーガン → 清掃・通気確認",
+      "fontSize": 32,
+      "width": 438.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "反射鏡 → 容器内部を観察",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "圧力を扱う",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "耐圧試験機 → 水圧試験",
+      "fontSize": 32,
+      "width": 342.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "圧力調整器 → ガスを減圧",
+      "fontSize": 32,
+      "width": 374.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "測定を読む",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 300
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "指示・標準圧力計",
+      "fontSize": 28,
+      "width": 224.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "指示＝正常範囲かを見る",
+      "fontSize": 32,
+      "width": 352.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "標準＝細かい圧力値を読む",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "圧力の基準",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "絶対圧力＝真空を0とする",
+      "fontSize": 32,
+      "width": 372.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "ゲージ圧力＝大気圧を0とする",
+      "fontSize": 32,
+      "width": 436.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "計算へつなぐ",
+      "fontSize": 36,
+      "width": 216.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "与えられた量と単位を確認",
+      "fontSize": 32,
+      "width": 384.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "第2章の設置数・第3章の式へ",
+      "fontSize": 32,
+      "width": 424.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "解答をつくる",
+      "fontSize": 48,
+      "width": 288.0,
+      "available": 300
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "正式名称",
+      "fontSize": 36,
+      "width": 144.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "薬剤・加圧方式まで具体的に",
+      "fontSize": 32,
+      "width": 416.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "見分けた根拠と名称を一致させる",
+      "fontSize": 32,
+      "width": 480.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "位置と目的",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "どこに付くか → 何を防ぐか",
+      "fontSize": 32,
+      "width": 406.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "役割を一文で説明する",
+      "fontSize": 32,
+      "width": 320.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "練習の順序",
+      "fontSize": 36,
+      "width": 180.0,
+      "available": 230
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "外観 → 名称 → 方式 → 用途",
+      "fontSize": 32,
+      "width": 418.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "6問の例で理由まで確認する",
+      "fontSize": 32,
+      "width": 404.0,
+      "available": 535
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "鑑別と記述",
+      "fontSize": 48,
+      "width": 240.0,
+      "available": 370
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "外観 → 名称 → 役割",
+      "fontSize": 29,
+      "width": 272.0,
+      "available": 355
+    },
+    {
+      "chapter": 6,
+      "theme": "dark",
+      "text": "根拠を言葉にする",
+      "fontSize": 29,
+      "width": 232.0,
+      "available": 355
+    }
+  ]
+}

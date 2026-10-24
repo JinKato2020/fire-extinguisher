@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3400" height="2200" viewBox="0 0 3400 2200" role="img" aria-labelledby="title desc">
+<title id="title">第3章 機械に関する基礎的知識の相関図</title>
+<desc id="desc">中央の機械の基礎から6つのテーマと18の主要項目へ枝分かれする相関図。</desc>
+<metadata>{&quot;chapter&quot;: 3, &quot;title&quot;: &quot;機械に関する基礎的知識&quot;, &quot;center&quot;: &quot;機械の基礎&quot;, &quot;summary&quot;: [&quot;力・材料・圧力から&quot;, &quot;消火器のしくみを読む&quot;], &quot;branches&quot;: [{&quot;title&quot;: &quot;力を読む&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;三要素と作用線&quot;, &quot;lines&quot;: [&quot;大きさ・向き・作用点&quot;, &quot;剛体では作用線上を移せる&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;]}, {&quot;name&quot;: &quot;合成と分解&quot;, &quot;lines&quot;: [&quot;複数の力 → 合力にまとめる&quot;, &quot;1つの力 → 方向別に分ける&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;]}, {&quot;name&quot;: &quot;つり合いと反作用&quot;, &quot;lines&quot;: [&quot;つり合い＝同じ物体の合力0&quot;, &quot;作用反作用＝別々の2物体&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;]}]}, {&quot;title&quot;: &quot;回す・動かす&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;モーメント&quot;, &quot;lines&quot;: [&quot;M＝F×d／dは垂直な腕の長さ&quot;, &quot;つり合い → 左右の回す力が等しい&quot;], &quot;references&quot;: [&quot;Lesson 02&quot;]}, {&quot;name&quot;: &quot;仕事と仕事率&quot;, &quot;lines&quot;: [&quot;W＝Fs cosθ／移動方向が重要&quot;, &quot;仕事率＝仕事÷時間&quot;], &quot;references&quot;: [&quot;Lesson 03&quot;]}, {&quot;name&quot;: &quot;摩擦&quot;, &quot;lines&quot;: [&quot;最大静止摩擦力＝μN&quot;, &quot;動き出した後は動摩擦力&quot;], &quot;references&quot;: [&quot;Lesson 03&quot;]}]}, {&quot;title&quot;: &quot;材料の負担&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;荷重と応力&quot;, &quot;lines&quot;: [&quot;引張・圧縮・せん断・曲げ&quot;, &quot;応力＝荷重÷断面積&quot;], &quot;references&quot;: [&quot;Lesson 04&quot;]}, {&quot;name&quot;: &quot;ひずみと弾性&quot;, &quot;lines&quot;: [&quot;ひずみ＝変形量÷元の長さ&quot;, &quot;比例範囲ではフックの法則&quot;], &quot;references&quot;: [&quot;Lesson 04&quot;]}, {&quot;name&quot;: &quot;限界と余裕&quot;, &quot;lines&quot;: [&quot;降伏 → 引張強さ → 破断&quot;, &quot;安全率＝基準強さ÷許容応力&quot;], &quot;references&quot;: [&quot;Lesson 04&quot;]}]}, {&quot;title&quot;: &quot;圧力を考える&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;圧力の意味&quot;, &quot;lines&quot;: [&quot;p＝力÷面積／単位はPa&quot;, &quot;小さい面積ほど圧力は大きい&quot;], &quot;references&quot;: [&quot;Lesson 05&quot;]}, {&quot;name&quot;: &quot;水圧と深さ&quot;, &quot;lines&quot;: [&quot;静水圧p＝ρgh&quot;, &quot;深いほど増す／容器形状と無関係&quot;], &quot;references&quot;: [&quot;Lesson 05&quot;]}, {&quot;name&quot;: &quot;大気圧と単位&quot;, &quot;lines&quot;: [&quot;1hPa＝100Pa&quot;, &quot;1気圧＝101,325Pa&quot;], &quot;references&quot;: [&quot;Lesson 05&quot;]}]}, {&quot;title&quot;: &quot;気体の変化&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;温度一定&quot;, &quot;lines&quot;: [&quot;ボイルの法則 → pV一定&quot;, &quot;体積を半分にすると圧力2倍&quot;], &quot;references&quot;: [&quot;Lesson 05&quot;]}, {&quot;name&quot;: &quot;圧力一定&quot;, &quot;lines&quot;: [&quot;シャルルの法則 → V/T一定&quot;, &quot;絶対温度Kに比例して体積が変化&quot;], &quot;references&quot;: [&quot;Lesson 05&quot;]}, {&quot;name&quot;: &quot;3つの量をつなぐ&quot;, &quot;lines&quot;: [&quot;一定量の気体ではpV/T一定&quot;, &quot;圧力は絶対圧、温度はKを使う&quot;], &quot;references&quot;: [&quot;Lesson 05&quot;]}]}, {&quot;title&quot;: &quot;金属と単位&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;鋼の性質&quot;, &quot;lines&quot;: [&quot;炭素量で硬さ・粘り強さが変化&quot;, &quot;合金鋼は成分で性質を補う&quot;], &quot;references&quot;: [&quot;Lesson 06&quot;]}, {&quot;name&quot;: &quot;材料を整える&quot;, &quot;lines&quot;: [&quot;焼入れ・焼戻しなどの熱処理&quot;, &quot;めっきなどで表面を保護する&quot;], &quot;references&quot;: [&quot;Lesson 06&quot;]}, {&quot;name&quot;: &quot;計算の準備&quot;, &quot;lines&quot;: [&quot;cm→m／kN→Nなど単位を統一&quot;, &quot;力N・仕事J・モーメントN·m&quot;], &quot;references&quot;: [&quot;準備&quot;]}]}], &quot;source&quot;: &quot;教材解説\\教材_第3章_機械に関する基礎的知識.md&quot;, &quot;officialSources&quot;: []}</metadata>
+<rect width="3400" height="2200" fill="#0C1623"/>
+<g font-family="Meiryo, Noto Sans CJK JP, sans-serif" fill="#E4EDF5" stroke-linecap="round" stroke-linejoin="round">
+<text x="1700" y="78" text-anchor="middle" font-size="44" font-weight="700" fill="#E4EDF5">第3章  機械に関する基礎的知識</text>
+<text x="1700" y="128" text-anchor="middle" font-size="30" font-weight="500" fill="#A3B4C5">中心から外へ、用語の役割とつながりをたどる</text>
+<path d="M 1510 1100 C 1440 1100 1450 430 1390 430 L 1080 430" fill="none" stroke="#81B9E2" stroke-width="17" opacity="1"/>
+<text x="1090" y="402" text-anchor="start" font-size="48" font-weight="700" fill="#81B9E2">力を読む</text>
+<path d="M 1080 430 C 1025 430 1040 220 990 220 L 740 220" fill="none" stroke="#81B9E2" stroke-width="7" opacity="0.85"/>
+<text x="755" y="202" text-anchor="start" font-size="32" font-weight="700" fill="#81B9E2">三要素と作用線</text>
+<path d="M 740 220 C 690 220 695 188.0 640 188.0 L 90 188.0" fill="none" stroke="#81B9E2" stroke-width="3" opacity="0.55"/>
+<text x="108" y="174.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">大きさ・向き・作用点</text>
+<path d="M 740 220 C 690 220 695 252.0 640 252.0 L 90 252.0" fill="none" stroke="#81B9E2" stroke-width="3" opacity="0.55"/>
+<text x="108" y="238.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">剛体では作用線上を移せる</text>
+<path d="M 1080 430 C 1025 430 1040 440 990 440 L 740 440" fill="none" stroke="#81B9E2" stroke-width="7" opacity="0.85"/>
+<text x="755" y="422" text-anchor="start" font-size="36" font-weight="700" fill="#81B9E2">合成と分解</text>
+<path d="M 740 440 C 690 440 695 408.0 640 408.0 L 90 408.0" fill="none" stroke="#81B9E2" stroke-width="3" opacity="0.55"/>
+<text x="108" y="394.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">複数の力 → 合力にまとめる</text>
+<path d="M 740 440 C 690 440 695 472.0 640 472.0 L 90 472.0" fill="none" stroke="#81B9E2" stroke-width="3" opacity="0.55"/>
+<text x="108" y="458.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">1つの力 → 方向別に分ける</text>
+<path d="M 1080 430 C 1025 430 1040 660 990 660 L 740 660" fill="none" stroke="#81B9E2" stroke-width="7" opacity="0.85"/>
+<text x="755" y="642" text-anchor="start" font-size="28" font-weight="700" fill="#81B9E2">つり合いと反作用</text>
+<path d="M 740 660 C 690 660 695 628.0 640 628.0 L 90 628.0" fill="none" stroke="#81B9E2" stroke-width="3" opacity="0.55"/>
+<text x="108" y="614.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">つり合い＝同じ物体の合力0</text>
+<path d="M 740 660 C 690 660 695 692.0 640 692.0 L 90 692.0" fill="none" stroke="#81B9E2" stroke-width="3" opacity="0.55"/>
+<text x="108" y="678.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">作用反作用＝別々の2物体</text>
+<path d="M 1510 1100 C 1440 1100 1450 1090 1390 1090 L 1080 1090" fill="none" stroke="#96B8CF" stroke-width="17" opacity="1"/>
+<text x="1090" y="1062" text-anchor="start" font-size="48" font-weight="700" fill="#96B8CF">回す・動かす</text>
+<path d="M 1080 1090 C 1025 1090 1040 880 990 880 L 740 880" fill="none" stroke="#96B8CF" stroke-width="7" opacity="0.85"/>
+<text x="755" y="862" text-anchor="start" font-size="36" font-weight="700" fill="#96B8CF">モーメント</text>
+<path d="M 740 880 C 690 880 695 848.0 640 848.0 L 90 848.0" fill="none" stroke="#96B8CF" stroke-width="3" opacity="0.55"/>
+<text x="108" y="834.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">M＝F×d／dは垂直な腕の長さ</text>
+<path d="M 740 880 C 690 880 695 912.0 640 912.0 L 90 912.0" fill="none" stroke="#96B8CF" stroke-width="3" opacity="0.55"/>
+<text x="108" y="898.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">つり合い → 左右の回す力が等しい</text>
+<path d="M 1080 1090 C 1025 1090 1040 1100 990 1100 L 740 1100" fill="none" stroke="#96B8CF" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1082" text-anchor="start" font-size="36" font-weight="700" fill="#96B8CF">仕事と仕事率</text>
+<path d="M 740 1100 C 690 1100 695 1068.0 640 1068.0 L 90 1068.0" fill="none" stroke="#96B8CF" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1054.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">W＝Fs cosθ／移動方向が重要</text>
+<path d="M 740 1100 C 690 1100 695 1132.0 640 1132.0 L 90 1132.0" fill="none" stroke="#96B8CF" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1118.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">仕事率＝仕事÷時間</text>
+<path d="M 1080 1090 C 1025 1090 1040 1320 990 1320 L 740 1320" fill="none" stroke="#96B8CF" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1302" text-anchor="start" font-size="36" font-weight="700" fill="#96B8CF">摩擦</text>
+<path d="M 740 1320 C 690 1320 695 1288.0 640 1288.0 L 90 1288.0" fill="none" stroke="#96B8CF" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1274.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">最大静止摩擦力＝μN</text>
+<path d="M 740 1320 C 690 1320 695 1352.0 640 1352.0 L 90 1352.0" fill="none" stroke="#96B8CF" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1338.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">動き出した後は動摩擦力</text>
+<path d="M 1510 1100 C 1440 1100 1450 1750 1390 1750 L 1080 1750" fill="none" stroke="#7FCBB9" stroke-width="17" opacity="1"/>
+<text x="1090" y="1722" text-anchor="start" font-size="48" font-weight="700" fill="#7FCBB9">材料の負担</text>
+<path d="M 1080 1750 C 1025 1750 1040 1540 990 1540 L 740 1540" fill="none" stroke="#7FCBB9" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1522" text-anchor="start" font-size="36" font-weight="700" fill="#7FCBB9">荷重と応力</text>
+<path d="M 740 1540 C 690 1540 695 1508.0 640 1508.0 L 90 1508.0" fill="none" stroke="#7FCBB9" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1494.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">引張・圧縮・せん断・曲げ</text>
+<path d="M 740 1540 C 690 1540 695 1572.0 640 1572.0 L 90 1572.0" fill="none" stroke="#7FCBB9" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1558.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">応力＝荷重÷断面積</text>
+<path d="M 1080 1750 C 1025 1750 1040 1760 990 1760 L 740 1760" fill="none" stroke="#7FCBB9" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1742" text-anchor="start" font-size="36" font-weight="700" fill="#7FCBB9">ひずみと弾性</text>
+<path d="M 740 1760 C 690 1760 695 1728.0 640 1728.0 L 90 1728.0" fill="none" stroke="#7FCBB9" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1714.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">ひずみ＝変形量÷元の長さ</text>
+<path d="M 740 1760 C 690 1760 695 1792.0 640 1792.0 L 90 1792.0" fill="none" stroke="#7FCBB9" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1778.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">比例範囲ではフックの法則</text>
+<path d="M 1080 1750 C 1025 1750 1040 1980 990 1980 L 740 1980" fill="none" stroke="#7FCBB9" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1962" text-anchor="start" font-size="36" font-weight="700" fill="#7FCBB9">限界と余裕</text>
+<path d="M 740 1980 C 690 1980 695 1948.0 640 1948.0 L 90 1948.0" fill="none" stroke="#7FCBB9" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1934.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">降伏 → 引張強さ → 破断</text>
+<path d="M 740 1980 C 690 1980 695 2012.0 640 2012.0 L 90 2012.0" fill="none" stroke="#7FCBB9" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1998.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">安全率＝基準強さ÷許容応力</text>
+<path d="M 1890 1100 C 1960 1100 1950 430 2010 430 L 2320 430" fill="none" stroke="#E2B269" stroke-width="17" opacity="1"/>
+<text x="2310" y="402" text-anchor="end" font-size="48" font-weight="700" fill="#E2B269">圧力を考える</text>
+<path d="M 2320 430 C 2375 430 2360 220 2410 220 L 2660 220" fill="none" stroke="#E2B269" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="202" text-anchor="end" font-size="36" font-weight="700" fill="#E2B269">圧力の意味</text>
+<path d="M 2660 220 C 2710 220 2705 188.0 2760 188.0 L 3310 188.0" fill="none" stroke="#E2B269" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="174.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">p＝力÷面積／単位はPa</text>
+<path d="M 2660 220 C 2710 220 2705 252.0 2760 252.0 L 3310 252.0" fill="none" stroke="#E2B269" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="238.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">小さい面積ほど圧力は大きい</text>
+<path d="M 2320 430 C 2375 430 2360 440 2410 440 L 2660 440" fill="none" stroke="#E2B269" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="422" text-anchor="end" font-size="36" font-weight="700" fill="#E2B269">水圧と深さ</text>
+<path d="M 2660 440 C 2710 440 2705 408.0 2760 408.0 L 3310 408.0" fill="none" stroke="#E2B269" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="394.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">静水圧p＝ρgh</text>
+<path d="M 2660 440 C 2710 440 2705 472.0 2760 472.0 L 3310 472.0" fill="none" stroke="#E2B269" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="458.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">深いほど増す／容器形状と無関係</text>
+<path d="M 2320 430 C 2375 430 2360 660 2410 660 L 2660 660" fill="none" stroke="#E2B269" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="642" text-anchor="end" font-size="36" font-weight="700" fill="#E2B269">大気圧と単位</text>
+<path d="M 2660 660 C 2710 660 2705 628.0 2760 628.0 L 3310 628.0" fill="none" stroke="#E2B269" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="614.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">1hPa＝100Pa</text>
+<path d="M 2660 660 C 2710 660 2705 692.0 2760 692.0 L 3310 692.0" fill="none" stroke="#E2B269" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="678.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">1気圧＝101,325Pa</text>
+<path d="M 1890 1100 C 1960 1100 1950 1090 2010 1090 L 2320 1090" fill="none" stroke="#E29D8F" stroke-width="17" opacity="1"/>
+<text x="2310" y="1062" text-anchor="end" font-size="48" font-weight="700" fill="#E29D8F">気体の変化</text>
+<path d="M 2320 1090 C 2375 1090 2360 880 2410 880 L 2660 880" fill="none" stroke="#E29D8F" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="862" text-anchor="end" font-size="36" font-weight="700" fill="#E29D8F">温度一定</text>
+<path d="M 2660 880 C 2710 880 2705 848.0 2760 848.0 L 3310 848.0" fill="none" stroke="#E29D8F" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="834.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">ボイルの法則 → pV一定</text>
+<path d="M 2660 880 C 2710 880 2705 912.0 2760 912.0 L 3310 912.0" fill="none" stroke="#E29D8F" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="898.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">体積を半分にすると圧力2倍</text>
+<path d="M 2320 1090 C 2375 1090 2360 1100 2410 1100 L 2660 1100" fill="none" stroke="#E29D8F" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1082" text-anchor="end" font-size="36" font-weight="700" fill="#E29D8F">圧力一定</text>
+<path d="M 2660 1100 C 2710 1100 2705 1068.0 2760 1068.0 L 3310 1068.0" fill="none" stroke="#E29D8F" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1054.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">シャルルの法則 → V/T一定</text>
+<path d="M 2660 1100 C 2710 1100 2705 1132.0 2760 1132.0 L 3310 1132.0" fill="none" stroke="#E29D8F" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1118.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">絶対温度Kに比例して体積が変化</text>
+<path d="M 2320 1090 C 2375 1090 2360 1320 2410 1320 L 2660 1320" fill="none" stroke="#E29D8F" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1302" text-anchor="end" font-size="30" font-weight="700" fill="#E29D8F">3つの量をつなぐ</text>
+<path d="M 2660 1320 C 2710 1320 2705 1288.0 2760 1288.0 L 3310 1288.0" fill="none" stroke="#E29D8F" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1274.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">一定量の気体ではpV/T一定</text>
+<path d="M 2660 1320 C 2710 1320 2705 1352.0 2760 1352.0 L 3310 1352.0" fill="none" stroke="#E29D8F" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1338.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">圧力は絶対圧、温度はKを使う</text>
+<path d="M 1890 1100 C 1960 1100 1950 1750 2010 1750 L 2320 1750" fill="none" stroke="#B5C38A" stroke-width="17" opacity="1"/>
+<text x="2310" y="1722" text-anchor="end" font-size="48" font-weight="700" fill="#B5C38A">金属と単位</text>
+<path d="M 2320 1750 C 2375 1750 2360 1540 2410 1540 L 2660 1540" fill="none" stroke="#B5C38A" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1522" text-anchor="end" font-size="36" font-weight="700" fill="#B5C38A">鋼の性質</text>
+<path d="M 2660 1540 C 2710 1540 2705 1508.0 2760 1508.0 L 3310 1508.0" fill="none" stroke="#B5C38A" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1494.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">炭素量で硬さ・粘り強さが変化</text>
+<path d="M 2660 1540 C 2710 1540 2705 1572.0 2760 1572.0 L 3310 1572.0" fill="none" stroke="#B5C38A" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1558.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">合金鋼は成分で性質を補う</text>
+<path d="M 2320 1750 C 2375 1750 2360 1760 2410 1760 L 2660 1760" fill="none" stroke="#B5C38A" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1742" text-anchor="end" font-size="36" font-weight="700" fill="#B5C38A">材料を整える</text>
+<path d="M 2660 1760 C 2710 1760 2705 1728.0 2760 1728.0 L 3310 1728.0" fill="none" stroke="#B5C38A" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1714.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">焼入れ・焼戻しなどの熱処理</text>
+<path d="M 2660 1760 C 2710 1760 2705 1792.0 2760 1792.0 L 3310 1792.0" fill="none" stroke="#B5C38A" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1778.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">めっきなどで表面を保護する</text>
+<path d="M 2320 1750 C 2375 1750 2360 1980 2410 1980 L 2660 1980" fill="none" stroke="#B5C38A" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1962" text-anchor="end" font-size="36" font-weight="700" fill="#B5C38A">計算の準備</text>
+<path d="M 2660 1980 C 2710 1980 2705 1948.0 2760 1948.0 L 3310 1948.0" fill="none" stroke="#B5C38A" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1934.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">cm→m／kN→Nなど単位を統一</text>
+<path d="M 2660 1980 C 2710 1980 2705 2012.0 2760 2012.0 L 3310 2012.0" fill="none" stroke="#B5C38A" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1998.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">力N・仕事J・モーメントN·m</text>
+<circle cx="1700" cy="1100" r="200" fill="#14283B" stroke="#35536B" stroke-width="3"/>
+<text x="1700" y="1040" text-anchor="middle" font-size="48" font-weight="700" fill="#E4EDF5">機械の基礎</text>
+<text x="1700" y="1092" text-anchor="middle" font-size="29" font-weight="600" fill="#E4EDF5">力・材料・圧力から</text>
+<text x="1700" y="1134" text-anchor="middle" font-size="29" font-weight="600" fill="#E4EDF5">消火器のしくみを読む</text>
+<path d="M 1620 1220 L 1780 1220 M 1700 1175 L 1700 1220 M 1640 1220 L 1623 1250 L 1657 1250 Z" fill="none" stroke="#81B9E2" stroke-width="5" opacity="1"/>
+<rect x="1728" y="1184" width="36" height="36" rx="3" fill="#E2B269"/>
+</g></svg>

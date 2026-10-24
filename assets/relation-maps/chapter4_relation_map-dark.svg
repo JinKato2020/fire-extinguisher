@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3400" height="2200" viewBox="0 0 3400 2200" role="img" aria-labelledby="title desc">
+<title id="title">第4章 消火器の構造・機能・整備の相関図</title>
+<desc id="desc">中央の消火器のしくみから6つのテーマと18の主要項目へ枝分かれする相関図。</desc>
+<metadata>{&quot;chapter&quot;: 4, &quot;title&quot;: &quot;消火器の構造・機能・整備&quot;, &quot;center&quot;: &quot;消火器のしくみ&quot;, &quot;summary&quot;: [&quot;薬剤を圧力で送り&quot;, &quot;消火と整備をつなぐ&quot;], &quot;branches&quot;: [{&quot;title&quot;: &quot;燃焼と消火&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;燃える条件&quot;, &quot;lines&quot;: [&quot;可燃物・酸素供給源・点火源&quot;, &quot;連鎖反応が燃焼を継続させる&quot;], &quot;references&quot;: [&quot;準備&quot;]}, {&quot;name&quot;: &quot;消すしくみ&quot;, &quot;lines&quot;: [&quot;除去・窒息・冷却・抑制&quot;, &quot;燃焼条件のどれを断つか考える&quot;], &quot;references&quot;: [&quot;準備&quot;]}, {&quot;name&quot;: &quot;分類の3軸&quot;, &quot;lines&quot;: [&quot;薬剤・加圧方式・運搬方式&quot;, &quot;同じ薬剤でも方式が異なる&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;]}]}, {&quot;title&quot;: &quot;薬剤で分ける&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;水・強化液&quot;, &quot;lines&quot;: [&quot;水系薬剤の冷却効果に着目&quot;, &quot;棒状と霧状で適応性が異なる&quot;], &quot;references&quot;: [&quot;Lesson 02&quot;]}, {&quot;name&quot;: &quot;化学泡・機械泡&quot;, &quot;lines&quot;: [&quot;化学泡＝薬剤同士の反応で発泡&quot;, &quot;機械泡＝空気を取り込み発泡&quot;], &quot;references&quot;: [&quot;Lesson 03&quot;]}, {&quot;name&quot;: &quot;ガス・粉末&quot;, &quot;lines&quot;: [&quot;二酸化炭素・ハロン・粉末&quot;, &quot;薬剤の性状と消火効果を対応&quot;], &quot;references&quot;: [&quot;Lesson 04&quot;, &quot;Lesson 05&quot;]}]}, {&quot;title&quot;: &quot;圧力をつくる&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;蓄圧式&quot;, &quot;lines&quot;: [&quot;薬剤と圧縮ガスを常時収納&quot;, &quot;レバー操作で放射弁を開く&quot;], &quot;references&quot;: [&quot;Lesson 01&quot;, &quot;Lesson 05&quot;]}, {&quot;name&quot;: &quot;ガス加圧式&quot;, &quot;lines&quot;: [&quot;別容器のガスを本体へ導入&quot;, &quot;粉上り防止用封板などを備える&quot;], &quot;references&quot;: [&quot;Lesson 05&quot;]}, {&quot;name&quot;: &quot;反応式と配管&quot;, &quot;lines&quot;: [&quot;化学泡は反応で泡と圧力を発生&quot;, &quot;サイホン管 → ホース → ノズル&quot;], &quot;references&quot;: [&quot;Lesson 03&quot;, &quot;Lesson 05&quot;]}]}, {&quot;title&quot;: &quot;状態と安全&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;指示圧力計&quot;, &quot;lines&quot;: [&quot;緑帯＝適正な使用圧力範囲&quot;, &quot;ブルドン管の変形で針が動く&quot;], &quot;references&quot;: [&quot;Lesson 06&quot;]}, {&quot;name&quot;: &quot;温度と蓄圧力&quot;, &quot;lines&quot;: [&quot;温度の変化で圧力も変わる&quot;, &quot;使用温度範囲と計器を確認&quot;], &quot;references&quot;: [&quot;Lesson 06&quot;]}, {&quot;name&quot;: &quot;誤操作を防ぐ&quot;, &quot;lines&quot;: [&quot;安全栓 → 不時の放射を防止&quot;, &quot;使用済表示 → 操作の有無を確認&quot;], &quot;references&quot;: [&quot;Lesson 07&quot;]}]}, {&quot;title&quot;: &quot;点検で確かめる&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;外観点検&quot;, &quot;lines&quot;: [&quot;腐食・変形・漏れを確認&quot;, &quot;圧力・薬剤量・部品も照合&quot;], &quot;references&quot;: [&quot;Lesson 08&quot;]}, {&quot;name&quot;: &quot;内部・機能点検&quot;, &quot;lines&quot;: [&quot;方式・経過年数で対象を判断&quot;, &quot;抜取りの条件と全数確認を区別&quot;], &quot;references&quot;: [&quot;Lesson 09&quot;]}, {&quot;name&quot;: &quot;放射と耐圧&quot;, &quot;lines&quot;: [&quot;放射能力 → 薬剤の放射を確認&quot;, &quot;耐圧性能 → 水圧で容器を確認&quot;], &quot;references&quot;: [&quot;Lesson 09&quot;]}]}, {&quot;title&quot;: &quot;分解と充てん&quot;, &quot;topics&quot;: [{&quot;name&quot;: &quot;蓄圧式&quot;, &quot;lines&quot;: [&quot;排圧してからキャップを開く&quot;, &quot;薬剤充てん → 減圧してガス充てん&quot;], &quot;references&quot;: [&quot;Lesson 10&quot;]}, {&quot;name&quot;: &quot;ガス加圧式&quot;, &quot;lines&quot;: [&quot;ガス容器を外す → 安全栓を外す&quot;, &quot;粉末は吸湿を防ぎ乾燥清掃&quot;], &quot;references&quot;: [&quot;Lesson 11&quot;]}, {&quot;name&quot;: &quot;化学泡&quot;, &quot;lines&quot;: [&quot;A剤とB剤を別々に扱う&quot;, &quot;水洗い・木製てこ棒で整備&quot;], &quot;references&quot;: [&quot;Lesson 12&quot;]}]}], &quot;source&quot;: &quot;教材解説\\教材_第4章_消火器の構造・機能・整備.md&quot;, &quot;officialSources&quot;: [{&quot;title&quot;: &quot;消防庁：検定制度について&quot;, &quot;url&quot;: &quot;https://www.fdma.go.jp/mission/prevention/post-15.html&quot;}, {&quot;title&quot;: &quot;消防庁：消防用設備等の点検基準・点検要領&quot;, &quot;url&quot;: &quot;https://www.fdma.go.jp/mission/prevention/post-1.html&quot;}, {&quot;title&quot;: &quot;消防試験研究センター：消防設備士試験&quot;, &quot;url&quot;: &quot;https://www.shoubo-shiken.or.jp/shoubou/&quot;}, {&quot;title&quot;: &quot;e-Gov：消防法施行規則&quot;, &quot;url&quot;: &quot;https://laws.e-gov.go.jp/law/336M50000008006&quot;}, {&quot;title&quot;: &quot;e-Gov：消火器の技術上の規格を定める省令&quot;, &quot;url&quot;: &quot;https://laws.e-gov.go.jp/law/339M50000008027&quot;}]}</metadata>
+<rect width="3400" height="2200" fill="#0C1623"/>
+<g font-family="Meiryo, Noto Sans CJK JP, sans-serif" fill="#E4EDF5" stroke-linecap="round" stroke-linejoin="round">
+<text x="1700" y="78" text-anchor="middle" font-size="44" font-weight="700" fill="#E4EDF5">第4章  消火器の構造・機能・整備</text>
+<text x="1700" y="128" text-anchor="middle" font-size="30" font-weight="500" fill="#A3B4C5">中心から外へ、用語の役割とつながりをたどる</text>
+<path d="M 1510 1100 C 1440 1100 1450 430 1390 430 L 1080 430" fill="none" stroke="#81B9E2" stroke-width="17" opacity="1"/>
+<text x="1090" y="402" text-anchor="start" font-size="48" font-weight="700" fill="#81B9E2">燃焼と消火</text>
+<path d="M 1080 430 C 1025 430 1040 220 990 220 L 740 220" fill="none" stroke="#81B9E2" stroke-width="7" opacity="0.85"/>
+<text x="755" y="202" text-anchor="start" font-size="36" font-weight="700" fill="#81B9E2">燃える条件</text>
+<path d="M 740 220 C 690 220 695 188.0 640 188.0 L 90 188.0" fill="none" stroke="#81B9E2" stroke-width="3" opacity="0.55"/>
+<text x="108" y="174.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">可燃物・酸素供給源・点火源</text>
+<path d="M 740 220 C 690 220 695 252.0 640 252.0 L 90 252.0" fill="none" stroke="#81B9E2" stroke-width="3" opacity="0.55"/>
+<text x="108" y="238.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">連鎖反応が燃焼を継続させる</text>
+<path d="M 1080 430 C 1025 430 1040 440 990 440 L 740 440" fill="none" stroke="#81B9E2" stroke-width="7" opacity="0.85"/>
+<text x="755" y="422" text-anchor="start" font-size="36" font-weight="700" fill="#81B9E2">消すしくみ</text>
+<path d="M 740 440 C 690 440 695 408.0 640 408.0 L 90 408.0" fill="none" stroke="#81B9E2" stroke-width="3" opacity="0.55"/>
+<text x="108" y="394.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">除去・窒息・冷却・抑制</text>
+<path d="M 740 440 C 690 440 695 472.0 640 472.0 L 90 472.0" fill="none" stroke="#81B9E2" stroke-width="3" opacity="0.55"/>
+<text x="108" y="458.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">燃焼条件のどれを断つか考える</text>
+<path d="M 1080 430 C 1025 430 1040 660 990 660 L 740 660" fill="none" stroke="#81B9E2" stroke-width="7" opacity="0.85"/>
+<text x="755" y="642" text-anchor="start" font-size="36" font-weight="700" fill="#81B9E2">分類の3軸</text>
+<path d="M 740 660 C 690 660 695 628.0 640 628.0 L 90 628.0" fill="none" stroke="#81B9E2" stroke-width="3" opacity="0.55"/>
+<text x="108" y="614.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">薬剤・加圧方式・運搬方式</text>
+<path d="M 740 660 C 690 660 695 692.0 640 692.0 L 90 692.0" fill="none" stroke="#81B9E2" stroke-width="3" opacity="0.55"/>
+<text x="108" y="678.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">同じ薬剤でも方式が異なる</text>
+<path d="M 1510 1100 C 1440 1100 1450 1090 1390 1090 L 1080 1090" fill="none" stroke="#96B8CF" stroke-width="17" opacity="1"/>
+<text x="1090" y="1062" text-anchor="start" font-size="48" font-weight="700" fill="#96B8CF">薬剤で分ける</text>
+<path d="M 1080 1090 C 1025 1090 1040 880 990 880 L 740 880" fill="none" stroke="#96B8CF" stroke-width="7" opacity="0.85"/>
+<text x="755" y="862" text-anchor="start" font-size="36" font-weight="700" fill="#96B8CF">水・強化液</text>
+<path d="M 740 880 C 690 880 695 848.0 640 848.0 L 90 848.0" fill="none" stroke="#96B8CF" stroke-width="3" opacity="0.55"/>
+<text x="108" y="834.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">水系薬剤の冷却効果に着目</text>
+<path d="M 740 880 C 690 880 695 912.0 640 912.0 L 90 912.0" fill="none" stroke="#96B8CF" stroke-width="3" opacity="0.55"/>
+<text x="108" y="898.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">棒状と霧状で適応性が異なる</text>
+<path d="M 1080 1090 C 1025 1090 1040 1100 990 1100 L 740 1100" fill="none" stroke="#96B8CF" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1082" text-anchor="start" font-size="32" font-weight="700" fill="#96B8CF">化学泡・機械泡</text>
+<path d="M 740 1100 C 690 1100 695 1068.0 640 1068.0 L 90 1068.0" fill="none" stroke="#96B8CF" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1054.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">化学泡＝薬剤同士の反応で発泡</text>
+<path d="M 740 1100 C 690 1100 695 1132.0 640 1132.0 L 90 1132.0" fill="none" stroke="#96B8CF" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1118.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">機械泡＝空気を取り込み発泡</text>
+<path d="M 1080 1090 C 1025 1090 1040 1320 990 1320 L 740 1320" fill="none" stroke="#96B8CF" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1302" text-anchor="start" font-size="36" font-weight="700" fill="#96B8CF">ガス・粉末</text>
+<path d="M 740 1320 C 690 1320 695 1288.0 640 1288.0 L 90 1288.0" fill="none" stroke="#96B8CF" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1274.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">二酸化炭素・ハロン・粉末</text>
+<path d="M 740 1320 C 690 1320 695 1352.0 640 1352.0 L 90 1352.0" fill="none" stroke="#96B8CF" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1338.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">薬剤の性状と消火効果を対応</text>
+<path d="M 1510 1100 C 1440 1100 1450 1750 1390 1750 L 1080 1750" fill="none" stroke="#7FCBB9" stroke-width="17" opacity="1"/>
+<text x="1090" y="1722" text-anchor="start" font-size="48" font-weight="700" fill="#7FCBB9">圧力をつくる</text>
+<path d="M 1080 1750 C 1025 1750 1040 1540 990 1540 L 740 1540" fill="none" stroke="#7FCBB9" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1522" text-anchor="start" font-size="36" font-weight="700" fill="#7FCBB9">蓄圧式</text>
+<path d="M 740 1540 C 690 1540 695 1508.0 640 1508.0 L 90 1508.0" fill="none" stroke="#7FCBB9" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1494.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">薬剤と圧縮ガスを常時収納</text>
+<path d="M 740 1540 C 690 1540 695 1572.0 640 1572.0 L 90 1572.0" fill="none" stroke="#7FCBB9" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1558.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">レバー操作で放射弁を開く</text>
+<path d="M 1080 1750 C 1025 1750 1040 1760 990 1760 L 740 1760" fill="none" stroke="#7FCBB9" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1742" text-anchor="start" font-size="36" font-weight="700" fill="#7FCBB9">ガス加圧式</text>
+<path d="M 740 1760 C 690 1760 695 1728.0 640 1728.0 L 90 1728.0" fill="none" stroke="#7FCBB9" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1714.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">別容器のガスを本体へ導入</text>
+<path d="M 740 1760 C 690 1760 695 1792.0 640 1792.0 L 90 1792.0" fill="none" stroke="#7FCBB9" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1778.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">粉上り防止用封板などを備える</text>
+<path d="M 1080 1750 C 1025 1750 1040 1980 990 1980 L 740 1980" fill="none" stroke="#7FCBB9" stroke-width="7" opacity="0.85"/>
+<text x="755" y="1962" text-anchor="start" font-size="36" font-weight="700" fill="#7FCBB9">反応式と配管</text>
+<path d="M 740 1980 C 690 1980 695 1948.0 640 1948.0 L 90 1948.0" fill="none" stroke="#7FCBB9" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1934.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">化学泡は反応で泡と圧力を発生</text>
+<path d="M 740 1980 C 690 1980 695 2012.0 640 2012.0 L 90 2012.0" fill="none" stroke="#7FCBB9" stroke-width="3" opacity="0.55"/>
+<text x="108" y="1998.0" text-anchor="start" font-size="32" font-weight="500" fill="#E4EDF5">サイホン管 → ホース → ノズル</text>
+<path d="M 1890 1100 C 1960 1100 1950 430 2010 430 L 2320 430" fill="none" stroke="#E2B269" stroke-width="17" opacity="1"/>
+<text x="2310" y="402" text-anchor="end" font-size="48" font-weight="700" fill="#E2B269">状態と安全</text>
+<path d="M 2320 430 C 2375 430 2360 220 2410 220 L 2660 220" fill="none" stroke="#E2B269" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="202" text-anchor="end" font-size="36" font-weight="700" fill="#E2B269">指示圧力計</text>
+<path d="M 2660 220 C 2710 220 2705 188.0 2760 188.0 L 3310 188.0" fill="none" stroke="#E2B269" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="174.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">緑帯＝適正な使用圧力範囲</text>
+<path d="M 2660 220 C 2710 220 2705 252.0 2760 252.0 L 3310 252.0" fill="none" stroke="#E2B269" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="238.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">ブルドン管の変形で針が動く</text>
+<path d="M 2320 430 C 2375 430 2360 440 2410 440 L 2660 440" fill="none" stroke="#E2B269" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="422" text-anchor="end" font-size="36" font-weight="700" fill="#E2B269">温度と蓄圧力</text>
+<path d="M 2660 440 C 2710 440 2705 408.0 2760 408.0 L 3310 408.0" fill="none" stroke="#E2B269" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="394.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">温度の変化で圧力も変わる</text>
+<path d="M 2660 440 C 2710 440 2705 472.0 2760 472.0 L 3310 472.0" fill="none" stroke="#E2B269" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="458.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">使用温度範囲と計器を確認</text>
+<path d="M 2320 430 C 2375 430 2360 660 2410 660 L 2660 660" fill="none" stroke="#E2B269" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="642" text-anchor="end" font-size="36" font-weight="700" fill="#E2B269">誤操作を防ぐ</text>
+<path d="M 2660 660 C 2710 660 2705 628.0 2760 628.0 L 3310 628.0" fill="none" stroke="#E2B269" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="614.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">安全栓 → 不時の放射を防止</text>
+<path d="M 2660 660 C 2710 660 2705 692.0 2760 692.0 L 3310 692.0" fill="none" stroke="#E2B269" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="678.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">使用済表示 → 操作の有無を確認</text>
+<path d="M 1890 1100 C 1960 1100 1950 1090 2010 1090 L 2320 1090" fill="none" stroke="#E29D8F" stroke-width="17" opacity="1"/>
+<text x="2310" y="1062" text-anchor="end" font-size="42" font-weight="700" fill="#E29D8F">点検で確かめる</text>
+<path d="M 2320 1090 C 2375 1090 2360 880 2410 880 L 2660 880" fill="none" stroke="#E29D8F" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="862" text-anchor="end" font-size="36" font-weight="700" fill="#E29D8F">外観点検</text>
+<path d="M 2660 880 C 2710 880 2705 848.0 2760 848.0 L 3310 848.0" fill="none" stroke="#E29D8F" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="834.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">腐食・変形・漏れを確認</text>
+<path d="M 2660 880 C 2710 880 2705 912.0 2760 912.0 L 3310 912.0" fill="none" stroke="#E29D8F" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="898.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">圧力・薬剤量・部品も照合</text>
+<path d="M 2320 1090 C 2375 1090 2360 1100 2410 1100 L 2660 1100" fill="none" stroke="#E29D8F" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1082" text-anchor="end" font-size="32" font-weight="700" fill="#E29D8F">内部・機能点検</text>
+<path d="M 2660 1100 C 2710 1100 2705 1068.0 2760 1068.0 L 3310 1068.0" fill="none" stroke="#E29D8F" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1054.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">方式・経過年数で対象を判断</text>
+<path d="M 2660 1100 C 2710 1100 2705 1132.0 2760 1132.0 L 3310 1132.0" fill="none" stroke="#E29D8F" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1118.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">抜取りの条件と全数確認を区別</text>
+<path d="M 2320 1090 C 2375 1090 2360 1320 2410 1320 L 2660 1320" fill="none" stroke="#E29D8F" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1302" text-anchor="end" font-size="36" font-weight="700" fill="#E29D8F">放射と耐圧</text>
+<path d="M 2660 1320 C 2710 1320 2705 1288.0 2760 1288.0 L 3310 1288.0" fill="none" stroke="#E29D8F" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1274.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">放射能力 → 薬剤の放射を確認</text>
+<path d="M 2660 1320 C 2710 1320 2705 1352.0 2760 1352.0 L 3310 1352.0" fill="none" stroke="#E29D8F" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1338.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">耐圧性能 → 水圧で容器を確認</text>
+<path d="M 1890 1100 C 1960 1100 1950 1750 2010 1750 L 2320 1750" fill="none" stroke="#B5C38A" stroke-width="17" opacity="1"/>
+<text x="2310" y="1722" text-anchor="end" font-size="48" font-weight="700" fill="#B5C38A">分解と充てん</text>
+<path d="M 2320 1750 C 2375 1750 2360 1540 2410 1540 L 2660 1540" fill="none" stroke="#B5C38A" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1522" text-anchor="end" font-size="36" font-weight="700" fill="#B5C38A">蓄圧式</text>
+<path d="M 2660 1540 C 2710 1540 2705 1508.0 2760 1508.0 L 3310 1508.0" fill="none" stroke="#B5C38A" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1494.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">排圧してからキャップを開く</text>
+<path d="M 2660 1540 C 2710 1540 2705 1572.0 2760 1572.0 L 3310 1572.0" fill="none" stroke="#B5C38A" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1558.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">薬剤充てん → 減圧してガス充てん</text>
+<path d="M 2320 1750 C 2375 1750 2360 1760 2410 1760 L 2660 1760" fill="none" stroke="#B5C38A" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1742" text-anchor="end" font-size="36" font-weight="700" fill="#B5C38A">ガス加圧式</text>
+<path d="M 2660 1760 C 2710 1760 2705 1728.0 2760 1728.0 L 3310 1728.0" fill="none" stroke="#B5C38A" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1714.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">ガス容器を外す → 安全栓を外す</text>
+<path d="M 2660 1760 C 2710 1760 2705 1792.0 2760 1792.0 L 3310 1792.0" fill="none" stroke="#B5C38A" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1778.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">粉末は吸湿を防ぎ乾燥清掃</text>
+<path d="M 2320 1750 C 2375 1750 2360 1980 2410 1980 L 2660 1980" fill="none" stroke="#B5C38A" stroke-width="7" opacity="0.85"/>
+<text x="2645" y="1962" text-anchor="end" font-size="36" font-weight="700" fill="#B5C38A">化学泡</text>
+<path d="M 2660 1980 C 2710 1980 2705 1948.0 2760 1948.0 L 3310 1948.0" fill="none" stroke="#B5C38A" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1934.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">A剤とB剤を別々に扱う</text>
+<path d="M 2660 1980 C 2710 1980 2705 2012.0 2760 2012.0 L 3310 2012.0" fill="none" stroke="#B5C38A" stroke-width="3" opacity="0.55"/>
+<text x="3292" y="1998.0" text-anchor="end" font-size="32" font-weight="500" fill="#E4EDF5">水洗い・木製てこ棒で整備</text>
+<circle cx="1700" cy="1100" r="200" fill="#14283B" stroke="#35536B" stroke-width="3"/>
+<text x="1700" y="1040" text-anchor="middle" font-size="48" font-weight="700" fill="#E4EDF5">消火器のしくみ</text>
+<text x="1700" y="1092" text-anchor="middle" font-size="29" font-weight="600" fill="#E4EDF5">薬剤を圧力で送り</text>
+<text x="1700" y="1134" text-anchor="middle" font-size="29" font-weight="600" fill="#E4EDF5">消火と整備をつなぐ</text>
+<rect x="1675" y="1175" width="60" height="78" rx="15" fill="none" stroke="#E29D8F" stroke-width="5"/>
+<path d="M 1690 1175 L 1690 1160 L 1730 1150 M 1690 1160 L 1735 1170 M 1675 1185 C 1635 1185 1640 1210 1640 1240 L 1652 1240" fill="none" stroke="#81B9E2" stroke-width="5" opacity="1"/>
+</g></svg>
