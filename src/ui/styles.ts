@@ -16,10 +16,10 @@ export function makeStyles(c: Colors) {
     sectionHead: { color: c.fg, fontSize: 16, fontWeight: '900', marginTop: 20, marginBottom: 10 },
 
     // ---- ヒーロー ----
-    heroFade: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 88 },
+    heroFade: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 56 },
 
     // ---- 試験日カウントダウン ----
-    countCard: { marginTop: 16, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 18, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 },
+    countCard: { marginTop: 0, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 18, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 },
     countLeft: { flex: 1 },
     countLabel: { color: c.muted, fontSize: 11, fontWeight: '700', letterSpacing: 1 },
     countRow: { flexDirection: 'row', alignItems: 'baseline', marginTop: 4 },

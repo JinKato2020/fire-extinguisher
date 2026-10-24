@@ -232,8 +232,10 @@ function HomeScreen({ onGo, onModal, onFavTerms, ver }: { onGo: (t: TabKey) => v
           <Svg width="100%" height="100%">
             <Defs>
               <LinearGradient id="heroFade" x1="0" y1="0" x2="0" y2="1">
+                {/* 上側は透明のまま消火器を見せ、下端だけ勾配強め(急)で背景へ溶かす */}
                 <Stop offset="0" stopColor={c.bg} stopOpacity={0} />
-                <Stop offset="0.6" stopColor={c.bg} stopOpacity={0.96} />
+                <Stop offset="0.4" stopColor={c.bg} stopOpacity={0} />
+                <Stop offset="0.82" stopColor={c.bg} stopOpacity={0.92} />
                 <Stop offset="1" stopColor={c.bg} stopOpacity={1} />
               </LinearGradient>
             </Defs>
@@ -450,34 +452,61 @@ function GlossaryScreen({ onBump, ver, favInit }: { onBump: () => void; ver: num
 
   // ---- 章の選択画面 ----
   if (sel === null) {
+    const nq = q.trim();
+    const results = nq
+      ? terms.filter((t) => t.term.includes(nq) || (t.reading ?? '').includes(nq) || t.def.includes(nq))
+      : [];
     return (
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         <View style={s.pad}>
           <View style={s.viewHead}>
             <Text style={s.eyebrow}>GLOSSARY</Text>
             <Text style={s.viewH2}>用語集</Text>
             <Text style={s.viewSub}>章を選ぶと、その章の重要用語が見られます。★でお気に入りに登録できます。</Text>
           </View>
-          <View style={{ gap: 10, marginTop: 16 }}>
-            <Pressable style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => setSel('fav')}>
-              <View style={s.chNo}><Text style={s.chNoTxt}>★</Text></View>
-              <View style={{ flex: 1, minWidth: 0 }}>
-                <Text style={s.chTitle}>お気に入りの用語</Text>
-                <Text style={s.chSub}>{favCount > 0 ? `★をつけた用語 ${favCount}語` : 'まだ登録がありません'}</Text>
+          {/* 用語検索窓(お気に入りの上・全章から検索) */}
+          <View style={s.search}>
+            <Icon name="search" size={18} color={c.faint} />
+            <TextInput
+              style={s.searchInput}
+              placeholder="用語を検索（全章から）"
+              placeholderTextColor={c.faint}
+              value={q}
+              onChangeText={setQ}
+              returnKeyType="search"
+            />
+            {q ? <Pressable onPress={() => setQ('')} hitSlop={8}><Text style={{ color: c.faint, fontSize: 15, fontWeight: '800' }}>✕</Text></Pressable> : null}
+          </View>
+          {nq ? (
+            results.length ? (
+              <View style={{ marginTop: 10 }}>
+                {results.map((t) => <TermCard key={t.id} term={t} onBump={onBump} />)}
               </View>
-              <Text style={s.chGo}>›</Text>
-            </Pressable>
-            {chapters.map((k) => (
-              <Pressable key={k} style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => setSel(k)}>
-                <View style={s.chNo}><Text style={s.chNoTxt}>{k}</Text></View>
+            ) : (
+              <Text style={[s.viewSub, { marginTop: 16 }]}>{`「${q}」に一致する用語は見つかりませんでした。`}</Text>
+            )
+          ) : (
+            <View style={{ gap: 10, marginTop: 16 }}>
+              <Pressable style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => setSel('fav')}>
+                <View style={s.chNo}><Text style={s.chNoTxt}>★</Text></View>
                 <View style={{ flex: 1, minWidth: 0 }}>
-                  <Text style={s.chTitle}>{CHAPTER_SHORT[k]}</Text>
-                  <Text style={s.chSub}>{`重要用語 ${chCount(k)}語`}</Text>
+                  <Text style={s.chTitle}>お気に入りの用語</Text>
+                  <Text style={s.chSub}>{favCount > 0 ? `★をつけた用語 ${favCount}語` : 'まだ登録がありません'}</Text>
                 </View>
                 <Text style={s.chGo}>›</Text>
               </Pressable>
-            ))}
-          </View>
+              {chapters.map((k) => (
+                <Pressable key={k} style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => setSel(k)}>
+                  <View style={s.chNo}><Text style={s.chNoTxt}>{k}</Text></View>
+                  <View style={{ flex: 1, minWidth: 0 }}>
+                    <Text style={s.chTitle}>{CHAPTER_SHORT[k]}</Text>
+                    <Text style={s.chSub}>{`重要用語 ${chCount(k)}語`}</Text>
+                  </View>
+                  <Text style={s.chGo}>›</Text>
+                </Pressable>
+              ))}
+            </View>
+          )}
         </View>
       </ScrollView>
     );
