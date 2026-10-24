@@ -223,6 +223,10 @@ export function makeStyles(c: Colors) {
     termDef: { color: c.fg, fontSize: 13.5, lineHeight: 21, marginTop: 8 },
     termRel: { color: c.muted, fontSize: 11.5, marginTop: 8 },
     termFig: { width: '100%', height: 160, marginTop: 10, borderRadius: 8, backgroundColor: '#fff', borderWidth: 1, borderColor: c.line },
+    zoomRoot: { flex: 1, backgroundColor: 'rgba(0,0,0,0.96)' },
+    zoomBar: { flexDirection: 'row', justifyContent: 'flex-end', paddingHorizontal: 12, paddingTop: 44, paddingBottom: 6 },
+    zoomClose: { width: 40, height: 40, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.14)', alignItems: 'center', justifyContent: 'center' },
+    zoomCloseTxt: { color: '#fff', fontSize: 20, fontWeight: '900' },
     heart: { fontSize: 20 },
 
     // ---- 設定 ----

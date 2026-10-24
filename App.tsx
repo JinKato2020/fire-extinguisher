@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   View, Text, ScrollView, Pressable, Image, TextInput,
-  useWindowDimensions, PanResponder, Alert, ActivityIndicator,
+  useWindowDimensions, PanResponder, Alert, ActivityIndicator, Modal,
 } from 'react-native';
 import type { PurchasesPackage } from 'react-native-purchases';
 import { initPurchases, isProActive, subscribePro, getProPackage, purchasePro, restorePro } from './src/data/purchases';
@@ -89,6 +89,7 @@ function Markdown({ body }: { body: string }) {
     flushTbl();
     return out;
   }, [body]);
+  const [zoomUri, setZoomUri] = useState<string | null>(null);
 
   return (
     <View>
@@ -99,7 +100,7 @@ function Markdown({ body }: { body: string }) {
           return (
             <View key={i} style={{ marginVertical: 10 }}>
               {uri
-                ? <Image source={{ uri }} style={{ width: imgW, height: imgW / 1.6, backgroundColor: '#fff', borderRadius: 8 }} resizeMode="contain" />
+                ? <Pressable onPress={() => setZoomUri(uri)}><Image source={{ uri }} style={{ width: imgW, height: imgW / 1.6, backgroundColor: '#fff', borderRadius: 8 }} resizeMode="contain" /></Pressable>
                 : <View style={{ width: imgW, height: imgW / 1.6, borderRadius: 8, borderWidth: 1, borderColor: c.line, alignItems: 'center', justifyContent: 'center' }}>
                     <Text style={{ color: c.faint, fontSize: 12 }}>図は準備中</Text>
                   </View>}
@@ -134,7 +135,37 @@ function Markdown({ body }: { body: string }) {
         if (b.type === 'li') return <Text key={i} style={s.mdP}>{'・' + b.text}</Text>;
         return <Text key={i} style={s.mdP}>{b.text}</Text>;
       })}
+      {zoomUri ? <ImageZoom uri={zoomUri} onClose={() => setZoomUri(null)} /> : null}
     </View>
+  );
+}
+
+// ---- 画像の全画面ズーム(タップで拡大・右上×で閉じる。ピンチ/ドラッグ可) ----
+function ImageZoom({ uri, onClose }: { uri: string; onClose: () => void }) {
+  const s = useStyles();
+  const { width, height } = useWindowDimensions();
+  return (
+    <Modal visible transparent animationType="fade" statusBarTranslucent onRequestClose={onClose}>
+      <View style={s.zoomRoot}>
+        <View style={s.zoomBar}>
+          <Pressable onPress={onClose} hitSlop={14} style={({ pressed }) => [s.zoomClose, pressed && s.pressed]}>
+            <Text style={s.zoomCloseTxt}>✕</Text>
+          </Pressable>
+        </View>
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
+          maximumZoomScale={5}
+          minimumZoomScale={1}
+          centerContent
+          bouncesZoom
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+        >
+          <Image source={{ uri }} style={{ width, height: height * 0.82 }} resizeMode="contain" />
+        </ScrollView>
+      </View>
+    </Modal>
   );
 }
 
@@ -503,6 +534,7 @@ function TermCard({ term, onBump }: { term: Term; onBump: () => void }) {
   const s = useStyles();
   const fav = isFavTerm(term.term);
   const figUri = term.figure ? getFigureUri(term.figure) : null;
+  const [zoomFig, setZoomFig] = useState(false);
   return (
     <View style={s.termCard}>
       <View style={s.termTop}>
@@ -515,7 +547,8 @@ function TermCard({ term, onBump }: { term: Term; onBump: () => void }) {
         </Pressable>
       </View>
       <Text style={s.termDef}>{term.def}</Text>
-      {figUri ? <Image source={{ uri: figUri }} style={s.termFig} resizeMode="contain" /> : null}
+      {figUri ? <Pressable onPress={() => setZoomFig(true)}><Image source={{ uri: figUri }} style={s.termFig} resizeMode="contain" /></Pressable> : null}
+      {zoomFig && figUri ? <ImageZoom uri={figUri} onClose={() => setZoomFig(false)} /> : null}
       {term.related && term.related.length > 0 ? (
         <Text style={s.termRel}>{'関連: ' + term.related.join('、')}</Text>
       ) : null}
