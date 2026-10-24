@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   View, Text, ScrollView, Pressable, Image, TextInput,
-  useWindowDimensions,
+  useWindowDimensions, PanResponder,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -51,16 +51,27 @@ function Markdown({ body }: { body: string }) {
   const imgW = Math.min(width - 32, 560);
   const blocks = useMemo(() => {
     const lines = body.split('\n');
-    const out: { type: string; text: string }[] = [];
+    const out: { type: string; text: string; rows?: string[][] }[] = [];
     let inCode = false; let code: string[] = [];
+    let tbl: string[][] | null = null;
     const strip = (x: string) => x.replace(/\*\*(.+?)\*\*/g, '$1').replace(/`([^`]+)`/g, '$1');
+    const flushTbl = () => { if (tbl && tbl.length) out.push({ type: 'table', text: '', rows: tbl }); tbl = null; };
     for (const raw of lines) {
       const ln = raw.replace(/\s+$/, '');
       if (ln.trim().startsWith('```')) {
+        flushTbl();
         if (inCode) { out.push({ type: 'code', text: code.join('\n') }); code = []; }
         inCode = !inCode; continue;
       }
       if (inCode) { code.push(raw); continue; }
+      // 表(| ... |): 連続する行をまとめて1つの表ブロックにする(区切り行 |---| は除外)
+      if (ln.startsWith('|')) {
+        const cells = ln.split('|').slice(1, -1).map((x) => strip(x.trim()));
+        const isSep = cells.length > 0 && cells.every((x) => x === '' || /^:?-{2,}:?$/.test(x.replace(/\s/g, '')));
+        if (!isSep) (tbl = tbl ?? []).push(cells);
+        continue;
+      }
+      flushTbl();
       const fig = ln.trim().match(/^\[\[fig:([^|\]]+)\|?([^\]]*)\]\]$/);
       if (fig) { out.push({ type: 'fig', text: fig[1] + '\u0001' + (fig[2] || '') }); continue; }
       if (ln.trim().startsWith('【図】')) { out.push({ type: 'figpending', text: ln.trim().slice(3) }); continue; }
@@ -69,11 +80,11 @@ function Markdown({ body }: { body: string }) {
       if (ln.startsWith('## ')) { out.push({ type: 'h2', text: strip(ln.slice(3)) }); continue; }
       if (ln.startsWith('# ')) { out.push({ type: 'h1', text: strip(ln.slice(2)) }); continue; }
       if (ln.startsWith('> ')) { out.push({ type: 'quote', text: strip(ln.slice(2)) }); continue; }
-      if (ln.startsWith('|')) { out.push({ type: 'table', text: ln.replace(/\|/g, '  ').trim() }); continue; }
       if (/^[-*] /.test(ln.trim())) { out.push({ type: 'li', text: strip(ln.trim().slice(2)) }); continue; }
       if (/^---+$/.test(ln.trim())) { out.push({ type: 'hr', text: '' }); continue; }
       out.push({ type: 'p', text: strip(ln) });
     }
+    flushTbl();
     return out;
   }, [body]);
 
@@ -102,7 +113,22 @@ function Markdown({ body }: { body: string }) {
         if (b.type === 'h3') return <Text key={i} style={s.mdH3}>{b.text}</Text>;
         if (b.type === 'quote') return <View key={i} style={s.quote}><Text style={s.quoteTxt}>{b.text}</Text></View>;
         if (b.type === 'code') return <View key={i} style={s.code}><Text style={s.codeTxt}>{b.text}</Text></View>;
-        if (b.type === 'table') return <Text key={i} style={s.tableTxt}>{b.text}</Text>;
+        if (b.type === 'table' && b.rows) {
+          const rows = b.rows;
+          return (
+            <View key={i} style={s.table}>
+              {rows.map((r, ri) => (
+                <View key={ri} style={[s.tableRow, ri === 0 && s.tableHeadRow, ri === rows.length - 1 && { borderBottomWidth: 0 }]}>
+                  {r.map((cell, ci) => (
+                    <View key={ci} style={[s.tableCell, ci > 0 && s.tableCellDiv]}>
+                      <Text style={[s.tableCellTxt, ri === 0 && s.tableHeadTxt]}>{cell}</Text>
+                    </View>
+                  ))}
+                </View>
+              ))}
+            </View>
+          );
+        }
         if (b.type === 'li') return <Text key={i} style={s.mdP}>{'・' + b.text}</Text>;
         return <Text key={i} style={s.mdP}>{b.text}</Text>;
       })}
@@ -144,7 +170,7 @@ function SubjectRadar({ compact }: { compact?: boolean }) {
 }
 
 // ---- ホーム ----
-function HomeScreen({ onGo, onModal, ver }: { onGo: (t: TabKey) => void; onModal: (m: ModalKey) => void; ver: number }) {
+function HomeScreen({ onGo, onModal, onFavTerms, ver }: { onGo: (t: TabKey) => void; onModal: (m: ModalKey) => void; onFavTerms: () => void; ver: number }) {
   const { c, resolved } = useTheme();
   const s = useStyles();
   const { width } = useWindowDimensions();
@@ -203,13 +229,13 @@ function HomeScreen({ onGo, onModal, ver }: { onGo: (t: TabKey) => void; onModal
           {answeredAny ? <Text style={s.radarHelp}>各分野40%以上・全体60%以上が合格の目安です。40%以下の分野は要注意。</Text> : null}
         </View>
 
-        {/* メニュー6カード */}
+        {/* メニュー6カード(2列×3段) */}
         <View style={s.grid}>
-          <MenuTile icon="book" title="教材" sub={'基礎から\nしっかり学ぶ'} onPress={() => onGo('learn')} />
-          <MenuTile icon="doc" title="模試・成績" sub={'本番形式で\n実力を試す'} onPress={() => onGo('mock')} />
-          <MenuTile icon="refresh" title="弱点復習" sub={'苦手を\n克服する'} onPress={() => onGo('mock')} />
-          <MenuTile icon="terms" title="用語集" sub={'重要用語を\n確認する'} onPress={() => onGo('terms')} />
+          <MenuTile icon="book" title="教材で学ぶ" sub={'基礎から\nしっかり学ぶ'} onPress={() => onGo('learn')} />
+          <MenuTile icon="terms" title="用語" sub={'重要用語を\n確認する'} onPress={() => onGo('terms')} />
+          <MenuTile icon="doc" title="模試試験" sub={'本番形式で\n実力を試す'} onPress={() => onGo('mock')} />
           <MenuTile icon="map" title="相関図" sub={'用語のつながり\nを見る'} onPress={() => onModal('relation')} />
+          <MenuTile icon="star" title="お気に入りの用語" sub={'★をつけた\n用語を見返す'} onPress={onFavTerms} />
           <MenuTile icon="bookmark" title="ブックマーク" sub={'気になる問題を\n見返す'} badge={bmCount > 0 ? String(bmCount) : undefined} onPress={() => onModal('bookmarks')} />
         </View>
 
@@ -308,37 +334,103 @@ function LearnScreen({ chapters, onOpen }: { chapters: Chapter[]; onOpen: (c: Ch
   );
 }
 
-function Reader({ chapter, onBack }: { chapter: Chapter; onBack: () => void }) {
+function Reader({ chapter, chapters, onBack, onNavigate }: { chapter: Chapter; chapters: Chapter[]; onBack: () => void; onNavigate: (no: string) => void }) {
   const s = useStyles();
+  const idx = chapters.findIndex((x) => x.no === chapter.no);
+  const prev = idx > 0 ? chapters[idx - 1] : null;
+  const nextCh = idx >= 0 && idx < chapters.length - 1 ? chapters[idx + 1] : null;
+
+  // スワイプ(左右)で隣の章へ。最新の遷移先は ref 経由で読む(PanResponder 自体は固定)。
+  const navRef = useRef<{ prev: Chapter | null; next: Chapter | null; go: (no: string) => void }>({ prev, next: nextCh, go: onNavigate });
+  navRef.current = { prev, next: nextCh, go: onNavigate };
+  const pan = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_e, g) => Math.abs(g.dx) > 24 && Math.abs(g.dx) > Math.abs(g.dy) * 1.8,
+      onPanResponderRelease: (_e, g) => {
+        const { prev: p, next: n, go } = navRef.current;
+        if (g.dx <= -60 && n) go(n.no);
+        else if (g.dx >= 60 && p) go(p.no);
+      },
+    }),
+  ).current;
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 }} {...pan.panHandlers}>
       <View style={s.readerBar}>
         <Pressable onPress={onBack} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
           <Text style={s.backTxt}>‹ 教材一覧</Text>
         </Pressable>
+        <Text style={s.qProgress} numberOfLines={1}>{'第' + chapter.no + '章 ' + chapter.title}</Text>
       </View>
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}>
+      <ScrollView key={chapter.no} style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}>
         {chapter.body
           ? <Markdown body={chapter.body} />
           : <View style={s.soon}><Text style={s.soonBig}>準備中</Text><Text style={s.soonTxt}>{'第' + chapter.no + '章「' + chapter.title + '」の解説はこれから追加します。'}</Text></View>}
+        <View style={s.readerNav}>
+          <Pressable disabled={!prev} onPress={() => prev && onNavigate(prev.no)} style={({ pressed }) => [s.readerNavBtn, !prev && s.btnDisabled, pressed && s.pressed]}>
+            {prev ? <><Text style={s.readerNavTxt}>‹ 前の章</Text><Text style={s.readerNavSub} numberOfLines={1}>{prev.title}</Text></> : null}
+          </Pressable>
+          <Pressable disabled={!nextCh} onPress={() => nextCh && onNavigate(nextCh.no)} style={({ pressed }) => [s.readerNavBtn, { alignItems: 'flex-end' }, !nextCh && s.btnDisabled, pressed && s.pressed]}>
+            {nextCh ? <><Text style={s.readerNavTxt}>次の章 ›</Text><Text style={s.readerNavSub} numberOfLines={1}>{nextCh.title}</Text></> : null}
+          </Pressable>
+        </View>
       </ScrollView>
     </View>
   );
 }
 
 // ---- 用語集 ----
-function GlossaryScreen({ onBump, ver }: { onBump: () => void; ver: number }) {
+function GlossaryScreen({ onBump, ver, favInit }: { onBump: () => void; ver: number; favInit?: boolean }) {
   const { c } = useTheme();
   const s = useStyles();
   const [q, setQ] = useState('');
-  const [ch, setCh] = useState<string>('all');
-  const [favOnly, setFavOnly] = useState(false);
+  // sel: null = 章の選択画面 / '1'〜'6' = その章 / 'fav' = お気に入り
+  const [sel, setSel] = useState<string | null>(favInit ? 'fav' : null);
   const terms = useMemo(() => getGlossary(), [ver]);
+  const chapters = ['1', '2', '3', '4', '5', '6'];
+  const chCount = (k: string) => terms.filter((t) => t.chapter === k).length;
+  const favCount = terms.filter((t) => isFavTerm(t.term)).length;
 
-  const chips = [{ key: 'all', label: 'すべて' }, ...['1', '2', '3', '4', '5', '6'].map((k) => ({ key: k, label: CHAPTER_SHORT[k] }))];
-  const filtered = terms.filter((t) => {
-    if (ch !== 'all' && t.chapter !== ch) return false;
-    if (favOnly && !isFavTerm(t.term)) return false;
+  // ---- 章の選択画面 ----
+  if (sel === null) {
+    return (
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
+        <View style={s.pad}>
+          <View style={s.viewHead}>
+            <Text style={s.eyebrow}>GLOSSARY</Text>
+            <Text style={s.viewH2}>用語集</Text>
+            <Text style={s.viewSub}>章を選ぶと、その章の重要用語が見られます。★でお気に入りに登録できます。</Text>
+          </View>
+          <View style={{ gap: 10, marginTop: 16 }}>
+            <Pressable style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => setSel('fav')}>
+              <View style={s.chNo}><Text style={s.chNoTxt}>★</Text></View>
+              <View style={{ flex: 1, minWidth: 0 }}>
+                <Text style={s.chTitle}>お気に入りの用語</Text>
+                <Text style={s.chSub}>{favCount > 0 ? `★をつけた用語 ${favCount}語` : 'まだ登録がありません'}</Text>
+              </View>
+              <Text style={s.chGo}>›</Text>
+            </Pressable>
+            {chapters.map((k) => (
+              <Pressable key={k} style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => setSel(k)}>
+                <View style={s.chNo}><Text style={s.chNoTxt}>{k}</Text></View>
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <Text style={s.chTitle}>{CHAPTER_SHORT[k]}</Text>
+                  <Text style={s.chSub}>{`重要用語 ${chCount(k)}語`}</Text>
+                </View>
+                <Text style={s.chGo}>›</Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+      </ScrollView>
+    );
+  }
+
+  // ---- 章 / お気に入りの用語一覧 ----
+  const title = sel === 'fav' ? 'お気に入りの用語' : `第${sel}章 ${CHAPTER_SHORT[sel]}`;
+  const list = terms.filter((t) => {
+    if (sel === 'fav') { if (!isFavTerm(t.term)) return false; }
+    else if (t.chapter !== sel) return false;
     if (q.trim()) {
       const needle = q.trim();
       if (!(t.term.includes(needle) || (t.reading ?? '').includes(needle) || t.def.includes(needle))) return false;
@@ -347,43 +439,36 @@ function GlossaryScreen({ onBump, ver }: { onBump: () => void; ver: number }) {
   });
 
   return (
-    <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
-      <View style={s.pad}>
-        <View style={s.viewHead}>
-          <Text style={s.eyebrow}>GLOSSARY</Text>
-          <Text style={s.viewH2}>用語集</Text>
-          <Text style={s.viewSub}>消火器と法令の重要用語をまとめました。★でお気に入りに登録できます。</Text>
-        </View>
-
-        <View style={s.search}>
-          <Icon name="search" size={18} color={c.faint} />
-          <TextInput
-            style={s.searchInput}
-            placeholder="用語・よみ・説明で検索"
-            placeholderTextColor={c.faint}
-            value={q}
-            onChangeText={setQ}
-          />
-        </View>
-
-        <View style={s.chipRow}>
-          {chips.map((cp) => (
-            <Pressable key={cp.key} onPress={() => setCh(cp.key)} style={[s.chip, ch === cp.key && s.chipOn]}>
-              <Text style={[s.chipTxt, ch === cp.key && s.chipTxtOn]}>{cp.label}</Text>
-            </Pressable>
-          ))}
-          <Pressable onPress={() => setFavOnly((v) => !v)} style={[s.chip, favOnly && s.chipOn]}>
-            <Text style={[s.chipTxt, favOnly && s.chipTxtOn]}>★ お気に入り</Text>
-          </Pressable>
-        </View>
-
-        {filtered.length === 0 ? (
-          <Text style={[s.radarEmpty, { marginTop: 24 }]}>該当する用語がありません。</Text>
-        ) : filtered.map((t) => (
-          <TermCard key={t.id} term={t} onBump={onBump} />
-        ))}
+    <View style={{ flex: 1 }}>
+      <View style={s.readerBar}>
+        <Pressable onPress={() => { setSel(null); setQ(''); }} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
+          <Text style={s.backTxt}>‹ 章の選択</Text>
+        </Pressable>
+        <Text style={s.qProgress}>{title}</Text>
       </View>
-    </ScrollView>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+        <View style={s.pad}>
+          <View style={s.search}>
+            <Icon name="search" size={18} color={c.faint} />
+            <TextInput
+              style={s.searchInput}
+              placeholder="用語・よみ・説明で検索"
+              placeholderTextColor={c.faint}
+              value={q}
+              onChangeText={setQ}
+            />
+          </View>
+
+          {list.length === 0 ? (
+            <Text style={[s.radarEmpty, { marginTop: 24 }]}>
+              {sel === 'fav' ? '★をつけた用語がここに集まります。' : '該当する用語がありません。'}
+            </Text>
+          ) : list.map((t) => (
+            <TermCard key={t.id} term={t} onBump={onBump} />
+          ))}
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -456,12 +541,6 @@ function MockScoreScreen({ onBump }: { onBump: () => void }) {
               <Text style={s.statNum}>{stats.correct}<Text style={s.statUnit}> 問</Text></Text>
             </View>
           </View>
-        </View>
-
-        {/* 分野別レーダー */}
-        <View style={s.radarCard}>
-          <Text style={[s.cardTitle, { alignSelf: 'flex-start' }]}>分野ごとの実力</Text>
-          <SubjectRadar />
         </View>
 
         {/* 弱点復習 */}
@@ -951,6 +1030,7 @@ function Main() {
   const [contentVersion, setContentVersion] = useState(0);
   const [dataVersion, setDataVersion] = useState(0);
   const [tab, setTab] = useState<TabKey>('home');
+  const [termsFav, setTermsFav] = useState(false);
   const [openNo, setOpenNo] = useState<string | null>(null);
   const [modal, setModal] = useState<ModalKey>(null);
   const [syncing, setSyncing] = useState(false);
@@ -970,7 +1050,8 @@ function Main() {
   const chapters = useMemo(() => getChapters(), [contentVersion]);
   const openChapter = openNo ? (chapters.find((x) => x.no === openNo) ?? null) : null;
 
-  const goTab = (t: TabKey) => { setTab(t); if (t !== 'learn') setOpenNo(null); };
+  const goTab = (t: TabKey) => { setTab(t); if (t !== 'learn') setOpenNo(null); if (t === 'terms') setTermsFav(false); };
+  const goFavTerms = () => { setOpenNo(null); setTermsFav(true); setTab('terms'); };
 
   const doSync = () => {
     if (syncing) return;
@@ -995,11 +1076,11 @@ function Main() {
             </>
           ) : (
             <>
-              {tab === 'home' && <HomeScreen onGo={goTab} onModal={setModal} ver={dataVersion} />}
+              {tab === 'home' && <HomeScreen onGo={goTab} onModal={setModal} onFavTerms={goFavTerms} ver={dataVersion} />}
               {tab === 'learn' && (openChapter
-                ? <Reader chapter={openChapter} onBack={() => setOpenNo(null)} />
+                ? <Reader chapter={openChapter} chapters={chapters} onBack={() => setOpenNo(null)} onNavigate={(no) => setOpenNo(no)} />
                 : <LearnScreen chapters={chapters} onOpen={(x) => setOpenNo(x.no)} />)}
-              {tab === 'terms' && <GlossaryScreen onBump={bump} ver={dataVersion} />}
+              {tab === 'terms' && <GlossaryScreen onBump={bump} ver={dataVersion} favInit={termsFav} />}
               {tab === 'mock' && <MockScoreScreen onBump={bump} />}
               {tab === 'set' && <SettingsScreen onModal={setModal} onSync={doSync} syncing={syncing} />}
             </>

@@ -19,7 +19,7 @@ export function makeStyles(c: Colors) {
     heroFade: { position: 'absolute', left: 0, right: 0, bottom: -1, height: 120, backgroundColor: 'transparent' },
 
     // ---- 試験日カウントダウン ----
-    countCard: { marginTop: -46, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 18, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 },
+    countCard: { marginTop: 16, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 18, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 },
     countLeft: { flex: 1 },
     countLabel: { color: c.muted, fontSize: 11, fontWeight: '700', letterSpacing: 1 },
     countRow: { flexDirection: 'row', alignItems: 'baseline', marginTop: 4 },
@@ -122,8 +122,21 @@ export function makeStyles(c: Colors) {
     quoteTxt: { color: c.fg, fontSize: 14, lineHeight: 22 },
     code: { backgroundColor: c.card2, borderWidth: 1, borderColor: c.line, borderRadius: 8, padding: 12, marginVertical: 6 },
     codeTxt: { color: c.muted, fontSize: 13, lineHeight: 20, fontFamily: 'Courier' },
-    tableTxt: { color: c.muted, fontSize: 13, lineHeight: 21, fontFamily: 'Courier' },
+    // ---- マークダウン表(罫線つき) ----
+    table: { borderWidth: 1, borderColor: c.line, borderRadius: 10, overflow: 'hidden', marginVertical: 12 },
+    tableRow: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: c.line },
+    tableHeadRow: { backgroundColor: c.card2 },
+    tableCell: { flex: 1, paddingVertical: 9, paddingHorizontal: 10, justifyContent: 'center' },
+    tableCellDiv: { borderLeftWidth: 1, borderLeftColor: c.line },
+    tableCellTxt: { color: c.fg, fontSize: 13, lineHeight: 19 },
+    tableHeadTxt: { fontWeight: '900' },
     hr: { height: 1, backgroundColor: c.line, marginVertical: 12 },
+
+    // ---- リーダー: 前/次の章ナビ ----
+    readerNav: { flexDirection: 'row', gap: 12, marginTop: 28 },
+    readerNavBtn: { flex: 1, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14, minHeight: 56, justifyContent: 'center' },
+    readerNavTxt: { color: c.accent, fontSize: 13, fontWeight: '900' },
+    readerNavSub: { color: c.muted, fontSize: 11.5, marginTop: 3 },
 
     // ---- 問題演習 ----
     reviewBtn: { marginTop: 16, backgroundColor: c.card, borderWidth: 1, borderColor: c.good, borderRadius: 14, padding: 15 },
