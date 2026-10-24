@@ -58,7 +58,10 @@ function diffKeys(remote: ManifestLike, have: Record<string, string>): string[] 
 async function effectiveShas(cachedShas: Record<string, string>): Promise<Record<string, string>> {
   const bundled = ((bundledManifest as ManifestLike).files) ?? {};
   const base: Record<string, string> = {};
-  for (const k of Object.keys(bundled)) base[k] = bundled[k].sha256;
+  // 図(figures/)は require 同梱しない＝端末には存在しない。manifestに載っていても
+  // 土台shaへ混ぜると「もう持っている」と誤判定してDLをスキップし、本文で永遠に「準備中」になる。
+  // そこで図キーは土台に入れず、未DLの間は必ず diff に出てDLされるようにする。
+  for (const k of Object.keys(bundled)) if (!k.startsWith('figures/')) base[k] = bundled[k].sha256;
   const storedTag = await FileSystem.readAsStringAsync(BUNDLE_TAG_PATH).catch(() => '');
   return storedTag === bundleTag() ? { ...base, ...cachedShas } : base;
 }

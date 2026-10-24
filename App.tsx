@@ -24,7 +24,9 @@ import {
 import { ThemeProvider, useTheme, useStyles } from './src/theme/ThemeContext';
 import type { Mode } from './src/theme/ThemeContext';
 import { CHAPTER_SHORT, subjectColor, type Colors } from './src/theme/colors';
+import { SvgXml } from 'react-native-svg';
 import { Icon, Ring, Tag, RadarChart, StreakBars, Segmented, type RadarAxis, type RadarSeries } from './src/ui/components';
+import { RELATION_MAPS } from './src/data/relationMaps.generated';
 
 type TabKey = 'home' | 'learn' | 'terms' | 'mock' | 'set';
 type ModalKey = 'bookmarks' | 'relation' | 'guide' | 'examdate' | null;
@@ -154,6 +156,10 @@ function HomeScreen({ onGo, onModal, ver }: { onGo: (t: TabKey) => void; onModal
   const streak = useMemo(() => studyStreak(), [ver]);
   const recent = useMemo(() => recentDaily(14), [ver]);
   const bmCount = useMemo(() => bookmarkCount(), [ver]);
+  const cs = useMemo(() => chapterStats(), [ver]);
+  const answeredAny = stats.answered > 0;
+  const weak = Object.values(cs).some((x) => x.answered > 0 && x.acc <= 40);
+  const allPass = answeredAny && !weak && stats.accuracy >= 60;
   const guideImg = resolved === 'light'
     ? require('./assets/examguide-light.png')
     : require('./assets/examguide-dark.png');
@@ -185,8 +191,16 @@ function HomeScreen({ onGo, onModal, ver }: { onGo: (t: TabKey) => void; onModal
 
         {/* 分野別レーダー */}
         <View style={s.radarCard}>
-          <Text style={[s.cardTitle, { alignSelf: 'flex-start' }]}>分野ごとの実力</Text>
+          <View style={s.radarHead}>
+            <Text style={s.cardTitle}>分野ごとの実力</Text>
+            {answeredAny ? (
+              <View style={[s.radarBadge, { backgroundColor: allPass ? c.goodSoft : c.warnSoft }]}>
+                <Text style={[s.radarBadgeTxt, { color: allPass ? c.good : c.warn }]}>{allPass ? '合格圏' : '弱点あり'}</Text>
+              </View>
+            ) : null}
+          </View>
           <SubjectRadar compact />
+          {answeredAny ? <Text style={s.radarHelp}>各分野40%以上・全体60%以上が合格の目安です。40%以下の分野は要注意。</Text> : null}
         </View>
 
         {/* メニュー6カード */}
@@ -195,7 +209,7 @@ function HomeScreen({ onGo, onModal, ver }: { onGo: (t: TabKey) => void; onModal
           <MenuTile icon="doc" title="模試・成績" sub={'本番形式で\n実力を試す'} onPress={() => onGo('mock')} />
           <MenuTile icon="refresh" title="弱点復習" sub={'苦手を\n克服する'} onPress={() => onGo('mock')} />
           <MenuTile icon="terms" title="用語集" sub={'重要用語を\n確認する'} onPress={() => onGo('terms')} />
-          <MenuTile icon="map" title="相関図" sub={'用語のつながり\nを見る'} soon onPress={() => onModal('relation')} />
+          <MenuTile icon="map" title="相関図" sub={'用語のつながり\nを見る'} onPress={() => onModal('relation')} />
           <MenuTile icon="bookmark" title="ブックマーク" sub={'気になる問題を\n見返す'} badge={bmCount > 0 ? String(bmCount) : undefined} onPress={() => onModal('bookmarks')} />
         </View>
 
@@ -224,9 +238,19 @@ function HomeScreen({ onGo, onModal, ver }: { onGo: (t: TabKey) => void; onModal
             </View>
           </View>
           <StreakBars data={recent} />
+          <View style={s.streakAxis}><Text style={s.streakAxisTxt}>14日前</Text><Text style={s.streakAxisTxt}>今日</Text></View>
+          <Text style={s.streakHelp}>解いた問題数の推移。毎日つづけて、連続日数をのばそう。</Text>
         </View>
 
-        <Text style={s.footer}>コツコツが、合格への一番の近道です。</Text>
+        <View style={s.motiv}>
+          <View style={s.motivRule}>
+            <View style={s.motivLine} />
+            <Icon name="target" size={14} color={c.accent} />
+            <View style={s.motivLine} />
+          </View>
+          <Text style={s.motivMain}>コツコツが、合格への一番の近道。</Text>
+          <Text style={s.motivKicker}>KEEP GOING, PASS THE EXAM</Text>
+        </View>
       </View>
     </ScrollView>
   );
@@ -731,9 +755,26 @@ function QuestionDetail({ question: q, onBack, onBump }: { question: Question; o
   );
 }
 
-// ---- モーダル: 相関図(準備中) ----
+// ---- モーダル: 相関図(章ごとの相関図を表示・タップで全画面ズーム) ----
 function RelationMapScreen({ onClose }: { onClose: () => void }) {
+  const { resolved } = useTheme();
   const s = useStyles();
+  const { width, height } = useWindowDimensions();
+  const [ch, setCh] = useState<string>('1');
+  const [zoom, setZoom] = useState(false);
+
+  const chapters = ['1', '2', '3', '4', '5', '6'];
+  const AR = 3400 / 2200; // SVGの viewBox 比(横/縦)
+  const svg = useMemo(() => {
+    const m = RELATION_MAPS[ch];
+    return m ? (resolved === 'light' ? m.light : m.dark) : '';
+  }, [ch, resolved]);
+
+  const thumbW = Math.min(width - 32, 520);
+  const thumbH = Math.round(thumbW / AR);
+  const fullW = Math.min(width, 440);
+  const fullH = Math.round(fullW / AR);
+
   return (
     <View style={{ flex: 1 }}>
       <View style={s.modalBar}>
@@ -741,11 +782,37 @@ function RelationMapScreen({ onClose }: { onClose: () => void }) {
         <Text style={s.modalTitle}>相関図</Text>
         <View style={{ width: 56 }} />
       </View>
-      <View style={s.soon}>
-        <Icon name="map" size={40} />
-        <Text style={s.soonTitle}>相関図は準備中です</Text>
-        <Text style={s.soonTxt}>{'章ごとの重要用語のつながりを図でまとめた「相関図」を、次のアップデートで追加します。'}</Text>
-      </View>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40 }]} showsVerticalScrollIndicator={false}>
+        <View style={{ marginTop: 12 }}>
+          <Segmented options={chapters.map((k) => ({ key: k, label: CHAPTER_SHORT[k] }))} value={ch} onChange={setCh} />
+        </View>
+        <Text style={[s.cardTitle, { marginTop: 16 }]}>{'第' + ch + '章 ' + CHAPTER_SHORT[ch]}</Text>
+        <Text style={s.relHint}>6つのテーマから、役割としくみを整理した図です。図をタップすると全画面で拡大できます。</Text>
+        <Pressable onPress={() => setZoom(true)} style={({ pressed }) => [s.relThumb, { width: thumbW, height: thumbH }, pressed && s.pressed]}>
+          {svg ? <SvgXml xml={svg} width={thumbW} height={thumbH} /> : null}
+          <View style={s.relZoomHint}><Text style={s.relZoomHintTxt}>タップで拡大</Text></View>
+        </Pressable>
+      </ScrollView>
+      {zoom ? (
+        <View style={s.relFull}>
+          <View style={s.relFullBar}>
+            <Text style={s.relFullHint}>ピンチで拡大・指でスクロール</Text>
+            <Pressable onPress={() => setZoom(false)} hitSlop={12} style={({ pressed }) => [pressed && s.pressed]}><Text style={s.relFullClose}>✕ 閉じる</Text></Pressable>
+          </View>
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', minHeight: height - 120, minWidth: fullW }}
+            maximumZoomScale={5}
+            minimumZoomScale={1}
+            centerContent
+            bouncesZoom
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+          >
+            {svg ? <SvgXml xml={svg} width={fullW} height={fullH} /> : null}
+          </ScrollView>
+        </View>
+      ) : null}
     </View>
   );
 }

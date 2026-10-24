@@ -42,6 +42,18 @@ export function makeStyles(c: Colors) {
     legendDash: { width: 16, height: 0, borderTopWidth: 2 },
     legendTxt: { color: c.muted, fontSize: 11 },
     radarEmpty: { color: c.muted, fontSize: 12, textAlign: 'center', paddingVertical: 20, lineHeight: 19 },
+    radarHead: { flexDirection: 'row', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 },
+    radarBadge: { borderRadius: 99, paddingHorizontal: 10, paddingVertical: 3 },
+    radarBadgeTxt: { fontSize: 11.5, fontWeight: '900' },
+    radarHelp: { color: c.muted, fontSize: 11, lineHeight: 17, alignSelf: 'stretch', marginTop: 8 },
+    relHint: { color: c.muted, fontSize: 12, lineHeight: 19, marginTop: 6 },
+    relThumb: { marginTop: 12, alignSelf: 'center', borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: c.line, backgroundColor: c.card },
+    relZoomHint: { position: 'absolute', right: 8, bottom: 8, backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: 99, paddingHorizontal: 9, paddingVertical: 4 },
+    relZoomHintTxt: { color: '#fff', fontSize: 10, fontWeight: '800' },
+    relFull: { ...StyleSheet.absoluteFillObject, backgroundColor: c.bg },
+    relFullBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: c.line },
+    relFullHint: { color: c.muted, fontSize: 12, fontWeight: '700' },
+    relFullClose: { color: c.accent, fontSize: 14, fontWeight: '900' },
 
     // ---- 6カードグリッド ----
     grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginTop: 14 },
@@ -71,8 +83,16 @@ export function makeStyles(c: Colors) {
     streakBars: { flexDirection: 'row', alignItems: 'flex-end', gap: 4, height: 46, marginTop: 12 },
     streakBar: { flex: 1, borderRadius: 3, backgroundColor: c.raise, minHeight: 4 },
     streakBarOn: { backgroundColor: c.good },
+    streakAxis: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 },
+    streakAxisTxt: { color: c.faint, fontSize: 10 },
+    streakHelp: { color: c.muted, fontSize: 11, lineHeight: 17, marginTop: 8 },
 
     footer: { color: c.accent, fontSize: 14, fontWeight: '900', textAlign: 'center', marginTop: 22, marginBottom: 4 },
+    motiv: { alignItems: 'center', marginTop: 24, marginBottom: 6 },
+    motivRule: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
+    motivLine: { width: 22, height: 2, backgroundColor: c.accent, opacity: 0.8, borderRadius: 2 },
+    motivMain: { color: c.accent, fontSize: 16, fontWeight: '900' },
+    motivKicker: { color: c.faint, fontSize: 9, fontWeight: '800', letterSpacing: 2.5, marginTop: 5 },
 
     // ---- CTA ----
     cta: { marginTop: 16, backgroundColor: c.accent, borderRadius: 40, paddingVertical: 16, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' },
