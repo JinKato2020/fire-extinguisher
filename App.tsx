@@ -12,7 +12,7 @@ import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
 import { getFigureUri } from './src/data/contentStore';
 import { getQuizSets, getQuestions, getAllQuestions, type Question, type QuizSet } from './src/data/questions';
-import { loadHistory, recordAnswer, selectReview, overallStats } from './src/data/history';
+import { loadHistory, recordAnswer, selectReview, overallStats, getRec } from './src/data/history';
 import { getGlossary, type Term } from './src/data/glossary';
 import {
   loadBookmarks, isBookmarked, toggleBookmark, bookmarkedIds, bookmarkCount,
@@ -589,13 +589,120 @@ function TermCard({ term, onBump }: { term: Term; onBump: () => void }) {
 // 無料=模試①②、Pro=模試③〜⑧＋弱点復習(買い切りProで解放)。
 const FREE_MOCK_COUNT = 2;
 
+// その模試の問題群に対する現在の成績(最新の正誤で集計)。
+function mockStat(questions: Question[]) {
+  let answered = 0, correct = 0;
+  const perCh: Record<string, [number, number]> = {};
+  const wrong: Question[] = [];
+  for (const q of questions) {
+    const r = getRec(q.id);
+    if (!r || r.seen === 0) continue;
+    answered++;
+    const ok = r.lastCorrect ? 1 : 0;
+    correct += ok;
+    const e = perCh[q.chapter] ?? [0, 0];
+    e[0] += ok; e[1] += 1; perCh[q.chapter] = e;
+    if (!r.lastCorrect) wrong.push(q);
+  }
+  const pct = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+  return { answered, correct, pct, total: questions.length, perCh, wrong };
+}
+
+// ---- 成績を確認する(クレーン同等の結果画面) ----
+function MockResult({ set, onBack, onBump }: { set: QuizSet; onBack: () => void; onBump: () => void }) {
+  const { c } = useTheme();
+  const s = useStyles();
+  const [detail, setDetail] = useState<Question | null>(null);
+  const qs = useMemo(() => getQuestions(set.file), [set.file]);
+  const st = mockStat(qs);
+  if (detail) return <QuestionDetail question={detail} onBack={() => setDetail(null)} onBump={onBump} />;
+  const pass = st.pct >= 60;
+  const chapters = Object.keys(st.perCh).sort();
+  const weak = chapters
+    .map((ch) => { const [cc, aa] = st.perCh[ch]; return { ch, p: aa ? Math.round((cc / aa) * 100) : 0 }; })
+    .filter((x) => x.p < 70)
+    .sort((a, b) => a.p - b.p);
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={s.readerBar}>
+        <Pressable onPress={onBack} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}><Text style={s.backTxt}>‹ 模試一覧</Text></Pressable>
+        <Text style={s.qProgress} numberOfLines={1}>{set.title} 成績</Text>
+      </View>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40 }]} showsVerticalScrollIndicator={false}>
+        {st.answered === 0 ? (
+          <View style={s.soon}><Text style={s.soonBig}>未受験</Text><Text style={s.soonTxt}>この模試はまだ解いていません。「試験を始める」から挑戦しましょう。</Text></View>
+        ) : (
+          <>
+            <View style={s.resultHero}>
+              <Ring pct={st.pct} label="得点率" />
+              <Text style={[s.verdict, pass ? s.vOk : s.vNg, { marginTop: 10, textAlign: 'center' }]}>
+                {pass ? '合格ライン(60%)を超えています。順調です！' : '合格ラインまであと少し。弱点を復習しましょう。'}
+              </Text>
+            </View>
+            <View style={s.statRow}>
+              <View style={s.statCell}><Text style={s.statCellV}>{st.correct}/{st.answered}</Text><Text style={s.statCellK}>正答数</Text></View>
+              <View style={s.statCell}><Text style={[s.statCellV, { color: c.accent }]}>{st.pct}%</Text><Text style={s.statCellK}>得点率</Text></View>
+              <View style={s.statCell}><Text style={s.statCellV}>{st.total - st.answered}</Text><Text style={s.statCellK}>未解答</Text></View>
+            </View>
+            <Text style={s.sectionHead}>分野別の正答率</Text>
+            <View style={s.barBox}>
+              {chapters.map((ch) => {
+                const [cc, aa] = st.perCh[ch];
+                const p = aa ? Math.round((cc / aa) * 100) : 0;
+                return (
+                  <View key={ch} style={s.barRow}>
+                    <Text style={s.barLabel}>{CHAPTER_SHORT[ch]}</Text>
+                    <View style={s.barTrack}><View style={[s.barFill, { width: `${p}%` as `${number}%`, backgroundColor: p >= 60 ? c.good : c.accent }]} /></View>
+                    <Text style={s.barPct}>{p}%</Text>
+                  </View>
+                );
+              })}
+            </View>
+            {weak.length ? (
+              <>
+                <Text style={s.sectionHead}>弱点分析</Text>
+                <View style={{ gap: 10 }}>
+                  {weak.map((w) => (
+                    <View key={w.ch} style={s.weakCard}>
+                      <View style={[s.mockPill, s.mockPillWarn]}><Text style={[s.mockPillTxt, s.mockPillWarnTxt]}>{CHAPTER_SHORT[w.ch]}</Text></View>
+                      <Text style={s.weakTxt}>{'正答率 ' + w.p + '%。この分野を重点的に復習しましょう。'}</Text>
+                    </View>
+                  ))}
+                </View>
+              </>
+            ) : null}
+            {st.wrong.length ? (
+              <>
+                <Text style={s.sectionHead}>{'間違えた問題（' + st.wrong.length + '問）'}</Text>
+                <View style={{ gap: 10 }}>
+                  {st.wrong.map((q) => (
+                    <Pressable key={q.id} onPress={() => setDetail(q)} style={({ pressed }) => [s.wrongCard, pressed && s.pressed]}>
+                      <View style={[s.mockPill, s.mockPillWarn, { alignSelf: 'flex-start' }]}><Text style={[s.mockPillTxt, s.mockPillWarnTxt]}>要復習</Text></View>
+                      <Text style={s.wrongStem} numberOfLines={2}>{q.stem}</Text>
+                    </Pressable>
+                  ))}
+                </View>
+              </>
+            ) : null}
+            <Pressable onPress={onBack} style={({ pressed }) => [s.submitBtn, { marginTop: 20 }, pressed && s.pressed]}><Text style={s.submitTxt}>完了</Text></Pressable>
+          </>
+        )}
+      </ScrollView>
+    </View>
+  );
+}
+
 function MockScoreScreen({ onBump, pro, onPaywall }: { onBump: () => void; pro: boolean; onPaywall: () => void }) {
   const [session, setSession] = useState<{ title: string; questions: Question[] } | null>(null);
+  const [resultSet, setResultSet] = useState<QuizSet | null>(null);
   const { c } = useTheme();
   const s = useStyles();
 
   if (session) {
     return <QuizPlayer title={session.title} questions={session.questions} onExit={() => { setSession(null); onBump(); }} onBump={onBump} />;
+  }
+  if (resultSet) {
+    return <MockResult set={resultSet} onBack={() => { setResultSet(null); onBump(); }} onBump={onBump} />;
   }
 
   const sets = getQuizSets();
@@ -670,18 +777,38 @@ function MockScoreScreen({ onBump, pro, onPaywall }: { onBump: () => void; pro: 
 
         <Text style={s.sectionHead}>問題セット</Text>
         {!pro ? <Text style={s.mockHint}>模試①②は無料。③〜⑧はProで解放できます。</Text> : null}
-        <View style={{ gap: 10 }}>
+        <View style={{ gap: 12 }}>
           {sets.map((set, i) => {
             const locked = i >= FREE_MOCK_COUNT && !pro;
+            const st = mockStat(getQuestions(set.file));
+            const taken = st.answered > 0;
             return (
-              <Pressable key={set.id} style={({ pressed }) => [s.ch, locked && s.chLocked, pressed && s.pressed]} onPress={() => startSet(set, locked)}>
-                <View style={s.chNo}><Text style={s.chNoTxt}>{set.chapter}</Text></View>
-                <View style={{ flex: 1, minWidth: 0 }}>
-                  <Text style={s.chTitle}>{set.title}</Text>
-                  <Text style={s.chSub}>{'筆記 ' + set.count + ' 問'}</Text>
+              <View key={set.id} style={[s.mockCard, locked && s.chLocked]}>
+                <View style={s.mockHead}>
+                  <View style={s.mockNo}><Text style={s.mockNoNum}>{i + 1}</Text><Text style={s.mockNoUnit}>回</Text></View>
+                  <View style={{ flex: 1, minWidth: 0 }}>
+                    <Text style={s.mockTitle} numberOfLines={1}>{set.title}</Text>
+                    <Text style={s.mockMeta}>{'全' + st.total + '問 ・ 本番形式'}</Text>
+                    <View style={s.mockPillRow}>
+                      {locked ? (
+                        <View style={[s.mockPill, s.mockPillPro]}><Text style={[s.mockPillTxt, s.mockPillProTxt]}>PROで解放</Text></View>
+                      ) : taken ? (
+                        <View style={[s.mockPill, st.pct >= 60 ? s.mockPillPass : s.mockPillWarn]}><Text style={[s.mockPillTxt, st.pct >= 60 ? s.mockPillPassTxt : s.mockPillWarnTxt]}>{'受験済 ' + st.pct + '点'}</Text></View>
+                      ) : (
+                        <View style={[s.mockPill, s.mockPillNew]}><Text style={[s.mockPillTxt, s.mockPillNewTxt]}>未受験</Text></View>
+                      )}
+                    </View>
+                  </View>
                 </View>
-                {locked ? <View style={s.proPill}><Text style={s.proPillTxt}>Pro</Text></View> : <Text style={s.chGo}>›</Text>}
-              </Pressable>
+                <View style={s.mockBtns}>
+                  <Pressable onPress={() => startSet(set, locked)} style={({ pressed }) => [s.mockStart, pressed && s.pressed]}>
+                    <Text style={s.mockStartTxt}>{locked ? '🔒 試験を始める' : '試験を始める'}</Text>
+                  </Pressable>
+                  <Pressable disabled={!taken} onPress={() => setResultSet(set)} style={({ pressed }) => [s.mockReview, !taken && s.mockReviewOff, pressed && s.pressed]}>
+                    <Text style={[s.mockReviewTxt, !taken && s.mockReviewTxtOff]}>成績を確認する</Text>
+                  </Pressable>
+                </View>
+              </View>
             );
           })}
         </View>
