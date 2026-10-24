@@ -1,102 +1,57 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView, Pressable, Image,
+  View, Text, ScrollView, Pressable, Image, TextInput,
   useWindowDimensions,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Circle, Path, G } from 'react-native-svg';
 import { BUILD_NUMBER } from './src/buildInfo';
 import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
 import { getFigureUri } from './src/data/contentStore';
 import { getQuizSets, getQuestions, getAllQuestions, type Question, type QuizSet } from './src/data/questions';
-import { loadHistory, recordAnswer, selectReview } from './src/data/history';
+import { loadHistory, recordAnswer, selectReview, overallStats } from './src/data/history';
+import { getGlossary, type Term } from './src/data/glossary';
+import {
+  loadBookmarks, isBookmarked, toggleBookmark, bookmarkedIds, bookmarkCount,
+  isFavTerm, toggleFavTerm,
+} from './src/data/bookmarks';
+import { loadExamDate, getExamDate, setExamDate, daysLeft, examDateText } from './src/data/examDate';
+import {
+  loadStats, bumpDaily, chapterStats, currentAccMap, recentDaily, studyStreak,
+  recordSnapshotIfNeeded, snapAsOf,
+} from './src/data/stats';
+import { ThemeProvider, useTheme, useStyles } from './src/theme/ThemeContext';
+import type { Mode } from './src/theme/ThemeContext';
+import { CHAPTER_SHORT, subjectColor, type Colors } from './src/theme/colors';
+import { Icon, Ring, Tag, RadarChart, StreakBars, Segmented, type RadarAxis, type RadarSeries } from './src/ui/components';
 
-// 参考画像「ミッドナイトキャンパス」から採取した配色
-const C = {
-  bg: '#060e1a',
-  app: '#0a1524',
-  card: '#101e33',
-  card2: '#0e1a2c',
-  line: 'rgba(255,255,255,0.08)',
-  fg: '#eef3f9',
-  muted: '#95a7bd',
-  muted2: '#6f8299',
-  red: '#d8383d',
-  redDark: '#b32a30',
-  teal: '#3ad7a6',
-};
+type TabKey = 'home' | 'learn' | 'terms' | 'mock' | 'set';
+type ModalKey = 'bookmarks' | 'relation' | 'guide' | 'examdate' | null;
 
-type TabKey = 'home' | 'learn' | 'mock' | 'score' | 'set';
+const QLABEL = ['1', '2', '3', '4', '5'];
+const pad2 = (n: number) => String(n).padStart(2, '0');
 
-// 章一覧(Chapter型)は src/data/chapters.ts(content/index.json 起点)から取得する。OTAで差し替え可能。
-
-// ---- アイコン(react-native-svg) ----
-function Icon({ name, size = 23, color = C.muted2 }: { name: string; size?: number; color?: string }) {
-  const p = { stroke: color, strokeWidth: 1.8, fill: 'none', strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
-  const vb = '0 0 24 24';
-  switch (name) {
-    case 'home':
-      return <Svg width={size} height={size} viewBox={vb}><Path {...p} d="M3 11.5 12 4l9 7.5" /><Path {...p} d="M5 10v10h14V10" /></Svg>;
-    case 'book':
-      return <Svg width={size} height={size} viewBox={vb}><Path {...p} d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5z" /><Path {...p} d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5A1.5 1.5 0 0 1 20 20.5z" /></Svg>;
-    case 'search':
-      return <Svg width={size} height={size} viewBox={vb}><Circle {...p} cx={11} cy={11} r={7} /><Path {...p} d="m20 20-3.2-3.2" /></Svg>;
-    case 'doc':
-      return <Svg width={size} height={size} viewBox={vb}><Path {...p} d="M6 3h9l3 3v15H6z" /><Path {...p} d="M9 9h6M9 13h6M9 17h4" /></Svg>;
-    case 'refresh':
-      return <Svg width={size} height={size} viewBox={vb}><Path {...p} d="M21 12a9 9 0 1 1-3-6.7" /><Path {...p} d="M21 4v4h-4" /></Svg>;
-    case 'bars':
-      return <Svg width={size} height={size} viewBox={vb}><Path {...p} d="M5 20V10M12 20V4M19 20v-6" /></Svg>;
-    case 'gear':
-      return <Svg width={size} height={size} viewBox={vb}><Circle {...p} cx={12} cy={12} r={3} /><Path {...p} d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" /></Svg>;
-    default:
-      return null;
+function tagColors(kind: NonNullable<Chapter['tagKind']>, c: Colors): { bg: string; fg: string } {
+  switch (kind) {
+    case 'hard': return { bg: c.warnSoft, fg: c.warn };
+    case 'mid': return { bg: 'rgba(224,163,46,0.16)', fg: '#E0A32E' };
+    case 'easy': return { bg: c.goodSoft, fg: c.good };
+    case 'done': return { bg: c.goodSoft, fg: c.good };
   }
-}
-
-function Ring({ pct }: { pct: number }) {
-  const r = 34, c = 2 * Math.PI * r;
-  const off = c * (1 - pct / 100);
-  return (
-    <View style={{ width: 92, height: 92, alignItems: 'center', justifyContent: 'center' }}>
-      <Svg width={92} height={92} viewBox="0 0 92 92" style={{ position: 'absolute' }}>
-        <Circle cx={46} cy={46} r={r} stroke="rgba(255,255,255,0.09)" strokeWidth={9} fill="none" />
-        <G rotation={-90} origin="46, 46">
-          <Circle cx={46} cy={46} r={r} stroke={C.teal} strokeWidth={9} fill="none"
-            strokeLinecap="round" strokeDasharray={c} strokeDashoffset={off} />
-        </G>
-      </Svg>
-      <Text style={styles.ringVal}>{pct}%</Text>
-      <Text style={styles.ringLbl}>学習進捗</Text>
-    </View>
-  );
-}
-
-function Tag({ label, kind }: { label: string; kind: NonNullable<Chapter['tagKind']> }) {
-  const map = {
-    hard: ['rgba(216,56,61,0.16)', '#ff9ea1'],
-    mid: ['rgba(240,180,80,0.14)', '#f3c67a'],
-    easy: ['rgba(58,215,166,0.14)', '#7ee9c8'],
-    done: ['rgba(58,215,166,0.16)', '#7ee9c8'],
-  }[kind];
-  return (
-    <View style={[styles.tag, { backgroundColor: map[0] }]}>
-      <Text style={[styles.tagTxt, { color: map[1] }]}>{label}</Text>
-    </View>
-  );
 }
 
 // ---- 軽量マークダウン表示 ----
 function Markdown({ body }: { body: string }) {
+  const { c } = useTheme();
+  const s = useStyles();
   const { width } = useWindowDimensions();
   const imgW = Math.min(width - 32, 560);
   const blocks = useMemo(() => {
     const lines = body.split('\n');
     const out: { type: string; text: string }[] = [];
     let inCode = false; let code: string[] = [];
-    const strip = (s: string) => s.replace(/\*\*(.+?)\*\*/g, '$1').replace(/`([^`]+)`/g, '$1');
+    const strip = (x: string) => x.replace(/\*\*(.+?)\*\*/g, '$1').replace(/`([^`]+)`/g, '$1');
     for (const raw of lines) {
       const ln = raw.replace(/\s+$/, '');
       if (ln.trim().startsWith('```')) {
@@ -104,10 +59,8 @@ function Markdown({ body }: { body: string }) {
         inCode = !inCode; continue;
       }
       if (inCode) { code.push(raw); continue; }
-      // 図マーカー [[fig:asset|caption]] → 画像ブロック（build_figures.py が本文へ挿入）
       const fig = ln.trim().match(/^\[\[fig:([^|\]]+)\|?([^\]]*)\]\]$/);
       if (fig) { out.push({ type: 'fig', text: fig[1] + '\u0001' + (fig[2] || '') }); continue; }
-      // 未作図の【図】プレースホルダ → 控えめなキャプション表示
       if (ln.trim().startsWith('【図】')) { out.push({ type: 'figpending', text: ln.trim().slice(3) }); continue; }
       if (ln === '') { out.push({ type: 'gap', text: '' }); continue; }
       if (ln.startsWith('### ')) { out.push({ type: 'h3', text: strip(ln.slice(4)) }); continue; }
@@ -132,112 +85,199 @@ function Markdown({ body }: { body: string }) {
             <View key={i} style={{ marginVertical: 10 }}>
               {uri
                 ? <Image source={{ uri }} style={{ width: imgW, height: imgW / 1.6, backgroundColor: '#fff', borderRadius: 8 }} resizeMode="contain" />
-                : <View style={{ width: imgW, height: imgW / 1.6, borderRadius: 8, borderWidth: 1, borderColor: C.line, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{ color: C.muted2, fontSize: 12 }}>図は準備中</Text>
+                : <View style={{ width: imgW, height: imgW / 1.6, borderRadius: 8, borderWidth: 1, borderColor: c.line, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text style={{ color: c.faint, fontSize: 12 }}>図は準備中</Text>
                   </View>}
-              {cap ? <Text style={{ color: C.muted, fontSize: 12, marginTop: 4 }}>{'図：' + cap}</Text> : null}
+              {cap ? <Text style={{ color: c.muted, fontSize: 12, marginTop: 4 }}>{'図：' + cap}</Text> : null}
             </View>
           );
         }
-        if (b.type === 'figpending') return <Text key={i} style={{ color: C.muted2, fontSize: 12, marginVertical: 4 }}>{'【図】' + b.text}</Text>;
+        if (b.type === 'figpending') return <Text key={i} style={{ color: c.faint, fontSize: 12, marginVertical: 4 }}>{'【図】' + b.text}</Text>;
         if (b.type === 'gap') return <View key={i} style={{ height: 8 }} />;
-        if (b.type === 'hr') return <View key={i} style={styles.hr} />;
-        if (b.type === 'h1') return <Text key={i} style={styles.mdH1}>{b.text}</Text>;
-        if (b.type === 'h2') return <Text key={i} style={styles.mdH2}>{b.text}</Text>;
-        if (b.type === 'h3') return <Text key={i} style={styles.mdH3}>{b.text}</Text>;
-        if (b.type === 'quote') return <View key={i} style={styles.quote}><Text style={styles.quoteTxt}>{b.text}</Text></View>;
-        if (b.type === 'code') return <View key={i} style={styles.code}><Text style={styles.codeTxt}>{b.text}</Text></View>;
-        if (b.type === 'table') return <Text key={i} style={styles.tableTxt}>{b.text}</Text>;
-        if (b.type === 'li') return <Text key={i} style={styles.mdP}>{'・' + b.text}</Text>;
-        return <Text key={i} style={styles.mdP}>{b.text}</Text>;
+        if (b.type === 'hr') return <View key={i} style={s.hr} />;
+        if (b.type === 'h1') return <Text key={i} style={s.mdH1}>{b.text}</Text>;
+        if (b.type === 'h2') return <Text key={i} style={s.mdH2}>{b.text}</Text>;
+        if (b.type === 'h3') return <Text key={i} style={s.mdH3}>{b.text}</Text>;
+        if (b.type === 'quote') return <View key={i} style={s.quote}><Text style={s.quoteTxt}>{b.text}</Text></View>;
+        if (b.type === 'code') return <View key={i} style={s.code}><Text style={s.codeTxt}>{b.text}</Text></View>;
+        if (b.type === 'table') return <Text key={i} style={s.tableTxt}>{b.text}</Text>;
+        if (b.type === 'li') return <Text key={i} style={s.mdP}>{'・' + b.text}</Text>;
+        return <Text key={i} style={s.mdP}>{b.text}</Text>;
       })}
     </View>
   );
 }
 
-function HomeScreen({ onGo }: { onGo: (t: TabKey) => void }) {
+// ---- 分野別レーダー(現在+2週前+1ヶ月前) ----
+function SubjectRadar({ compact }: { compact?: boolean }) {
+  const { c } = useTheme();
+  const s = useStyles();
+  const stats = chapterStats();
+  const answered = Object.values(stats).reduce((a, x) => a + x.answered, 0);
+  if (answered === 0) {
+    return <Text style={s.radarEmpty}>{'問題を解くと、分野ごとの実力が\nここにレーダーで表示されます。'}</Text>;
+  }
+  const axes: RadarAxis[] = ['1', '2', '3', '4', '5', '6'].map((k) => ({
+    key: k, label: CHAPTER_SHORT[k], color: subjectColor(k, c),
+  }));
+  const cur = currentAccMap();
+  const w2 = snapAsOf(14);
+  const m1 = snapAsOf(30);
+  const series: RadarSeries[] = [];
+  if (m1) series.push({ map: m1, color: c.faint, dotted: true, width: 1.5 });
+  if (w2) series.push({ map: w2, color: c.muted, dashed: true, width: 1.5 });
+  series.push({ map: cur, color: c.accent, width: 2.4 });
+
+  return (
+    <View style={{ alignItems: 'center' }}>
+      <RadarChart axes={axes} series={series} size={compact ? 210 : 240} />
+      <View style={s.radarLegend}>
+        <View style={s.legendItem}><View style={[s.legendDash, { borderTopColor: c.accent, width: 16 }]} /><Text style={s.legendTxt}>現在</Text></View>
+        {w2 ? <View style={s.legendItem}><View style={[s.legendDash, { borderColor: c.muted, borderStyle: 'dashed', width: 16 }]} /><Text style={s.legendTxt}>2週前</Text></View> : null}
+        {m1 ? <View style={s.legendItem}><View style={[s.legendDash, { borderColor: c.faint, borderStyle: 'dotted', width: 16 }]} /><Text style={s.legendTxt}>1ヶ月前</Text></View> : null}
+        <View style={s.legendItem}><View style={[s.legendDash, { borderTopColor: c.good, borderStyle: 'dashed', width: 16 }]} /><Text style={s.legendTxt}>合格目安60%</Text></View>
+      </View>
+    </View>
+  );
+}
+
+// ---- ホーム ----
+function HomeScreen({ onGo, onModal, ver }: { onGo: (t: TabKey) => void; onModal: (m: ModalKey) => void; ver: number }) {
+  const { c, resolved } = useTheme();
+  const s = useStyles();
   const { width } = useWindowDimensions();
   const heroW = Math.min(width, 440);
+
+  const stats = useMemo(() => overallStats(), [ver]);
+  const left = useMemo(() => daysLeft(), [ver]);
+  const dateText = useMemo(() => examDateText(), [ver]);
+  const streak = useMemo(() => studyStreak(), [ver]);
+  const recent = useMemo(() => recentDaily(14), [ver]);
+  const bmCount = useMemo(() => bookmarkCount(), [ver]);
+  const guideImg = resolved === 'light'
+    ? require('./assets/examguide-light.png')
+    : require('./assets/examguide-dark.png');
+
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
       <View>
         <Image source={require('./assets/hero.jpg')} style={{ width: heroW, height: heroW * (888 / 853) }} resizeMode="cover" />
-        <View style={styles.heroFade} pointerEvents="none" />
+        <View style={s.heroFade} pointerEvents="none" />
       </View>
 
-      <View style={styles.pad}>
-        <View style={styles.stats}>
-          <View style={styles.statsTop}>
-            <Ring pct={38} />
-            <View style={styles.statNums}>
-              <View style={styles.stat}>
-                <Text style={styles.statLbl}>解いた問題</Text>
-                <Text style={styles.statNum}>240<Text style={styles.statUnit}> 問</Text></Text>
-              </View>
-              <View style={styles.vdiv} />
-              <View style={styles.stat}>
-                <Text style={styles.statLbl}>正答率</Text>
-                <Text style={styles.statNum}>78<Text style={styles.statUnit}> %</Text></Text>
-              </View>
-            </View>
+      <View style={s.pad}>
+        {/* 試験日カウントダウン */}
+        <Pressable style={({ pressed }) => [s.countCard, pressed && s.pressed]} onPress={() => onModal('examdate')}>
+          <Icon name="calendar" size={30} color={c.accent} />
+          <View style={s.countLeft}>
+            <Text style={s.countLabel}>試験日まで</Text>
+            {left === null ? (
+              <Text style={[s.countBig, { marginTop: 4 }]}>日付を設定</Text>
+            ) : left >= 0 ? (
+              <View style={s.countRow}><Text style={s.countNum}>{left}</Text><Text style={s.countUnit}>日</Text></View>
+            ) : (
+              <Text style={[s.countBig, { marginTop: 4 }]}>試験おつかれさま</Text>
+            )}
+            <Text style={s.countSub}>{dateText ?? 'タップして試験日を登録'}</Text>
           </View>
-          <View style={styles.bar}><View style={styles.barFill} /></View>
-          <Text style={styles.tip}>コツコツが、合格への一番の近道です。</Text>
-        </View>
-
-        <Pressable style={({ pressed }) => [styles.cta, pressed && styles.pressed]} onPress={() => onGo('learn')}>
-          <Text style={styles.ctaTxt}>学習を始める</Text>
-          <Text style={styles.ctaArw}>›</Text>
+          <View style={s.countSetBtn}><Text style={s.countSetTxt}>設定</Text></View>
         </Pressable>
 
-        <View style={styles.grid}>
-          <MenuTile icon="book" title="教材" sub={'基礎から\nしっかり学ぶ'} onPress={() => onGo('learn')} />
-          <MenuTile icon="search" teal title="鑑別トレーニング" sub={'見分ける力を\n身につける'} onPress={() => onGo('mock')} />
-          <MenuTile icon="doc" teal title="模擬試験" sub={'本番形式で\n実力を試す'} onPress={() => onGo('mock')} />
-          <MenuTile icon="refresh" title="弱点復習" sub={'苦手を克服して\n得点力を上げる'} onPress={() => onGo('score')} />
+        {/* 分野別レーダー */}
+        <View style={s.radarCard}>
+          <Text style={[s.cardTitle, { alignSelf: 'flex-start' }]}>分野ごとの実力</Text>
+          <SubjectRadar compact />
         </View>
+
+        {/* メニュー6カード */}
+        <View style={s.grid}>
+          <MenuTile icon="book" title="教材" sub={'基礎から\nしっかり学ぶ'} onPress={() => onGo('learn')} />
+          <MenuTile icon="doc" title="模試・成績" sub={'本番形式で\n実力を試す'} onPress={() => onGo('mock')} />
+          <MenuTile icon="refresh" title="弱点復習" sub={'苦手を\n克服する'} onPress={() => onGo('mock')} />
+          <MenuTile icon="terms" title="用語集" sub={'重要用語を\n確認する'} onPress={() => onGo('terms')} />
+          <MenuTile icon="map" title="相関図" sub={'用語のつながり\nを見る'} soon onPress={() => onModal('relation')} />
+          <MenuTile icon="bookmark" title="ブックマーク" sub={'気になる問題を\n見返す'} badge={bmCount > 0 ? String(bmCount) : undefined} onPress={() => onModal('bookmarks')} />
+        </View>
+
+        {/* 試験総合解説カード */}
+        <Pressable style={({ pressed }) => [s.guideCard, pressed && s.pressed]} onPress={() => onModal('guide')}>
+          <Image source={guideImg} style={s.guideImg} resizeMode="cover" />
+          <View style={s.guideOverlay}>
+            <Text style={s.guideEyebrow}>EXAM GUIDE</Text>
+            <Text style={s.guideTitle}>試験の総合解説</Text>
+            <Text style={s.guideSub}>出題のしくみ・合格基準・学び方(公式情報ベース)</Text>
+          </View>
+        </Pressable>
+
+        {/* 学習ストリーク */}
+        <View style={s.streakCard}>
+          <View style={s.streakTop}>
+            <View>
+              <Text style={s.streakLbl}>学習の継続</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 4 }}>
+                <Text style={s.streakNum}>{streak}</Text><Text style={s.streakLbl}>日連続</Text>
+              </View>
+            </View>
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={s.streakLbl}>のべ解答</Text>
+              <Text style={s.streakNum}>{stats.answered}</Text>
+            </View>
+          </View>
+          <StreakBars data={recent} />
+        </View>
+
+        <Text style={s.footer}>コツコツが、合格への一番の近道です。</Text>
       </View>
     </ScrollView>
   );
 }
 
-function MenuTile({ icon, title, sub, teal, onPress }: { icon: string; title: string; sub: string; teal?: boolean; onPress: () => void }) {
+function MenuTile({ icon, title, sub, onPress, badge, soon }: { icon: string; title: string; sub: string; onPress: () => void; badge?: string; soon?: boolean }) {
+  const { c } = useTheme();
+  const s = useStyles();
   return (
-    <Pressable style={({ pressed }) => [styles.tile, pressed && styles.pressed]} onPress={onPress}>
-      <View style={[styles.tileIco, teal ? styles.tileIcoTeal : styles.tileIcoRed]}>
-        <Icon name={icon} size={20} color={teal ? '#7ee9c8' : '#ff9ea1'} />
-      </View>
-      <Text style={styles.tileTitle}>{title}</Text>
-      <Text style={styles.tileSub}>{sub}</Text>
-      <Text style={styles.tileGo}>›</Text>
+    <Pressable style={({ pressed }) => [s.tile, pressed && s.pressed]} onPress={onPress}>
+      <View style={s.tileIco}><Icon name={icon} size={20} color={c.accent} /></View>
+      <Text style={s.tileTitle}>{title}</Text>
+      <Text style={s.tileSub}>{sub}</Text>
+      {badge ? <View style={s.tileBadge}><Text style={s.tileBadgeTxt}>{badge}</Text></View> : null}
+      {soon ? <View style={s.tileSoon}><Text style={s.tileSoonTxt}>準備中</Text></View> : null}
+      <Text style={s.tileGo}>›</Text>
     </Pressable>
   );
 }
 
+// ---- 教材(章一覧 / リーダー) ----
 function LearnScreen({ chapters, onOpen }: { chapters: Chapter[]; onOpen: (c: Chapter) => void }) {
+  const { c } = useTheme();
+  const s = useStyles();
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
-      <View style={styles.pad}>
-        <View style={styles.viewHead}>
-          <Text style={styles.eyebrow}>STUDY</Text>
-          <Text style={styles.viewH2}>学習 ― 教材</Text>
-          <Text style={styles.viewSub}>章を選んで、読んで学ぶ。難しい章ほど解説を厚くしています。</Text>
+      <View style={s.pad}>
+        <View style={s.viewHead}>
+          <Text style={s.eyebrow}>STUDY</Text>
+          <Text style={s.viewH2}>教材</Text>
+          <Text style={s.viewSub}>章を選んで、読んで学ぶ。難しい章ほど解説を厚くしています。</Text>
         </View>
         <View style={{ gap: 10, marginTop: 16 }}>
-          {chapters.map((c) => (
-            <Pressable key={c.no} style={({ pressed }) => [styles.ch, pressed && styles.pressed]} onPress={() => onOpen(c)}>
-              <View style={styles.chNo}><Text style={styles.chNoTxt}>{c.no}</Text></View>
-              <View style={{ flex: 1, minWidth: 0 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
-                  <Text style={styles.chTitle}>{c.title}</Text>
-                  {c.tag && c.tagKind ? <Tag label={c.tag} kind={c.tagKind} /> : null}
-                  {c.body ? <Tag label="解説あり" kind="done" /> : null}
+          {chapters.map((ch) => {
+            const tk = ch.tag && ch.tagKind ? tagColors(ch.tagKind, c) : null;
+            const dn = tagColors('done', c);
+            return (
+              <Pressable key={ch.no} style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => onOpen(ch)}>
+                <View style={s.chNo}><Text style={s.chNoTxt}>{ch.no}</Text></View>
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <Text style={s.chTitle}>{ch.title}</Text>
+                    {ch.tag && tk ? <Tag label={ch.tag} color={tk.fg} bg={tk.bg} /> : null}
+                    {ch.body ? <Tag label="解説あり" color={dn.fg} bg={dn.bg} /> : null}
+                  </View>
+                  <Text style={s.chSub}>{ch.sub}</Text>
                 </View>
-                <Text style={styles.chSub}>{c.sub}</Text>
-              </View>
-              <Text style={styles.chGo}>›</Text>
-            </Pressable>
-          ))}
+                <Text style={s.chGo}>›</Text>
+              </Pressable>
+            );
+          })}
         </View>
       </View>
     </ScrollView>
@@ -245,106 +285,181 @@ function LearnScreen({ chapters, onOpen }: { chapters: Chapter[]; onOpen: (c: Ch
 }
 
 function Reader({ chapter, onBack }: { chapter: Chapter; onBack: () => void }) {
+  const s = useStyles();
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.readerBar}>
-        <Pressable onPress={onBack} hitSlop={10} style={({ pressed }) => [styles.backBtn, pressed && styles.pressed]}>
-          <Text style={styles.backTxt}>‹ 教材一覧</Text>
+      <View style={s.readerBar}>
+        <Pressable onPress={onBack} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
+          <Text style={s.backTxt}>‹ 教材一覧</Text>
         </Pressable>
       </View>
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}>
         {chapter.body
           ? <Markdown body={chapter.body} />
-          : <View style={styles.soon}><Text style={styles.soonBig}>準備中</Text><Text style={styles.soonTxt}>{'第' + chapter.no + '章「' + chapter.title + '」の解説はこれから追加します。'}</Text></View>}
+          : <View style={s.soon}><Text style={s.soonBig}>準備中</Text><Text style={s.soonTxt}>{'第' + chapter.no + '章「' + chapter.title + '」の解説はこれから追加します。'}</Text></View>}
       </ScrollView>
     </View>
   );
 }
 
-function Placeholder({ emoji, title, desc }: { emoji: string; title: string; desc: string }) {
-  return (
-    <View style={styles.soon}>
-      <Text style={{ fontSize: 40, opacity: 0.5 }}>{emoji}</Text>
-      <Text style={styles.soonTitle}>{title}</Text>
-      <Text style={styles.soonTxt}>{desc}</Text>
-    </View>
-  );
-}
+// ---- 用語集 ----
+function GlossaryScreen({ onBump, ver }: { onBump: () => void; ver: number }) {
+  const { c } = useTheme();
+  const s = useStyles();
+  const [q, setQ] = useState('');
+  const [ch, setCh] = useState<string>('all');
+  const [favOnly, setFavOnly] = useState(false);
+  const terms = useMemo(() => getGlossary(), [ver]);
 
-function TabBar({ tab, onTab, insetBottom }: { tab: TabKey; onTab: (t: TabKey) => void; insetBottom: number }) {
-  const items: { key: TabKey; icon: string; label: string }[] = [
-    { key: 'home', icon: 'home', label: 'ホーム' },
-    { key: 'learn', icon: 'book', label: '学習' },
-    { key: 'mock', icon: 'doc', label: '模試' },
-    { key: 'score', icon: 'bars', label: '成績' },
-    { key: 'set', icon: 'gear', label: '設定' },
-  ];
+  const chips = [{ key: 'all', label: 'すべて' }, ...['1', '2', '3', '4', '5', '6'].map((k) => ({ key: k, label: CHAPTER_SHORT[k] }))];
+  const filtered = terms.filter((t) => {
+    if (ch !== 'all' && t.chapter !== ch) return false;
+    if (favOnly && !isFavTerm(t.term)) return false;
+    if (q.trim()) {
+      const needle = q.trim();
+      if (!(t.term.includes(needle) || (t.reading ?? '').includes(needle) || t.def.includes(needle))) return false;
+    }
+    return true;
+  });
+
   return (
-    <View style={[styles.tabbar, { paddingBottom: insetBottom || 6 }]}>
-      {items.map((it) => {
-        const active = it.key === tab;
-        return (
-          <Pressable key={it.key} style={styles.tab} onPress={() => onTab(it.key)}>
-            {active ? <View style={styles.tabDot} /> : null}
-            <Icon name={it.icon} size={23} color={active ? C.red : C.muted2} />
-            <Text style={[styles.tabLabel, { color: active ? C.red : C.muted2 }]}>{it.label}</Text>
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+      <View style={s.pad}>
+        <View style={s.viewHead}>
+          <Text style={s.eyebrow}>GLOSSARY</Text>
+          <Text style={s.viewH2}>用語集</Text>
+          <Text style={s.viewSub}>消火器と法令の重要用語をまとめました。★でお気に入りに登録できます。</Text>
+        </View>
+
+        <View style={s.search}>
+          <Icon name="search" size={18} color={c.faint} />
+          <TextInput
+            style={s.searchInput}
+            placeholder="用語・よみ・説明で検索"
+            placeholderTextColor={c.faint}
+            value={q}
+            onChangeText={setQ}
+          />
+        </View>
+
+        <View style={s.chipRow}>
+          {chips.map((cp) => (
+            <Pressable key={cp.key} onPress={() => setCh(cp.key)} style={[s.chip, ch === cp.key && s.chipOn]}>
+              <Text style={[s.chipTxt, ch === cp.key && s.chipTxtOn]}>{cp.label}</Text>
+            </Pressable>
+          ))}
+          <Pressable onPress={() => setFavOnly((v) => !v)} style={[s.chip, favOnly && s.chipOn]}>
+            <Text style={[s.chipTxt, favOnly && s.chipTxtOn]}>★ お気に入り</Text>
           </Pressable>
-        );
-      })}
+        </View>
+
+        {filtered.length === 0 ? (
+          <Text style={[s.radarEmpty, { marginTop: 24 }]}>該当する用語がありません。</Text>
+        ) : filtered.map((t) => (
+          <TermCard key={t.id} term={t} onBump={onBump} />
+        ))}
+      </View>
+    </ScrollView>
+  );
+}
+
+function TermCard({ term, onBump }: { term: Term; onBump: () => void }) {
+  const { c } = useTheme();
+  const s = useStyles();
+  const fav = isFavTerm(term.term);
+  return (
+    <View style={s.termCard}>
+      <View style={s.termTop}>
+        <View style={{ flex: 1 }}>
+          <Text style={s.termWord}>{term.term}</Text>
+          {term.reading ? <Text style={s.termReading}>{term.reading}</Text> : null}
+        </View>
+        <Pressable hitSlop={8} onPress={() => { void toggleFavTerm(term.term).then(onBump); }}>
+          <Text style={[s.heart, { color: fav ? c.accent : c.faint }]}>{fav ? '★' : '☆'}</Text>
+        </Pressable>
+      </View>
+      <Text style={s.termDef}>{term.def}</Text>
+      {term.related && term.related.length > 0 ? (
+        <Text style={s.termRel}>{'関連: ' + term.related.join('、')}</Text>
+      ) : null}
     </View>
   );
 }
 
-// ---- 問題演習（模試タブ） ----
-const QLABEL = ['1', '2', '3', '4', '5'];
-
-function QuizFlow() {
+// ---- 模試・成績 ----
+function MockScoreScreen({ onBump }: { onBump: () => void }) {
   const [session, setSession] = useState<{ title: string; questions: Question[] } | null>(null);
+  const s = useStyles();
 
   if (session) {
-    return <QuizPlayer title={session.title} questions={session.questions} onExit={() => setSession(null)} />;
+    return <QuizPlayer title={session.title} questions={session.questions} onExit={() => { setSession(null); onBump(); }} onBump={onBump} />;
   }
 
   const sets = getQuizSets();
   const all = getAllQuestions();
-  const { weak } = selectReview(all.map((q) => q.id));
+  const { weak } = selectReview(all.map((qq) => qq.id));
+  const stats = overallStats();
 
-  const startSet = (s: QuizSet) => setSession({ title: s.title, questions: getQuestions(s.file) });
+  const startSet = (set: QuizSet) => setSession({ title: set.title, questions: getQuestions(set.file) });
   const startReview = () => {
-    const { weak: w, unseen } = selectReview(all.map((q) => q.id));
+    const { weak: w, unseen } = selectReview(all.map((qq) => qq.id));
     const order = [...w, ...unseen];
     const byId: Record<string, Question> = {};
-    for (const q of all) byId[q.id] = q;
+    for (const qq of all) byId[qq.id] = qq;
     setSession({ title: '弱点復習', questions: order.map((id) => byId[id]).filter(Boolean) });
   };
 
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
-      <View style={styles.pad}>
-        <View style={styles.viewHead}>
-          <Text style={styles.eyebrow}>PRACTICE</Text>
-          <Text style={styles.viewH2}>問題演習</Text>
-          <Text style={styles.viewSub}>章ごとに解いて、間違えた問題や「自信なし」は弱点復習でもう一度。</Text>
+      <View style={s.pad}>
+        <View style={s.viewHead}>
+          <Text style={s.eyebrow}>PRACTICE & SCORE</Text>
+          <Text style={s.viewH2}>模試・成績</Text>
+          <Text style={s.viewSub}>本番形式で解いて、分野ごとの実力と弱点をチェック。</Text>
         </View>
 
+        {/* 成績サマリ */}
+        <View style={s.scoreTop}>
+          <Ring pct={stats.accuracy} label="正答率" />
+          <View style={s.statNums}>
+            <View style={s.stat}>
+              <Text style={s.statLbl}>解いた問題</Text>
+              <Text style={s.statNum}>{stats.answered}<Text style={s.statUnit}> 問</Text></Text>
+            </View>
+            <View style={s.vdiv} />
+            <View style={s.stat}>
+              <Text style={s.statLbl}>正解</Text>
+              <Text style={s.statNum}>{stats.correct}<Text style={s.statUnit}> 問</Text></Text>
+            </View>
+          </View>
+        </View>
+
+        {/* 分野別レーダー */}
+        <View style={s.radarCard}>
+          <Text style={[s.cardTitle, { alignSelf: 'flex-start' }]}>分野ごとの実力</Text>
+          <SubjectRadar />
+        </View>
+
+        {/* 弱点復習 */}
         <Pressable
           disabled={weak.length === 0}
           onPress={startReview}
-          style={({ pressed }) => [styles.reviewBtn, weak.length === 0 && styles.btnDisabled, pressed && styles.pressed]}
+          style={({ pressed }) => [s.reviewBtn, weak.length === 0 && s.btnDisabled, pressed && s.pressed]}
         >
-          <Text style={styles.reviewBtnTitle}>弱点復習</Text>
-          <Text style={styles.reviewBtnSub}>{weak.length > 0 ? `要復習 ${weak.length} 問` : '誤答・自信なしが貯まると出題されます'}</Text>
+          <Text style={s.reviewBtnTitle}>弱点復習</Text>
+          <Text style={s.reviewBtnSub}>{weak.length > 0 ? `要復習 ${weak.length} 問` : '誤答・自信なしが貯まると出題されます'}</Text>
         </Pressable>
 
-        <View style={{ gap: 10, marginTop: 14 }}>
-          {sets.map((s) => (
-            <Pressable key={s.id} style={({ pressed }) => [styles.ch, pressed && styles.pressed]} onPress={() => startSet(s)}>
-              <View style={styles.chNo}><Text style={styles.chNoTxt}>{s.chapter}</Text></View>
+        <Text style={s.sectionHead}>問題セット</Text>
+        <View style={{ gap: 10 }}>
+          {sets.map((set) => (
+            <Pressable key={set.id} style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => startSet(set)}>
+              <View style={s.chNo}><Text style={s.chNoTxt}>{set.chapter}</Text></View>
               <View style={{ flex: 1, minWidth: 0 }}>
-                <Text style={styles.chTitle}>{s.title}</Text>
-                <Text style={styles.chSub}>{'筆記 ' + s.count + ' 問'}</Text>
+                <Text style={s.chTitle}>{set.title}</Text>
+                <Text style={s.chSub}>{'筆記 ' + set.count + ' 問'}</Text>
               </View>
-              <Text style={styles.chGo}>›</Text>
+              <Text style={s.chGo}>›</Text>
             </Pressable>
           ))}
         </View>
@@ -353,7 +468,9 @@ function QuizFlow() {
   );
 }
 
-function QuizPlayer({ title, questions, onExit }: { title: string; questions: Question[]; onExit: () => void }) {
+function QuizPlayer({ title, questions, onExit, onBump }: { title: string; questions: Question[]; onExit: () => void; onBump: () => void }) {
+  const { c } = useTheme();
+  const s = useStyles();
   const [idx, setIdx] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [revealed, setRevealed] = useState(false);
@@ -364,12 +481,12 @@ function QuizPlayer({ title, questions, onExit }: { title: string; questions: Qu
   if (questions.length === 0) {
     return (
       <View style={{ flex: 1 }}>
-        <View style={styles.readerBar}>
-          <Pressable onPress={onExit} hitSlop={10} style={({ pressed }) => [styles.backBtn, pressed && styles.pressed]}>
-            <Text style={styles.backTxt}>‹ 問題一覧</Text>
+        <View style={s.readerBar}>
+          <Pressable onPress={onExit} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
+            <Text style={s.backTxt}>‹ 一覧へ</Text>
           </Pressable>
         </View>
-        <View style={styles.soon}><Text style={styles.soonBig}>対象なし</Text><Text style={styles.soonTxt}>いま出題できる問題がありません。</Text></View>
+        <View style={s.soon}><Text style={s.soonBig}>対象なし</Text><Text style={s.soonTxt}>いま出題できる問題がありません。</Text></View>
       </View>
     );
   }
@@ -380,18 +497,18 @@ function QuizPlayer({ title, questions, onExit }: { title: string; questions: Qu
     const pct = Math.round((correctCount / questions.length) * 100);
     return (
       <View style={{ flex: 1 }}>
-        <View style={styles.readerBar}>
-          <Pressable onPress={onExit} hitSlop={10} style={({ pressed }) => [styles.backBtn, pressed && styles.pressed]}>
-            <Text style={styles.backTxt}>‹ 問題一覧</Text>
+        <View style={s.readerBar}>
+          <Pressable onPress={onExit} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
+            <Text style={s.backTxt}>‹ 一覧へ</Text>
           </Pressable>
         </View>
-        <View style={styles.soon}>
-          <Text style={styles.soonTitle}>おつかれさまでした</Text>
-          <Text style={styles.resultBig}>{correctCount} / {questions.length} 問正解</Text>
-          <Text style={styles.soonTxt}>正答率 {pct}%</Text>
+        <View style={s.soon}>
+          <Text style={s.soonTitle}>おつかれさまでした</Text>
+          <Text style={s.resultBig}>{correctCount} / {questions.length} 問正解</Text>
+          <Text style={s.soonTxt}>正答率 {pct}%</Text>
           <View style={{ flexDirection: 'row', gap: 10, marginTop: 18 }}>
-            <Pressable onPress={reset} style={({ pressed }) => [styles.ghostBtn, pressed && styles.pressed]}><Text style={styles.ghostBtnTxt}>もう一度</Text></Pressable>
-            <Pressable onPress={onExit} style={({ pressed }) => [styles.submitBtn, { paddingHorizontal: 22 }, pressed && styles.pressed]}><Text style={styles.submitTxt}>終了</Text></Pressable>
+            <Pressable onPress={reset} style={({ pressed }) => [s.ghostBtn, pressed && s.pressed]}><Text style={s.ghostBtnTxt}>もう一度</Text></Pressable>
+            <Pressable onPress={onExit} style={({ pressed }) => [s.submitBtn, { paddingHorizontal: 22 }, pressed && s.pressed]}><Text style={s.submitTxt}>終了</Text></Pressable>
           </View>
         </View>
       </View>
@@ -400,12 +517,13 @@ function QuizPlayer({ title, questions, onExit }: { title: string; questions: Qu
 
   const q = questions[idx];
   const isLast = idx === questions.length - 1;
+  const marked = isBookmarked(q.id);
 
   const submit = () => {
     if (selected === null) return;
     const ok = selected === q.answer;
-    if (ok) setCorrectCount((c) => c + 1);
-    void recordAnswer(q.id, ok, lowConf);
+    if (ok) setCorrectCount((x) => x + 1);
+    void recordAnswer(q.id, ok, lowConf).then(() => bumpDaily()).then(() => recordSnapshotIfNeeded()).then(onBump);
     setRevealed(true);
   };
   const next = () => {
@@ -415,54 +533,63 @@ function QuizPlayer({ title, questions, onExit }: { title: string; questions: Qu
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.readerBar}>
-        <Pressable onPress={onExit} hitSlop={10} style={({ pressed }) => [styles.backBtn, pressed && styles.pressed]}>
-          <Text style={styles.backTxt}>‹ 問題一覧</Text>
+      <View style={s.readerBar}>
+        <Pressable onPress={onExit} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
+          <Text style={s.backTxt}>‹ 一覧へ</Text>
         </Pressable>
-        <Text style={styles.qProgress}>{title}　{idx + 1} / {questions.length}</Text>
+        <Text style={s.qProgress}>{title}　{idx + 1} / {questions.length}</Text>
       </View>
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.pad, { paddingBottom: 40, paddingTop: 8 }]} showsVerticalScrollIndicator={false}>
-        {q.topic ? <Text style={styles.qTopic}>{q.topic}</Text> : null}
-        <Text style={styles.qStem}>{q.stem}</Text>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 8 }]} showsVerticalScrollIndicator={false}>
+        {q.topic ? <Text style={s.qTopic}>{q.topic}</Text> : null}
+        <Text style={s.qStem}>{q.stem}</Text>
         <View style={{ gap: 9, marginTop: 14 }}>
-          {q.choices.map((c, i) => {
+          {q.choices.map((ch, i) => {
             const chosen = selected === i;
             const isCorrect = i === q.answer;
             const st = [
-              styles.choice,
-              revealed && isCorrect ? styles.choiceCorrect : null,
-              revealed && !isCorrect && chosen ? styles.choiceWrong : null,
-              !revealed && chosen ? styles.choiceSel : null,
+              s.choice,
+              revealed && isCorrect ? s.choiceCorrect : null,
+              revealed && !isCorrect && chosen ? s.choiceWrong : null,
+              !revealed && chosen ? s.choiceSel : null,
             ];
             return (
               <Pressable key={i} disabled={revealed} onPress={() => setSelected(i)} style={st}>
-                <Text style={styles.choiceNum}>{QLABEL[i]}</Text>
-                <Text style={styles.choiceTxt}>{c}</Text>
+                <Text style={s.choiceNum}>{QLABEL[i]}</Text>
+                <Text style={s.choiceTxt}>{ch}</Text>
               </Pressable>
             );
           })}
         </View>
 
+        {/* ブックマーク */}
+        <Pressable
+          onPress={() => { void toggleBookmark(q.id).then(onBump); }}
+          style={[s.bmBtn, marked && s.bmBtnOn]}
+        >
+          <Icon name="bookmark" size={15} color={marked ? c.accent : c.muted} />
+          <Text style={[s.bmBtnTxt, marked && s.bmBtnTxtOn]}>{marked ? 'ブックマーク済み' : 'ブックマーク'}</Text>
+        </Pressable>
+
         {!revealed ? (
           <>
-            <Pressable onPress={() => setLowConf((v) => !v)} style={({ pressed }) => [styles.confToggle, lowConf && styles.confOn, pressed && styles.pressed]}>
-              <Text style={[styles.confTxt, lowConf && styles.confTxtOn]}>{(lowConf ? '☑ ' : '☐ ') + '自信なし（復習に回す）'}</Text>
+            <Pressable onPress={() => setLowConf((v) => !v)} style={({ pressed }) => [s.confToggle, lowConf && s.confOn, pressed && s.pressed]}>
+              <Text style={[s.confTxt, lowConf && s.confTxtOn]}>{(lowConf ? '☑ ' : '☐ ') + '自信なし（復習に回す）'}</Text>
             </Pressable>
-            <Pressable disabled={selected === null} onPress={submit} style={({ pressed }) => [styles.submitBtn, selected === null && styles.btnDisabled, pressed && styles.pressed]}>
-              <Text style={styles.submitTxt}>解答する</Text>
+            <Pressable disabled={selected === null} onPress={submit} style={({ pressed }) => [s.submitBtn, selected === null && s.btnDisabled, pressed && s.pressed]}>
+              <Text style={s.submitTxt}>解答する</Text>
             </Pressable>
           </>
         ) : (
-          <View style={styles.explainBox}>
-            <Text style={[styles.verdict, selected === q.answer ? styles.vOk : styles.vNg]}>
+          <View style={s.explainBox}>
+            <Text style={[s.verdict, selected === q.answer ? s.vOk : s.vNg]}>
               {selected === q.answer ? '◯ 正解' : '✕ 不正解'}（正解：{QLABEL[q.answer]}）
             </Text>
-            {q.explain ? <Text style={styles.explainTxt}>{q.explain}</Text> : null}
+            {q.explain ? <Text style={s.explainTxt}>{q.explain}</Text> : null}
             {selected !== null && selected !== q.answer && q.whyWrong && q.whyWrong[selected]
-              ? <Text style={styles.whyWrong}>{'あなたの選択（' + QLABEL[selected] + '）：' + q.whyWrong[selected]}</Text>
+              ? <Text style={s.whyWrong}>{'あなたの選択（' + QLABEL[selected] + '）：' + q.whyWrong[selected]}</Text>
               : null}
-            <Pressable onPress={next} style={({ pressed }) => [styles.submitBtn, { marginTop: 14 }, pressed && styles.pressed]}>
-              <Text style={styles.submitTxt}>{isLast ? '結果を見る' : '次の問題 ›'}</Text>
+            <Pressable onPress={next} style={({ pressed }) => [s.submitBtn, { marginTop: 14 }, pressed && s.pressed]}>
+              <Text style={s.submitTxt}>{isLast ? '結果を見る' : '次の問題 ›'}</Text>
             </Pressable>
           </View>
         )}
@@ -471,38 +598,349 @@ function QuizPlayer({ title, questions, onExit }: { title: string; questions: Qu
   );
 }
 
+// ---- 設定 ----
+function SettingsScreen({ onModal, onSync, syncing }: { onModal: (m: ModalKey) => void; onSync: () => void; syncing: boolean }) {
+  const { mode, setMode } = useTheme();
+  const s = useStyles();
+  const dateText = examDateText();
+  return (
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
+      <View style={s.pad}>
+        <View style={s.viewHead}>
+          <Text style={s.eyebrow}>SETTINGS</Text>
+          <Text style={s.viewH2}>設定</Text>
+        </View>
+
+        <View style={s.setGroup}>
+          <Text style={s.setGroupTitle}>表示</Text>
+          <View style={[s.setRow, { flexDirection: 'column', alignItems: 'stretch', gap: 12 }]}>
+            <Text style={s.setLabel}>外観</Text>
+            <Segmented<Mode>
+              options={[{ key: 'system', label: 'システム' }, { key: 'light', label: 'ライト' }, { key: 'dark', label: 'ダーク' }]}
+              value={mode}
+              onChange={setMode}
+            />
+          </View>
+        </View>
+
+        <View style={s.setGroup}>
+          <Text style={s.setGroupTitle}>学習</Text>
+          <Pressable style={({ pressed }) => [s.setRow, pressed && s.pressed]} onPress={() => onModal('examdate')}>
+            <Text style={s.setLabel}>試験日</Text>
+            <Text style={s.setValue}>{dateText ?? '未設定 ›'}</Text>
+          </Pressable>
+          <Pressable style={({ pressed }) => [s.setRow, pressed && s.pressed]} onPress={() => onModal('guide')}>
+            <Text style={s.setLabel}>試験の総合解説</Text>
+            <Text style={s.setValue}>見る ›</Text>
+          </Pressable>
+        </View>
+
+        <View style={s.setGroup}>
+          <Text style={s.setGroupTitle}>データ</Text>
+          <Pressable disabled={syncing} style={({ pressed }) => [s.setRow, pressed && s.pressed, syncing && s.btnDisabled]} onPress={onSync}>
+            <Text style={s.setLabel}>教材・問題を更新</Text>
+            <Text style={s.setValue}>{syncing ? '更新中…' : '今すぐ確認 ›'}</Text>
+          </Pressable>
+        </View>
+
+        <View style={s.setGroup}>
+          <Text style={s.setGroupTitle}>アプリについて</Text>
+          <View style={s.setRow}>
+            <Text style={s.setLabel}>バージョン</Text>
+            <Text style={s.setValue}>Build {BUILD_NUMBER}</Text>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
+  );
+}
+
+// ---- モーダル: ブックマーク一覧 ----
+function BookmarksScreen({ onClose, onBump }: { onClose: () => void; onBump: () => void }) {
+  const s = useStyles();
+  const [detail, setDetail] = useState<Question | null>(null);
+  const all = getAllQuestions();
+  const ids = new Set(bookmarkedIds());
+  const list = all.filter((q) => ids.has(q.id));
+
+  if (detail) return <QuestionDetail question={detail} onBack={() => setDetail(null)} onBump={onBump} />;
+
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={s.modalBar}>
+        <Pressable onPress={onClose} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}><Text style={s.backTxt}>‹ 閉じる</Text></Pressable>
+        <Text style={s.modalTitle}>ブックマーク</Text>
+        <View style={{ width: 56 }} />
+      </View>
+      {list.length === 0 ? (
+        <View style={s.soon}><Text style={s.soonBig}>まだありません</Text><Text style={s.soonTxt}>問題を解くときに「ブックマーク」を押すと、ここに集まります。</Text></View>
+      ) : (
+        <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingTop: 12, paddingBottom: 28, gap: 10 }]} showsVerticalScrollIndicator={false}>
+          {list.map((q) => (
+            <Pressable key={q.id} style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => setDetail(q)}>
+              <View style={s.chNo}><Text style={s.chNoTxt}>{q.chapter}</Text></View>
+              <View style={{ flex: 1, minWidth: 0 }}>
+                {q.topic ? <Text style={s.chSub}>{q.topic}</Text> : null}
+                <Text style={s.chTitle} numberOfLines={2}>{q.stem}</Text>
+              </View>
+              <Text style={s.chGo}>›</Text>
+            </Pressable>
+          ))}
+        </ScrollView>
+      )}
+    </View>
+  );
+}
+
+function QuestionDetail({ question: q, onBack, onBump }: { question: Question; onBack: () => void; onBump: () => void }) {
+  const { c } = useTheme();
+  const s = useStyles();
+  const marked = isBookmarked(q.id);
+  const [, setTick] = useState(0);
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={s.modalBar}>
+        <Pressable onPress={onBack} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}><Text style={s.backTxt}>‹ 戻る</Text></Pressable>
+        <Text style={s.modalTitle}>問題</Text>
+        <View style={{ width: 56 }} />
+      </View>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingTop: 10, paddingBottom: 40 }]} showsVerticalScrollIndicator={false}>
+        {q.topic ? <Text style={s.qTopic}>{q.topic}</Text> : null}
+        <Text style={s.qStem}>{q.stem}</Text>
+        <View style={{ gap: 9, marginTop: 14 }}>
+          {q.choices.map((ch, i) => (
+            <View key={i} style={[s.choice, i === q.answer && s.choiceCorrect]}>
+              <Text style={s.choiceNum}>{QLABEL[i]}</Text>
+              <Text style={s.choiceTxt}>{ch}</Text>
+            </View>
+          ))}
+        </View>
+        <View style={s.explainBox}>
+          <Text style={[s.verdict, s.vOk]}>正解：{QLABEL[q.answer]}</Text>
+          {q.explain ? <Text style={s.explainTxt}>{q.explain}</Text> : null}
+        </View>
+        <Pressable
+          onPress={() => { void toggleBookmark(q.id).then(() => { setTick((t) => t + 1); onBump(); }); }}
+          style={[s.bmBtn, marked && s.bmBtnOn]}
+        >
+          <Icon name="bookmark" size={15} color={marked ? c.accent : c.muted} />
+          <Text style={[s.bmBtnTxt, marked && s.bmBtnTxtOn]}>{marked ? 'ブックマーク解除' : 'ブックマーク'}</Text>
+        </Pressable>
+      </ScrollView>
+    </View>
+  );
+}
+
+// ---- モーダル: 相関図(準備中) ----
+function RelationMapScreen({ onClose }: { onClose: () => void }) {
+  const s = useStyles();
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={s.modalBar}>
+        <Pressable onPress={onClose} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}><Text style={s.backTxt}>‹ 閉じる</Text></Pressable>
+        <Text style={s.modalTitle}>相関図</Text>
+        <View style={{ width: 56 }} />
+      </View>
+      <View style={s.soon}>
+        <Icon name="map" size={40} />
+        <Text style={s.soonTitle}>相関図は準備中です</Text>
+        <Text style={s.soonTxt}>{'章ごとの重要用語のつながりを図でまとめた「相関図」を、次のアップデートで追加します。'}</Text>
+      </View>
+    </View>
+  );
+}
+
+// ---- モーダル: 試験総合解説 ----
+function ExamGuideScreen({ onClose }: { onClose: () => void }) {
+  const { resolved } = useTheme();
+  const s = useStyles();
+  const img = resolved === 'light' ? require('./assets/examguide-light.png') : require('./assets/examguide-dark.png');
+  const Stat = ({ k, v }: { k: string; v: string }) => (
+    <View style={s.guideStat}><Text style={s.guideStatK}>{k}</Text><Text style={s.guideStatV}>{v}</Text></View>
+  );
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={s.modalBar}>
+        <Pressable onPress={onClose} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}><Text style={s.backTxt}>‹ 閉じる</Text></Pressable>
+        <Text style={s.modalTitle}>試験の総合解説</Text>
+        <View style={{ width: 56 }} />
+      </View>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
+        <View style={{ borderRadius: 0, overflow: 'hidden' }}>
+          <Image source={img} style={{ width: '100%', height: 170 }} resizeMode="cover" />
+        </View>
+        <View style={s.pad}>
+          <Text style={s.guideH}>消防設備士 乙種第6類とは</Text>
+          <Text style={s.guideBody}>消火器の整備・点検を行うための国家資格です。乙種は受験資格の制限がなく、誰でも受験できます。</Text>
+
+          <Text style={s.guideH}>出題のしくみ</Text>
+          <Stat k="筆記（合計）" v="30 問" />
+          <Stat k="　消防関係法令（共通）" v="6 問" />
+          <Stat k="　消防関係法令（第6類）" v="4 問" />
+          <Stat k="　基礎的知識（機械）" v="5 問" />
+          <Stat k="　構造・機能・整備（機械）" v="9 問" />
+          <Stat k="　構造・機能・整備（規格）" v="6 問" />
+          <Stat k="実技（鑑別等）" v="5 問" />
+          <Stat k="試験時間" v="1時間45分" />
+
+          <Text style={s.guideH}>形式と合格基準</Text>
+          <Text style={s.guideLi}>・筆記：四肢択一のマークシート</Text>
+          <Text style={s.guideLi}>・実技：写真・イラスト・図面等による記述式</Text>
+          <Text style={s.guideLi}>・合格基準：筆記は各科目40%以上かつ全体60%以上、さらに実技60%以上</Text>
+
+          <Text style={s.guideH}>合格への学び方</Text>
+          <Text style={s.guideLi}>① 教材で各章の基礎を読む</Text>
+          <Text style={s.guideLi}>② 用語集で重要用語を固める</Text>
+          <Text style={s.guideLi}>③ 模試で本番形式に慣れる</Text>
+          <Text style={s.guideLi}>④ 弱点復習で間違いを潰す</Text>
+
+          <Text style={s.guideLink}>出典：消防試験研究センター（www.shoubo-shiken.or.jp）</Text>
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
+
+// ---- モーダル: 試験日の設定 ----
+function Stepper({ label, value, onDec, onInc }: { label: string; value: string; onDec: () => void; onInc: () => void }) {
+  const { c } = useTheme();
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 6 }}>
+      <Text style={{ color: c.fg, fontSize: 15, fontWeight: '700' }}>{label}</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+        <Pressable hitSlop={10} onPress={onDec} style={{ width: 40, height: 40, borderRadius: 10, borderWidth: 1, borderColor: c.line, backgroundColor: c.card2, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: c.fg, fontSize: 22, fontWeight: '900' }}>−</Text></Pressable>
+        <Text style={{ color: c.fg, fontSize: 18, fontWeight: '900', minWidth: 54, textAlign: 'center' }}>{value}</Text>
+        <Pressable hitSlop={10} onPress={onInc} style={{ width: 40, height: 40, borderRadius: 10, borderWidth: 1, borderColor: c.line, backgroundColor: c.card2, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: c.fg, fontSize: 22, fontWeight: '900' }}>＋</Text></Pressable>
+      </View>
+    </View>
+  );
+}
+
+function ExamDateScreen({ onClose, onSaved }: { onClose: () => void; onSaved: () => void }) {
+  const s = useStyles();
+  const init = getExamDate();
+  const now = new Date();
+  const [y, setY] = useState(init ? +init.split('-')[0] : now.getFullYear());
+  const [m, setM] = useState(init ? +init.split('-')[1] : now.getMonth() + 1);
+  const [d, setD] = useState(init ? +init.split('-')[2] : now.getDate());
+
+  const daysInMonth = new Date(y, m, 0).getDate();
+  const dd = Math.min(d, daysInMonth);
+
+  const save = () => { void setExamDate(`${y}-${pad2(m)}-${pad2(dd)}`).then(() => { onSaved(); onClose(); }); };
+  const clear = () => { void setExamDate(null).then(() => { onSaved(); onClose(); }); };
+
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={s.modalBar}>
+        <Pressable onPress={onClose} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}><Text style={s.backTxt}>‹ 閉じる</Text></Pressable>
+        <Text style={s.modalTitle}>試験日の設定</Text>
+        <View style={{ width: 56 }} />
+      </View>
+      <View style={[s.pad, { paddingTop: 18 }]}>
+        <View style={s.card}>
+          <Stepper label="年" value={`${y}`} onDec={() => setY((v) => Math.max(now.getFullYear() - 1, v - 1))} onInc={() => setY((v) => Math.min(now.getFullYear() + 3, v + 1))} />
+          <Stepper label="月" value={`${m}`} onDec={() => setM((v) => (v <= 1 ? 12 : v - 1))} onInc={() => setM((v) => (v >= 12 ? 1 : v + 1))} />
+          <Stepper label="日" value={`${dd}`} onDec={() => setD(() => (dd <= 1 ? daysInMonth : dd - 1))} onInc={() => setD(() => (dd >= daysInMonth ? 1 : dd + 1))} />
+        </View>
+        <Pressable onPress={save} style={({ pressed }) => [s.submitBtn, pressed && s.pressed]}><Text style={s.submitTxt}>{`${y}年${m}月${dd}日 を試験日にする`}</Text></Pressable>
+        <Pressable onPress={clear} style={({ pressed }) => [s.ghostBtn, { marginTop: 10 }, pressed && s.pressed]}><Text style={s.ghostBtnTxt}>試験日をクリア</Text></Pressable>
+      </View>
+    </View>
+  );
+}
+
+// ---- タブバー ----
+function TabBar({ tab, onTab, insetBottom }: { tab: TabKey; onTab: (t: TabKey) => void; insetBottom: number }) {
+  const { c } = useTheme();
+  const s = useStyles();
+  const items: { key: TabKey; icon: string; label: string }[] = [
+    { key: 'home', icon: 'home', label: 'ホーム' },
+    { key: 'learn', icon: 'book', label: '教材' },
+    { key: 'terms', icon: 'terms', label: '用語' },
+    { key: 'mock', icon: 'doc', label: '模試・成績' },
+    { key: 'set', icon: 'gear', label: '設定' },
+  ];
+  return (
+    <View style={[s.tabbar, { paddingBottom: insetBottom || 6 }]}>
+      {items.map((it) => {
+        const active = it.key === tab;
+        return (
+          <Pressable key={it.key} style={s.tab} onPress={() => onTab(it.key)}>
+            {active ? <View style={s.tabDot} /> : null}
+            <Icon name={it.icon} size={22} color={active ? c.accent : c.faint} />
+            <Text style={[s.tabLabel, { color: active ? c.accent : c.faint }]}>{it.label}</Text>
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+}
+
 function Main() {
+  const { c, resolved } = useTheme();
+  const s = useStyles();
   const insets = useSafeAreaInsets();
   const [contentVersion, setContentVersion] = useState(0);
+  const [dataVersion, setDataVersion] = useState(0);
   const [tab, setTab] = useState<TabKey>('home');
   const [openNo, setOpenNo] = useState<string | null>(null);
+  const [modal, setModal] = useState<ModalKey>(null);
+  const [syncing, setSyncing] = useState(false);
   const { width } = useWindowDimensions();
 
-  // 起動時にコンテンツ初期化（同梱＋前回キャッシュを反映→裏でR2から最新を取り込み、更新あれば再描画）。
+  const bump = () => setDataVersion((v) => v + 1);
+
   useEffect(() => {
-    void loadHistory();
+    void (async () => {
+      await Promise.all([loadHistory(), loadBookmarks(), loadExamDate(), loadStats()]);
+      bump();
+      await recordSnapshotIfNeeded();
+    })();
     initContent(() => setContentVersion((v) => v + 1));
   }, []);
+
   const chapters = useMemo(() => getChapters(), [contentVersion]);
-  const openChapter = openNo ? (chapters.find((c) => c.no === openNo) ?? null) : null;
+  const openChapter = openNo ? (chapters.find((x) => x.no === openNo) ?? null) : null;
 
   const goTab = (t: TabKey) => { setTab(t); if (t !== 'learn') setOpenNo(null); };
 
+  const doSync = () => {
+    if (syncing) return;
+    setSyncing(true);
+    initContent(() => setContentVersion((v) => v + 1));
+    setTimeout(() => setSyncing(false), 2500);
+  };
+
+  const showModal = modal !== null;
+  const topPad = (tab === 'home' && !openChapter && !showModal) ? 0 : insets.top;
+
   return (
-    <View style={{ flex: 1, backgroundColor: C.bg }}>
-      <View style={[styles.appCol, { width: Math.min(width, 440) }]}>
-        <View style={{ flex: 1, paddingTop: tab === 'home' && !openChapter ? 0 : insets.top }}>
-          {tab === 'home' && <HomeScreen onGo={goTab} />}
-          {tab === 'learn' && (openChapter
-            ? <Reader chapter={openChapter} onBack={() => setOpenNo(null)} />
-            : <LearnScreen chapters={chapters} onOpen={(c) => setOpenNo(c.no)} />)}
-          {tab === 'mock' && <QuizFlow />}
-          {tab === 'score' && <Placeholder emoji="📊" title="成績" desc={'学習進捗・正答率・弱点の推移をここに表示します。\n(この画面はこれから作ります)'} />}
-          {tab === 'set' && <Placeholder emoji="⚙️" title="設定" desc={'表示・通知・学習リマインドなど。\nビルド番号: ' + BUILD_NUMBER} />}
+    <View style={{ flex: 1, backgroundColor: c.bg }}>
+      <View style={[s.appCol, { width: Math.min(width, 440) }]}>
+        <View style={{ flex: 1, paddingTop: topPad }}>
+          {showModal ? (
+            <>
+              {modal === 'bookmarks' && <BookmarksScreen onClose={() => setModal(null)} onBump={bump} />}
+              {modal === 'relation' && <RelationMapScreen onClose={() => setModal(null)} />}
+              {modal === 'guide' && <ExamGuideScreen onClose={() => setModal(null)} />}
+              {modal === 'examdate' && <ExamDateScreen onClose={() => setModal(null)} onSaved={bump} />}
+            </>
+          ) : (
+            <>
+              {tab === 'home' && <HomeScreen onGo={goTab} onModal={setModal} ver={dataVersion} />}
+              {tab === 'learn' && (openChapter
+                ? <Reader chapter={openChapter} onBack={() => setOpenNo(null)} />
+                : <LearnScreen chapters={chapters} onOpen={(x) => setOpenNo(x.no)} />)}
+              {tab === 'terms' && <GlossaryScreen onBump={bump} ver={dataVersion} />}
+              {tab === 'mock' && <MockScoreScreen onBump={bump} />}
+              {tab === 'set' && <SettingsScreen onModal={setModal} onSync={doSync} syncing={syncing} />}
+            </>
+          )}
         </View>
-        <TabBar tab={tab} onTab={goTab} insetBottom={insets.bottom} />
+        {!showModal ? <TabBar tab={tab} onTab={goTab} insetBottom={insets.bottom} /> : null}
       </View>
-      <StatusBar style="light" />
+      <StatusBar style={resolved === 'dark' ? 'light' : 'dark'} />
     </View>
   );
 }
@@ -510,116 +948,9 @@ function Main() {
 export default function App() {
   return (
     <SafeAreaProvider>
-      <Main />
+      <ThemeProvider>
+        <Main />
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  appCol: { flex: 1, alignSelf: 'center', backgroundColor: C.app },
-  pad: { paddingHorizontal: 16 },
-
-  // 問題演習
-  reviewBtn: { marginTop: 16, backgroundColor: '#15283f', borderWidth: 1, borderColor: 'rgba(58,215,166,0.35)', borderRadius: 14, padding: 15 },
-  reviewBtnTitle: { color: C.teal, fontSize: 16, fontWeight: '900' },
-  reviewBtnSub: { color: C.muted, fontSize: 12, marginTop: 3 },
-  qProgress: { color: C.muted, fontSize: 13, fontWeight: '700' },
-  qTopic: { color: C.teal, fontSize: 12, fontWeight: '800', marginBottom: 6 },
-  qStem: { color: C.fg, fontSize: 17, lineHeight: 26, fontWeight: '700' },
-  choice: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: C.card, borderWidth: 1, borderColor: C.line, borderRadius: 12, paddingVertical: 13, paddingHorizontal: 13 },
-  choiceSel: { borderColor: C.red, backgroundColor: '#1a2234' },
-  choiceCorrect: { borderColor: C.teal, backgroundColor: 'rgba(58,215,166,0.12)' },
-  choiceWrong: { borderColor: C.red, backgroundColor: 'rgba(216,56,61,0.12)' },
-  choiceNum: { color: C.muted, fontSize: 13, fontWeight: '900', width: 20, textAlign: 'center' },
-  choiceTxt: { color: C.fg, fontSize: 15, flex: 1, lineHeight: 21 },
-  confToggle: { marginTop: 16, alignSelf: 'flex-start', paddingVertical: 8, paddingHorizontal: 12, borderRadius: 10, borderWidth: 1, borderColor: C.line },
-  confOn: { borderColor: C.teal, backgroundColor: 'rgba(58,215,166,0.1)' },
-  confTxt: { color: C.muted, fontSize: 13, fontWeight: '700' },
-  confTxtOn: { color: C.teal },
-  submitBtn: { marginTop: 16, backgroundColor: C.red, borderRadius: 12, paddingVertical: 14, alignItems: 'center' },
-  submitTxt: { color: '#fff', fontSize: 15, fontWeight: '900' },
-  btnDisabled: { opacity: 0.4 },
-  ghostBtn: { borderWidth: 1, borderColor: C.line, borderRadius: 12, paddingVertical: 14, paddingHorizontal: 22, alignItems: 'center' },
-  ghostBtnTxt: { color: C.fg, fontSize: 15, fontWeight: '800' },
-  explainBox: { marginTop: 18, backgroundColor: C.card2, borderWidth: 1, borderColor: C.line, borderRadius: 14, padding: 15 },
-  verdict: { fontSize: 15, fontWeight: '900', marginBottom: 8 },
-  vOk: { color: C.teal },
-  vNg: { color: '#ff8488' },
-  explainTxt: { color: C.fg, fontSize: 14, lineHeight: 22 },
-  whyWrong: { color: C.muted, fontSize: 13, lineHeight: 21, marginTop: 8 },
-  resultBig: { color: C.fg, fontSize: 30, fontWeight: '900', marginTop: 10 },
-
-  heroFade: { position: 'absolute', left: 0, right: 0, bottom: -1, height: 110, backgroundColor: 'transparent' },
-
-  // stats
-  stats: { marginTop: -58, backgroundColor: '#11223a', borderWidth: 1, borderColor: C.line, borderRadius: 18, padding: 16 },
-  statsTop: { flexDirection: 'row', alignItems: 'center', gap: 14 },
-  ringVal: { color: C.fg, fontSize: 22, fontWeight: '900' },
-  ringLbl: { color: C.muted, fontSize: 10, marginTop: 1 },
-  statNums: { flex: 1, flexDirection: 'row', gap: 10 },
-  stat: { flex: 1 },
-  statLbl: { color: C.muted, fontSize: 11, marginBottom: 2 },
-  statNum: { color: C.fg, fontWeight: '900', fontSize: 26 },
-  statUnit: { color: C.muted, fontSize: 13, fontWeight: '700' },
-  vdiv: { width: 1, backgroundColor: C.line, marginVertical: 2 },
-  bar: { height: 6, borderRadius: 99, backgroundColor: 'rgba(255,255,255,0.08)', marginTop: 14, marginBottom: 10, overflow: 'hidden' },
-  barFill: { height: 6, width: '38%', borderRadius: 99, backgroundColor: C.teal },
-  tip: { color: C.muted, fontSize: 12 },
-
-  // cta
-  cta: { marginTop: 16, backgroundColor: C.red, borderRadius: 40, paddingVertical: 17, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' },
-  ctaTxt: { color: '#fff', fontSize: 18, fontWeight: '900', letterSpacing: 1 },
-  ctaArw: { color: '#fff', fontSize: 20, position: 'absolute', right: 22 },
-  pressed: { opacity: 0.85 },
-
-  // grid
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginTop: 14 },
-  tile: { width: '47.5%', flexGrow: 1, backgroundColor: C.card, borderWidth: 1, borderColor: C.line, borderRadius: 16, padding: 14, minHeight: 116 },
-  tileIco: { width: 34, height: 34, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginBottom: 8 },
-  tileIcoRed: { backgroundColor: 'rgba(216,56,61,0.14)' },
-  tileIcoTeal: { backgroundColor: 'rgba(58,215,166,0.14)' },
-  tileTitle: { color: C.fg, fontSize: 16, fontWeight: '900', marginTop: 2 },
-  tileSub: { color: C.muted, fontSize: 11.5, lineHeight: 17, marginTop: 4 },
-  tileGo: { position: 'absolute', right: 12, bottom: 10, color: C.muted2, fontSize: 15 },
-
-  // learn
-  viewHead: { paddingTop: 18 },
-  eyebrow: { color: C.teal, fontSize: 11, letterSpacing: 3, fontWeight: '700' },
-  viewH2: { color: C.fg, fontSize: 24, fontWeight: '900', marginTop: 4 },
-  viewSub: { color: C.muted, fontSize: 13, marginTop: 2 },
-  ch: { flexDirection: 'row', alignItems: 'center', gap: 13, backgroundColor: C.card, borderWidth: 1, borderColor: C.line, borderRadius: 14, padding: 13 },
-  chNo: { width: 40, height: 40, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.05)', borderWidth: 1, borderColor: C.line },
-  chNoTxt: { color: C.fg, fontWeight: '900', fontSize: 15 },
-  chTitle: { color: C.fg, fontSize: 14.5, fontWeight: '700' },
-  chSub: { color: C.muted, fontSize: 11.5, marginTop: 2 },
-  chGo: { color: C.muted2, fontSize: 16 },
-  tag: { borderRadius: 99, paddingHorizontal: 7, paddingVertical: 2, marginLeft: 6 },
-  tagTxt: { fontSize: 10, fontWeight: '700' },
-
-  // reader
-  readerBar: { paddingHorizontal: 10, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: C.line },
-  backBtn: { alignSelf: 'flex-start', paddingVertical: 4, paddingHorizontal: 6 },
-  backTxt: { color: C.teal, fontSize: 14, fontWeight: '700' },
-  mdH1: { color: C.fg, fontSize: 22, fontWeight: '900', marginTop: 10, marginBottom: 4 },
-  mdH2: { color: C.fg, fontSize: 18, fontWeight: '900', marginTop: 16, marginBottom: 2 },
-  mdH3: { color: C.fg, fontSize: 15, fontWeight: '700', marginTop: 10 },
-  mdP: { color: '#d6e0ec', fontSize: 14.5, lineHeight: 23 },
-  quote: { borderLeftWidth: 3, borderLeftColor: C.teal, backgroundColor: 'rgba(58,215,166,0.07)', paddingVertical: 8, paddingHorizontal: 12, borderRadius: 6, marginVertical: 4 },
-  quoteTxt: { color: '#cfe8df', fontSize: 14, lineHeight: 22 },
-  code: { backgroundColor: '#07101d', borderWidth: 1, borderColor: C.line, borderRadius: 8, padding: 12, marginVertical: 6 },
-  codeTxt: { color: '#bcd3ea', fontSize: 13, lineHeight: 20, fontFamily: 'Courier' },
-  tableTxt: { color: '#c3d2e2', fontSize: 13, lineHeight: 21, fontFamily: 'Courier' },
-  hr: { height: 1, backgroundColor: C.line, marginVertical: 12 },
-
-  // placeholder / soon
-  soon: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10, padding: 40 },
-  soonBig: { color: C.fg, fontSize: 22, fontWeight: '900' },
-  soonTitle: { color: C.fg, fontSize: 20, fontWeight: '900' },
-  soonTxt: { color: C.muted, fontSize: 13, textAlign: 'center', lineHeight: 20 },
-
-  // tab bar
-  tabbar: { flexDirection: 'row', backgroundColor: '#0b1626', borderTopWidth: 1, borderTopColor: C.line },
-  tab: { flex: 1, alignItems: 'center', paddingTop: 9, paddingBottom: 8, gap: 4 },
-  tabDot: { position: 'absolute', top: 0, left: '50%', marginLeft: -10, width: 20, height: 3, borderRadius: 3, backgroundColor: C.red },
-  tabLabel: { fontSize: 10.5, fontWeight: '500' },
-});

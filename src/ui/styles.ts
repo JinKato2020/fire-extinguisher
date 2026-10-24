@@ -1,0 +1,206 @@
+// テーマ(Colors)から全画面の StyleSheet を生成する。色は必ず引数 c から取る(直書き禁止)。
+import { StyleSheet } from 'react-native';
+import type { Colors } from '../theme/colors';
+
+export function makeStyles(c: Colors) {
+  return StyleSheet.create({
+    // ---- レイアウト ----
+    appCol: { flex: 1, alignSelf: 'center', backgroundColor: c.bg },
+    pad: { paddingHorizontal: 16 },
+
+    // ---- 画面見出し ----
+    viewHead: { paddingTop: 18 },
+    eyebrow: { color: c.accent, fontSize: 11, letterSpacing: 3, fontWeight: '700' },
+    viewH2: { color: c.fg, fontSize: 24, fontWeight: '900', marginTop: 4 },
+    viewSub: { color: c.muted, fontSize: 13, marginTop: 2 },
+    sectionHead: { color: c.fg, fontSize: 16, fontWeight: '900', marginTop: 20, marginBottom: 10 },
+
+    // ---- ヒーロー ----
+    heroFade: { position: 'absolute', left: 0, right: 0, bottom: -1, height: 120, backgroundColor: 'transparent' },
+
+    // ---- 試験日カウントダウン ----
+    countCard: { marginTop: -46, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 18, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 },
+    countLeft: { flex: 1 },
+    countLabel: { color: c.muted, fontSize: 11, fontWeight: '700', letterSpacing: 1 },
+    countRow: { flexDirection: 'row', alignItems: 'baseline', marginTop: 4 },
+    countNum: { color: c.accent, fontSize: 40, fontWeight: '900', lineHeight: 44 },
+    countUnit: { color: c.fg, fontSize: 16, fontWeight: '800', marginLeft: 4 },
+    countSub: { color: c.muted, fontSize: 12, marginTop: 3 },
+    countSetBtn: { paddingVertical: 8, paddingHorizontal: 12, borderRadius: 10, borderWidth: 1, borderColor: c.line, backgroundColor: c.card2 },
+    countSetTxt: { color: c.fg, fontSize: 12, fontWeight: '800' },
+    countBig: { color: c.fg, fontSize: 18, fontWeight: '900' },
+
+    // ---- カード共通 ----
+    card: { backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 16, padding: 16 },
+    cardTitle: { color: c.fg, fontSize: 15, fontWeight: '900' },
+    cardSub: { color: c.muted, fontSize: 12, marginTop: 2 },
+
+    // ---- 分野別レーダー ----
+    radarCard: { marginTop: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 16, padding: 14, alignItems: 'center' },
+    radarLegend: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginTop: 8, justifyContent: 'center' },
+    legendItem: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+    legendDash: { width: 16, height: 0, borderTopWidth: 2 },
+    legendTxt: { color: c.muted, fontSize: 11 },
+    radarEmpty: { color: c.muted, fontSize: 12, textAlign: 'center', paddingVertical: 20, lineHeight: 19 },
+
+    // ---- 6カードグリッド ----
+    grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginTop: 14 },
+    tile: { width: '47.5%', flexGrow: 1, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 16, padding: 14, minHeight: 112 },
+    tileIco: { width: 34, height: 34, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginBottom: 8, backgroundColor: c.accentSoft },
+    tileTitle: { color: c.fg, fontSize: 15.5, fontWeight: '900', marginTop: 2 },
+    tileSub: { color: c.muted, fontSize: 11.5, lineHeight: 17, marginTop: 4 },
+    tileGo: { position: 'absolute', right: 12, bottom: 10, color: c.faint, fontSize: 15 },
+    tileBadge: { position: 'absolute', right: 10, top: 10, backgroundColor: c.accentSoft, borderRadius: 99, paddingHorizontal: 7, paddingVertical: 1 },
+    tileBadgeTxt: { color: c.accent, fontSize: 10, fontWeight: '900' },
+    tileSoon: { position: 'absolute', right: 10, top: 10, backgroundColor: c.card2, borderRadius: 99, paddingHorizontal: 7, paddingVertical: 1, borderWidth: 1, borderColor: c.line },
+    tileSoonTxt: { color: c.faint, fontSize: 10, fontWeight: '800' },
+
+    // ---- 試験総合解説カード ----
+    guideCard: { marginTop: 18, borderRadius: 18, overflow: 'hidden', borderWidth: 1, borderColor: c.line },
+    guideImg: { width: '100%', height: 150 },
+    guideOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: c.overlayCard, padding: 16, justifyContent: 'flex-end' },
+    guideEyebrow: { color: '#fff', fontSize: 10, letterSpacing: 2, fontWeight: '800', opacity: 0.9 },
+    guideTitle: { color: '#fff', fontSize: 20, fontWeight: '900', marginTop: 2 },
+    guideSub: { color: '#fff', fontSize: 12, marginTop: 2, opacity: 0.92 },
+
+    // ---- 学習ストリーク ----
+    streakCard: { marginTop: 18, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 16, padding: 16 },
+    streakTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+    streakNum: { color: c.accent, fontSize: 24, fontWeight: '900' },
+    streakLbl: { color: c.muted, fontSize: 12, fontWeight: '700' },
+    streakBars: { flexDirection: 'row', alignItems: 'flex-end', gap: 4, height: 46, marginTop: 12 },
+    streakBar: { flex: 1, borderRadius: 3, backgroundColor: c.raise, minHeight: 4 },
+    streakBarOn: { backgroundColor: c.good },
+
+    footer: { color: c.accent, fontSize: 14, fontWeight: '900', textAlign: 'center', marginTop: 22, marginBottom: 4 },
+
+    // ---- CTA ----
+    cta: { marginTop: 16, backgroundColor: c.accent, borderRadius: 40, paddingVertical: 16, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' },
+    ctaTxt: { color: c.onAccent, fontSize: 17, fontWeight: '900', letterSpacing: 1 },
+    ctaArw: { color: c.onAccent, fontSize: 20, position: 'absolute', right: 22 },
+    pressed: { opacity: 0.85 },
+
+    // ---- 学習(章一覧) ----
+    ch: { flexDirection: 'row', alignItems: 'center', gap: 13, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 14, padding: 13 },
+    chNo: { width: 40, height: 40, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: c.card2, borderWidth: 1, borderColor: c.line },
+    chNoTxt: { color: c.fg, fontWeight: '900', fontSize: 15 },
+    chTitle: { color: c.fg, fontSize: 14.5, fontWeight: '700' },
+    chSub: { color: c.muted, fontSize: 11.5, marginTop: 2 },
+    chGo: { color: c.faint, fontSize: 16 },
+    tag: { borderRadius: 99, paddingHorizontal: 7, paddingVertical: 2, marginLeft: 6 },
+    tagTxt: { fontSize: 10, fontWeight: '700' },
+
+    // ---- リーダー / マークダウン ----
+    readerBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: c.line },
+    backBtn: { alignSelf: 'flex-start', paddingVertical: 4, paddingHorizontal: 6 },
+    backTxt: { color: c.accent, fontSize: 14, fontWeight: '700' },
+    mdH1: { color: c.fg, fontSize: 22, fontWeight: '900', marginTop: 10, marginBottom: 4 },
+    mdH2: { color: c.fg, fontSize: 18, fontWeight: '900', marginTop: 16, marginBottom: 2 },
+    mdH3: { color: c.fg, fontSize: 15, fontWeight: '700', marginTop: 10 },
+    mdP: { color: c.fg, fontSize: 14.5, lineHeight: 23 },
+    quote: { borderLeftWidth: 3, borderLeftColor: c.accent, backgroundColor: c.accentSoft, paddingVertical: 8, paddingHorizontal: 12, borderRadius: 6, marginVertical: 4 },
+    quoteTxt: { color: c.fg, fontSize: 14, lineHeight: 22 },
+    code: { backgroundColor: c.card2, borderWidth: 1, borderColor: c.line, borderRadius: 8, padding: 12, marginVertical: 6 },
+    codeTxt: { color: c.muted, fontSize: 13, lineHeight: 20, fontFamily: 'Courier' },
+    tableTxt: { color: c.muted, fontSize: 13, lineHeight: 21, fontFamily: 'Courier' },
+    hr: { height: 1, backgroundColor: c.line, marginVertical: 12 },
+
+    // ---- 問題演習 ----
+    reviewBtn: { marginTop: 16, backgroundColor: c.card, borderWidth: 1, borderColor: c.good, borderRadius: 14, padding: 15 },
+    reviewBtnTitle: { color: c.good, fontSize: 16, fontWeight: '900' },
+    reviewBtnSub: { color: c.muted, fontSize: 12, marginTop: 3 },
+    qProgress: { color: c.muted, fontSize: 13, fontWeight: '700' },
+    qTopic: { color: c.accent, fontSize: 12, fontWeight: '800', marginBottom: 6 },
+    qStem: { color: c.fg, fontSize: 17, lineHeight: 26, fontWeight: '700' },
+    choice: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 12, paddingVertical: 13, paddingHorizontal: 13 },
+    choiceSel: { borderColor: c.accent, backgroundColor: c.accentSoft },
+    choiceCorrect: { borderColor: c.good, backgroundColor: c.goodSoft },
+    choiceWrong: { borderColor: c.warn, backgroundColor: c.warnSoft },
+    choiceNum: { color: c.muted, fontSize: 13, fontWeight: '900', width: 20, textAlign: 'center' },
+    choiceTxt: { color: c.fg, fontSize: 15, flex: 1, lineHeight: 21 },
+    confToggle: { marginTop: 16, alignSelf: 'flex-start', paddingVertical: 8, paddingHorizontal: 12, borderRadius: 10, borderWidth: 1, borderColor: c.line },
+    confOn: { borderColor: c.good, backgroundColor: c.goodSoft },
+    confTxt: { color: c.muted, fontSize: 13, fontWeight: '700' },
+    confTxtOn: { color: c.good },
+    submitBtn: { marginTop: 16, backgroundColor: c.accent, borderRadius: 12, paddingVertical: 14, alignItems: 'center' },
+    submitTxt: { color: c.onAccent, fontSize: 15, fontWeight: '900' },
+    btnDisabled: { opacity: 0.4 },
+    ghostBtn: { borderWidth: 1, borderColor: c.line, borderRadius: 12, paddingVertical: 14, paddingHorizontal: 22, alignItems: 'center' },
+    ghostBtnTxt: { color: c.fg, fontSize: 15, fontWeight: '800' },
+    explainBox: { marginTop: 18, backgroundColor: c.card2, borderWidth: 1, borderColor: c.line, borderRadius: 14, padding: 15 },
+    verdict: { fontSize: 15, fontWeight: '900', marginBottom: 8 },
+    vOk: { color: c.good },
+    vNg: { color: c.warn },
+    explainTxt: { color: c.fg, fontSize: 14, lineHeight: 22 },
+    whyWrong: { color: c.muted, fontSize: 13, lineHeight: 21, marginTop: 8 },
+    resultBig: { color: c.fg, fontSize: 30, fontWeight: '900', marginTop: 10 },
+    bmBtn: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 14, paddingVertical: 7, paddingHorizontal: 11, borderRadius: 10, borderWidth: 1, borderColor: c.line },
+    bmBtnOn: { borderColor: c.accent, backgroundColor: c.accentSoft },
+    bmBtnTxt: { color: c.muted, fontSize: 12, fontWeight: '800' },
+    bmBtnTxtOn: { color: c.accent },
+
+    // ---- 成績サマリ ----
+    scoreTop: { flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 18, padding: 16, marginTop: 14 },
+    ringVal: { color: c.fg, fontSize: 22, fontWeight: '900' },
+    ringLbl: { color: c.muted, fontSize: 10, marginTop: 1 },
+    statNums: { flex: 1, flexDirection: 'row', gap: 10 },
+    stat: { flex: 1 },
+    statLbl: { color: c.muted, fontSize: 11, marginBottom: 2 },
+    statNum: { color: c.fg, fontWeight: '900', fontSize: 26 },
+    statUnit: { color: c.muted, fontSize: 13, fontWeight: '700' },
+    vdiv: { width: 1, backgroundColor: c.line, marginVertical: 2 },
+
+    // ---- 用語集 ----
+    search: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 2, marginTop: 14 },
+    searchInput: { flex: 1, color: c.fg, fontSize: 15, paddingVertical: 10 },
+    chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 12 },
+    chip: { paddingVertical: 6, paddingHorizontal: 12, borderRadius: 99, borderWidth: 1, borderColor: c.line, backgroundColor: c.card },
+    chipOn: { borderColor: c.accent, backgroundColor: c.accentSoft },
+    chipTxt: { color: c.muted, fontSize: 12, fontWeight: '800' },
+    chipTxtOn: { color: c.accent },
+    termCard: { backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 14, padding: 14, marginTop: 10 },
+    termTop: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 },
+    termWord: { color: c.fg, fontSize: 16, fontWeight: '900' },
+    termReading: { color: c.faint, fontSize: 11, marginTop: 1 },
+    termDef: { color: c.fg, fontSize: 13.5, lineHeight: 21, marginTop: 8 },
+    termRel: { color: c.muted, fontSize: 11.5, marginTop: 8 },
+    heart: { fontSize: 20 },
+
+    // ---- 設定 ----
+    setGroup: { marginTop: 18 },
+    setGroupTitle: { color: c.muted, fontSize: 11, fontWeight: '800', letterSpacing: 1, marginBottom: 8, marginLeft: 2 },
+    setRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 12, paddingVertical: 14, paddingHorizontal: 14, marginBottom: 8 },
+    setLabel: { color: c.fg, fontSize: 14.5, fontWeight: '700' },
+    setValue: { color: c.muted, fontSize: 13 },
+    segmented: { flexDirection: 'row', backgroundColor: c.card2, borderRadius: 10, padding: 3, gap: 3 },
+    seg: { paddingVertical: 7, paddingHorizontal: 12, borderRadius: 8 },
+    segOn: { backgroundColor: c.accent },
+    segTxt: { color: c.muted, fontSize: 12.5, fontWeight: '800' },
+    segTxtOn: { color: c.onAccent },
+
+    // ---- モーダル画面ヘッダ ----
+    modalBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: c.line },
+    modalTitle: { color: c.fg, fontSize: 15, fontWeight: '900' },
+
+    // ---- プレースホルダ ----
+    soon: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10, padding: 40 },
+    soonBig: { color: c.fg, fontSize: 22, fontWeight: '900' },
+    soonTitle: { color: c.fg, fontSize: 20, fontWeight: '900' },
+    soonTxt: { color: c.muted, fontSize: 13, textAlign: 'center', lineHeight: 20 },
+
+    // ---- 試験総合解説(詳細) ----
+    guideBody: { color: c.fg, fontSize: 14.5, lineHeight: 23 },
+    guideH: { color: c.fg, fontSize: 17, fontWeight: '900', marginTop: 18, marginBottom: 4 },
+    guideLi: { color: c.fg, fontSize: 14, lineHeight: 22 },
+    guideLink: { color: c.accent, fontSize: 13, fontWeight: '800', marginTop: 16 },
+    guideStat: { flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: c.line, paddingVertical: 8 },
+    guideStatK: { color: c.muted, fontSize: 13 },
+    guideStatV: { color: c.fg, fontSize: 13, fontWeight: '800' },
+
+    // ---- タブバー ----
+    tabbar: { flexDirection: 'row', backgroundColor: c.panel, borderTopWidth: 1, borderTopColor: c.line },
+    tab: { flex: 1, alignItems: 'center', paddingTop: 9, paddingBottom: 8, gap: 4 },
+    tabDot: { position: 'absolute', top: 0, left: '50%', marginLeft: -10, width: 20, height: 3, borderRadius: 3, backgroundColor: c.accent },
+    tabLabel: { fontSize: 10, fontWeight: '600' },
+  });
+}
