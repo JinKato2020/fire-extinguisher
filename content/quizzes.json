@@ -5,6 +5,8 @@
     { "id": "mock2", "chapter": "模", "title": "本番形式 模試②(35問・公式傾向分析ベース)", "file": "content/questions/mock2.json", "count": 35 },
     { "id": "mock3", "chapter": "模", "title": "本番形式 模試③(35問・公式傾向分析ベース)", "file": "content/questions/mock3.json", "count": 35 },
     { "id": "mock4", "chapter": "模", "title": "本番形式 模試④(35問・公式傾向分析ベース)", "file": "content/questions/mock4.json", "count": 35 },
+    { "id": "mock5", "chapter": "模", "title": "本番形式 模試⑤(35問・公式傾向分析ベース)", "file": "content/questions/mock5.json", "count": 35 },
+    { "id": "mock6", "chapter": "模", "title": "本番形式 模試⑥(35問・公式傾向分析ベース)", "file": "content/questions/mock6.json", "count": 35 },
     { "id": "ch1", "chapter": "1", "title": "消防関係法令(共通)", "file": "content/questions/ch1.json", "count": 5 },
     { "id": "ch4", "chapter": "4", "title": "消火器の構造・機能・整備", "file": "content/questions/ch4.json", "count": 5 }
   ]
