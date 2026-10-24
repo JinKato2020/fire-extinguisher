@@ -16,7 +16,7 @@ export function makeStyles(c: Colors) {
     sectionHead: { color: c.fg, fontSize: 16, fontWeight: '900', marginTop: 20, marginBottom: 10 },
 
     // ---- ヒーロー ----
-    heroFade: { position: 'absolute', left: 0, right: 0, bottom: -1, height: 120, backgroundColor: 'transparent' },
+    heroFade: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 150 },
 
     // ---- 試験日カウントダウン ----
     countCard: { marginTop: 16, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 18, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 },

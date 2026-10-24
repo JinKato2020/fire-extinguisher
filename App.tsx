@@ -24,7 +24,7 @@ import {
 import { ThemeProvider, useTheme, useStyles } from './src/theme/ThemeContext';
 import type { Mode } from './src/theme/ThemeContext';
 import { CHAPTER_SHORT, subjectColor, type Colors } from './src/theme/colors';
-import { SvgXml } from 'react-native-svg';
+import { SvgXml, Svg, Defs, LinearGradient, Stop, Rect } from 'react-native-svg';
 import { Icon, Ring, Tag, RadarChart, StreakBars, Segmented, type RadarAxis, type RadarSeries } from './src/ui/components';
 import { RELATION_MAPS } from './src/data/relationMaps.generated';
 
@@ -194,7 +194,19 @@ function HomeScreen({ onGo, onModal, onFavTerms, ver }: { onGo: (t: TabKey) => v
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
       <View>
         <Image source={require('./assets/hero.jpg')} style={{ width: heroW, height: heroW * (888 / 853) }} resizeMode="cover" />
-        <View style={s.heroFade} pointerEvents="none" />
+        {/* ヒーロー下端を背景色へグラデーションで溶け込ませる(クレーン流儀) */}
+        <View style={s.heroFade} pointerEvents="none">
+          <Svg width="100%" height="100%">
+            <Defs>
+              <LinearGradient id="heroFade" x1="0" y1="0" x2="0" y2="1">
+                <Stop offset="0" stopColor={c.bg} stopOpacity={0} />
+                <Stop offset="0.65" stopColor={c.bg} stopOpacity={0.75} />
+                <Stop offset="1" stopColor={c.bg} stopOpacity={1} />
+              </LinearGradient>
+            </Defs>
+            <Rect x="0" y="0" width="100%" height="100%" fill="url(#heroFade)" />
+          </Svg>
+        </View>
       </View>
 
       <View style={s.pad}>
