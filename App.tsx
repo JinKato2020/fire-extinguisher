@@ -363,10 +363,10 @@ function ProCut({ onPaywall, title, sub }: { onPaywall: () => void; title: strin
   );
 }
 
-// 無料で読めるレッスン数(導入は常に無料。第1章・第4章はLesson3まで、他章はLesson1まで)。
-function freeLessonEntries(chapterNo: string, lessons: Lesson[]): number {
+// 無料で読めるレッスン数(導入は常に無料。全章ともLesson5まで無料)。
+function freeLessonEntries(_chapterNo: string, lessons: Lesson[]): number {
   const base = lessons[0]?.key === 'intro' ? 1 : 0;
-  const n = (chapterNo === '1' || chapterNo === '4') ? 3 : 1;
+  const n = 5;
   return base + n;
 }
 
@@ -539,13 +539,13 @@ function GlossaryScreen({ onBump, ver, favInit, pro, onPaywall }: { onBump: () =
   // sel: null = 章の選択画面 / '1'〜'6' = その章 / 'fav' = お気に入り
   const [sel, setSel] = useState<string | null>(favInit ? 'fav' : null);
   const terms = useMemo(() => getGlossary(), [ver]);
-  // 無料は各章の先頭3語まで(Proで全解放)
+  // 無料は各章の先頭6語まで(Proで全解放)
   const posInCh = useMemo(() => {
     const m: Record<string, number> = {}; const cnt: Record<string, number> = {};
     for (const t of terms) { const k = t.chapter; const n = cnt[k] ?? 0; m[t.id] = n; cnt[k] = n + 1; }
     return m;
   }, [terms]);
-  const canSee = (t: Term) => pro || (posInCh[t.id] ?? 99) < 3;
+  const canSee = (t: Term) => pro || (posInCh[t.id] ?? 99) < 6;
   const chapters = ['1', '2', '3', '4', '5', '6'];
   const chCount = (k: string) => terms.filter((t) => t.chapter === k).length;
   const favCount = terms.filter((t) => isFavTerm(t.term)).length;
@@ -581,7 +581,7 @@ function GlossaryScreen({ onBump, ver, favInit, pro, onPaywall }: { onBump: () =
             results.length ? (
               <View style={{ marginTop: 10 }}>
                 {results.filter(canSee).map((t) => <TermCard key={t.id} term={t} onBump={onBump} />)}
-                {!pro && results.some((t) => !canSee(t)) ? <ProCut onPaywall={onPaywall} title="ほかの用語はProで" sub={'無料は各章の先頭3語まで。Proで全用語を検索・閲覧できます。'} /> : null}
+                {!pro && results.some((t) => !canSee(t)) ? <ProCut onPaywall={onPaywall} title="ほかの用語はProで" sub={'無料は各章の先頭6語まで。Proで全用語を検索・閲覧できます。'} /> : null}
               </View>
             ) : (
               <Text style={[s.viewSub, { marginTop: 16 }]}>{`「${q}」に一致する用語は見つかりませんでした。`}</Text>
@@ -656,7 +656,7 @@ function GlossaryScreen({ onBump, ver, favInit, pro, onPaywall }: { onBump: () =
                 <TermCard key={t.id} term={t} onBump={onBump} />
               ))}
               {!pro && sel !== 'fav' && list.some((t) => !canSee(t)) ? (
-                <ProCut onPaywall={onPaywall} title={`残り${list.filter((t) => !canSee(t)).length}語はProで`} sub={'無料は各章の先頭3語まで。Proでこの章の全用語が読めます。'} />
+                <ProCut onPaywall={onPaywall} title={`残り${list.filter((t) => !canSee(t)).length}語はProで`} sub={'無料は各章の先頭6語まで。Proでこの章の全用語が読めます。'} />
               ) : null}
             </>
           )}
@@ -1264,8 +1264,8 @@ function RelationMapScreen({ onClose, pro, onPaywall }: { onClose: () => void; p
         </View>
         <Text style={[s.cardTitle, { marginTop: 16 }]}>{'第' + ch + '章 ' + CHAPTER_SHORT[ch]}</Text>
         <Text style={s.relHint}>6つのテーマから、役割としくみを整理した図です。図をタップすると全画面で拡大できます。</Text>
-        {(!pro && ch !== '1') ? (
-          <ProCut onPaywall={onPaywall} title="この章の相関図はProで" sub={'無料は第1章のみ。Proで全6章の相関図が見られます。'} />
+        {(!pro && !['1', '2', '3'].includes(ch)) ? (
+          <ProCut onPaywall={onPaywall} title="この章の相関図はProで" sub={'無料は第1〜3章。Proで全6章の相関図が見られます。'} />
         ) : (
           <Pressable onPress={() => setZoom(true)} style={({ pressed }) => [s.relThumb, { width: thumbW, height: thumbH }, pressed && s.pressed]}>
             {svg ? <SvgXml xml={svg} width={thumbW} height={thumbH} /> : null}
