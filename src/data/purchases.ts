@@ -11,9 +11,19 @@ export const OFFERING_ID = 'default';
 
 let proActive = false;
 let configured = false;
+let sandboxPurchase = false;
+let freePreview = false;
 const listeners = new Set<() => void>();
 
-export function isProActive(): boolean { return proActive; }
+export function isProActive(): boolean { return proActive && !freePreview; }
+export function canUseFreePreview(): boolean { return __DEV__ || sandboxPurchase; }
+export function isFreePreviewEnabled(): boolean { return freePreview; }
+export function setFreePreviewEnabled(enabled: boolean): void {
+  if (enabled && !canUseFreePreview()) return;
+  if (freePreview === enabled) return;
+  freePreview = enabled;
+  for (const l of listeners) l();
+}
 
 export function subscribePro(cb: () => void): () => void {
   listeners.add(cb);
@@ -21,9 +31,12 @@ export function subscribePro(cb: () => void): () => void {
 }
 
 function applyInfo(info: CustomerInfo): void {
+  const previousPro = isProActive();
+  sandboxPurchase = !!info.entitlements.all[PRO_ENTITLEMENT]?.isSandbox;
+  if (!canUseFreePreview()) freePreview = false;
   const active = !!info.entitlements.active[PRO_ENTITLEMENT];
-  if (active !== proActive) {
-    proActive = active;
+  proActive = active;
+  if (previousPro !== isProActive()) {
     for (const l of listeners) l();
   }
 }
@@ -56,6 +69,7 @@ export async function getProPackage(): Promise<PurchasesPackage | null> {
 
 /** 購入。成功でtrue、ユーザーキャンセルでfalse、失敗はthrow。 */
 export async function purchasePro(pkg: PurchasesPackage): Promise<boolean> {
+  if (freePreview) throw new Error('無料状態の確認中です。設定の開発用スイッチをオフにしてください。');
   try {
     const { customerInfo } = await Purchases.purchasePackage(pkg);
     applyInfo(customerInfo);
@@ -68,6 +82,7 @@ export async function purchasePro(pkg: PurchasesPackage): Promise<boolean> {
 
 /** 購入を復元。Proが有効になったらtrue。 */
 export async function restorePro(): Promise<boolean> {
+  if (freePreview) throw new Error('無料状態の確認中です。設定の開発用スイッチをオフにしてください。');
   if (!configured) return false;
   const info = await Purchases.restorePurchases();
   applyInfo(info);

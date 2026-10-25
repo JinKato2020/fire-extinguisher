@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   View, Text, ScrollView, Pressable, Image, TextInput,
-  useWindowDimensions, PanResponder, Alert, ActivityIndicator, Modal,
+  useWindowDimensions, PanResponder, Alert, ActivityIndicator, Modal, Switch,
 } from 'react-native';
 import type { PurchasesPackage } from 'react-native-purchases';
-import { initPurchases, isProActive, subscribePro, getProPackage, purchasePro, restorePro } from './src/data/purchases';
+import { initPurchases, isProActive, subscribePro, getProPackage, purchasePro, restorePro, canUseFreePreview, isFreePreviewEnabled, setFreePreviewEnabled } from './src/data/purchases';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BUILD_NUMBER } from './src/buildInfo';
@@ -1061,6 +1061,8 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
   const s = useStyles();
   const dateText = examDateText();
   const [restoring, setRestoring] = useState(false);
+  const [showDev, setShowDev] = useState(isFreePreviewEnabled());
+  const [freePreview, setFreePreview] = useState(isFreePreviewEnabled());
   const doRestore = async () => {
     if (restoring) return;
     setRestoring(true);
@@ -1092,7 +1094,7 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
               <Text style={[s.setValue, { color: c.accent }]}>全機能を解放 ›</Text>
             </Pressable>
           )}
-          <Pressable disabled={restoring} style={({ pressed }) => [s.setRow, pressed && s.pressed, restoring && s.btnDisabled]} onPress={doRestore}>
+          <Pressable disabled={restoring || freePreview} style={({ pressed }) => [s.setRow, pressed && s.pressed, (restoring || freePreview) && s.btnDisabled]} onPress={doRestore}>
             <Text style={s.setLabel}>購入を復元</Text>
             <Text style={s.setValue}>{restoring ? '復元中…' : '実行 ›'}</Text>
           </Pressable>
@@ -1132,11 +1134,22 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
 
         <View style={s.setGroup}>
           <Text style={s.setGroupTitle}>アプリについて</Text>
-          <View style={s.setRow}>
+          <Pressable style={s.setRow} delayLongPress={1500} onLongPress={() => { if (canUseFreePreview()) setShowDev(true); }}>
             <Text style={s.setLabel}>バージョン</Text>
             <Text style={s.setValue}>Build {BUILD_NUMBER}</Text>
-          </View>
+          </Pressable>
         </View>
+        {showDev && canUseFreePreview() ? <View style={s.setGroup}>
+          <Text style={s.setGroupTitle}>開発用（テスト購入）</Text>
+          <View style={s.setRow}>
+            <Text style={s.setLabel}>無料ユーザーとして確認</Text>
+            <Switch accessibilityLabel="無料ユーザーとして確認" value={freePreview} onValueChange={value => {
+              setFreePreviewEnabled(value);
+              setFreePreview(isFreePreviewEnabled());
+            }} />
+          </View>
+          <Text style={[s.radarEmpty, { marginTop: 8 }]}>購入履歴を残したまま、無料版の表示と制限を確認します。オフにするかアプリを完全に終了すると、本来の購入状態に戻ります。確認中は購入・復元を行いません。</Text>
+        </View> : null}
       </View>
     </ScrollView>
   );
