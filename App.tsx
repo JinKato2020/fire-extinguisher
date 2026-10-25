@@ -377,6 +377,27 @@ function parseLessons(body: string): Lesson[] {
   return out;
 }
 
+// ---- Pro誘導カード(無料範囲の先で表示) ----
+function ProCut({ onPaywall, title, sub }: { onPaywall: () => void; title: string; sub: string }) {
+  const { c } = useTheme();
+  const s = useStyles();
+  return (
+    <Pressable onPress={onPaywall} style={({ pressed }) => [s.proCut, pressed && s.pressed]}>
+      <View style={s.proCutIcon}><Icon name="flame" size={22} color={c.accent} /></View>
+      <Text style={s.proCutTitle}>{title}</Text>
+      <Text style={s.proCutSub}>{sub}</Text>
+      <View style={s.proCutBtn}><Text style={s.proCutBtnTxt}>Proにアップグレード ›</Text></View>
+    </Pressable>
+  );
+}
+
+// 無料で読めるレッスン数(導入は常に無料。第1章・第4章はLesson3まで、他章はLesson1まで)。
+function freeLessonEntries(chapterNo: string, lessons: Lesson[]): number {
+  const base = lessons[0]?.key === 'intro' ? 1 : 0;
+  const n = (chapterNo === '1' || chapterNo === '4') ? 3 : 1;
+  return base + n;
+}
+
 function LearnScreen({ chapters, onOpen }: { chapters: Chapter[]; onOpen: (c: Chapter) => void }) {
   const { c } = useTheme();
   const s = useStyles();
@@ -414,9 +435,10 @@ function LearnScreen({ chapters, onOpen }: { chapters: Chapter[]; onOpen: (c: Ch
 }
 
 // ---- レッスン選択画面(章の中のレッスン一覧。左右スワイプで隣の章へ) ----
-function LessonListScreen({ chapter, chapters, onOpenLesson, onBack, onNavChapter }: { chapter: Chapter; chapters: Chapter[]; onOpenLesson: (i: number) => void; onBack: () => void; onNavChapter: (no: string) => void }) {
+function LessonListScreen({ chapter, chapters, onOpenLesson, onBack, onNavChapter, pro, onPaywall }: { chapter: Chapter; chapters: Chapter[]; onOpenLesson: (i: number) => void; onBack: () => void; onNavChapter: (no: string) => void; pro: boolean; onPaywall: () => void }) {
   const s = useStyles();
   const lessons = useMemo(() => parseLessons(chapter.body ?? ''), [chapter.body]);
+  const freeCount = freeLessonEntries(chapter.no, lessons);
   const idx = chapters.findIndex((x) => x.no === chapter.no);
   const prev = idx > 0 ? chapters[idx - 1] : null;
   const next = idx >= 0 && idx < chapters.length - 1 ? chapters[idx + 1] : null;
@@ -452,13 +474,16 @@ function LessonListScreen({ chapter, chapters, onOpenLesson, onBack, onNavChapte
             <View style={s.soon}><Text style={s.soonBig}>準備中</Text><Text style={s.soonTxt}>{'第' + chapter.no + '章の解説はこれから追加します。'}</Text></View>
           ) : (
             <View style={{ gap: 10, marginTop: 16 }}>
-              {lessons.map((l, i) => (
-                <Pressable key={l.key} style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => onOpenLesson(i)}>
-                  <View style={s.chNo}><Text style={s.chNoTxt}>{i + 1}</Text></View>
-                  <View style={{ flex: 1, minWidth: 0 }}><Text style={s.chTitle} numberOfLines={2}>{l.label}</Text></View>
-                  <Text style={s.chGo}>›</Text>
-                </Pressable>
-              ))}
+              {lessons.map((l, i) => {
+                const locked = !pro && i >= freeCount;
+                return (
+                  <Pressable key={l.key} style={({ pressed }) => [s.ch, locked && s.chLocked, pressed && s.pressed]} onPress={() => (locked ? onPaywall() : onOpenLesson(i))}>
+                    <View style={s.chNo}><Text style={s.chNoTxt}>{i + 1}</Text></View>
+                    <View style={{ flex: 1, minWidth: 0 }}><Text style={s.chTitle} numberOfLines={2}>{l.label}</Text></View>
+                    {locked ? <View style={s.proPill}><Text style={s.proPillTxt}>Pro</Text></View> : <Text style={s.chGo}>›</Text>}
+                  </Pressable>
+                );
+              })}
             </View>
           )}
           <View style={s.readerNav}>
@@ -476,12 +501,13 @@ function LessonListScreen({ chapter, chapters, onOpenLesson, onBack, onNavChapte
 }
 
 // ---- レッスン本文(左右スワイプで隣のレッスンへ。章をまたいで連続) ----
-function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav }: { chapters: Chapter[]; chapterNo: string; lessonIdx: number; onBack: () => void; onNav: (chapterNo: string, lessonIdx: number) => void }) {
+function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPaywall }: { chapters: Chapter[]; chapterNo: string; lessonIdx: number; onBack: () => void; onNav: (chapterNo: string, lessonIdx: number) => void; pro: boolean; onPaywall: () => void }) {
   const s = useStyles();
   const chapter = chapters.find((x) => x.no === chapterNo) ?? null;
   const lessons = useMemo(() => parseLessons(chapter?.body ?? ''), [chapter?.body]);
   const safeIdx = Math.max(0, Math.min(lessonIdx, lessons.length - 1));
   const lesson = lessons[safeIdx] ?? null;
+  const locked = !pro && safeIdx >= freeLessonEntries(chapterNo, lessons);
   const chIdx = chapters.findIndex((x) => x.no === chapterNo);
 
   const prevTarget = (() => {
@@ -517,7 +543,9 @@ function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav }: { chapt
         <Text style={s.qProgress} numberOfLines={1}>{(chapter ? '第' + chapter.no + '章' : '') + (lessons.length ? '・' + (safeIdx + 1) + '/' + lessons.length : '')}</Text>
       </View>
       <ScrollView key={chapterNo + '-' + safeIdx} style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}>
-        {lesson ? <Markdown body={lesson.body} /> : <View style={s.soon}><Text style={s.soonBig}>準備中</Text></View>}
+        {locked
+          ? <ProCut onPaywall={onPaywall} title="このレッスンはProで" sub={'無料で読めるレッスンの先です。Proですべてのレッスン・用語・相関図・模試が解放されます。'} />
+          : lesson ? <Markdown body={lesson.body} /> : <View style={s.soon}><Text style={s.soonBig}>準備中</Text></View>}
         <View style={s.readerNav}>
           <Pressable disabled={!prevTarget} onPress={() => prevTarget && onNav(prevTarget.no, prevTarget.i)} style={({ pressed }) => [s.readerNavBtn, !prevTarget && s.btnDisabled, pressed && s.pressed]}>
             {prevTarget ? <Text style={s.readerNavTxt}>‹ 前のレッスン</Text> : null}
@@ -532,13 +560,20 @@ function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav }: { chapt
 }
 
 // ---- 用語集 ----
-function GlossaryScreen({ onBump, ver, favInit }: { onBump: () => void; ver: number; favInit?: boolean }) {
+function GlossaryScreen({ onBump, ver, favInit, pro, onPaywall }: { onBump: () => void; ver: number; favInit?: boolean; pro: boolean; onPaywall: () => void }) {
   const { c } = useTheme();
   const s = useStyles();
   const [q, setQ] = useState('');
   // sel: null = 章の選択画面 / '1'〜'6' = その章 / 'fav' = お気に入り
   const [sel, setSel] = useState<string | null>(favInit ? 'fav' : null);
   const terms = useMemo(() => getGlossary(), [ver]);
+  // 無料は各章の先頭3語まで(Proで全解放)
+  const posInCh = useMemo(() => {
+    const m: Record<string, number> = {}; const cnt: Record<string, number> = {};
+    for (const t of terms) { const k = t.chapter; const n = cnt[k] ?? 0; m[t.id] = n; cnt[k] = n + 1; }
+    return m;
+  }, [terms]);
+  const canSee = (t: Term) => pro || (posInCh[t.id] ?? 99) < 3;
   const chapters = ['1', '2', '3', '4', '5', '6'];
   const chCount = (k: string) => terms.filter((t) => t.chapter === k).length;
   const favCount = terms.filter((t) => isFavTerm(t.term)).length;
@@ -573,7 +608,8 @@ function GlossaryScreen({ onBump, ver, favInit }: { onBump: () => void; ver: num
           {nq ? (
             results.length ? (
               <View style={{ marginTop: 10 }}>
-                {results.map((t) => <TermCard key={t.id} term={t} onBump={onBump} />)}
+                {results.filter(canSee).map((t) => <TermCard key={t.id} term={t} onBump={onBump} />)}
+                {!pro && results.some((t) => !canSee(t)) ? <ProCut onPaywall={onPaywall} title="ほかの用語はProで" sub={'無料は各章の先頭3語まで。Proで全用語を検索・閲覧できます。'} /> : null}
               </View>
             ) : (
               <Text style={[s.viewSub, { marginTop: 16 }]}>{`「${q}」に一致する用語は見つかりませんでした。`}</Text>
@@ -642,9 +678,16 @@ function GlossaryScreen({ onBump, ver, favInit }: { onBump: () => void; ver: num
             <Text style={[s.radarEmpty, { marginTop: 24 }]}>
               {sel === 'fav' ? '★をつけた用語がここに集まります。' : '該当する用語がありません。'}
             </Text>
-          ) : list.map((t) => (
-            <TermCard key={t.id} term={t} onBump={onBump} />
-          ))}
+          ) : (
+            <>
+              {list.filter(canSee).map((t) => (
+                <TermCard key={t.id} term={t} onBump={onBump} />
+              ))}
+              {!pro && sel !== 'fav' && list.some((t) => !canSee(t)) ? (
+                <ProCut onPaywall={onPaywall} title={`残り${list.filter((t) => !canSee(t)).length}語はProで`} sub={'無料は各章の先頭3語まで。Proでこの章の全用語が読めます。'} />
+              ) : null}
+            </>
+          )}
         </View>
       </ScrollView>
     </View>
@@ -680,7 +723,7 @@ function TermCard({ term, onBump }: { term: Term; onBump: () => void }) {
 
 // ---- 模試・成績 ----
 // 無料=模試①②、Pro=模試③〜⑧＋弱点復習(買い切りProで解放)。
-const FREE_MOCK_COUNT = 2;
+const FREE_MOCK_COUNT = 1;
 
 // その模試の問題群に対する現在の成績(最新の正誤で集計)。
 function mockStat(questions: Question[]) {
@@ -846,8 +889,8 @@ function MockScoreScreen({ onBump, pro, onPaywall }: { onBump: () => void; pro: 
           <Pressable onPress={onPaywall} style={({ pressed }) => [s.upgradeCard, pressed && s.pressed]}>
             <View style={s.upgradeIcon}><Icon name="flame" size={20} color={c.accent} /></View>
             <View style={{ flex: 1, minWidth: 0 }}>
-              <Text style={s.upgradeTitle}>Proで全8回＋弱点復習を解放</Text>
-              <Text style={s.upgradeSub}>模試③〜⑧と弱点復習がすべて使えます</Text>
+              <Text style={s.upgradeTitle}>Proですべての機能を解放</Text>
+              <Text style={s.upgradeSub}>②以降の模試・弱点復習・教材の全レッスン・全用語・相関図</Text>
             </View>
             <Text style={s.chGo}>›</Text>
           </Pressable>
@@ -869,7 +912,7 @@ function MockScoreScreen({ onBump, pro, onPaywall }: { onBump: () => void; pro: 
         </Pressable>
 
         <Text style={s.sectionHead}>問題セット</Text>
-        {!pro ? <Text style={s.mockHint}>模試①②は無料。③〜⑧はProで解放できます。</Text> : null}
+        {!pro ? <Text style={s.mockHint}>模試①は無料。②以降はProで解放できます。</Text> : null}
         <View style={{ gap: 12 }}>
           {sets.map((set, i) => {
             const locked = i >= FREE_MOCK_COUNT && !pro;
@@ -1074,7 +1117,7 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
           ) : (
             <Pressable style={({ pressed }) => [s.setRow, pressed && s.pressed]} onPress={() => onModal('paywall')}>
               <Text style={s.setLabel}>Proにアップグレード</Text>
-              <Text style={[s.setValue, { color: c.accent }]}>全8回＋弱点復習 ›</Text>
+              <Text style={[s.setValue, { color: c.accent }]}>全機能を解放 ›</Text>
             </Pressable>
           )}
           <Pressable disabled={restoring} style={({ pressed }) => [s.setRow, pressed && s.pressed, restoring && s.btnDisabled]} onPress={doRestore}>
@@ -1204,7 +1247,7 @@ function QuestionDetail({ question: q, onBack, onBump }: { question: Question; o
 }
 
 // ---- モーダル: 相関図(章ごとの相関図を表示・タップで全画面ズーム) ----
-function RelationMapScreen({ onClose }: { onClose: () => void }) {
+function RelationMapScreen({ onClose, pro, onPaywall }: { onClose: () => void; pro: boolean; onPaywall: () => void }) {
   const { resolved } = useTheme();
   const s = useStyles();
   const { width, height } = useWindowDimensions();
@@ -1236,10 +1279,14 @@ function RelationMapScreen({ onClose }: { onClose: () => void }) {
         </View>
         <Text style={[s.cardTitle, { marginTop: 16 }]}>{'第' + ch + '章 ' + CHAPTER_SHORT[ch]}</Text>
         <Text style={s.relHint}>6つのテーマから、役割としくみを整理した図です。図をタップすると全画面で拡大できます。</Text>
-        <Pressable onPress={() => setZoom(true)} style={({ pressed }) => [s.relThumb, { width: thumbW, height: thumbH }, pressed && s.pressed]}>
-          {svg ? <SvgXml xml={svg} width={thumbW} height={thumbH} /> : null}
-          <View style={s.relZoomHint}><Text style={s.relZoomHintTxt}>タップで拡大</Text></View>
-        </Pressable>
+        {(!pro && ch !== '1') ? (
+          <ProCut onPaywall={onPaywall} title="この章の相関図はProで" sub={'無料は第1章のみ。Proで全6章の相関図が見られます。'} />
+        ) : (
+          <Pressable onPress={() => setZoom(true)} style={({ pressed }) => [s.relThumb, { width: thumbW, height: thumbH }, pressed && s.pressed]}>
+            {svg ? <SvgXml xml={svg} width={thumbW} height={thumbH} /> : null}
+            <View style={s.relZoomHint}><Text style={s.relZoomHintTxt}>タップで拡大</Text></View>
+          </Pressable>
+        )}
       </ScrollView>
       {zoom ? (
         <View style={s.relFull}>
@@ -1386,7 +1433,7 @@ function PaywallScreen({ onClose, onBump }: { onClose: () => void; onBump: () =>
     setBusy(true);
     try {
       const ok = await purchasePro(pkg);
-      if (ok) { onBump(); Alert.alert('ありがとうございます', 'Proが有効になりました。すべての模試と弱点復習が使えます。'); onClose(); }
+      if (ok) { onBump(); Alert.alert('ありがとうございます', 'Proが有効になりました。すべての機能が使えます。'); onClose(); }
     } catch {
       Alert.alert('購入できませんでした', '時間をおいて、もう一度お試しください。');
     } finally { setBusy(false); }
@@ -1404,10 +1451,10 @@ function PaywallScreen({ onClose, onBump }: { onClose: () => void; onBump: () =>
   };
 
   const features = [
-    '模試③〜⑧を解放(＝本番形式 全8回)',
+    '模試②以降をすべて解放(本番形式 全12回)',
+    '教材の全レッスン・用語集の全用語・全章の相関図を解放',
     '弱点復習で、誤答や自信なしを集中特訓',
     '買い切り・1回のお支払いでずっと使える',
-    '教材・用語・相関図は無料のまま',
   ];
 
   return (
@@ -1421,7 +1468,7 @@ function PaywallScreen({ onClose, onBump }: { onClose: () => void; onBump: () =>
         <View style={s.payHero}>
           <View style={s.payHeroIcon}><Icon name="flame" size={30} color={c.accent} /></View>
           <Text style={s.payTitle}>Proにアップグレード</Text>
-          <Text style={s.paySub}>本番形式の模試を全8回＋弱点復習で、合格をぐっと近づける。</Text>
+          <Text style={s.paySub}>模試・教材・用語・相関図・弱点復習まで、全機能を解放して合格へ。</Text>
         </View>
 
         <View style={s.payCard}>
@@ -1537,7 +1584,7 @@ function Main() {
           {showModal ? (
             <>
               {modal === 'bookmarks' && <BookmarksScreen onClose={() => setModal(null)} onBump={bump} />}
-              {modal === 'relation' && <RelationMapScreen onClose={() => setModal(null)} />}
+              {modal === 'relation' && <RelationMapScreen onClose={() => setModal(null)} pro={pro} onPaywall={() => { setModal('paywall'); }} />}
               {modal === 'guide' && <ExamGuideScreen onClose={() => setModal(null)} />}
               {modal === 'examdate' && <ExamDateScreen onClose={() => setModal(null)} onSaved={bump} />}
               {modal === 'paywall' && <PaywallScreen onClose={() => setModal(null)} onBump={bump} />}
@@ -1547,10 +1594,10 @@ function Main() {
               {tab === 'home' && <HomeScreen onGo={goTab} onModal={setModal} onFavTerms={goFavTerms} ver={dataVersion} />}
               {tab === 'learn' && (openChapter
                 ? (lessonIdx === null
-                    ? <LessonListScreen chapter={openChapter} chapters={chapters} onOpenLesson={(i) => setLessonIdx(i)} onBack={() => setOpenNo(null)} onNavChapter={(no) => { setOpenNo(no); setLessonIdx(null); }} />
-                    : <LessonReader chapters={chapters} chapterNo={openChapter.no} lessonIdx={lessonIdx} onBack={() => setLessonIdx(null)} onNav={(no, i) => { setOpenNo(no); setLessonIdx(i); }} />)
+                    ? <LessonListScreen chapter={openChapter} chapters={chapters} onOpenLesson={(i) => setLessonIdx(i)} onBack={() => setOpenNo(null)} onNavChapter={(no) => { setOpenNo(no); setLessonIdx(null); }} pro={pro} onPaywall={() => setModal('paywall')} />
+                    : <LessonReader chapters={chapters} chapterNo={openChapter.no} lessonIdx={lessonIdx} onBack={() => setLessonIdx(null)} onNav={(no, i) => { setOpenNo(no); setLessonIdx(i); }} pro={pro} onPaywall={() => setModal('paywall')} />)
                 : <LearnScreen chapters={chapters} onOpen={(x) => { setOpenNo(x.no); setLessonIdx(null); }} />)}
-              {tab === 'terms' && <GlossaryScreen onBump={bump} ver={dataVersion} favInit={termsFav} />}
+              {tab === 'terms' && <GlossaryScreen onBump={bump} ver={dataVersion} favInit={termsFav} pro={pro} onPaywall={() => setModal('paywall')} />}
               {tab === 'mock' && <MockScoreScreen onBump={bump} pro={pro} onPaywall={() => setModal('paywall')} />}
               {tab === 'set' && <SettingsScreen onModal={setModal} onSync={doSync} syncing={syncing} pro={pro} />}
             </>

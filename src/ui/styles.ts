@@ -149,6 +149,13 @@ export function makeStyles(c: Colors) {
     reviewBtnHead: { flexDirection: 'row', alignItems: 'center', gap: 10 },
     mockHint: { color: c.muted, fontSize: 12, marginTop: 4, marginBottom: 10 },
     chLocked: { opacity: 0.86 },
+    // ---- Pro誘導カード ----
+    proCut: { marginTop: 16, backgroundColor: c.accentSoft, borderWidth: 1, borderColor: c.accent, borderRadius: 16, padding: 18, alignItems: 'center' },
+    proCutIcon: { width: 44, height: 44, borderRadius: 22, backgroundColor: c.card, alignItems: 'center', justifyContent: 'center', marginBottom: 10 },
+    proCutTitle: { color: c.fg, fontSize: 15.5, fontWeight: '900', textAlign: 'center' },
+    proCutSub: { color: c.muted, fontSize: 12.5, lineHeight: 19, textAlign: 'center', marginTop: 5 },
+    proCutBtn: { marginTop: 12, backgroundColor: c.accent, borderRadius: 999, paddingHorizontal: 18, paddingVertical: 9 },
+    proCutBtnTxt: { color: c.onAccent, fontSize: 13, fontWeight: '900' },
     // ---- 模試カード(試験を始める / 成績を確認する) ----
     mockCard: { backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 16, padding: 14 },
     mockHead: { flexDirection: 'row', alignItems: 'center', gap: 13 },
