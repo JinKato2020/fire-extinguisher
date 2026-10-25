@@ -11,6 +11,7 @@ import { BUILD_NUMBER } from './src/buildInfo';
 import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
 import { getFigureUri } from './src/data/contentStore';
+import { ImageZoom } from './src/ui/ImageZoom';
 import { getQuizSets, getQuestions, getAllQuestions, type Question, type QuizSet } from './src/data/questions';
 import { loadHistory, recordAnswer, selectReview, overallStats, getRec } from './src/data/history';
 import { getGlossary, type Term } from './src/data/glossary';
@@ -137,35 +138,6 @@ function Markdown({ body }: { body: string }) {
       })}
       {zoomUri ? <ImageZoom uri={zoomUri} onClose={() => setZoomUri(null)} /> : null}
     </View>
-  );
-}
-
-// ---- 画像の全画面ズーム(タップで拡大・右上×で閉じる。ピンチ/ドラッグ可) ----
-function ImageZoom({ uri, onClose }: { uri: string; onClose: () => void }) {
-  const s = useStyles();
-  const { width, height } = useWindowDimensions();
-  return (
-    <Modal visible transparent animationType="fade" statusBarTranslucent onRequestClose={onClose}>
-      <View style={s.zoomRoot}>
-        <View style={s.zoomBar}>
-          <Pressable onPress={onClose} hitSlop={14} style={({ pressed }) => [s.zoomClose, pressed && s.pressed]}>
-            <Text style={s.zoomCloseTxt}>✕</Text>
-          </Pressable>
-        </View>
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
-          maximumZoomScale={5}
-          minimumZoomScale={1}
-          centerContent
-          bouncesZoom
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-        >
-          <Image source={{ uri }} style={{ width, height: height * 0.82 }} resizeMode="contain" />
-        </ScrollView>
-      </View>
-    </Modal>
   );
 }
 
