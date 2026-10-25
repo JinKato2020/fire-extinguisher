@@ -357,6 +357,26 @@ function MenuTile({ icon, title, sub, onPress, badge, soon }: { icon: string; ti
 }
 
 // ---- 教材(章一覧 / リーダー) ----
+// 章本文を「## Lesson NN」見出しでレッスンに分割(先頭の導入部は「はじめに・準備」)。
+type Lesson = { key: string; label: string; body: string };
+function parseLessons(body: string): Lesson[] {
+  if (!body) return [];
+  const lines = body.split('\n');
+  const idxs: number[] = [];
+  lines.forEach((ln, i) => { if (/^##\s+Lesson\s/i.test(ln.trim())) idxs.push(i); });
+  if (idxs.length === 0) return [{ key: 'all', label: '本文', body }];
+  const out: Lesson[] = [];
+  const intro = lines.slice(0, idxs[0]).join('\n').trim();
+  if (intro) out.push({ key: 'intro', label: 'はじめに・準備', body: intro });
+  for (let k = 0; k < idxs.length; k++) {
+    const start = idxs[k];
+    const end = k + 1 < idxs.length ? idxs[k + 1] : lines.length;
+    const head = lines[start].trim().replace(/^##\s+/, '');
+    out.push({ key: 'l' + k, label: head, body: lines.slice(start, end).join('\n') });
+  }
+  return out;
+}
+
 function LearnScreen({ chapters, onOpen }: { chapters: Chapter[]; onOpen: (c: Chapter) => void }) {
   const { c } = useTheme();
   const s = useStyles();
@@ -393,15 +413,15 @@ function LearnScreen({ chapters, onOpen }: { chapters: Chapter[]; onOpen: (c: Ch
   );
 }
 
-function Reader({ chapter, chapters, onBack, onNavigate }: { chapter: Chapter; chapters: Chapter[]; onBack: () => void; onNavigate: (no: string) => void }) {
+// ---- レッスン選択画面(章の中のレッスン一覧。左右スワイプで隣の章へ) ----
+function LessonListScreen({ chapter, chapters, onOpenLesson, onBack, onNavChapter }: { chapter: Chapter; chapters: Chapter[]; onOpenLesson: (i: number) => void; onBack: () => void; onNavChapter: (no: string) => void }) {
   const s = useStyles();
+  const lessons = useMemo(() => parseLessons(chapter.body ?? ''), [chapter.body]);
   const idx = chapters.findIndex((x) => x.no === chapter.no);
   const prev = idx > 0 ? chapters[idx - 1] : null;
-  const nextCh = idx >= 0 && idx < chapters.length - 1 ? chapters[idx + 1] : null;
-
-  // スワイプ(左右)で隣の章へ。最新の遷移先は ref 経由で読む(PanResponder 自体は固定)。
-  const navRef = useRef<{ prev: Chapter | null; next: Chapter | null; go: (no: string) => void }>({ prev, next: nextCh, go: onNavigate });
-  navRef.current = { prev, next: nextCh, go: onNavigate };
+  const next = idx >= 0 && idx < chapters.length - 1 ? chapters[idx + 1] : null;
+  const navRef = useRef<{ prev: Chapter | null; next: Chapter | null; go: (no: string) => void }>({ prev, next, go: onNavChapter });
+  navRef.current = { prev, next, go: onNavChapter };
   const pan = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: (_e, g) => Math.abs(g.dx) > 24 && Math.abs(g.dx) > Math.abs(g.dy) * 1.8,
@@ -417,20 +437,93 @@ function Reader({ chapter, chapters, onBack, onNavigate }: { chapter: Chapter; c
     <View style={{ flex: 1 }} {...pan.panHandlers}>
       <View style={s.readerBar}>
         <Pressable onPress={onBack} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
-          <Text style={s.backTxt}>‹ 教材一覧</Text>
+          <Text style={s.backTxt}>‹ 章の選択</Text>
         </Pressable>
         <Text style={s.qProgress} numberOfLines={1}>{'第' + chapter.no + '章 ' + chapter.title}</Text>
       </View>
-      <ScrollView key={chapter.no} style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}>
-        {chapter.body
-          ? <Markdown body={chapter.body} />
-          : <View style={s.soon}><Text style={s.soonBig}>準備中</Text><Text style={s.soonTxt}>{'第' + chapter.no + '章「' + chapter.title + '」の解説はこれから追加します。'}</Text></View>}
+      <ScrollView key={chapter.no} style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
+        <View style={s.pad}>
+          <View style={s.viewHead}>
+            <Text style={s.eyebrow}>{'CHAPTER ' + chapter.no}</Text>
+            <Text style={s.viewH2}>{chapter.title}</Text>
+            <Text style={s.viewSub}>レッスンを選んで読み進めましょう。左右スワイプで隣の章へ移動できます。</Text>
+          </View>
+          {lessons.length === 0 ? (
+            <View style={s.soon}><Text style={s.soonBig}>準備中</Text><Text style={s.soonTxt}>{'第' + chapter.no + '章の解説はこれから追加します。'}</Text></View>
+          ) : (
+            <View style={{ gap: 10, marginTop: 16 }}>
+              {lessons.map((l, i) => (
+                <Pressable key={l.key} style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => onOpenLesson(i)}>
+                  <View style={s.chNo}><Text style={s.chNoTxt}>{i + 1}</Text></View>
+                  <View style={{ flex: 1, minWidth: 0 }}><Text style={s.chTitle} numberOfLines={2}>{l.label}</Text></View>
+                  <Text style={s.chGo}>›</Text>
+                </Pressable>
+              ))}
+            </View>
+          )}
+          <View style={s.readerNav}>
+            <Pressable disabled={!prev} onPress={() => prev && onNavChapter(prev.no)} style={({ pressed }) => [s.readerNavBtn, !prev && s.btnDisabled, pressed && s.pressed]}>
+              {prev ? <><Text style={s.readerNavTxt}>‹ 前の章</Text><Text style={s.readerNavSub} numberOfLines={1}>{prev.title}</Text></> : null}
+            </Pressable>
+            <Pressable disabled={!next} onPress={() => next && onNavChapter(next.no)} style={({ pressed }) => [s.readerNavBtn, { alignItems: 'flex-end' }, !next && s.btnDisabled, pressed && s.pressed]}>
+              {next ? <><Text style={s.readerNavTxt}>次の章 ›</Text><Text style={s.readerNavSub} numberOfLines={1}>{next.title}</Text></> : null}
+            </Pressable>
+          </View>
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
+
+// ---- レッスン本文(左右スワイプで隣のレッスンへ。章をまたいで連続) ----
+function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav }: { chapters: Chapter[]; chapterNo: string; lessonIdx: number; onBack: () => void; onNav: (chapterNo: string, lessonIdx: number) => void }) {
+  const s = useStyles();
+  const chapter = chapters.find((x) => x.no === chapterNo) ?? null;
+  const lessons = useMemo(() => parseLessons(chapter?.body ?? ''), [chapter?.body]);
+  const safeIdx = Math.max(0, Math.min(lessonIdx, lessons.length - 1));
+  const lesson = lessons[safeIdx] ?? null;
+  const chIdx = chapters.findIndex((x) => x.no === chapterNo);
+
+  const prevTarget = (() => {
+    if (safeIdx > 0) return { no: chapterNo, i: safeIdx - 1 };
+    for (let k = chIdx - 1; k >= 0; k--) { const ls = parseLessons(chapters[k].body ?? ''); if (ls.length) return { no: chapters[k].no, i: ls.length - 1 }; }
+    return null;
+  })();
+  const nextTarget = (() => {
+    if (safeIdx < lessons.length - 1) return { no: chapterNo, i: safeIdx + 1 };
+    for (let k = chIdx + 1; k < chapters.length; k++) { const ls = parseLessons(chapters[k].body ?? ''); if (ls.length) return { no: chapters[k].no, i: 0 }; }
+    return null;
+  })();
+
+  const navRef = useRef<{ prev: { no: string; i: number } | null; next: { no: string; i: number } | null; go: (no: string, i: number) => void }>({ prev: prevTarget, next: nextTarget, go: onNav });
+  navRef.current = { prev: prevTarget, next: nextTarget, go: onNav };
+  const pan = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_e, g) => Math.abs(g.dx) > 24 && Math.abs(g.dx) > Math.abs(g.dy) * 1.8,
+      onPanResponderRelease: (_e, g) => {
+        const { prev: p, next: n, go } = navRef.current;
+        if (g.dx <= -60 && n) go(n.no, n.i);
+        else if (g.dx >= 60 && p) go(p.no, p.i);
+      },
+    }),
+  ).current;
+
+  return (
+    <View style={{ flex: 1 }} {...pan.panHandlers}>
+      <View style={s.readerBar}>
+        <Pressable onPress={onBack} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
+          <Text style={s.backTxt}>‹ レッスン一覧</Text>
+        </Pressable>
+        <Text style={s.qProgress} numberOfLines={1}>{(chapter ? '第' + chapter.no + '章' : '') + (lessons.length ? '・' + (safeIdx + 1) + '/' + lessons.length : '')}</Text>
+      </View>
+      <ScrollView key={chapterNo + '-' + safeIdx} style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}>
+        {lesson ? <Markdown body={lesson.body} /> : <View style={s.soon}><Text style={s.soonBig}>準備中</Text></View>}
         <View style={s.readerNav}>
-          <Pressable disabled={!prev} onPress={() => prev && onNavigate(prev.no)} style={({ pressed }) => [s.readerNavBtn, !prev && s.btnDisabled, pressed && s.pressed]}>
-            {prev ? <><Text style={s.readerNavTxt}>‹ 前の章</Text><Text style={s.readerNavSub} numberOfLines={1}>{prev.title}</Text></> : null}
+          <Pressable disabled={!prevTarget} onPress={() => prevTarget && onNav(prevTarget.no, prevTarget.i)} style={({ pressed }) => [s.readerNavBtn, !prevTarget && s.btnDisabled, pressed && s.pressed]}>
+            {prevTarget ? <Text style={s.readerNavTxt}>‹ 前のレッスン</Text> : null}
           </Pressable>
-          <Pressable disabled={!nextCh} onPress={() => nextCh && onNavigate(nextCh.no)} style={({ pressed }) => [s.readerNavBtn, { alignItems: 'flex-end' }, !nextCh && s.btnDisabled, pressed && s.pressed]}>
-            {nextCh ? <><Text style={s.readerNavTxt}>次の章 ›</Text><Text style={s.readerNavSub} numberOfLines={1}>{nextCh.title}</Text></> : null}
+          <Pressable disabled={!nextTarget} onPress={() => nextTarget && onNav(nextTarget.no, nextTarget.i)} style={({ pressed }) => [s.readerNavBtn, { alignItems: 'flex-end' }, !nextTarget && s.btnDisabled, pressed && s.pressed]}>
+            {nextTarget ? <Text style={s.readerNavTxt}>次のレッスン ›</Text> : null}
           </Pressable>
         </View>
       </ScrollView>
@@ -1398,6 +1491,7 @@ function Main() {
   const [tab, setTab] = useState<TabKey>('home');
   const [termsFav, setTermsFav] = useState(false);
   const [openNo, setOpenNo] = useState<string | null>(null);
+  const [lessonIdx, setLessonIdx] = useState<number | null>(null);
   const [modal, setModal] = useState<ModalKey>(null);
   const [syncing, setSyncing] = useState(false);
   const [pro, setPro] = useState(isProActive());
@@ -1423,8 +1517,8 @@ function Main() {
   const chapters = useMemo(() => getChapters(), [contentVersion]);
   const openChapter = openNo ? (chapters.find((x) => x.no === openNo) ?? null) : null;
 
-  const goTab = (t: TabKey) => { setTab(t); if (t !== 'learn') setOpenNo(null); if (t === 'terms') setTermsFav(false); };
-  const goFavTerms = () => { setOpenNo(null); setTermsFav(true); setTab('terms'); };
+  const goTab = (t: TabKey) => { setTab(t); if (t !== 'learn') { setOpenNo(null); setLessonIdx(null); } if (t === 'terms') setTermsFav(false); };
+  const goFavTerms = () => { setOpenNo(null); setLessonIdx(null); setTermsFav(true); setTab('terms'); };
 
   const doSync = () => {
     if (syncing) return;
@@ -1452,8 +1546,10 @@ function Main() {
             <>
               {tab === 'home' && <HomeScreen onGo={goTab} onModal={setModal} onFavTerms={goFavTerms} ver={dataVersion} />}
               {tab === 'learn' && (openChapter
-                ? <Reader chapter={openChapter} chapters={chapters} onBack={() => setOpenNo(null)} onNavigate={(no) => setOpenNo(no)} />
-                : <LearnScreen chapters={chapters} onOpen={(x) => setOpenNo(x.no)} />)}
+                ? (lessonIdx === null
+                    ? <LessonListScreen chapter={openChapter} chapters={chapters} onOpenLesson={(i) => setLessonIdx(i)} onBack={() => setOpenNo(null)} onNavChapter={(no) => { setOpenNo(no); setLessonIdx(null); }} />
+                    : <LessonReader chapters={chapters} chapterNo={openChapter.no} lessonIdx={lessonIdx} onBack={() => setLessonIdx(null)} onNav={(no, i) => { setOpenNo(no); setLessonIdx(i); }} />)
+                : <LearnScreen chapters={chapters} onOpen={(x) => { setOpenNo(x.no); setLessonIdx(null); }} />)}
               {tab === 'terms' && <GlossaryScreen onBump={bump} ver={dataVersion} favInit={termsFav} />}
               {tab === 'mock' && <MockScoreScreen onBump={bump} pro={pro} onPaywall={() => setModal('paywall')} />}
               {tab === 'set' && <SettingsScreen onModal={setModal} onSync={doSync} syncing={syncing} pro={pro} />}
