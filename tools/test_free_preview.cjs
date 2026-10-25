@@ -7,13 +7,13 @@ const info = (sandbox, active = true) => {
   const entitlement = { isSandbox: sandbox };
   return { entitlements: { all: { pro: entitlement }, active: active ? { pro: entitlement } : {} } };
 };
-function load(customerInfo) {
+function load(customerInfo, purchaseError = null) {
   let notify;
   const calls = { purchase: 0, restore: 0 };
   const sdk = {
     configure() {}, addCustomerInfoUpdateListener(cb) { notify = cb; },
     async getCustomerInfo() { return customerInfo; },
-    async purchasePackage() { calls.purchase++; return { customerInfo }; },
+    async purchasePackage() { calls.purchase++; if (purchaseError) throw purchaseError; return { customerInfo }; },
     async restorePurchases() { calls.restore++; return customerInfo; },
   };
   const module = { exports: {} };
@@ -36,10 +36,10 @@ function load(customerInfo) {
   assert.equal(p.isProActive(), false);
   test.refresh(info(true)); // SDK refresh cannot override the requested free preview.
   assert.equal(p.isProActive(), false);
-  await assert.rejects(() => p.purchasePro({}), /無料状態/);
   await assert.rejects(() => p.restorePro(), /無料状態/);
-  assert.deepEqual(test.calls, { purchase: 0, restore: 0 });
-  p.setFreePreviewEnabled(false);
+  assert.equal(await p.purchasePro({}), true);
+  assert.deepEqual(test.calls, { purchase: 1, restore: 0 });
+  assert.equal(p.isFreePreviewEnabled(), false);
   assert.equal(p.isProActive(), true);
   assert.equal(changes, 2);
   unsub();
@@ -58,5 +58,13 @@ function load(customerInfo) {
   await free.initPurchases();
   free.setFreePreviewEnabled(true); free.setFreePreviewEnabled(false);
   assert.equal(free.isProActive(), false); // The toggle never grants Pro.
-  console.log('PASS: free restrictions, live refresh, purchase/restore guard, production exclusion, restart and genuine entitlement restoration');
+  for (const error of [{ userCancelled: true }, new Error('store unavailable')]) {
+    const failed = load(info(true), error).api;
+    await failed.initPurchases(); failed.setFreePreviewEnabled(true);
+    if (error.userCancelled) assert.equal(await failed.purchasePro({}), false);
+    else await assert.rejects(() => failed.purchasePro({}), /store unavailable/);
+    assert.equal(failed.isFreePreviewEnabled(), true);
+    assert.equal(failed.isProActive(), false);
+  }
+  console.log('PASS: purchase reaches SDK; success exits preview; cancel/failure keep preview; free restrictions and production exclusion preserved');
 })().catch(error => { console.error(error); process.exitCode = 1; });

@@ -69,11 +69,12 @@ export async function getProPackage(): Promise<PurchasesPackage | null> {
 
 /** 購入。成功でtrue、ユーザーキャンセルでfalse、失敗はthrow。 */
 export async function purchasePro(pkg: PurchasesPackage): Promise<boolean> {
-  if (freePreview) throw new Error('無料状態の確認中です。設定の開発用スイッチをオフにしてください。');
   try {
     const { customerInfo } = await Purchases.purchasePackage(pkg);
     applyInfo(customerInfo);
-    return !!customerInfo.entitlements.active[PRO_ENTITLEMENT];
+    const purchased = !!customerInfo.entitlements.active[PRO_ENTITLEMENT];
+    if (purchased) setFreePreviewEnabled(false);
+    return purchased;
   } catch (e) {
     if (e && typeof e === 'object' && (e as { userCancelled?: boolean }).userCancelled) return false;
     throw e;

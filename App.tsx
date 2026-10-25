@@ -1148,7 +1148,7 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
               setFreePreview(isFreePreviewEnabled());
             }} />
           </View>
-          <Text style={[s.radarEmpty, { marginTop: 8 }]}>購入履歴を残したまま、無料版の表示と制限を確認します。オフにするかアプリを完全に終了すると、本来の購入状態に戻ります。確認中は購入・復元を行いません。</Text>
+          <Text style={[s.radarEmpty, { marginTop: 8 }]}>購入履歴を残したまま、無料版の表示と制限を確認します。オフにするかアプリを完全に終了すると、本来の購入状態に戻ります。購入ボタンからテスト購入に進めます。購入成功時は無料確認を解除します。</Text>
         </View> : null}
       </View>
     </ScrollView>
