@@ -1,8 +1,9 @@
-"""第1章の図表を再作図する (Pillow)。
+"""章の図表を再作図する (Pillow)。引数なしは従来どおり第1章。
 
 初回のみ --init で正本の表を図マーカーへ移行。
-以後は 教材解説/第1章_図表データ.md を編集して本スクリプトを実行し、
-続けて tools/gen_content_json.py 1 を実行する。JSONは直接編集しない。
+例: python tools/build_ch1_tables.py 2 3 4 5 6
+以後は 教材解説/第N章_図表データ.md を編集して本スクリプトを実行し、
+続けて tools/gen_content_json.py で対象章を再生成。JSONは直接編集しない。
 フォントは --font で日本語TrueTypeフォントを指定できる。
 """
 import argparse
@@ -11,10 +12,7 @@ import re
 from PIL import Image, ImageDraw, ImageFont
 
 APP = Path(__file__).resolve().parents[1]
-MD = APP.parent / '教材解説' / '教材_第1章_消防関係法令(共通).md'
-SOURCE = MD.parent / '第1章_図表データ.md'
 OUT = APP / 'assets' / 'figures'
-MASTER = APP.parent / '図' / '第1章' / '表'
 TABLE = re.compile(r'^\|.*(?:\n\|.*)*', re.M)
 
 
@@ -32,30 +30,35 @@ def wrap(text, font, width):
     return lines + [line]
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--init', action='store_true')
-    parser.add_argument('--font', default='C:/Windows/Fonts/meiryo.ttc')
-    args = parser.parse_args()
+def build_chapter(chapter, args):
+    md = next((APP.parent / '教材解説').glob(f'教材_第{chapter}章_*.md'))
+    source = md.parent / f'第{chapter}章_図表データ.md'
+    master = APP.parent / '図' / f'第{chapter}章' / '表'
+    chapter_title = md.read_text(encoding='utf-8').splitlines()[0].lstrip('# ')
+    prefix = f'ch{chapter}_t'
+    MD, SOURCE, MASTER = md, source, master
     body = MD.read_text(encoding='utf-8')
     if args.init:
         if SOURCE.exists():
-            parser.error('図表データは既に存在します。通常実行してください。')
+            raise ValueError('図表データは既に存在します。--init を外して実行してください。')
         entries = []
         for n, match in enumerate(TABLE.finditer(body), 1):
             headings = re.findall(r'^#{2,3} (.+)$', body[:match.start()], re.M)
             title = headings[-1] if headings else '試験制度'
-            entries.append(f'## ch1_t{n:02d}|{title}\n\n{match[0]}\n')
-        SOURCE.write_text('# 第1章 図表の元データ\n\n'
+            entries.append(f'## {prefix}{n:02d}|{title}\n\n{match[0]}\n')
+        SOURCE.write_text(f'# 第{chapter}章 図表の元データ\n\n'
                           '表の文言はこのファイルで修正し、tools/build_ch1_tables.py で再作図します。\n'
-                          '元の表の内容を保持しています。法令内容の改訂は行っていません。\n\n'
+                          '元の表の内容を保持しています。教材内容の改訂は行っていません。\n\n'
                           + '\n'.join(entries), encoding='utf-8')
         n = 0
         def replace(match):
             nonlocal n
             n += 1
-            return f'[[fig:ch1_t{n:02d}|仮]]'
+            return f'[[fig:{prefix}{n:02d}|仮]]'
         body = TABLE.sub(replace, body)
+        lines = body.split('\n')
+        lines.insert(1, '\n図表はタップすると全画面で拡大できます。右上の「×」で本文に戻れます。')
+        body = '\n'.join(lines)
 
     font = ImageFont.truetype(args.font, 27)
     bold = ImageFont.truetype(args.font, 31)
@@ -63,31 +66,27 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     MASTER.mkdir(parents=True, exist_ok=True)
     count = 0
-    for asset, title, table in re.findall(r'^## (ch1_t\d+)\|([^\n]+)\n\n(.*?)(?=^## |\Z)', SOURCE.read_text(encoding='utf-8'), re.M | re.S):
+    for asset, title, table in re.findall(rf'^## ({prefix}\d+)\|([^\n]+)\n\n(.*?)(?=^## |\Z)', SOURCE.read_text(encoding='utf-8'), re.M | re.S):
         rows = [[c.strip() for c in line.split('|')[1:-1]]
                 for line in table.splitlines() if line.startswith('|')]
         rows = [r for r in rows if not all(re.fullmatch(r':?-+:?', c) for c in r)]
         headers, data = rows[0], rows[1:]
-        widths = {1: [1136], 2: [400, 736], 3: [250, 440, 446], 4: [190, 320, 400, 226]}[len(headers)]
-        # 用途区分は用途欄を広くして、特定欄も明示する。
-        if headers == ['項', '用途(代表例)', '特定']:
-            widths = [190, 790, 156]
-        def layout(row, face):
-            cells = [wrap(c, face, w - 28) for c, w in zip(row, widths)]
-            return cells, max(map(len, cells)) * 41 + 28
-        head, hh = layout(headers, bold)
-        pages, page, used = [], [], 0
-        for row in data:
-            cells, height = layout(row, font)
-            if page and used + height > 590 - hh:
-                pages.append(page)
-                page, used = [], 0
-            page.append((cells, height))
-            used += height
-        if page:
-            pages.append(page)
+        if any(len(row) != len(headers) for row in data):
+            raise ValueError(f'{asset}: 列数が一致しません')
+        # 横に広い表は行名を繰り返して列を分割する。
+        # 7列表は区分・細区分の2列を共通にする。
+        keep = 2 if len(headers) == 7 else 1
+        column_groups = [list(range(len(headers)))] if len(headers) <= 4 else [
+            list(range(keep)) + list(range(start, min(start + 4 - keep, len(headers))))
+            for start in range(keep, len(headers), 4 - keep)
+        ]
+        pages = []
+        for indices in column_groups:
+            group_headers = [headers[i] for i in indices]
+            group_data = [[row[i] for i in indices] for row in data]
+            pages.extend(layout_pages(group_headers, group_data, font, bold))
         markers = []
-        for p, page in enumerate(pages, 1):
+        for p, (head, hh, page, widths) in enumerate(pages, 1):
             name = f'{asset}_{p:02d}'
             caption = f'{title}（{p}/{len(pages)}）' if len(pages) > 1 else title
             titles = wrap(caption, titlefont, 1136)
@@ -106,7 +105,7 @@ def main():
                         draw.text((x+14, y+12+j*41), line, font=bold if ri == 0 else font, fill='white' if ri == 0 else '#182e40')
                     x += w
                 y += h
-            draw.text((32, height-44), '第1章 消防関係法令（共通）', font=font, fill='#566c7d')
+            draw.text((32, height-44), chapter_title, font=font, fill='#566c7d')
             im.save(MASTER / f'{name}.png')
             im.save(OUT / f'{name}.jpg', quality=95, subsampling=0)
             markers.append(f'[[fig:{name}|{caption}]]')
@@ -116,7 +115,38 @@ def main():
         if replaced != 1:
             raise ValueError(f'{asset}: 正本の対応マーカーが見つからない、または重複')
     MD.write_text(body, encoding='utf-8')
-    print(f'Generated {count} figures. Next: python tools/gen_content_json.py 1')
+    print(f'Chapter {chapter}: Generated {count} figures. Next: python tools/gen_content_json.py {chapter}')
+
+
+def layout_pages(headers, data, font, bold):
+    widths = {1: [1136], 2: [400, 736], 3: [250, 440, 446], 4: [300, 278, 279, 279]}[len(headers)]
+    # 用途区分は用途欄を広くして、特定欄も明示する。
+    if headers == ['項', '用途(代表例)', '特定']:
+        widths = [190, 790, 156]
+    def layout(row, face):
+        cells = [wrap(c, face, w - 28) for c, w in zip(row, widths)]
+        return cells, max(map(len, cells)) * 41 + 28
+    head, hh = layout(headers, bold)
+    pages, page, used = [], [], 0
+    for row in data:
+        cells, height = layout(row, font)
+        if page and used + height > 590 - hh:
+            pages.append(page)
+            page, used = [], 0
+        page.append((cells, height))
+        used += height
+    if page:
+        pages.append(page)
+    return [(head, hh, page, widths) for page in pages]
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('chapters', type=int, nargs='*', default=[1], choices=range(1, 7))
+    parser.add_argument('--init', action='store_true')
+    parser.add_argument('--font', default='C:/Windows/Fonts/meiryo.ttc')
+    args = parser.parse_args()
+    for chapter in args.chapters:
+        build_chapter(chapter, args)
 
 
 if __name__ == '__main__':
