@@ -76,7 +76,8 @@ def build_chapter(chapter, args):
         # 横に広い表は行名を繰り返して列を分割する。
         # 7列表は区分・細区分の2列を共通にする。
         keep = 2 if len(headers) == 7 else 1
-        column_groups = [list(range(len(headers)))] if len(headers) <= 4 else [
+        full_table = asset == 'ch2_t09'
+        column_groups = [list(range(len(headers)))] if full_table or len(headers) <= 4 else [
             list(range(keep)) + list(range(start, min(start + 4 - keep, len(headers))))
             for start in range(keep, len(headers), 4 - keep)
         ]
@@ -84,25 +85,32 @@ def build_chapter(chapter, args):
         for indices in column_groups:
             group_headers = [headers[i] for i in indices]
             group_data = [[row[i] for i in indices] for row in data]
-            pages.extend(layout_pages(group_headers, group_data, font, bold))
+            pages.extend(layout_pages(group_headers, group_data, font, bold,
+                                      full_table=full_table))
         markers = []
         for p, (head, hh, page, widths) in enumerate(pages, 1):
-            name = f'{asset}_{p:02d}'
-            caption = f'{title}（{p}/{len(pages)}）' if len(pages) > 1 else title
-            titles = wrap(caption, titlefont, 1136)
+            name = f'{asset}_full' if full_table else f'{asset}_{p:02d}'
+            caption = '消火器具の適応性・全体表' if full_table else (f'{title}（{p}/{len(pages)}）' if len(pages) > 1 else title)
+            canvas_width = sum(widths) + 64
+            titles = wrap(caption, titlefont, canvas_width - 64)
             top = 25 + len(titles) * 48 + 15
             height = max(750, top + hh + sum(h for _, h in page) + 65)
-            im = Image.new('RGB', (1200, height), '#ffffff')
+            im = Image.new('RGB', (canvas_width, height), '#ffffff')
             draw = ImageDraw.Draw(im)
             for i, line in enumerate(titles):
                 draw.text((32, 20 + i * 48), line, font=titlefont, fill='#153852')
             y = top
             for ri, (cells, h) in enumerate([(head, hh)] + page):
                 x = 32
-                for lines, w in zip(cells, widths):
+                for ci, (lines, w) in enumerate(zip(cells, widths)):
                     draw.rectangle((x, y, x+w, y+h), fill='#153852' if ri == 0 else ('#edf5fa' if ri % 2 else '#ffffff'), outline='#cedbe5', width=2)
                     for j, line in enumerate(lines):
-                        draw.text((x+14, y+12+j*41), line, font=bold if ri == 0 else font, fill='white' if ri == 0 else '#182e40')
+                        face = bold if ri == 0 else font
+                        center = full_table and ri > 0 and ci > 0
+                        tx = x + (w - face.getlength(line)) / 2 if center else x + 14
+                        ty = y + (h - 41) / 2 if center else y + 12 + j * 41
+                        color = '#087443' if center and line == '○' else '#182e40'
+                        draw.text((tx, ty), line, font=face, fill='white' if ri == 0 else color)
                     x += w
                 y += h
             draw.text((32, height-44), chapter_title, font=font, fill='#566c7d')
@@ -110,7 +118,7 @@ def build_chapter(chapter, args):
             im.save(OUT / f'{name}.jpg', quality=95, subsampling=0)
             markers.append(f'[[fig:{name}|{caption}]]')
             count += 1
-        pattern = rf'^\[\[fig:{asset}(?:_\d+)?\|[^\n]*\]\](?:\n\n\[\[fig:{asset}_\d+\|[^\n]*\]\])*'
+        pattern = rf'^\[\[fig:{asset}(?:_\d+|_full)?\|[^\n]*\]\](?:\n\n\[\[fig:{asset}_\d+\|[^\n]*\]\])*'
         body, replaced = re.subn(pattern, '\n\n'.join(markers), body, flags=re.M)
         if replaced != 1:
             raise ValueError(f'{asset}: 正本の対応マーカーが見つからない、または重複')
@@ -118,8 +126,8 @@ def build_chapter(chapter, args):
     print(f'Chapter {chapter}: Generated {count} figures. Next: python tools/gen_content_json.py {chapter}')
 
 
-def layout_pages(headers, data, font, bold):
-    widths = {1: [1136], 2: [400, 736], 3: [250, 440, 446], 4: [300, 278, 279, 279]}[len(headers)]
+def layout_pages(headers, data, font, bold, full_table=False):
+    widths = ([480] + [200] * (len(headers) - 1)) if full_table else {1: [1136], 2: [400, 736], 3: [250, 440, 446], 4: [300, 278, 279, 279]}[len(headers)]
     # 用途区分は用途欄を広くして、特定欄も明示する。
     if headers == ['項', '用途(代表例)', '特定']:
         widths = [190, 790, 156]
@@ -130,7 +138,7 @@ def layout_pages(headers, data, font, bold):
     pages, page, used = [], [], 0
     for row in data:
         cells, height = layout(row, font)
-        if page and used + height > 590 - hh:
+        if not full_table and page and used + height > 590 - hh:
             pages.append(page)
             page, used = [], 0
         page.append((cells, height))
