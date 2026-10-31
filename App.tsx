@@ -12,6 +12,7 @@ import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
 import { getFigureUri } from './src/data/contentStore';
 import { ImageZoom } from './src/ui/ImageZoom';
+import { LessonFigure } from './src/ui/LessonFigure';
 import { parseMarkdown } from './src/ui/markdown';
 import { getQuizSets, getQuestions, getAllQuestions, type Question, type QuizSet } from './src/data/questions';
 import { loadHistory, recordAnswer, selectReview, overallStats, getRec } from './src/data/history';
@@ -59,7 +60,7 @@ function Markdown({ body }: { body: string }) {
   const { c } = useTheme();
   const s = useStyles();
   const { width } = useWindowDimensions();
-  const imgW = Math.min(width - 32, 560);
+  const imgW = Math.min(width, 440) - 32;
   const blocks = useMemo(() => parseMarkdown(body), [body]);
   const [zoomUri, setZoomUri] = useState<string | null>(null);
 
@@ -69,16 +70,7 @@ function Markdown({ body }: { body: string }) {
         if (b.type === 'fig') {
           const [asset, cap] = b.text.split('\u0001');
           const uri = getFigureUri(asset);
-          return (
-            <View key={i} style={{ marginVertical: 10 }}>
-              {uri
-                ? <Pressable onPress={() => setZoomUri(uri)}><Image source={{ uri }} style={{ width: imgW, height: imgW / 1.6, backgroundColor: '#fff', borderRadius: 8 }} resizeMode="contain" /></Pressable>
-                : <View style={{ width: imgW, height: imgW / 1.6, borderRadius: 8, borderWidth: 1, borderColor: c.line, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{ color: c.faint, fontSize: 12 }}>図は準備中</Text>
-                  </View>}
-              {cap ? <Text style={{ color: c.muted, fontSize: 12, marginTop: 4 }}>{'図：' + cap}</Text> : null}
-            </View>
-          );
+          return <LessonFigure key={i} uri={uri} caption={cap} width={imgW} onZoom={setZoomUri} />;
         }
         if (b.type === 'figpending') return <Text key={i} style={{ color: c.faint, fontSize: 12, marginVertical: 4 }}>{'【図】' + b.text}</Text>;
         if (b.type === 'gap') return <View key={i} style={{ height: 8 }} />;

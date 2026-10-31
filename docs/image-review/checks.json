@@ -1,0 +1,24 @@
+{
+  "activeFigures": 113,
+  "activeTables": 96,
+  "activeAssets": 209,
+  "publicDeploymentPerformed": false,
+  "physicalDeviceVerification": false,
+  "imagegenMode": "built-in",
+  "correctedAssets": {
+    "ch3_f03": "作用線と力の矢印を同一直線上に修正。3つの作用位置を比較。",
+    "ch2_f05": "最大1/3を減らすことを明示。6−2=4、条件・11階以上の除外を表示。",
+    "ch2_t07_01": "「1/3まで減少」を「最大1/3を減らせる」に明確化。",
+    "ch4_t01_01": "四要素の表に欠けていた抑制消火を追加。",
+    "ch4_t14_01": "絶対圧へ換算して温度別ゲージ圧を再計算。仮定を明示。",
+    "ch6_t03_01": "ねずみ色＋赤の代表例にハロン1301・1211を記載。"
+  },
+  "checks": [
+    "all JPEGs decode",
+    "all markers resolve",
+    "source resolution retained",
+    "all image manifest hashes match",
+    "all chapter JSON matches Markdown",
+    "absolute/gauge pressure calculation verified"
+  ]
+}

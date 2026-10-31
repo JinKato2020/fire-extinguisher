@@ -10,7 +10,7 @@
 ※ 反映後、同梱/配信へ乗せるには: python tools/gen_bundled.py && python tools/content_manifest.py
    実機配信は GitHub Actions「消防6類 コンテンツ配信 (R2/OTA)」を手動実行。
 """
-import json, os
+import argparse, json, os
 from PIL import Image
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -18,11 +18,17 @@ CFG = json.load(open(os.path.join(HERE, "figures.json"), encoding="utf-8"))
 DROP = CFG["drop_dir"]; RES = CFG["resources_dir"]
 CONTENT_DIR = CFG["content_dir"]; INDEX = CFG["index_json"]
 MAXPX = CFG.get("img_max_px", 1000); Q = CFG.get("jpeg_quality", 85)
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--images-only', action='store_true', help='画像だけ変換。本文JSONは変更しない')
+args = parser.parse_args()
 os.makedirs(RES, exist_ok=True)
 
 
 def process_source(src, asset):
-    p = os.path.join(DROP, src)
+    # New review masters may be stored inside the repository for reproducibility.
+    p = src if os.path.isabs(src) else os.path.join(os.path.dirname(HERE), src)
+    if not os.path.exists(p):
+        p = os.path.join(DROP, src)
     if not os.path.exists(p):
         return False
     im = Image.open(p)
@@ -31,8 +37,8 @@ def process_source(src, asset):
         rgba = im.convert("RGBA"); bg.paste(rgba, mask=rgba.split()[-1]); im = bg
     else:
         im = im.convert("RGB")
-    im.thumbnail((MAXPX, MAXPX))
-    im.save(os.path.join(RES, asset + ".jpg"), "JPEG", quality=Q, optimize=True)
+    im.thumbnail((MAXPX, MAXPX), Image.Resampling.LANCZOS)
+    im.save(os.path.join(RES, asset + ".jpg"), "JPEG", quality=Q, subsampling=0, optimize=True)
     return True
 
 
@@ -59,6 +65,9 @@ for f in CFG["figures"]:
             break
     if not img_exists(asset):
         skipped += 1
+        continue
+
+    if args.images_only:
         continue
 
     path = chfile.get(str(f["chapter"]))

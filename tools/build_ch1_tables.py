@@ -114,7 +114,8 @@ def build_chapter(chapter, args):
             canvas_width = sum(widths) + 64
             titles = wrap(caption, titlefont, canvas_width - 64)
             top = 25 + len(titles) * 48 + 15
-            height = max(750, top + hh + sum(h for _, h in page) + 65)
+            # 固定750pxの余白が短い表の文字を小さくしていた。内容に合わせる。
+            height = top + hh + sum(h for _, h in page) + 65
             im = Image.new('RGB', (canvas_width, height), '#ffffff')
             draw = ImageDraw.Draw(im)
             for i, line in enumerate(titles):

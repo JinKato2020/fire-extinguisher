@@ -7,8 +7,8 @@
   "resources_dir": "C:/Users/jwpsa/Documents/desktop/claude/消防設備士6類/fire6-exam-app/assets/figures",
   "content_dir": "C:/Users/jwpsa/Documents/desktop/claude/消防設備士6類/fire6-exam-app/content/chapters",
   "index_json": "C:/Users/jwpsa/Documents/desktop/claude/消防設備士6類/fire6-exam-app/content/index.json",
-  "img_max_px": 1000,
-  "jpeg_quality": 85,
+  "img_max_px": 2400,
+  "jpeg_quality": 95,
   "figures": [
     {
       "asset": "ch1_f01",
@@ -423,7 +423,7 @@
       "chapter": 2,
       "anchor": "> **例題で確認。** 所要能力単位6の建物(能力単位1の消火器が6個必要)にスプリンクラー設備があり、適応性が同一で10階建て以下なら、有効範囲内では最大で **6×1/3=2** を減らせるので、残り **4** 相当まで減らせます。11階以上の部分には、この減少措置は使えません。",
       "position": 1,
-      "source": "C:/Users/jwpsa/Documents/desktop/claude/消防設備士6類/図/第2章/ch2_f05_スプリンクラー設備による緩和.png",
+      "source": "docs/image-review/masters/ch2_f05.png",
       "caption": "スプリンクラー設備による緩和",
       "legend": [],
       "labels": [],
@@ -431,7 +431,8 @@
       "prompt": "Create ONE finished original Japanese textbook figure. Use supplied reference ONLY for approved typography, restrained visual language, whitespace and color; DO NOT copy its subject/content. Landscape 1536×1024, opaque white background. Calm smart editorial design: compact left-aligned title 42px; regular-to-medium Japanese sans-serif, NOT heavy bold; main labels 34–40px, notes 27–30px, generous line spacing, at least 60px outer margins. Muted steel blue/navy for text and thin 2–3px consistent lines, small muted red accents only on key distinctions. Restrained pale blue-gray fills, no gradients/shiny text/shadows on text, no giant red sentences, no decorative banners. Use space efficiently while preserving mobile readability. Correct Japanese glyphs, no misspellings, no watermarks. Part callouts use thin elbow-shaped leaders aligned neatly. Preserve all specified factual/logical relationships. The requested figure's content follows: Title:「スプリンクラー設備による緩和」. Clean side-by-side capacity comparison panels, restrained small 3D object renders on white. Left 無設置の場合 / 所要能力単位6 and EXACTLY SIX small capacity1 red extinguishers. Right スプリンクラー設備あり with a simple ceiling sprinkler nozzle and EXACTLY FOUR small capacity1 extinguishers, label 6−2＝4. Bottom explanatory regular text 有効範囲内では、消火器具の能力単位数の3分の1まで減少できる. Small distinct note 11階以上に設置するものを除く. Red only on 3分の1 and extinguisher physical bodies, not giant red labels. Do not imply one-third remaining; four of six remain. No flames.",
       "official_page": 106,
       "style": "style_a_3d",
-      "design": "pilot-v2-approved"
+      "design": "pilot-v2-approved",
+      "review_note": "2026-11-01: content correctness and mobile readability revision; prompts in docs/image-review/prompts.json"
     },
     {
       "asset": "ch2_f06",
@@ -513,7 +514,7 @@
       "chapter": 3,
       "anchor": "**作用線の定理**:変形しない物体(剛体)では、力の作用点を **作用線上のどこに動かしても効果は変わりません**。矢印の長さと向きを変えずに、作用線に沿ってスライドさせてよい、ということです。",
       "position": 1,
-      "source": "C:/Users/jwpsa/Documents/desktop/claude/消防設備士6類/図/第3章/ch3_f03_作用線の定理.png",
+      "source": "docs/image-review/masters/ch3_f03.png",
       "caption": "作用線の定理",
       "legend": [],
       "labels": [],
@@ -521,7 +522,8 @@
       "prompt": "Create ONE finished original Japanese educational figure in the supplied reference's approved calm editorial style. White opaque background, landscape 1536x1024. Compact left-aligned title about42px, regular/medium Japanese sans-serif, main labels34-40px, notes27-30px; no extra-bold or giant text. Navy/steel blue lines and text, muted red only for essential emphasis, generous margins60px and spacing. Thin consistent lines2-3px, no decorative banners, no cartoon mascot, no mnemonic. Draw correct subscripts/superscripts and Greek letters, never literal LaTeX source. Labels outside objects with thin aligned elbow leaders, no intersecting leaders or clipped text. For 2D content use flat schematic diagrams. For 3D physical objects use realistic restrained steel/navy metallic surfaces, red extinguisher bodies, subtle local shadows, clean cutaways; educational clarity above photoreal drama. Any prescribed real identification colors (green/gray) MUST be accurate. The reference is STYLE ONLY, replace its content. Title「作用線の定理」. Three identical rigid disks in a horizontal row, with SAME diagonal dashed action line passing through each center, slope up-right. Force arrows identical length and same up-right direction, moved only along SAME line: first starts lower-left inside disk, second at center, third upper-right. Label 作用線上で移動. Footer 剛体では、作用線上で作用点を移しても力の働きは同じ.",
       "style": "style_b_2d",
       "official_page": 127,
-      "design": "pilot-v2-approved"
+      "design": "pilot-v2-approved",
+      "review_note": "2026-11-01: content correctness and mobile readability revision; prompts in docs/image-review/prompts.json"
     },
     {
       "asset": "ch3_f04",
