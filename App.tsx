@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   View, Text, ScrollView, Pressable, Image, TextInput,
-  useWindowDimensions, PanResponder, Alert, ActivityIndicator, Modal, Switch,
+  useWindowDimensions, PanResponder, Alert, ActivityIndicator, Modal, Switch, AppState,
 } from 'react-native';
 import type { PurchasesPackage } from 'react-native-purchases';
 import { initPurchases, isProActive, subscribePro, getProPackage, purchasePro, restorePro, canUseFreePreview, isFreePreviewEnabled, setFreePreviewEnabled } from './src/data/purchases';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BUILD_NUMBER } from './src/buildInfo';
+import { EXAM_DURATION_SECONDS, remainingSeconds, formatExamTime } from './src/data/examTiming';
 import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
 import { getFigureUri } from './src/data/contentStore';
@@ -773,13 +774,13 @@ function MockResult({ set, onBack, onBump }: { set: QuizSet; onBack: () => void;
 }
 
 function MockScoreScreen({ onBump, pro, onPaywall }: { onBump: () => void; pro: boolean; onPaywall: () => void }) {
-  const [session, setSession] = useState<{ title: string; questions: Question[] } | null>(null);
+  const [session, setSession] = useState<{ title: string; questions: Question[]; limitSeconds?: number } | null>(null);
   const [resultSet, setResultSet] = useState<QuizSet | null>(null);
   const { c } = useTheme();
   const s = useStyles();
 
   if (session) {
-    return <QuizPlayer title={session.title} questions={session.questions} onExit={() => { setSession(null); onBump(); }} onBump={onBump} />;
+    return <QuizPlayer title={session.title} questions={session.questions} limitSeconds={session.limitSeconds} onExit={() => { setSession(null); onBump(); }} onBump={onBump} />;
   }
   if (resultSet) {
     return <MockResult set={resultSet} onBack={() => { setResultSet(null); onBump(); }} onBump={onBump} />;
@@ -792,7 +793,11 @@ function MockScoreScreen({ onBump, pro, onPaywall }: { onBump: () => void; pro: 
 
   const startSet = (set: QuizSet, locked: boolean) => {
     if (locked) { onPaywall(); return; }
-    setSession({ title: set.title, questions: getQuestions(set.file) });
+    Alert.alert('模試の制限時間', '本番は筆記・実技を合わせて105分（科目免除なし）。このアプリは択一式の練習問題です。105分モードでは解説を読む時間も含み、時間切れで終了します。', [
+      { text: '105分で開始', onPress: () => setSession({ title: set.title, questions: getQuestions(set.file), limitSeconds: EXAM_DURATION_SECONDS }) },
+      { text: '時間制限なし', onPress: () => setSession({ title: set.title, questions: getQuestions(set.file) }) },
+      { text: 'キャンセル', style: 'cancel' },
+    ]);
   };
   const startReview = () => {
     if (!pro) { onPaywall(); return; }
@@ -809,7 +814,7 @@ function MockScoreScreen({ onBump, pro, onPaywall }: { onBump: () => void; pro: 
         <View style={s.viewHead}>
           <Text style={s.eyebrow}>PRACTICE & SCORE</Text>
           <Text style={s.viewH2}>模試・成績</Text>
-          <Text style={s.viewSub}>本番形式で解いて、分野ごとの実力と弱点をチェック。</Text>
+          <Text style={s.viewSub}>105分の時間制限つき・時間制限なしを選んで、実力と弱点をチェック。</Text>
         </View>
 
         {/* 成績サマリ */}
@@ -897,7 +902,7 @@ function MockScoreScreen({ onBump, pro, onPaywall }: { onBump: () => void; pro: 
   );
 }
 
-function QuizPlayer({ title, questions, onExit, onBump }: { title: string; questions: Question[]; onExit: () => void; onBump: () => void }) {
+function QuizPlayer({ title, questions, limitSeconds, onExit, onBump }: { title: string; questions: Question[]; limitSeconds?: number; onExit: () => void; onBump: () => void }) {
   const { c } = useTheme();
   const s = useStyles();
   const [idx, setIdx] = useState(0);
@@ -906,12 +911,43 @@ function QuizPlayer({ title, questions, onExit, onBump }: { title: string; quest
   const [lowConf, setLowConf] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [answeredCount, setAnsweredCount] = useState(0);
+  const [timedOut, setTimedOut] = useState(false);
+  const [deadline, setDeadline] = useState<number | null>(() => limitSeconds ? Date.now() + limitSeconds * 1000 : null);
+  const [remaining, setRemaining] = useState<number | null>(limitSeconds ?? null);
+  const submitted = useRef(false);
+
+  useEffect(() => {
+    if (deadline === null || finished || questions.length === 0) return;
+    const tick = () => {
+      const left = remainingSeconds(deadline, Date.now());
+      setRemaining(left);
+      if (left === 0) { setTimedOut(true); setFinished(true); }
+    };
+    tick();
+    const timer = setInterval(tick, 1000);
+    const subscription = AppState.addEventListener('change', state => { if (state === 'active') tick(); });
+    return () => { clearInterval(timer); subscription.remove(); };
+  }, [deadline, finished, questions.length]);
+
+  const expired = () => {
+    if (remainingSeconds(deadline, Date.now()) !== 0) return false;
+    setRemaining(0); setTimedOut(true); setFinished(true);
+    return true;
+  };
+  const exit = () => {
+    if (deadline === null || finished || questions.length === 0) { onExit(); return; }
+    Alert.alert('模試を終了しますか？', '今回の進行状況と残り時間は保存されません。確定済みの解答履歴は残ります。', [
+      { text: '続ける', style: 'cancel' }, { text: '終了する', style: 'destructive', onPress: onExit },
+    ]);
+  };
+
 
   if (questions.length === 0) {
     return (
       <View style={{ flex: 1 }}>
         <View style={s.readerBar}>
-          <Pressable onPress={onExit} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
+          <Pressable onPress={exit} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
             <Text style={s.backTxt}>‹ 一覧へ</Text>
           </Pressable>
         </View>
@@ -920,24 +956,31 @@ function QuizPlayer({ title, questions, onExit, onBump }: { title: string; quest
     );
   }
 
-  const reset = () => { setIdx(0); setSelected(null); setRevealed(false); setLowConf(false); setCorrectCount(0); setFinished(false); };
+  const reset = () => {
+    setIdx(0); setSelected(null); setRevealed(false); setLowConf(false); setCorrectCount(0); setFinished(false);
+    setAnsweredCount(0); setTimedOut(false); submitted.current = false;
+    setDeadline(limitSeconds ? Date.now() + limitSeconds * 1000 : null); setRemaining(limitSeconds ?? null);
+  };
 
   if (finished) {
     const pct = Math.round((correctCount / questions.length) * 100);
     return (
       <View style={{ flex: 1 }}>
         <View style={s.readerBar}>
-          <Pressable onPress={onExit} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
+          <Pressable onPress={exit} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
             <Text style={s.backTxt}>‹ 一覧へ</Text>
           </Pressable>
         </View>
         <View style={s.soon}>
-          <Text style={s.soonTitle}>おつかれさまでした</Text>
+          <Text style={s.soonTitle}>{timedOut ? '制限時間になりました' : 'おつかれさまでした'}</Text>
           <Text style={s.resultBig}>{correctCount} / {questions.length} 問正解</Text>
           <Text style={s.soonTxt}>正答率 {pct}%</Text>
+          <Text style={s.soonTxt}>解答済み {answeredCount}問・未解答 {questions.length - answeredCount}問</Text>
+          {timedOut ? <Text style={s.soonTxt}>未解答は不正解扱いです。全問題数を分母とし、時間内に「解答する」で確定した正解だけを得点に数えます。</Text> : null}
+          {limitSeconds ? <Text style={s.soonTxt}>制限時間105分・所要時間 {formatExamTime(Math.min(limitSeconds, limitSeconds - (remaining ?? 0)))}</Text> : null}
           <View style={{ flexDirection: 'row', gap: 10, marginTop: 18 }}>
             <Pressable onPress={reset} style={({ pressed }) => [s.ghostBtn, pressed && s.pressed]}><Text style={s.ghostBtnTxt}>もう一度</Text></Pressable>
-            <Pressable onPress={onExit} style={({ pressed }) => [s.submitBtn, { paddingHorizontal: 22 }, pressed && s.pressed]}><Text style={s.submitTxt}>終了</Text></Pressable>
+            <Pressable onPress={exit} style={({ pressed }) => [s.submitBtn, { paddingHorizontal: 22 }, pressed && s.pressed]}><Text style={s.submitTxt}>終了</Text></Pressable>
           </View>
         </View>
       </View>
@@ -949,24 +992,34 @@ function QuizPlayer({ title, questions, onExit, onBump }: { title: string; quest
   const marked = isBookmarked(q.id);
 
   const submit = () => {
-    if (selected === null) return;
+    if (selected === null || submitted.current || revealed || finished || expired()) return;
+    submitted.current = true;
+    setAnsweredCount(x => x + 1);
     const ok = selected === q.answer;
     if (ok) setCorrectCount((x) => x + 1);
     void recordAnswer(q.id, ok, lowConf).then(() => bumpDaily()).then(() => recordSnapshotIfNeeded()).then(onBump);
     setRevealed(true);
   };
   const next = () => {
-    if (isLast) { setFinished(true); return; }
+    if (finished || !submitted.current || expired()) return;
+    if (isLast) { setRemaining(remainingSeconds(deadline, Date.now())); setFinished(true); return; }
+    submitted.current = false;
     setIdx((i) => i + 1); setSelected(null); setRevealed(false); setLowConf(false);
   };
 
   return (
     <View style={{ flex: 1 }}>
       <View style={s.readerBar}>
-        <Pressable onPress={onExit} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
+        <Pressable onPress={exit} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
           <Text style={s.backTxt}>‹ 一覧へ</Text>
         </Pressable>
         <Text style={s.qProgress}>{title}　{idx + 1} / {questions.length}</Text>
+      </View>
+      <View style={[s.quizTimerBar, remaining !== null && remaining <= 600 && s.quizTimerWarning]}>
+        <Text accessibilityRole="timer" style={[s.quizTimerText, remaining !== null && remaining <= 600 && { color: c.warn }]}>
+          {remaining === null ? '時間制限なし' : `残り ${formatExamTime(remaining)}`}
+        </Text>
+        <Text style={s.quizTimerHint}>{remaining === null ? '自分のペースで学習' : '制限105分・アプリを離れても時間は進みます'}</Text>
       </View>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 8 }]} showsVerticalScrollIndicator={false}>
         {q.topic ? <Text style={s.qTopic}>{q.topic}</Text> : null}
@@ -1301,6 +1354,12 @@ function ExamGuideScreen({ onClose }: { onClose: () => void }) {
           <Stat k="　構造・機能・整備（規格）" v="6 問" />
           <Stat k="実技（鑑別等）" v="5 問" />
           <Stat k="試験時間" v="1時間45分" />
+
+          <Text style={s.guideH}>制限時間と時間配分</Text>
+          <Text style={s.guideBody}>科目免除がない乙種第6類の試験時間は、筆記30問と実技（鑑別等）5問を合わせて105分（1時間45分）です。筆記と実技それぞれに105分あるわけではありません。</Text>
+          <Text style={s.guideBody}>科目の一部免除を受ける場合は、免除される問題数に応じて試験時間が短縮されます。自分の試験時間は、受験票と受験地の最新の試験案内で確認してください。</Text>
+          <Text style={s.guideLi}>時間配分の例：筆記60分＋実技30分＋見直し15分＝105分。これは学習の目安で、公式に指定された配分ではありません。</Text>
+          <Text style={s.guideBody}>アプリの模試では、開始時に「105分で開始」または「時間制限なし」を選べます。105分モードは解説を読む時間も含み、時間切れで終了します。弱点復習は時間制限なしです。アプリは択一式の練習問題で、本番の実技の記述式とは異なります。</Text>
 
           <Text style={s.guideH}>形式と合格基準</Text>
           <Text style={s.guideLi}>・筆記：四肢択一のマークシート</Text>
