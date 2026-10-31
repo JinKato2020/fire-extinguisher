@@ -12,6 +12,7 @@ import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
 import { getFigureUri } from './src/data/contentStore';
 import { ImageZoom } from './src/ui/ImageZoom';
+import { parseMarkdown } from './src/ui/markdown';
 import { getQuizSets, getQuestions, getAllQuestions, type Question, type QuizSet } from './src/data/questions';
 import { loadHistory, recordAnswer, selectReview, overallStats, getRec } from './src/data/history';
 import { getGlossary, type Term } from './src/data/glossary';
@@ -46,50 +47,20 @@ function tagColors(kind: NonNullable<Chapter['tagKind']>, c: Colors): { bg: stri
   }
 }
 
+function rich(text: string): React.ReactNode {
+  return text.split(/(\*\*.+?\*\*|`[^`]+`)/g).map((part, i) =>
+    part.startsWith('**') && part.endsWith('**')
+      ? <Text key={i} style={{ fontWeight: '800' }}>{part.slice(2, -2)}</Text>
+      : part.startsWith('`') && part.endsWith('`') ? part.slice(1, -1) : part);
+}
+
 // ---- 軽量マークダウン表示 ----
 function Markdown({ body }: { body: string }) {
   const { c } = useTheme();
   const s = useStyles();
   const { width } = useWindowDimensions();
   const imgW = Math.min(width - 32, 560);
-  const blocks = useMemo(() => {
-    const lines = body.split('\n');
-    const out: { type: string; text: string; rows?: string[][] }[] = [];
-    let inCode = false; let code: string[] = [];
-    let tbl: string[][] | null = null;
-    const strip = (x: string) => x.replace(/\*\*(.+?)\*\*/g, '$1').replace(/`([^`]+)`/g, '$1');
-    const flushTbl = () => { if (tbl && tbl.length) out.push({ type: 'table', text: '', rows: tbl }); tbl = null; };
-    for (const raw of lines) {
-      const ln = raw.replace(/\s+$/, '');
-      if (ln.trim().startsWith('```')) {
-        flushTbl();
-        if (inCode) { out.push({ type: 'code', text: code.join('\n') }); code = []; }
-        inCode = !inCode; continue;
-      }
-      if (inCode) { code.push(raw); continue; }
-      // 表(| ... |): 連続する行をまとめて1つの表ブロックにする(区切り行 |---| は除外)
-      if (ln.startsWith('|')) {
-        const cells = ln.split('|').slice(1, -1).map((x) => strip(x.trim()));
-        const isSep = cells.length > 0 && cells.every((x) => x === '' || /^:?-{2,}:?$/.test(x.replace(/\s/g, '')));
-        if (!isSep) (tbl = tbl ?? []).push(cells);
-        continue;
-      }
-      flushTbl();
-      const fig = ln.trim().match(/^\[\[fig:([^|\]]+)\|?([^\]]*)\]\]$/);
-      if (fig) { out.push({ type: 'fig', text: fig[1] + '\u0001' + (fig[2] || '') }); continue; }
-      if (ln.trim().startsWith('【図】')) { out.push({ type: 'figpending', text: ln.trim().slice(3) }); continue; }
-      if (ln === '') { out.push({ type: 'gap', text: '' }); continue; }
-      if (ln.startsWith('### ')) { out.push({ type: 'h3', text: strip(ln.slice(4)) }); continue; }
-      if (ln.startsWith('## ')) { out.push({ type: 'h2', text: strip(ln.slice(3)) }); continue; }
-      if (ln.startsWith('# ')) { out.push({ type: 'h1', text: strip(ln.slice(2)) }); continue; }
-      if (ln.startsWith('> ')) { out.push({ type: 'quote', text: strip(ln.slice(2)) }); continue; }
-      if (/^[-*] /.test(ln.trim())) { out.push({ type: 'li', text: strip(ln.trim().slice(2)) }); continue; }
-      if (/^---+$/.test(ln.trim())) { out.push({ type: 'hr', text: '' }); continue; }
-      out.push({ type: 'p', text: strip(ln) });
-    }
-    flushTbl();
-    return out;
-  }, [body]);
+  const blocks = useMemo(() => parseMarkdown(body), [body]);
   const [zoomUri, setZoomUri] = useState<string | null>(null);
 
   return (
@@ -112,10 +83,18 @@ function Markdown({ body }: { body: string }) {
         if (b.type === 'figpending') return <Text key={i} style={{ color: c.faint, fontSize: 12, marginVertical: 4 }}>{'【図】' + b.text}</Text>;
         if (b.type === 'gap') return <View key={i} style={{ height: 8 }} />;
         if (b.type === 'hr') return <View key={i} style={s.hr} />;
-        if (b.type === 'h1') return <Text key={i} style={s.mdH1}>{b.text}</Text>;
-        if (b.type === 'h2') return <Text key={i} style={s.mdH2}>{b.text}</Text>;
-        if (b.type === 'h3') return <Text key={i} style={s.mdH3}>{b.text}</Text>;
-        if (b.type === 'quote') return <View key={i} style={s.quote}><Text style={s.quoteTxt}>{b.text}</Text></View>;
+        if (b.type === 'h1') return <Text key={i} style={s.mdH1}>{rich(b.text)}</Text>;
+        if (b.type === 'h2') return <Text key={i} style={s.mdH2}>{rich(b.text)}</Text>;
+        if (b.type === 'h3') return <Text key={i} style={s.mdH3}>{rich(b.text)}</Text>;
+        if (b.type === 'h4') return <Text key={i} style={s.mdH4}>{rich(b.text)}</Text>;
+        if (b.type === 'quote') {
+          const ink = b.tone === 'warning' ? c.warn : b.tone === 'important' ? c.good : c.accent;
+          const bg = b.tone === 'warning' ? c.warnSoft : b.tone === 'important' ? c.goodSoft : c.accentSoft;
+          return <View key={i} style={[s.quote, { borderColor: ink, backgroundColor: bg }]}>
+            {b.title ? <Text style={[s.quoteTitle, { color: ink }]}>{b.title}</Text> : null}
+            {b.text.split('\n').map((line, j) => line ? <Text key={j} style={s.quoteTxt}>{rich(line.replace(/^[-*] /, '・'))}</Text> : <View key={j} style={{ height: 6 }} />)}
+          </View>;
+        }
         if (b.type === 'code') return <View key={i} style={s.code}><Text style={s.codeTxt}>{b.text}</Text></View>;
         if (b.type === 'table' && b.rows) {
           const rows = b.rows;
@@ -125,7 +104,7 @@ function Markdown({ body }: { body: string }) {
                 <View key={ri} style={[s.tableRow, ri === 0 && s.tableHeadRow, ri === rows.length - 1 && { borderBottomWidth: 0 }]}>
                   {r.map((cell, ci) => (
                     <View key={ci} style={[s.tableCell, ci > 0 && s.tableCellDiv]}>
-                      <Text style={[s.tableCellTxt, ri === 0 && s.tableHeadTxt]}>{cell}</Text>
+                      <Text style={[s.tableCellTxt, ri === 0 && s.tableHeadTxt]}>{rich(cell)}</Text>
                     </View>
                   ))}
                 </View>
@@ -133,8 +112,11 @@ function Markdown({ body }: { body: string }) {
             </View>
           );
         }
-        if (b.type === 'li') return <Text key={i} style={s.mdP}>{'・' + b.text}</Text>;
-        return <Text key={i} style={s.mdP}>{b.text}</Text>;
+        if (b.type === 'li' || b.type === 'ol') return <View key={i} style={s.mdList}>
+          <Text style={s.mdListMark}>{b.type === 'li' ? '・' : b.text.match(/^\d+\./)?.[0]}</Text>
+          <Text style={s.mdListBody}>{rich(b.type === 'li' ? b.text : b.text.replace(/^\d+\. /, ''))}</Text>
+        </View>;
+        return <Text key={i} style={s.mdP}>{rich(b.text)}</Text>;
       })}
       {zoomUri ? <ImageZoom uri={zoomUri} onClose={() => setZoomUri(null)} /> : null}
     </View>
@@ -384,7 +366,6 @@ function LearnScreen({ chapters, onOpen }: { chapters: Chapter[]; onOpen: (c: Ch
         <View style={{ gap: 10, marginTop: 16 }}>
           {chapters.map((ch) => {
             const tk = ch.tag && ch.tagKind ? tagColors(ch.tagKind, c) : null;
-            const dn = tagColors('done', c);
             return (
               <Pressable key={ch.no} style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => onOpen(ch)}>
                 <View style={s.chNo}><Text style={s.chNoTxt}>{ch.no}</Text></View>
@@ -392,7 +373,6 @@ function LearnScreen({ chapters, onOpen }: { chapters: Chapter[]; onOpen: (c: Ch
                   <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
                     <Text style={s.chTitle}>{ch.title}</Text>
                     {ch.tag && tk ? <Tag label={ch.tag} color={tk.fg} bg={tk.bg} /> : null}
-                    {ch.body ? <Tag label="解説あり" color={dn.fg} bg={dn.bg} /> : null}
                   </View>
                   <Text style={s.chSub}>{ch.sub}</Text>
                 </View>

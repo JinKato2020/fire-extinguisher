@@ -59,7 +59,9 @@ iOSの署名は EAS managed ではなく、**証明書／プロファイルを G
 
 ### 教材を直したいとき（審査・ビルド不要）
 ```bash
-# 1) 教材解説mdを直す → content/*.json を作り直す（生成器は scratchpad/gen_content_json.py）
+# 1) ../教材解説/教材_第N章_*.md（正本）を編集する。JSON本文は直接編集しない。
+python tools/gen_content_json.py    # 正本mdから全6章のJSONを再生成
+python tools/gen_content_json.py --check  # changed=0 / missing=0 を確認
 python tools/content_manifest.py     # 指紋台帳を再生成（CIでも自動実行される）
 python tools/gen_bundled.py          # 同梱baselineを更新（次の土台ビルド用）
 ```
@@ -98,3 +100,7 @@ pwsh tools/update_fire6.ps1 "変更内容のメモ"
 - Android 対応（CAEの `build-android` ジョブ移植）
 - 課金（RevenueCat）／学習進捗の保存
 - 問題・模試・成績画面の中身
+
+### 教材の囲み記法
+
+正本mdで `> [!IMPORTANT] 重要ポイント`（緑）、`> [!WARNING] 注意点`（橙）、`> [!NOTE] 補足`（アクセント色）を使います。続く `>` 行は一つの囲みにまとまります。空の引用行 `>` で囲み内に余白を入れられます。見出しは `#`〜`####`、本文の強調は `**太字**`、段落は空行で区切ります。Lessonの `## Lesson NN` はレッスン分割にも使うため維持してください。
