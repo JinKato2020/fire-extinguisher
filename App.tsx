@@ -12,6 +12,7 @@ import * as Application from 'expo-application';
 import { initLaunchAccess, isLaunchFreeActive, launchAccessStatus } from './src/data/launchAccess';
 import { initFeedback, openRequestEmail, openAppReview, feedbackDevToolsAvailable, triggerReviewForDevelopment } from './src/data/feedback';
 import { FeedbackCard } from './src/ui/FeedbackCard';
+import { LESSON_FEEDBACK_READING_MS, lessonFeedbackReady } from './src/data/feedbackRules';
 import { EXAM_DURATION_SECONDS, remainingSeconds, formatExamTime } from './src/data/examTiming';
 import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
@@ -457,8 +458,24 @@ function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPa
   const safeIdx = Math.max(0, Math.min(lessonIdx, lessons.length - 1));
   const lesson = lessons[safeIdx] ?? null;
   const locked = !pro && safeIdx >= freeLessonEntries(chapterNo, lessons);
-  const [reachedEnd, setReachedEnd] = useState(false);
-  useEffect(() => { setReachedEnd(false); }, [chapterNo, safeIdx]);
+  const lessonKey = chapterNo + '-' + safeIdx;
+  const [reachedEndKey, setReachedEndKey] = useState<string | null>(null);
+  const [readingReadyKey, setReadingReadyKey] = useState<string | null>(null);
+  const [readingPosition, setReadingPosition] = useState({ key: '', viewport: 0, content: 0, offset: 0 });
+  const updateReadingPosition = (patch: Partial<Omit<typeof readingPosition, 'key'>>) => {
+    setReadingPosition(previous => ({ ...(previous.key === lessonKey ? previous : { viewport: 0, content: 0, offset: 0 }), ...patch, key: lessonKey }));
+  };
+  useEffect(() => {
+    if (locked || !lesson) return;
+    const timer = setTimeout(() => setReadingReadyKey(lessonKey), LESSON_FEEDBACK_READING_MS);
+    return () => clearTimeout(timer);
+  }, [lessonKey, locked, !!lesson]);
+  useEffect(() => {
+    if (readingReadyKey === lessonKey && readingPosition.key === lessonKey
+      && lessonFeedbackReady(LESSON_FEEDBACK_READING_MS, readingPosition.viewport, readingPosition.content, readingPosition.offset)) {
+      setReachedEndKey(lessonKey);
+    }
+  }, [lessonKey, readingReadyKey, readingPosition]);
   const chIdx = chapters.findIndex((x) => x.no === chapterNo);
 
   const prevTarget = (() => {
@@ -494,14 +511,16 @@ function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPa
         <Text style={s.qProgress} numberOfLines={1}>{(chapter ? '第' + chapter.no + '章' : '') + (lessons.length ? '・' + (safeIdx + 1) + '/' + lessons.length : '')}</Text>
       </View>
       <ScrollView key={chapterNo + '-' + safeIdx} style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}
+        onLayout={event => updateReadingPosition({ viewport: event.nativeEvent.layout.height })}
+        onContentSizeChange={(_width, height) => updateReadingPosition({ content: height })}
         scrollEventThrottle={200} onScroll={event => {
           const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
-          if (!locked && contentOffset.y > 0 && layoutMeasurement.height + contentOffset.y >= contentSize.height - 80) setReachedEnd(true);
+          updateReadingPosition({ viewport: layoutMeasurement.height, content: contentSize.height, offset: contentOffset.y });
         }}>
         {locked
           ? <ProCut onPaywall={onPaywall} title="このレッスンはProで" sub={'無料で読めるレッスンの先です。Proですべてのレッスン・用語・相関図・模試が解放されます。'} />
           : lesson ? <Markdown body={lesson.body} /> : <View style={s.soon}><Text style={s.soonBig}>準備中</Text></View>}
-        <FeedbackCard key={chapterNo + "-" + safeIdx} active={reachedEnd && !locked} />
+        <FeedbackCard key={lessonKey} active={reachedEndKey === lessonKey && !locked} />
         <View style={s.readerNav}>
           <Pressable disabled={!prevTarget} onPress={() => prevTarget && onNav(prevTarget.no, prevTarget.i)} style={({ pressed }) => [s.readerNavBtn, !prevTarget && s.btnDisabled, pressed && s.pressed]}>
             {prevTarget ? <Text style={s.readerNavTxt}>‹ 前のレッスン</Text> : null}
@@ -1210,7 +1229,7 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
             <Pressable accessibilityRole="button" style={s.setRow} onPress={() => setRequestPreview(true)}>
               <Text style={s.setLabel}>リクエスト画面を表示</Text><Text style={s.setValue}>テスト ›</Text>
             </Pressable>
-            <Text style={[s.guideBody, { padding: 12 }]}>4日間の待ち時間なしで確認できます。通常の表示間隔には影響しません。Appleの標準評価画面はTestFlightでは表示されません。</Text>
+            <Text style={[s.guideBody, { padding: 12 }]}>表示予定日を待たずに確認できます。通常の表示間隔には影響しません。Appleの標準評価画面はTestFlightでは表示されません。</Text>
           </> : null}
           {canUseFreePreview() ? <><View style={s.setRow}>
             <Text style={s.setLabel}>無料ユーザーとして確認</Text>

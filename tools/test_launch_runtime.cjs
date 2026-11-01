@@ -71,7 +71,7 @@ function access(storage = new Map(), { open = true, offline = false, failWrite =
   assert.equal(await paidPurchases.purchasePro({}), true);
   assert.equal(charged, 1); // Later users can buy the existing product normally.
 
-  let now = Date.UTC(2026, 10, 1), reviews = 0, mailUrl = '', available = true, alerts = 0;
+  let now = new Date(2026, 10, 1, 18).getTime(), reviews = 0, mailUrl = '', available = true, alerts = 0;
   class Clock extends Date { static now() { return now; } }
   const storage = new Map();
   const feedback = load('src/data/feedback.ts', {
@@ -85,8 +85,15 @@ function access(storage = new Map(), { open = true, offline = false, failWrite =
   }, { Date: Clock, __DEV__: false });
   await feedback.initFeedback();
   assert.equal(await feedback.offerFeedback(), false); // No startup prompt.
+  now = new Date(2026, 10, 3).getTime() - 1;
+  assert.equal(await feedback.offerFeedback(), false);
+  now++;
   for (let i = 1; i <= 4; i++) {
-    now += feedbackRules.FEEDBACK_INTERVAL_MS;
+    if (i > 1) {
+      now += feedbackRules.FEEDBACK_INTERVAL_MS - 1;
+      assert.equal(await feedback.offerFeedback(), false);
+      now++;
+    }
     const results = await Promise.all([feedback.offerFeedback(), feedback.offerFeedback()]);
     assert.equal(results.filter(Boolean).length, 1); // No duplicate checkpoint prompt.
     assert.equal(reviews, Math.min(i, 3));
@@ -110,5 +117,5 @@ function access(storage = new Map(), { open = true, offline = false, failWrite =
   await feedback.triggerReviewForDevelopment();
   assert.equal(reviews, 3);
   assert.equal(storage.get('fire6:feedback:v1'), savedSchedule); // No effect on the normal schedule.
-  console.log('PASS: launch rights, payment guards, feedback interval/cap, email, review link, TestFlight diagnostics and production exclusion');
+  console.log('PASS: launch rights, payment guards, third-day/weekly feedback, cross-checkpoint deduplication and review cap, email, review link, TestFlight diagnostics and production exclusion');
 })().catch(error => { console.error(error); process.exitCode = 1; });

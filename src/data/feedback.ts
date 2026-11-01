@@ -19,7 +19,7 @@ export async function initFeedback(): Promise<void> {
       && Array.isArray(raw.reviewAttempts) && raw.reviewAttempts.every((at: unknown) => typeof at === 'number' && Number.isFinite(at))) {
       schedule = raw;
     }
-  } catch { /* Missing or invalid state starts a new four-day interval. */ }
+  } catch { /* Missing or invalid state restarts the initial three-day schedule. */ }
   if (!schedule) {
     schedule = { firstUsedAt: Date.now(), lastOfferedAt: null, reviewAttempts: [] };
     try { await AsyncStorage.setItem(KEY, JSON.stringify(schedule)); } catch { /* Retry at next learning checkpoint. */ }
@@ -71,7 +71,7 @@ export async function feedbackDevToolsAvailable(): Promise<boolean> {
   try { return !(await StoreReview.isAvailableAsync()); } catch { return false; }
 }
 
-/** Diagnostic only: never changes the four-day interval or annual attempt counter. */
+/** Diagnostic only: never changes the weekly interval or annual attempt counter. */
 export async function triggerReviewForDevelopment(): Promise<void> {
   if (!(await feedbackDevToolsAvailable())) return;
   try {
