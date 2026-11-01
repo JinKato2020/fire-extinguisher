@@ -12,7 +12,8 @@ import * as Application from 'expo-application';
 import { initLaunchAccess, isLaunchFreeActive, launchAccessStatus } from './src/data/launchAccess';
 import { initFeedback, openRequestEmail, openAppReview, feedbackDevToolsAvailable, triggerReviewForDevelopment } from './src/data/feedback';
 import { FeedbackCard } from './src/ui/FeedbackCard';
-import { LESSON_FEEDBACK_READING_MS, lessonFeedbackReady } from './src/data/feedbackRules';
+import { useStudyFeedback } from './src/ui/useStudyFeedback';
+import { subscribeStudyFeedback } from './src/data/studyFeedback';
 import { EXAM_DURATION_SECONDS, remainingSeconds, formatExamTime } from './src/data/examTiming';
 import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
@@ -458,24 +459,7 @@ function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPa
   const safeIdx = Math.max(0, Math.min(lessonIdx, lessons.length - 1));
   const lesson = lessons[safeIdx] ?? null;
   const locked = !pro && safeIdx >= freeLessonEntries(chapterNo, lessons);
-  const lessonKey = chapterNo + '-' + safeIdx;
-  const [reachedEndKey, setReachedEndKey] = useState<string | null>(null);
-  const [readingReadyKey, setReadingReadyKey] = useState<string | null>(null);
-  const [readingPosition, setReadingPosition] = useState({ key: '', viewport: 0, content: 0, offset: 0 });
-  const updateReadingPosition = (patch: Partial<Omit<typeof readingPosition, 'key'>>) => {
-    setReadingPosition(previous => ({ ...(previous.key === lessonKey ? previous : { viewport: 0, content: 0, offset: 0 }), ...patch, key: lessonKey }));
-  };
-  useEffect(() => {
-    if (locked || !lesson) return;
-    const timer = setTimeout(() => setReadingReadyKey(lessonKey), LESSON_FEEDBACK_READING_MS);
-    return () => clearTimeout(timer);
-  }, [lessonKey, locked, !!lesson]);
-  useEffect(() => {
-    if (readingReadyKey === lessonKey && readingPosition.key === lessonKey
-      && lessonFeedbackReady(LESSON_FEEDBACK_READING_MS, readingPosition.viewport, readingPosition.content, readingPosition.offset)) {
-      setReachedEndKey(lessonKey);
-    }
-  }, [lessonKey, readingReadyKey, readingPosition]);
+  useStudyFeedback('lesson:' + chapterNo + ':' + safeIdx, !locked && !!lesson);
   const chIdx = chapters.findIndex((x) => x.no === chapterNo);
 
   const prevTarget = (() => {
@@ -510,17 +494,10 @@ function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPa
         </Pressable>
         <Text style={s.qProgress} numberOfLines={1}>{(chapter ? '第' + chapter.no + '章' : '') + (lessons.length ? '・' + (safeIdx + 1) + '/' + lessons.length : '')}</Text>
       </View>
-      <ScrollView key={chapterNo + '-' + safeIdx} style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}
-        onLayout={event => updateReadingPosition({ viewport: event.nativeEvent.layout.height })}
-        onContentSizeChange={(_width, height) => updateReadingPosition({ content: height })}
-        scrollEventThrottle={200} onScroll={event => {
-          const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
-          updateReadingPosition({ viewport: layoutMeasurement.height, content: contentSize.height, offset: contentOffset.y });
-        }}>
+      <ScrollView key={chapterNo + '-' + safeIdx} style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}>
         {locked
           ? <ProCut onPaywall={onPaywall} title="このレッスンはProで" sub={'無料で読めるレッスンの先です。Proですべてのレッスン・用語・相関図・模試が解放されます。'} />
           : lesson ? <Markdown body={lesson.body} /> : <View style={s.soon}><Text style={s.soonBig}>準備中</Text></View>}
-        <FeedbackCard key={lessonKey} active={reachedEndKey === lessonKey && !locked} />
         <View style={s.readerNav}>
           <Pressable disabled={!prevTarget} onPress={() => prevTarget && onNav(prevTarget.no, prevTarget.i)} style={({ pressed }) => [s.readerNavBtn, !prevTarget && s.btnDisabled, pressed && s.pressed]}>
             {prevTarget ? <Text style={s.readerNavTxt}>‹ 前のレッスン</Text> : null}
@@ -549,6 +526,11 @@ function GlossaryScreen({ onBump, ver, favInit, pro, onPaywall }: { onBump: () =
     return m;
   }, [terms]);
   const canSee = (t: Term) => pro || (posInCh[t.id] ?? 99) < 6;
+  const needle = q.trim();
+  const readable = terms.some(t => canSee(t)
+    && (sel === 'fav' ? isFavTerm(t.term) : sel === null ? !!needle : t.chapter === sel)
+    && (!needle || t.term.includes(needle) || t.def.includes(needle) || (sel !== null && (t.reading ?? '').includes(needle))));
+  useStudyFeedback('terms:' + (sel ?? 'search'), readable);
   const chapters = ['1', '2', '3', '4', '5', '6'];
   const chCount = (k: string) => terms.filter((t) => t.chapter === k).length;
   const favCount = terms.filter((t) => isFavTerm(t.term)).length;
@@ -755,7 +737,6 @@ function MockResult({ set, onBack, onBump }: { set: QuizSet; onBack: () => void;
               <View style={s.statCell}><Text style={[s.statCellV, { color: c.accent }]}>{st.pct}%</Text><Text style={s.statCellK}>得点率</Text></View>
               <View style={s.statCell}><Text style={s.statCellV}>{st.total - st.answered}</Text><Text style={s.statCellK}>未解答</Text></View>
             </View>
-            <FeedbackCard />
             <Text style={s.sectionHead}>分野別の正答率</Text>
             <View style={s.barBox}>
               {chapters.map((ch) => {
@@ -952,6 +933,7 @@ function QuizPlayer({ title, questions, limitSeconds, onExit, onBump }: { title:
   const [deadline, setDeadline] = useState<number | null>(() => limitSeconds ? Date.now() + limitSeconds * 1000 : null);
   const [remaining, setRemaining] = useState<number | null>(limitSeconds ?? null);
   const submitted = useRef(false);
+  useStudyFeedback('quiz:' + title, !finished && questions.length > 0);
 
   useEffect(() => {
     if (deadline === null || finished || questions.length === 0) return;
@@ -1014,7 +996,6 @@ function QuizPlayer({ title, questions, limitSeconds, onExit, onBump }: { title:
           <Text style={s.soonTxt}>解答済み {answeredCount}問・未解答 {questions.length - answeredCount}問</Text>
           {timedOut ? <Text style={s.soonTxt}>未解答は不正解扱いです。全問題数を分母とし、時間内に「解答する」で確定した正解だけを得点に数えます。</Text> : null}
           {limitSeconds ? <Text style={s.soonTxt}>制限時間105分・所要時間 {formatExamTime(Math.min(limitSeconds, limitSeconds - (remaining ?? 0)))}</Text> : null}
-          <FeedbackCard />
           <View style={{ flexDirection: 'row', gap: 10, marginTop: 18 }}>
             <Pressable onPress={reset} style={({ pressed }) => [s.ghostBtn, pressed && s.pressed]}><Text style={s.ghostBtnTxt}>もう一度</Text></Pressable>
             <Pressable onPress={exit} style={({ pressed }) => [s.submitBtn, { paddingHorizontal: 22 }, pressed && s.pressed]}><Text style={s.submitTxt}>終了</Text></Pressable>
@@ -1296,6 +1277,7 @@ function BookmarksScreen({ onClose, onBump }: { onClose: () => void; onBump: () 
 }
 
 function QuestionDetail({ question: q, onBack, onBump }: { question: Question; onBack: () => void; onBump: () => void }) {
+  useStudyFeedback('question:' + q.id, true);
   const { c } = useTheme();
   const s = useStyles();
   const marked = isBookmarked(q.id);
@@ -1649,6 +1631,8 @@ function Main() {
   const [modal, setModal] = useState<ModalKey>(null);
   const [syncing, setSyncing] = useState(false);
   const [pro, setPro] = useState(isProActive());
+  const [showFeedback, setShowFeedback] = useState(false);
+  useEffect(() => subscribeStudyFeedback(() => setShowFeedback(true)), []);
   const { width } = useWindowDimensions();
 
   const bump = () => setDataVersion((v) => v + 1);
@@ -1714,6 +1698,15 @@ function Main() {
         </View>
         {!showModal ? <TabBar tab={tab} onTab={goTab} insetBottom={insets.bottom} /> : null}
       </View>
+      {showFeedback ? <View accessibilityViewIsModal style={{ position: 'absolute', top: insets.top, bottom: 0, left: 0, right: 0, backgroundColor: c.bg, zIndex: 100 }}>
+        <View style={s.modalBar}>
+          <Pressable accessibilityRole="button" onPress={() => setShowFeedback(false)} style={s.backBtn}><Text style={s.backTxt}>‹ 閉じる</Text></Pressable>
+          <Text style={s.modalTitle}>ご意見・ご要望</Text>
+        </View>
+        <ScrollView contentContainerStyle={{ padding: 20 }}>
+          <FeedbackCard preview onDismiss={() => setShowFeedback(false)} />
+        </ScrollView>
+      </View> : null}
       <StatusBar style={resolved === 'dark' ? 'light' : 'dark'} />
     </View>
   );
