@@ -1,0 +1,35 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>1.3.0 無料開放とフィードバックの運用</title>
+<style>body{font:16px/1.8 system-ui,sans-serif;max-width:900px;margin:32px auto;padding:0 20px;color:#203648}h1{font-size:26px}section{border:1px solid #cddae4;border-radius:12px;padding:20px;margin:20px 0}code,pre{background:#edf2f6;padding:4px}pre{padding:14px;white-space:pre-wrap}a{color:#075d95}</style>
+<h1>1.3.0 無料開放とフィードバックの運用</h1>
+<section><h2>対象者と権利</h2>
+<p>無料開放中に1.3.0以降を初回オンライン起動し、対象確認・権利保存を完了したインストールに、全機能を期限なしで付与する。既存ユーザーのアップデート後の起動も含む。ダウンロードしただけで一度も対象確認を完了していない場合は権利は保存されない。</p>
+<p>権利はAsyncStorageの <code>fire6:launch-access:v1</code> に保存。開放終了後・オフライン時にも維持する。アプリ削除、データ消去、再インストール、機種変更後の引き継ぎは保証しない（ユーザー指定）。App Storeの「購入を復元」は実購入の復元であり、この無料権利の復元ではない。</p>
+<p>評価・星の数・レビュー投稿・メール送信を無料権利の条件にしない。既存の実購入者のPro権利はRevenueCatで継続して判定する。</p></section>
+<section><h2>無料開放を終了するとき</h2>
+<pre>python tools/set_launch_access.py --close
+git add content/access-policy.json content/_manifest.json
+git commit -m "Close new launch-free enrollments"
+git push origin main
+gh workflow run deploy-content-fire6.yml --ref main</pre>
+<p>既存の保存済み無料権利は変更しない。終了後、まだ無料権利のない新規インストールでは、従来の無料範囲と買い切りPro（EF_Pro）へ移行する。再開は <code>--open</code>。評価件数・星の平均を自動監視して終了する仕組みはない。終了は運営判断で手動実行する。</p>
+<p>新規登録にはキャッシュや同梱設定ではなく、公開URLの最新ポリシーを確認する。通信失敗時は登録せず、購入も保留して再確認を案内する。</p></section>
+<section><h2>評価依頼とメール</h2>
+<p>初回利用から4日後以降、レッスン末尾までスクロールしたとき、模試の終了・成績確認という区切りで案内する。次の案内まで最低4日空ける。点数・正誤・自信度・無料/有料で対象を選別しない。アプリ起動直後・模試の制限時間中には自動依頼しない。</p>
+<p>Apple標準の評価APIを使用。アプリ側の呼出しも365日で3回までに抑制する。実際に評価画面が表示されたか、評価されたか、星が何個かは取得しない。Appleの表示制御やユーザー設定で表示されない場合もある。TestFlightでは標準の評価画面は表示されない。</p>
+<p>同じ4日周期の区切りに「ご意見・ご要望」のメール導線を表示する。Appleの評価画面が出ない場合もメール導線は表示可能。設定からはいつでもメールを開ける。宛先は contact@safa-lang.com。件名とアプリ版番号のみ事前入力し、送信内容はユーザーが編集・送信する。自動送信しない。</p></section>
+<section><h2>設定からの確認</h2>
+<p>「購入を復元」の下の「アプリを評価する」は、App StoreのアプリID 6823598014 のレビュー投稿ページを開く。通常の4日間隔・年間回数の判定から独立して、いつでも利用可能。</p>
+<p>開発ビルド・TestFlightでは、設定の「バージョン」を1.5秒長押しすると開発用の「評価画面を表示」「リクエスト画面を表示」が現れる。無料開放ユーザーもテスト購入なしで利用できる。本番App Store版ではこれらの表示トリガーを出さない。</p>
+<p>評価のテストはApple標準APIを直接呼ぶ。TestFlightではOS側で表示できないため、その理由をアラートで案内する。リクエストのテストは通常の案内カードをモーダルに表示し、そこから実際のメール編集画面を開ける。いずれも通常の4日間隔や年間の依頼履歴を変更しない。</p></section>
+<section><h2>ビルド・配信</h2>
+<p>expo-store-review 9.0.9系列とexpo-application 7.0.8系列（SDK54対応）を追加。新バージョンは1.3.0、runtimeVersionは1.1.0。従来の1.0.0 runtime向けOTAでは配信できず、iOSの新しいビルドが必要。</p>
+<p>リリース前に教材R2へ access-policy.json とmanifestを配信し、新ビルドで初回登録を確認する。初回起動はネット接続が必要。今後の開放終了はR2のポリシー配信だけで反映できる。</p>
+<p>実機QA：無料期間中の新規起動→全機能、オフライン再起動→権利維持、ポリシー終了→同じインストールは無料維持、終了後の新規インストール→無料範囲/購入画面、実購入の復元、メール編集画面とキャンセル、4日周期の案内。TestFlightで実レビュー投稿は検証できない。端末の日付を変えて本番データで試すより、モックテストで時刻境界を検証する。</p>
+<p>自動検証：<code>npm run tsc</code>、<code>node tools/test_launch_runtime.cjs</code>、<code>npx tsx tools/test_launch_rules.ts</code>、<code>node tools/test_free_preview.cjs</code>。</p></section>
+<section><h2>審査メモに加える説明案</h2>
+<p>This version includes a launch promotion. Installations that complete their initial online eligibility check while enrollment is open receive access to all features without an expiration date for that installation. This access is independent of ratings, reviews, or feedback. It is stored locally and is not guaranteed to transfer after app deletion, reinstallation, or a device change.</p>
+<p>When enrollment is closed, existing promotional access remains valid. New users without promotional access may use the standard free content or purchase the existing non-consumable Pro product, EF_Pro. Existing purchases remain restorable.</p>
+<p>The app may request an App Store rating through Apple's standard API after a learning checkpoint, with a minimum four-day interval and at most three API requests per 365 days. An optional feedback email action is offered at the same checkpoints and is always available in Settings. The app does not require a rating or feedback to unlock functionality.</p></section>
+<p>参照：<a href="https://developer.apple.com/documentation/storekit/requesting-app-store-reviews">Apple：評価依頼</a>、<a href="https://developer.apple.com/app-store/review/guidelines/#app-store-reviews">App Review Guidelines</a>、<a href="https://docs.expo.dev/versions/latest/sdk/storereview/">Expo StoreReview</a></p>
+</html>

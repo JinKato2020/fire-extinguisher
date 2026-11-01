@@ -8,6 +8,10 @@ import { initPurchases, isProActive, subscribePro, getProPackage, purchasePro, r
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BUILD_NUMBER } from './src/buildInfo';
+import * as Application from 'expo-application';
+import { initLaunchAccess, isLaunchFreeActive, launchAccessStatus } from './src/data/launchAccess';
+import { initFeedback, openRequestEmail, openAppReview, feedbackDevToolsAvailable, triggerReviewForDevelopment } from './src/data/feedback';
+import { FeedbackCard } from './src/ui/FeedbackCard';
 import { EXAM_DURATION_SECONDS, remainingSeconds, formatExamTime } from './src/data/examTiming';
 import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
@@ -453,6 +457,8 @@ function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPa
   const safeIdx = Math.max(0, Math.min(lessonIdx, lessons.length - 1));
   const lesson = lessons[safeIdx] ?? null;
   const locked = !pro && safeIdx >= freeLessonEntries(chapterNo, lessons);
+  const [reachedEnd, setReachedEnd] = useState(false);
+  useEffect(() => { setReachedEnd(false); }, [chapterNo, safeIdx]);
   const chIdx = chapters.findIndex((x) => x.no === chapterNo);
 
   const prevTarget = (() => {
@@ -487,10 +493,15 @@ function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPa
         </Pressable>
         <Text style={s.qProgress} numberOfLines={1}>{(chapter ? '第' + chapter.no + '章' : '') + (lessons.length ? '・' + (safeIdx + 1) + '/' + lessons.length : '')}</Text>
       </View>
-      <ScrollView key={chapterNo + '-' + safeIdx} style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}>
+      <ScrollView key={chapterNo + '-' + safeIdx} style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}
+        scrollEventThrottle={200} onScroll={event => {
+          const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
+          if (!locked && contentOffset.y > 0 && layoutMeasurement.height + contentOffset.y >= contentSize.height - 80) setReachedEnd(true);
+        }}>
         {locked
           ? <ProCut onPaywall={onPaywall} title="このレッスンはProで" sub={'無料で読めるレッスンの先です。Proですべてのレッスン・用語・相関図・模試が解放されます。'} />
           : lesson ? <Markdown body={lesson.body} /> : <View style={s.soon}><Text style={s.soonBig}>準備中</Text></View>}
+        <FeedbackCard key={chapterNo + "-" + safeIdx} active={reachedEnd && !locked} />
         <View style={s.readerNav}>
           <Pressable disabled={!prevTarget} onPress={() => prevTarget && onNav(prevTarget.no, prevTarget.i)} style={({ pressed }) => [s.readerNavBtn, !prevTarget && s.btnDisabled, pressed && s.pressed]}>
             {prevTarget ? <Text style={s.readerNavTxt}>‹ 前のレッスン</Text> : null}
@@ -725,6 +736,7 @@ function MockResult({ set, onBack, onBump }: { set: QuizSet; onBack: () => void;
               <View style={s.statCell}><Text style={[s.statCellV, { color: c.accent }]}>{st.pct}%</Text><Text style={s.statCellK}>得点率</Text></View>
               <View style={s.statCell}><Text style={s.statCellV}>{st.total - st.answered}</Text><Text style={s.statCellK}>未解答</Text></View>
             </View>
+            <FeedbackCard />
             <Text style={s.sectionHead}>分野別の正答率</Text>
             <View style={s.barBox}>
               {chapters.map((ch) => {
@@ -816,6 +828,11 @@ function MockScoreScreen({ onBump, pro, onPaywall }: { onBump: () => void; pro: 
           <Text style={s.viewH2}>模試・成績</Text>
           <Text style={s.viewSub}>105分の時間制限つき・時間制限なしを選んで、実力と弱点をチェック。</Text>
         </View>
+
+        {isLaunchFreeActive() ? <View style={[s.card, { marginTop: 16 }]}>
+          <Text style={s.cardTitle}>全機能を無料で利用できます</Text>
+          <Text style={s.cardSub}>無料開放期間中の利用者は、このインストールで期限なく使えます。</Text>
+        </View> : null}
 
         {/* 成績サマリ */}
         <View style={s.scoreTop}>
@@ -971,18 +988,19 @@ function QuizPlayer({ title, questions, limitSeconds, onExit, onBump }: { title:
             <Text style={s.backTxt}>‹ 一覧へ</Text>
           </Pressable>
         </View>
-        <View style={s.soon}>
+        <ScrollView contentContainerStyle={s.soon}>
           <Text style={s.soonTitle}>{timedOut ? '制限時間になりました' : 'おつかれさまでした'}</Text>
           <Text style={s.resultBig}>{correctCount} / {questions.length} 問正解</Text>
           <Text style={s.soonTxt}>正答率 {pct}%</Text>
           <Text style={s.soonTxt}>解答済み {answeredCount}問・未解答 {questions.length - answeredCount}問</Text>
           {timedOut ? <Text style={s.soonTxt}>未解答は不正解扱いです。全問題数を分母とし、時間内に「解答する」で確定した正解だけを得点に数えます。</Text> : null}
           {limitSeconds ? <Text style={s.soonTxt}>制限時間105分・所要時間 {formatExamTime(Math.min(limitSeconds, limitSeconds - (remaining ?? 0)))}</Text> : null}
+          <FeedbackCard />
           <View style={{ flexDirection: 'row', gap: 10, marginTop: 18 }}>
             <Pressable onPress={reset} style={({ pressed }) => [s.ghostBtn, pressed && s.pressed]}><Text style={s.ghostBtnTxt}>もう一度</Text></Pressable>
             <Pressable onPress={exit} style={({ pressed }) => [s.submitBtn, { paddingHorizontal: 22 }, pressed && s.pressed]}><Text style={s.submitTxt}>終了</Text></Pressable>
           </View>
-        </View>
+        </ScrollView>
       </View>
     );
   }
@@ -1088,6 +1106,13 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
   const [restoring, setRestoring] = useState(false);
   const [showDev, setShowDev] = useState(isFreePreviewEnabled());
   const [freePreview, setFreePreview] = useState(isFreePreviewEnabled());
+  const [feedbackDev, setFeedbackDev] = useState(__DEV__);
+  const [requestPreview, setRequestPreview] = useState(false);
+  useEffect(() => {
+    let mounted = true;
+    void feedbackDevToolsAvailable().then(available => { if (mounted) setFeedbackDev(available); });
+    return () => { mounted = false; };
+  }, []);
   const doRestore = async () => {
     if (restoring) return;
     setRestoring(true);
@@ -1107,11 +1132,11 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
         </View>
 
         <View style={s.setGroup}>
-          <Text style={s.setGroupTitle}>Pro</Text>
+          <Text style={s.setGroupTitle}>利用状態</Text>
           {pro ? (
             <View style={s.setRow}>
               <Text style={s.setLabel}>ステータス</Text>
-              <Text style={[s.setValue, { color: c.good }]}>購入済み</Text>
+              <Text style={[s.setValue, { color: c.good }]}>{isLaunchFreeActive() ? '無料開放（期限なし）' : '購入済み'}</Text>
             </View>
           ) : (
             <Pressable style={({ pressed }) => [s.setRow, pressed && s.pressed]} onPress={() => onModal('paywall')}>
@@ -1119,9 +1144,17 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
               <Text style={[s.setValue, { color: c.accent }]}>全機能を解放 ›</Text>
             </Pressable>
           )}
+          {isLaunchFreeActive() ? <Text style={[s.guideBody, { padding: 12 }]}>無料開放期間中に利用を開始したため、このインストールでは全機能を期限なく使えます。削除・再インストール・機種変更後の引き継ぎはできません。評価やメール送信は利用条件ではありません。</Text> : null}
+          {launchAccessStatus() !== 'ready' ? <Pressable style={s.setRow} onPress={() => { void initLaunchAccess(); }}>
+            <Text style={s.setLabel}>{launchAccessStatus() === 'checking' ? '無料開放の対象を確認中…' : '無料開放の対象を再確認'}</Text>
+          </Pressable> : null}
           <Pressable disabled={restoring || freePreview} style={({ pressed }) => [s.setRow, pressed && s.pressed, (restoring || freePreview) && s.btnDisabled]} onPress={doRestore}>
             <Text style={s.setLabel}>購入を復元</Text>
             <Text style={s.setValue}>{restoring ? '復元中…' : '実行 ›'}</Text>
+          </Pressable>
+          <Pressable accessibilityRole="button" style={({ pressed }) => [s.setRow, pressed && s.pressed]} onPress={() => { void openAppReview(); }}>
+            <Text style={s.setLabel}>アプリを評価する</Text>
+            <Text style={s.setValue}>App Store ›</Text>
           </Pressable>
         </View>
 
@@ -1159,14 +1192,27 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
 
         <View style={s.setGroup}>
           <Text style={s.setGroupTitle}>アプリについて</Text>
-          <Pressable style={s.setRow} delayLongPress={1500} onLongPress={() => { if (canUseFreePreview()) setShowDev(true); }}>
+          <Pressable accessibilityRole="button" style={({ pressed }) => [s.setRow, pressed && s.pressed]} onPress={() => { void openRequestEmail(); }}>
+            <Text style={s.setLabel}>ご意見・ご要望をメールで送る</Text>
+            <Text style={s.setValue}>送る ›</Text>
+          </Pressable>
+          <Pressable style={s.setRow} delayLongPress={1500} onLongPress={() => { if (feedbackDev || canUseFreePreview()) setShowDev(true); }}>
             <Text style={s.setLabel}>バージョン</Text>
-            <Text style={s.setValue}>Build {BUILD_NUMBER}</Text>
+            <Text style={s.setValue}>{Application.nativeApplicationVersion ?? "開発版"} · Build {Application.nativeBuildVersion ?? BUILD_NUMBER}</Text>
           </Pressable>
         </View>
-        {showDev && canUseFreePreview() ? <View style={s.setGroup}>
-          <Text style={s.setGroupTitle}>開発用（テスト購入）</Text>
-          <View style={s.setRow}>
+        {showDev && (feedbackDev || canUseFreePreview()) ? <View style={s.setGroup}>
+          <Text style={s.setGroupTitle}>開発用</Text>
+          {feedbackDev ? <>
+            <Pressable accessibilityRole="button" style={s.setRow} onPress={() => { void triggerReviewForDevelopment(); }}>
+              <Text style={s.setLabel}>評価画面を表示</Text><Text style={s.setValue}>テスト ›</Text>
+            </Pressable>
+            <Pressable accessibilityRole="button" style={s.setRow} onPress={() => setRequestPreview(true)}>
+              <Text style={s.setLabel}>リクエスト画面を表示</Text><Text style={s.setValue}>テスト ›</Text>
+            </Pressable>
+            <Text style={[s.guideBody, { padding: 12 }]}>4日間の待ち時間なしで確認できます。通常の表示間隔には影響しません。Appleの標準評価画面はTestFlightでは表示されません。</Text>
+          </> : null}
+          {canUseFreePreview() ? <><View style={s.setRow}>
             <Text style={s.setLabel}>無料ユーザーとして確認</Text>
             <Switch accessibilityLabel="無料ユーザーとして確認" value={freePreview} onValueChange={value => {
               setFreePreviewEnabled(value);
@@ -1174,7 +1220,20 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
             }} />
           </View>
           <Text style={[s.radarEmpty, { marginTop: 8 }]}>購入履歴を残したまま、無料版の表示と制限を確認します。オフにするかアプリを完全に終了すると、本来の購入状態に戻ります。購入ボタンからテスト購入に進めます。購入成功時は無料確認を解除します。</Text>
+          </> : null}
         </View> : null}
+        <Modal visible={requestPreview && feedbackDev} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setRequestPreview(false)}>
+          <View style={{ flex: 1, backgroundColor: c.bg }}>
+            <View style={s.modalBar}>
+              <Pressable accessibilityRole="button" onPress={() => setRequestPreview(false)} style={s.backBtn}><Text style={s.backTxt}>‹ 閉じる</Text></Pressable>
+              <Text style={s.modalTitle}>リクエスト画面の確認</Text>
+            </View>
+            <ScrollView contentContainerStyle={{ padding: 20 }}>
+              <Text style={s.guideBody}>開発用プレビューです。メールボタンは実際にメールアプリを開きます。送信はご自身で行ってください。</Text>
+              {requestPreview ? <FeedbackCard preview onDismiss={() => setRequestPreview(false)} /> : null}
+            </ScrollView>
+          </View>
+        </Modal>
       </View>
     </ScrollView>
   );
@@ -1466,6 +1525,19 @@ function PaywallScreen({ onClose, onBump }: { onClose: () => void; onBump: () =>
     } finally { setBusy(false); }
   };
 
+  if (isLaunchFreeActive() || launchAccessStatus() !== 'ready') {
+    const free = isLaunchFreeActive();
+    return <View style={{ flex: 1 }}>
+      <View style={s.modalBar}><Pressable onPress={onClose} style={s.backBtn}><Text style={s.backTxt}>‹ 閉じる</Text></Pressable></View>
+      <View style={[s.pad, { marginTop: 24 }]}>
+        <Text style={s.viewH2}>{free ? '全機能を無料で利用できます' : '無料開放の対象を確認'}</Text>
+        <Text style={[s.guideBody, { marginTop: 12 }]}>{free ? 'このインストールでは期限なく利用できます。購入は必要ありません。削除・再インストール・機種変更後の引き継ぎはできません。' : '初回の対象確認には通信が必要です。通信環境を確認して再試行してください。確認が終わるまで購入は行いません。'}</Text>
+        {!free ? <Pressable onPress={() => { void initLaunchAccess(); }} style={s.submitBtn}><Text style={s.submitTxt}>再確認する</Text></Pressable> : null}
+        <Pressable onPress={restore} style={s.payRestore}><Text style={s.payRestoreTxt}>購入を復元</Text></Pressable>
+      </View>
+    </View>;
+  }
+
   const features = [
     '模試②以降をすべて解放(本番形式 全12回)',
     '教材の全レッスン・用語集の全用語・全章の相関図を解放',
@@ -1572,8 +1644,9 @@ function Main() {
   }, []);
 
   useEffect(() => {
-    const unsub = subscribePro(() => setPro(isProActive()));
+    const unsub = subscribePro(() => { setPro(isProActive()); bump(); });
     void initPurchases();
+    void initFeedback();
     return unsub;
   }, []);
 
@@ -1587,6 +1660,7 @@ function Main() {
     if (syncing) return;
     setSyncing(true);
     initContent(() => setContentVersion((v) => v + 1));
+    void initLaunchAccess();
     setTimeout(() => setSyncing(false), 2500);
   };
 

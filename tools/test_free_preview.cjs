@@ -21,6 +21,10 @@ function load(customerInfo, purchaseError = null) {
     require(name) {
       if (name === 'react-native') return { Platform: { OS: 'ios' } };
       if (name === 'react-native-purchases') return sdk;
+      if (name === './launchAccess') return {
+        initLaunchAccess: async () => {}, isLaunchFreeActive: () => false,
+        launchAccessStatus: () => 'ready', subscribeLaunchAccess() {},
+      };
       throw new Error(name);
     },
   });

@@ -4,6 +4,7 @@
 // - 課金未設定・オフライン・非iOSでも落とさない(try/catchで握り、pro=falseのまま継続)。
 import { Platform } from 'react-native';
 import Purchases, { type CustomerInfo, type PurchasesPackage } from 'react-native-purchases';
+import { initLaunchAccess, isLaunchFreeActive, launchAccessStatus, subscribeLaunchAccess } from './launchAccess';
 
 const IOS_API_KEY = 'appl_uVNmkvjaLpbsDuwWWtuwhQhdHWR';
 export const PRO_ENTITLEMENT = 'pro';
@@ -15,7 +16,9 @@ let sandboxPurchase = false;
 let freePreview = false;
 const listeners = new Set<() => void>();
 
-export function isProActive(): boolean { return proActive && !freePreview; }
+export function isProActive(): boolean { return (proActive || isLaunchFreeActive()) && !freePreview; }
+const notify = () => { for (const fn of listeners) fn(); };
+subscribeLaunchAccess(notify);
 export function canUseFreePreview(): boolean { return __DEV__ || sandboxPurchase; }
 export function isFreePreviewEnabled(): boolean { return freePreview; }
 export function setFreePreviewEnabled(enabled: boolean): void {
@@ -43,6 +46,7 @@ function applyInfo(info: CustomerInfo): void {
 
 /** 起動時に1回。iOS以外・未設定でも安全に握りつぶす。 */
 export async function initPurchases(): Promise<void> {
+  void initLaunchAccess();
   if (Platform.OS !== 'ios') return; // 現状iOSのみ配信
   try {
     Purchases.configure({ apiKey: IOS_API_KEY });
@@ -69,6 +73,8 @@ export async function getProPackage(): Promise<PurchasesPackage | null> {
 
 /** 購入。成功でtrue、ユーザーキャンセルでfalse、失敗はthrow。 */
 export async function purchasePro(pkg: PurchasesPackage): Promise<boolean> {
+  if (isLaunchFreeActive()) return true;
+  if (launchAccessStatus() !== 'ready') throw new Error('無料開放の対象を確認してから購入してください。');
   try {
     const { customerInfo } = await Purchases.purchasePackage(pkg);
     applyInfo(customerInfo);

@@ -2,6 +2,7 @@
 // アプリ本体に同梱する content/*.json の登録表（＝OTA前の土台データ）。
 // キーは manifest と同じ相対パス。値は require（Metro が JSON をバンドルする）。
 export const BUNDLED: Record<string, unknown> = {
+  'content/access-policy.json': require('../../content/access-policy.json'),
   'content/chapters/ch1.json': require('../../content/chapters/ch1.json'),
   'content/chapters/ch2.json': require('../../content/chapters/ch2.json'),
   'content/chapters/ch3.json': require('../../content/chapters/ch3.json'),
