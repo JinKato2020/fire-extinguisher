@@ -1,5 +1,5 @@
 export const FEEDBACK_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000;
-export const STUDY_FEEDBACK_MIN_MS = 60 * 1000;
+export const STUDY_FEEDBACK_MIN_MS = 30 * 1000;
 export type FeedbackSchedule = { firstUsedAt: number; lastOfferedAt: number | null; reviewAttempts: number[] };
 export function feedbackDue(schedule: FeedbackSchedule, now: number): boolean {
   if (schedule.lastOfferedAt !== null) return now - schedule.lastOfferedAt >= FEEDBACK_INTERVAL_MS;

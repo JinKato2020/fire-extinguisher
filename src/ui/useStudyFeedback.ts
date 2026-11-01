@@ -3,7 +3,7 @@ import { AppState } from 'react-native';
 import { StudyExposure } from '../data/feedbackRules';
 import { beginStudyFeedback } from '../data/studyFeedback';
 
-/** A study ends on exit, scope change, or completion, never just at 60 seconds. */
+/** A study ends on exit, scope change, or completion, never just at 30 seconds. */
 export function useStudyFeedback(scope: string, enabled: boolean): void {
   useEffect(() => {
     if (!enabled) return;

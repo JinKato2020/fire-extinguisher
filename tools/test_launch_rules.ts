@@ -24,18 +24,18 @@ assert.equal(feedbackDue(offered, offered.lastOfferedAt + FEEDBACK_INTERVAL_MS -
 assert.equal(feedbackDue(offered, offered.lastOfferedAt + FEEDBACK_INTERVAL_MS), true);
 assert.equal(FEEDBACK_INTERVAL_MS, 7 * 86400000);
 const shortStudy = new StudyExposure(0, true);
-assert.equal(shortStudy.finish(59999), false);
+assert.equal(shortStudy.finish(29999), false);
 const fullStudy = new StudyExposure(0, true);
-assert.equal(fullStudy.finish(60000), true);
+assert.equal(fullStudy.finish(30000), true);
 const pausedStudy = new StudyExposure(0, true);
-pausedStudy.setActive(30000, false);
+pausedStudy.setActive(15000, false);
 pausedStudy.setActive(900000, true);
-assert.equal(pausedStudy.finish(929999), false); // Background time never counts.
+assert.equal(pausedStudy.finish(914999), false); // Background time never counts.
 const resumedStudy = new StudyExposure(0, true);
-resumedStudy.setActive(30000, false);
+resumedStudy.setActive(15000, false);
 resumedStudy.setActive(900000, true);
-assert.equal(resumedStudy.finish(930000), true); // Foreground portions accumulate.
+assert.equal(resumedStudy.finish(915000), true); // Foreground portions accumulate.
 assert.equal(canAttemptReview([now - 1, now - 2], now), true);
 assert.equal(canAttemptReview([now - 1, now - 2, now - 3], now), false);
 assert.equal(canAttemptReview([now - 366 * 86400000, now - 1, now - 2], now), true);
-console.log('PASS: permanent installed grant, later paid cohort, offline behavior, third-day start, weekly interval, 60-second foreground study checkpoints and annual review cap');
+console.log('PASS: permanent installed grant, later paid cohort, offline behavior, third-day start, weekly interval, 30-second foreground study checkpoints and annual review cap');

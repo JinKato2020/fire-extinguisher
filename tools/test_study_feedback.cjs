@@ -33,7 +33,7 @@ function foreground(active) {
   const short = api.beginStudyFeedback(); short(false);
   await advance(400); assert.equal(offers, 0);
   const quiz = api.beginStudyFeedback();
-  await advance(60000); assert.equal(offers, 0); // Never during a test, regardless of elapsed time.
+  await advance(30000); assert.equal(offers, 0); // Never during a test, regardless of elapsed time.
   quiz(true); // Partial exit qualifies; no question-count/completion requirement.
   await advance(399); assert.equal(offers, 0);
   await advance(1); assert.equal(offers, 1); assert.equal(shown, 1);
@@ -57,12 +57,12 @@ function foreground(active) {
     '../data/studyFeedback': { beginStudyFeedback() { return value => { qualified = value; }; } },
   }, { Date: Clock });
   hook.useStudyFeedback('quiz', true);
-  await advance(30000); foreground(false);
+  await advance(15000); foreground(false);
   await advance(900000); foreground(true);
-  await advance(30000); assert.equal(qualified, null);
+  await advance(15000); assert.equal(qualified, null);
   cleanup(); assert.equal(qualified, true);
   qualified = null;
   hook.useStudyFeedback('terms', true);
-  await advance(59999); cleanup(); assert.equal(qualified, false);
-  console.log('PASS: foreground exposure, 60-second threshold, partial quiz exit, no in-test prompts, navigation deferral and duplicate cleanup');
+  await advance(29999); cleanup(); assert.equal(qualified, false);
+  console.log('PASS: foreground exposure, 30-second threshold, partial quiz exit, no in-test prompts, navigation deferral and duplicate cleanup');
 })().catch(error => { console.error(error); process.exitCode = 1; });
