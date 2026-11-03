@@ -9,8 +9,10 @@ export type PracticalPart = {
   answers: string[];
   options?: { symbol: string; text: string }[];
   explain: string;
+  category?: 'name' | 'calculation' | 'reason' | 'selection';
+  rubric?: { criteria: { label: string; patterns: string[] }[]; contradictions: string[] };
 };
-export type Practical = { stem: string; image: string; caption: string; parts: PracticalPart[] };
+export type Practical = { stem: string; image: string; imageAsset?: string; caption: string; parts: PracticalPart[] };
 
 export type Question = {
   id: string;

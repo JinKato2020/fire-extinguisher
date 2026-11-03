@@ -720,7 +720,7 @@
     "reviewed": false
   },
   {
-    "id": "m9-31-practical-v1",
+    "id": "m9-31-practical-v2",
     "chapter": "6",
     "topic": "鑑別等（図解・複数設問）",
     "type": "choice",
@@ -743,61 +743,95 @@
     "source": "教材ベース",
     "reviewed": false,
     "practical": {
-      "stem": "図は蓄圧式の粉末消火器の外観模式図である。記号Eの部分に関する各設問に答えなさい。",
-      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"#fff\"/><rect x=\"222\" y=\"142\" width=\"130\" height=\"220\" rx=\"34\" fill=\"#d8383d\" stroke=\"#172b43\" stroke-width=\"4\"/><rect x=\"256\" y=\"116\" width=\"60\" height=\"30\" fill=\"#aaa\" stroke=\"#172b43\" stroke-width=\"3\"/><path d=\"M270 116 L270 89 L353 89 L353 102 L294 102\" fill=\"#545f70\" stroke=\"#172b43\" stroke-width=\"3\"/><circle cx=\"259\" cy=\"83\" r=\"13\" fill=\"none\" stroke=\"#e0a100\" stroke-width=\"6\"/><path d=\"M269 84 L283 99\" stroke=\"#e0a100\" stroke-width=\"5\"/><circle cx=\"278\" cy=\"136\" r=\"18\" fill=\"#fff\" stroke=\"#172b43\" stroke-width=\"3\"/><path d=\"M278 136 L278 122\" stroke=\"#172b43\" stroke-width=\"3\"/><path d=\"M316 123 C411 112 404 205 397 276\" fill=\"none\" stroke=\"#252b35\" stroke-width=\"14\"/><path d=\"M387 270 L407 270 L411 321 L386 321 Z\" fill=\"#242a34\"/><path d=\"M110,45 L259,70\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"259\" cy=\"70\" r=\"5\" fill=\"#172b43\"/><text x=\"90\" y=\"55\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">A</text><path d=\"M102,143 L278,136\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"278\" cy=\"136\" r=\"5\" fill=\"#172b43\"/><text x=\"82\" y=\"153\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">B</text><path d=\"M485,174 L406,190\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"406\" cy=\"190\" r=\"5\" fill=\"#172b43\"/><text x=\"465\" y=\"184\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">C</text><path d=\"M488,310 L400,305\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"400\" cy=\"305\" r=\"5\" fill=\"#172b43\"/><text x=\"468\" y=\"320\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">D</text><path d=\"M98,305 L240,289\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"240\" cy=\"289\" r=\"5\" fill=\"#172b43\"/><text x=\"78\" y=\"315\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">E</text><path d=\"M485,57 L330,95\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"330\" cy=\"95\" r=\"5\" fill=\"#172b43\"/><text x=\"465\" y=\"67\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">F</text></svg>",
-      "caption": "自作の模式図。実物と形状・縮尺が異なる部分があります。",
+      "stem": "図は蓄圧式の粉末消火器の外観図である。記号Fの部分に関する各設問に答えなさい。",
+      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"white\"/><image href=\"https://content.safa-lang.com/fire6/figures/practical_powder.jpg\" x=\"0\" y=\"0\" width=\"600\" height=\"400\"/></svg>",
+      "caption": "教材と共通の画風による自作図です。実物写真ではなく、製品によって形状が異なります。",
       "parts": [
         {
           "id": "name",
-          "prompt": "Eで示す部分の名称を記入しなさい。",
+          "prompt": "Fで示す部分の名称を記入しなさい。",
           "kind": "text",
+          "category": "name",
           "answers": [
-            "本体容器",
-            "消火器本体",
-            "容器"
+            "レバー",
+            "上レバー",
+            "操作レバー"
           ],
-          "explain": "本体容器は、消火薬剤を収容する部分である。"
+          "explain": "レバーは、握る操作で放射を開始する部分である。"
         },
         {
           "id": "function",
           "prompt": "その部分の主な働きを語群から選びなさい。",
           "kind": "symbol",
+          "category": "selection",
           "options": [
             {
               "symbol": "ア",
-              "text": "消火薬剤を収容する"
-            },
-            {
-              "symbol": "イ",
               "text": "握る操作で放射を開始する"
             },
             {
-              "symbol": "ウ",
+              "symbol": "イ",
               "text": "不意にレバーが操作されることを防ぐ"
             },
             {
-              "symbol": "エ",
+              "symbol": "ウ",
               "text": "本体容器内の圧力の状態を示す"
             },
             {
-              "symbol": "オ",
+              "symbol": "エ",
               "text": "消火薬剤をノズルまで導く"
             },
             {
-              "symbol": "カ",
+              "symbol": "オ",
               "text": "消火薬剤を火元に向けて放射する"
+            },
+            {
+              "symbol": "カ",
+              "text": "消火薬剤を収容する"
             }
           ],
           "answers": [
             "ア"
           ],
-          "explain": "本体容器の働きは「消火薬剤を収容する」である。"
+          "explain": "レバーの働きは「握る操作で放射を開始する」である。"
+        },
+        {
+          "id": "reason",
+          "prompt": "蓄圧式消火器が、レバー操作だけで薬剤を放射できる理由を説明しなさい。",
+          "kind": "text",
+          "category": "reason",
+          "answers": [
+            "本体容器内に常時圧力を蓄えており、そのガスの圧力によって消火薬剤を押し出すため。"
+          ],
+          "explain": "本体容器内に常時圧力を蓄えており、そのガスの圧力によって消火薬剤を押し出すため。",
+          "rubric": {
+            "criteria": [
+              {
+                "label": "常時、容器内に圧力を蓄える",
+                "patterns": [
+                  "(容器|内部|本体).{0,12}(常時|あらかじめ|予め).{0,12}(圧力|ガス)",
+                  "(常時|あらかじめ|予め).{0,16}(容器|内部|本体).{0,12}(圧力|ガス)"
+                ]
+              },
+              {
+                "label": "ガスの圧力で薬剤を押し出す",
+                "patterns": [
+                  "(ガス|圧力).{0,18}(薬剤|消火剤).{0,12}(押し出|放射|放出)"
+                ]
+              }
+            ],
+            "contradictions": [
+              "(圧力|ガス).{0,8}(不要|必要ない|蓄えない)",
+              "レバー.{0,10}(初めて|はじめて).{0,12}加圧"
+            ]
+          }
         }
-      ]
+      ],
+      "imageAsset": "powder"
     }
   },
   {
-    "id": "m9-32-practical-v1",
+    "id": "m9-32-practical-v2",
     "chapter": "6",
     "topic": "鑑別等（図解・複数設問）",
     "type": "choice",
@@ -820,25 +854,27 @@
     "source": "教材ベース",
     "reviewed": false,
     "practical": {
-      "stem": "図の消火器には指示圧力計がなく、本体の緑色部分は表面積の2分の1以上を占める。各設問に答えなさい。",
-      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"#fff\"/><rect x=\"215\" y=\"132\" width=\"130\" height=\"230\" rx=\"35\" fill=\"#23965d\" stroke=\"#172b43\" stroke-width=\"4\"/><path d=\"M216 277 H344 V323 H216 Z\" fill=\"#d8383d\"/><rect x=\"263\" y=\"101\" width=\"35\" height=\"32\" fill=\"#777\"/><path d=\"M280 101 V78 H354 V91 H298\" fill=\"#555\" stroke=\"#172b43\" stroke-width=\"3\"/><path d=\"M294 116 C407 100 419 149 420 199\" fill=\"none\" stroke=\"#252b35\" stroke-width=\"13\"/><path d=\"M408 194 H432 L456 300 H385 Z\" fill=\"#272e39\"/><path d=\"M510,315 L423,263\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"423\" cy=\"263\" r=\"5\" fill=\"#172b43\"/><text x=\"490\" y=\"325\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">A</text><path d=\"M105,293 L243,247\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"243\" cy=\"247\" r=\"5\" fill=\"#172b43\"/><text x=\"85\" y=\"303\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">B</text><path d=\"M107,53 L321,84\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"321\" cy=\"84\" r=\"5\" fill=\"#172b43\"/><text x=\"87\" y=\"63\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">C</text><path d=\"M502,122 L400,129\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"400\" cy=\"129\" r=\"5\" fill=\"#172b43\"/><text x=\"482\" y=\"132\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">D</text></svg>",
-      "caption": "自作の模式図。実物と形状・縮尺が異なる部分があります。",
+      "stem": "図の消火器の外観と放射部の形状を観察し、各設問に答えなさい。",
+      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"white\"/><image href=\"https://content.safa-lang.com/fire6/figures/practical_co2.jpg\" x=\"0\" y=\"0\" width=\"600\" height=\"400\"/></svg>",
+      "caption": "教材と共通の画風による自作図です。実物写真ではなく、製品によって形状が異なります。",
       "parts": [
         {
           "id": "name",
           "prompt": "Cで示す部分の名称を記入しなさい。",
           "kind": "text",
+          "category": "name",
           "answers": [
             "レバー",
             "上レバー",
             "操作レバー"
           ],
-          "explain": "大きなラッパ状の放射部がホーンである。図の記号が指す位置を確認する。"
+          "explain": "Cはレバーである。Aはラッパ状の放射ホーン、Bは薬剤を収容する本体容器、Cは操作レバーを指す。"
         },
         {
           "id": "type",
           "prompt": "この消火器の種類を記入しなさい。",
           "kind": "text",
+          "category": "name",
           "answers": [
             "二酸化炭素消火器",
             "CO2消火器",
@@ -850,6 +886,7 @@
           "id": "method",
           "prompt": "薬剤量の確認に用いる測定を選びなさい。",
           "kind": "symbol",
+          "category": "selection",
           "options": [
             {
               "symbol": "ア",
@@ -868,12 +905,44 @@
             "イ"
           ],
           "explain": "二酸化炭素消火器では質量を測定して薬剤量を確認する。"
+        },
+        {
+          "id": "reason",
+          "prompt": "二酸化炭素消火器の放射時に、指定された握り部を持つ理由を説明しなさい。",
+          "kind": "text",
+          "category": "reason",
+          "answers": [
+            "放射によってホーンが低温になるため、指定された握り部を持って凍傷を防ぐ。"
+          ],
+          "explain": "放射によってホーンが低温になるため、指定された握り部を持って凍傷を防ぐ。",
+          "rubric": {
+            "criteria": [
+              {
+                "label": "放射時の低温化",
+                "patterns": [
+                  "(放射|放出|二酸化炭素|co2|ホーン).{0,18}(低温|冷え|冷却|温度.{0,3}下が)"
+                ]
+              },
+              {
+                "label": "凍傷を防ぐ",
+                "patterns": [
+                  "(凍傷|低温やけど).{0,10}(防|避|予防)",
+                  "(防|避).{0,8}凍傷"
+                ]
+              }
+            ],
+            "contradictions": [
+              "(ホーン|放射部).{0,10}(高温|熱く)",
+              "凍傷.{0,8}(起きない|発生しない|しない)"
+            ]
+          }
         }
-      ]
+      ],
+      "imageAsset": "co2"
     }
   },
   {
-    "id": "m9-33-practical-v1",
+    "id": "m9-33-practical-v2",
     "chapter": "6",
     "topic": "鑑別等（図解・複数設問）",
     "type": "choice",
@@ -896,14 +965,15 @@
     "source": "教材ベース",
     "reviewed": false,
     "practical": {
-      "stem": "図は蓄圧式消火器の圧力を確認する部品の模式図である。指針と緑色帯の位置を見て答えなさい。",
-      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"#fff\"/><circle cx=\"300\" cy=\"237\" r=\"125\" fill=\"#f4f6f9\" stroke=\"#172b43\" stroke-width=\"7\"/><path d=\"M192 175 A125 125 0 0 1 408 175\" fill=\"none\" stroke=\"#d8dee7\" stroke-width=\"22\"/><path d=\"M268.87616695736415 151.48797150848233 A91 91 0 0 1 331.12383304263585 151.48797150848236\" fill=\"none\" stroke=\"#23965d\" stroke-width=\"26\"/><path d=\"M300 237 L239.18881681795693 176.1888168179569\" stroke=\"#172b43\" stroke-width=\"6\"/><circle cx=\"300\" cy=\"237\" r=\"9\" fill=\"#172b43\"/><text x=\"164\" y=\"293\" font-size=\"22\" fill=\"#172b43\" font-family=\"sans-serif\">低</text><text x=\"411\" y=\"293\" font-size=\"22\" fill=\"#172b43\" font-family=\"sans-serif\">高</text><path d=\"M80,232 L175,237\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"175\" cy=\"237\" r=\"5\" fill=\"#172b43\"/><text x=\"60\" y=\"242\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">A</text><text x=\"185\" y=\"45\" font-size=\"22\" fill=\"#172b43\" font-family=\"sans-serif\">緑色帯と指針に注目</text></svg>",
-      "caption": "自作の模式図。実物と形状・縮尺が異なる部分があります。",
+      "stem": "図は蓄圧式消火器に取り付けられた部品を拡大したものである。Cの指針と緑色帯の位置を見て答えなさい。",
+      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"white\"/><image href=\"https://content.safa-lang.com/fire6/figures/practical_gauges.jpg\" x=\"0\" y=\"0\" width=\"600\" height=\"400\"/></svg>",
+      "caption": "教材と共通の画風による自作図です。実物写真ではなく、製品によって形状が異なります。",
       "parts": [
         {
           "id": "name",
-          "prompt": "Aで示す部品全体の名称を記入しなさい。",
+          "prompt": "図に示す部品全体の名称を記入しなさい。",
           "kind": "text",
+          "category": "name",
           "answers": [
             "指示圧力計",
             "圧力計",
@@ -915,30 +985,63 @@
           "id": "state",
           "prompt": "図の指針の状態を選びなさい。",
           "kind": "symbol",
+          "category": "selection",
           "options": [
             {
               "symbol": "ア",
-              "text": "緑色範囲の下限より低い"
+              "text": "緑色範囲の上限より高い"
             },
             {
               "symbol": "イ",
-              "text": "緑色範囲内にある"
+              "text": "緑色範囲の下限より低い"
             },
             {
               "symbol": "ウ",
-              "text": "緑色範囲の上限より高い"
+              "text": "緑色範囲内にある"
             }
           ],
           "answers": [
             "ア"
           ],
-          "explain": "指針は「緑色範囲の下限より低い」。緑色範囲外の場合は異常の確認が必要である。"
+          "explain": "指針は「緑色範囲の上限より高い」。緑色範囲外の場合は異常の確認が必要である。"
+        },
+        {
+          "id": "reason",
+          "prompt": "指針が緑色範囲内でも、それだけで消火器全体を正常と判断できない理由を説明しなさい。",
+          "kind": "text",
+          "category": "reason",
+          "answers": [
+            "指示圧力計が示すのは圧力であり、薬剤量やホースの損傷などは別に点検する必要があるため。"
+          ],
+          "explain": "指示圧力計が示すのは圧力であり、薬剤量やホースの損傷などは別に点検する必要があるため。",
+          "rubric": {
+            "criteria": [
+              {
+                "label": "圧力の状態を示す計器である",
+                "patterns": [
+                  "(指示圧力計|圧力計|計器|指針).{0,15}(示す|確認|測る|測定).{0,10}圧力",
+                  "(指示圧力計|圧力計|計器|指針).{0,15}圧力.{0,10}(示|確認|測定)"
+                ]
+              },
+              {
+                "label": "薬剤量や外観等を別に点検する",
+                "patterns": [
+                  "(薬剤量|ホース|損傷|腐食|外観|ノズル).{0,18}(別に|別途|点検|確認)"
+                ]
+              }
+            ],
+            "contradictions": [
+              "(全体|すべて|全て).{0,8}(正常である|正常と判断できる)",
+              "(他|ほか|別).{0,8}点検.{0,8}(不要|必要ない)"
+            ]
+          }
         }
-      ]
+      ],
+      "imageAsset": "gauges"
     }
   },
   {
-    "id": "m9-34-practical-v1",
+    "id": "m9-34-practical-v2",
     "chapter": "6",
     "topic": "鑑別等（図解・複数設問）",
     "type": "choice",
@@ -961,14 +1064,15 @@
     "source": "教材ベース",
     "reviewed": false,
     "practical": {
-      "stem": "図は消火器のキャップとかん合部の断面を単純化したものである。各設問に答えなさい。",
-      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"#fff\"/><path d=\"M148 274 V151 H440 V274 H398 V200 H190 V274 Z\" fill=\"#bec8d4\" stroke=\"#172b43\" stroke-width=\"4\"/><path d=\"M190 201 H398 V355 H365 V235 H224 V355 H190 Z\" fill=\"#e5eaf0\" stroke=\"#172b43\" stroke-width=\"4\"/><path d=\"M151 218 H190 M151 235 H190 M398 218 H437 M398 235 H437\" stroke=\"#172b43\" stroke-width=\"3\"/><rect x=\"398\" y=\"246\" width=\"42\" height=\"13\" fill=\"#fff\"/><path d=\"M398 246 H440 M398 259 H440\" stroke=\"#172b43\" stroke-width=\"3\"/><path d=\"M85,59 L300,161\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"300\" cy=\"161\" r=\"5\" fill=\"#172b43\"/><text x=\"65\" y=\"69\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">A</text><path d=\"M512,282 L424,252\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"424\" cy=\"252\" r=\"5\" fill=\"#172b43\"/><text x=\"492\" y=\"292\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">B</text><text x=\"160\" y=\"389\" font-size=\"18\" fill=\"#172b43\" font-family=\"sans-serif\">かん合部を拡大した断面模式図</text></svg>",
-      "caption": "自作の模式図。実物と形状・縮尺が異なる部分があります。",
+      "stem": "図は消火器の口金から取り外した部品の外観を示す。Bは側面に設けられた孔である。各設問に答えなさい。",
+      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"white\"/><image href=\"https://content.safa-lang.com/fire6/figures/practical_cap.jpg\" x=\"0\" y=\"0\" width=\"600\" height=\"400\"/></svg>",
+      "caption": "教材と共通の画風による自作図です。実物写真ではなく、製品によって形状が異なります。",
       "parts": [
         {
           "id": "name",
           "prompt": "Aの部品名を記入しなさい。",
           "kind": "text",
+          "category": "name",
           "answers": [
             "キャップ",
             "消火器キャップ"
@@ -979,6 +1083,7 @@
           "id": "hole",
           "prompt": "Bの孔の名称を記入しなさい。",
           "kind": "text",
+          "category": "name",
           "answers": [
             "減圧孔",
             "減圧穴",
@@ -990,30 +1095,64 @@
           "id": "function",
           "prompt": "Bの主な目的を選びなさい。",
           "kind": "symbol",
+          "category": "selection",
           "options": [
             {
               "symbol": "ア",
-              "text": "消火薬剤を火元へ放射する"
-            },
-            {
-              "symbol": "イ",
               "text": "薬剤量を目視で測定する"
             },
             {
-              "symbol": "ウ",
+              "symbol": "イ",
               "text": "キャップを外す途中で内部圧力を逃がす"
+            },
+            {
+              "symbol": "ウ",
+              "text": "消火薬剤を火元へ放射する"
             }
           ],
           "answers": [
-            "ウ"
+            "イ"
           ],
           "explain": "キャップ等には取り外す途中で有効に減圧できる構造が必要である。実際の分解・整備は有資格者が適切な手順で行う。"
+        },
+        {
+          "id": "reason",
+          "prompt": "内部に圧力が残ったままキャップを外すと、どのような危険があるか説明しなさい。",
+          "kind": "text",
+          "category": "reason",
+          "answers": [
+            "容器内の残圧によってキャップが飛び出し、人に当たってけがをする危険がある。"
+          ],
+          "explain": "容器内の残圧によってキャップが飛び出し、人に当たってけがをする危険がある。",
+          "rubric": {
+            "criteria": [
+              {
+                "label": "残圧によるキャップの飛び出し",
+                "patterns": [
+                  "(残圧|内部.{0,3}圧力|容器内.{0,3}圧力).{0,18}キャップ.{0,10}(飛|吹き飛)"
+                ]
+              },
+              {
+                "label": "人への衝突・けが",
+                "patterns": [
+                  "(人|身体|顔).{0,8}(当た|衝突)",
+                  "(けが|怪我|負傷|傷害).{0,10}(する|危険|おそれ|恐れ)",
+                  "(けが|怪我|負傷)を(負|招)"
+                ]
+              }
+            ],
+            "contradictions": [
+              "キャップ.{0,10}(飛び出さない|飛ばない)",
+              "(けが|怪我).{0,5}(しない|ない)"
+            ]
+          }
         }
-      ]
+      ],
+      "imageAsset": "cap"
     }
   },
   {
-    "id": "m9-35-practical-v1",
+    "id": "m9-35-practical-v2",
     "chapter": "6",
     "topic": "鑑別等（図解・複数設問）",
     "type": "choice",
@@ -1036,49 +1175,82 @@
     "source": "教材ベース",
     "reviewed": false,
     "practical": {
-      "stem": "図は消火器の点検・整備に使う器具の模式図である。記号Aに関する各設問に答えなさい。",
-      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"#fff\"/><path d=\"M65 156 H220 V178 H65 Z M91 156 V91 H117 V156 M177 156 V91 H201 V156\" fill=\"#737f90\" stroke=\"#172b43\" stroke-width=\"3\"/><path d=\"M117 117 L145 135 L177 117 M145 135 V91 M131 91 H161\" fill=\"none\" stroke=\"#172b43\" stroke-width=\"6\"/><path d=\"M378 113 A49 49 0 1 1 411 60 M378 113 L458 180\" stroke=\"#647387\" stroke-width=\"15\" fill=\"none\"/><rect x=\"74\" y=\"302\" width=\"156\" height=\"53\" rx=\"8\" fill=\"#bcc9d9\" stroke=\"#172b43\" stroke-width=\"3\"/><rect x=\"107\" y=\"255\" width=\"88\" height=\"47\" rx=\"8\" fill=\"#d8383d\"/><rect x=\"126\" y=\"320\" width=\"55\" height=\"21\" fill=\"#fff\" stroke=\"#172b43\"/><circle cx=\"411\" cy=\"286\" r=\"51\" fill=\"#fff\" stroke=\"#172b43\" stroke-width=\"6\"/><path d=\"M411 286 L428 253 M411 337 V365\" stroke=\"#172b43\" stroke-width=\"5\"/><text x=\"50\" y=\"52\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">A</text><text x=\"326\" y=\"52\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">B</text><text x=\"50\" y=\"238\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">C</text><text x=\"326\" y=\"238\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">D</text></svg>",
-      "caption": "自作の模式図。実物と形状・縮尺が異なる部分があります。",
+      "stem": "図は消火器の点検・整備に使う器具の外観図である。記号Bに関する各設問に答えなさい。",
+      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"white\"/><image href=\"https://content.safa-lang.com/fire6/figures/practical_tools.jpg\" x=\"0\" y=\"0\" width=\"600\" height=\"400\"/></svg>",
+      "caption": "教材と共通の画風による自作図です。実物写真ではなく、製品によって形状が異なります。",
       "parts": [
         {
           "id": "name",
-          "prompt": "Aの器具名を記入しなさい。",
+          "prompt": "Bの器具名を記入しなさい。",
           "kind": "text",
+          "category": "name",
           "answers": [
-            "クランプ台",
-            "消火器クランプ台",
-            "クランプ"
+            "キャップスパナ",
+            "キャップ用スパナ"
           ],
-          "explain": "クランプ台は「本体容器を固定する」ための器具である。"
+          "explain": "キャップスパナは「キャップを回して開閉する」ための器具である。"
         },
         {
           "id": "purpose",
           "prompt": "その器具の用途を語群から選びなさい。",
           "kind": "symbol",
+          "category": "selection",
           "options": [
             {
               "symbol": "ア",
-              "text": "本体容器を固定する"
-            },
-            {
-              "symbol": "イ",
               "text": "キャップを回して開閉する"
             },
             {
-              "symbol": "ウ",
+              "symbol": "イ",
               "text": "消火器の質量を測る"
             },
             {
-              "symbol": "エ",
+              "symbol": "ウ",
               "text": "指示圧力計の指示を比較点検する"
+            },
+            {
+              "symbol": "エ",
+              "text": "本体容器を固定する"
             }
           ],
           "answers": [
             "ア"
           ],
-          "explain": "名称と用途を対応させる。クランプ台は「本体容器を固定する」。"
+          "explain": "名称と用途を対応させる。キャップスパナは「キャップを回して開閉する」。"
+        },
+        {
+          "id": "reason",
+          "prompt": "消火器のキャップを取り外す整備では、なぜ先に内部圧力の有無を確認する必要があるか説明しなさい。",
+          "kind": "text",
+          "category": "reason",
+          "answers": [
+            "内部に残圧があると、キャップが飛び出してけがをする危険があるため。"
+          ],
+          "explain": "内部に残圧があると、キャップが飛び出してけがをする危険があるため。",
+          "rubric": {
+            "criteria": [
+              {
+                "label": "残圧がある可能性を考える",
+                "patterns": [
+                  "(内部|容器|本体).{0,10}(残圧|圧力.{0,5}残)",
+                  "(内部に)?残圧がある"
+                ]
+              },
+              {
+                "label": "キャップの飛び出しによる危険",
+                "patterns": [
+                  "キャップ.{0,10}(飛|吹き飛).{0,15}(けが|怪我|危険|負傷)"
+                ]
+              }
+            ],
+            "contradictions": [
+              "(残圧|圧力).{0,8}(確認不要|関係ない)",
+              "キャップ.{0,10}(飛び出さない|飛ばない)"
+            ]
+          }
         }
-      ]
+      ],
+      "imageAsset": "tools"
     }
   }
 ]

@@ -1,22 +1,41 @@
-<!doctype html><meta charset="utf-8"><title>鑑別問題の形式と採点</title>
-<style>body{font:16px/1.8 system-ui;max-width:900px;margin:30px auto;padding:0 20px}pre{background:#eef3f7;padding:16px;white-space:pre-wrap}</style>
-<h1>鑑別問題の形式と採点</h1>
-<p>模試12回の各5大問、計60大問を図付き・複数小問の形式に変更。小問は計143問。名称や計算結果の記述入力、語群からの記号選択を組み合わせる。模式図は自作SVGで同梱・R2配信のJSONに含め、外部の画像ダウンロードを待たずに表示できる。タップで拡大し、拡大画面は左右にスクロールできる。</p>
-<p>筆記は従来の30問、鑑別は5大問を維持する。鑑別は各小問1点の練習用部分点で集計し、筆記と分けて表示する。本番の小問配点・採点基準を再現したものではない。合格目安は筆記全体60%以上・各科目40%以上と鑑別60%以上を別々に確認する。法令は第1・2章、基礎は第3章、構造・規格は第4・5章で集計する。</p>
-<p>記述はUnicode NFKC・空白・大文字小文字などを正規化し、登録済みの解答・別名と照合する。自由な文章の意味をAIで判断する仕組みではない。未記入は不正解。名称の否定や無関係な語を含む解答を部分一致で正解にしない。解答後は各小問の正誤・解答例・解説を表示する。</p>
-<p>鑑別の問題IDには practical-v1 を付け、旧選択式の履歴と混在させない。新しい問題の部分点は端末に保存し、未満点の大問を弱点復習に含める。従来の筆記履歴は維持する。旧クライアント向けのchoiceフィールドは互換用に残し、新UIではpracticalフィールドを優先する。旧UIは従来の選択式を表示できる。試験中の評価依頼は発動させず、30秒以上の学習後の終了・途中離脱という既存条件を維持する。</p>
-<h2>生成・確認</h2>
-<p>問題と図の正本は tools/gen_practical_questions.py。教材本文Markdownとその生成処理は変更しない。公式問題の写真・図版を転載せず、出題形式のみ参照したオリジナル問題を使用する。</p>
-<pre>python tools/gen_practical_questions.py
+<!doctype html><meta charset="utf-8"><title>鑑別問題のレビューと採点</title>
+<style>body{font:16px/1.8 system-ui;max-width:950px;margin:30px auto;padding:0 20px}table{border-collapse:collapse}td,th{border:1px solid #ccd7df;padding:10px}pre{white-space:pre-wrap;background:#edf3f7;padding:16px}</style>
+<h1>鑑別問題のレビューと採点（2026-11-03）</h1>
+<p>模試12回・60大問をレビューし、教材と同じ白背景・3Dレンダ調・紺色の記号で6枚の共通図版を新規作成。計算図は共通配色の2Dで7条件を生成する。全大問の画像・記号・解答対応は<a href="practical-figures-review.html">全60大問の一覧</a>で確認できる。60枚の異なる写真ではなく、図版を共有しながら対象部品・状態・数値を変える。</p>
+<h2>本番との対応</h2>
+<table><tr><th>項目</th><th>アプリ</th><th>本番との違い</th></tr>
+<tr><td>筆記</td><td>各回30問、全問四肢択一。共通法令6・類別法令4・基礎5・構造機能整備9・規格6。</td><td>本番はマークシート。アプリはタップ回答。提出までは正誤・解説を表示しない。</td></tr>
+<tr><td>鑑別</td><td>5大問、図＋複数小問。名称・数値・文章記述と記号選択。</td><td>本番は解答用紙への記述。自作図であり写真による識別、全出題範囲、難易度、公式配点を完全再現するものではない。</td></tr>
+<tr><td>時間</td><td>105分または時間制限なし。</td><td>時間切れで自動提出。解説は提出後に確認する。</td></tr></table>
+<p>筆記360問の内容は変更せず、問題数・4選択肢・科目配分を全12回で検証した。筆記の全解答について専門家による内容監修を実施したという意味ではない。</p>
+<h2>模試の進行</h2><p>筆記・鑑別とも提出まで採点結果・解説を表示しない。問題番号による移動、前後移動、見直しマーク、解答の変更・取消しに対応。未解答を残した提出には確認を表示し、未解答は0点。105分経過時は、直前までに入力した現在の問題を含めて自動提出。期限後の入力は受け付けない。成績は提出時に一度だけ保存する。採点結果から各問題の解答・解説を確認できる。</p><h2>発見と修正</h2>
+<ul><li>立体物を単純な図形で表していた問題を、既存教材の画風に合わせて作り直した。部品名を答える図に解答の名称は入れない。</li>
+<li>不明瞭なキャップ断面を、内ねじと側面の孔を識別できる外観に変更。部品名のヒントになる表題も削除。</li>
+<li>圧力計は低圧・緑色範囲内・高圧を同じ図に並べ、設問で対象記号を指定。</li>
+<li>工具と部品の生成順の偏りを修正。全6部品・4工具が出題される。</li>
+<li>独自の適応火災マークを廃止し、木材・油・通電中の電気設備の火災状況で区分を問う。</li>
+<li>計算図から「差が薬剤量」「端数を切り上げる」等の解法のヒントを削除。総質量と薬剤を除く質量は設問文に明記。</li>
+<li>古い「択一式だけ」のアプリ内案内を修正。</li></ul>
+<h2>端末内での記述評価</h2>
+<p>全203小問：名称62・計算21・文章説明60・記号選択60。名称・数値・記号は各1点、説明は2要点×1点、計263点（全12回の合計）の練習用採点。公式配点ではない。</p>
+<p>名称・数値は登録した表記との照合。文章は要点ごとに登録した表現との一致を確認する。AI、通信、外部への回答送信は使わない。意味全体を理解する採点ではない。未確認の言い換え、矛盾・否定を含む文章は「要確認」とし、解答例と確認項目を表示する。否定を含む正しい説明も自動確認できない場合がある。点数は確認できた要点の参考点であり、不正解と断定しない。要点一致でも文章全体の正しさは保証しない。</p>
+<p>総合評価は筆記・鑑別を分け、鑑別内を名称・計算・説明・記号選択に分ける。未解答も分母に含む。自己確認件数を表示する。回答文・部分点・項目別評価を端末内の履歴に保存し、成績や復習から再確認できる。別の採点方式を用いた履歴と混ぜないためIDをpractical-v2とし、評価バージョン2の履歴だけを採用する。</p>
+<h2>画像規格・生成元</h2>
+<p>共通規格：<a href="../figures-tools/image-style.json">image-style.json</a>。実物の形状を問う図は既存のstyle_a_3d、計算・配置はstyle_b_2d。新規PNG正本は1536×1024、配信用JPEGは同解像度・品質92・色差間引きなし。縮小引き伸ばし・切り抜きはしない。既存の教材209画像は今回描き直していない。</p>
+<p>PNG正本はdocs/practical-masters/、生成は組み込みimage_gen。<a href="practical-masters/prompts.json">全生成プロンプトと参照画像</a>。既存画像を画風の参照に使用し、公式問題の写真・図版は転載していない。</p>
+<p>新UIは6図をExpo更新に同梱しオフライン表示。旧SvgXml UI用には同じ図のR2 URLを残す（通信が必要）。旧UIでは文章の要点採点は使えないため、JS更新も必要。教材本文の正本Markdownは今回変更していない。</p>
+<pre>python tools/build_practical_images.py
+python tools/gen_practical_questions.py
 python tools/gen_practical_questions.py --check
 python tools/gen_bundled.py
 python tools/content_manifest.py
-npm run tsc
-node tools/test_practical.cjs</pre>
-<p><a href="practical-figures-review.html">図の一覧</a>。テストは全60大問・143小問の定義、解答の表記揺れ、空欄、部分点、科目別判定、履歴再読み込み、実装コンポーネントの解答前・採点後・復習表示を確認する。tmp/practical-ui-preview.html は実装をHTMLホストに変換した表示確認用で、iOS実機撮影ではない。実機での入力・キーボード・拡大・時間切れの操作確認は別途必要。</p>
-<h2>形式・知識の確認資料</h2>
-<ul><li><a href="https://www.shoubo-shiken.or.jp/pdf_files/shoubou_otsu.pdf">消防試験研究センター：公開問題（形式の確認のみ）</a></li>
-<li><a href="https://www.shoubo-shiken.or.jp/shoubou/annai/subject.html">消防試験研究センター：科目と問題数</a></li>
-<li><a href="https://www.yamatoprotec.co.jp/wp/wp-content/uploads/products_about_catalog_pdf08.pdf">ヤマトプロテック：消火器テクノブック（圧力計・器具・点検）</a></li>
-<li><a href="https://www.fdma.go.jp/laws/tutatsu/assets/271228_yo486.pdf">消防庁：消火器の点検方法等</a></li>
-<li><a href="https://laws.e-gov.go.jp/law/339M50000008027/">消火器の技術上の規格を定める省令</a></li></ul>
+node tools/test_practical.cjs
+npm run tsc</pre>
+<p>テスト：全60大問203小問、263点の配点、解答の表記揺れ、空欄、要点の部分一致、否定・単語羅列、項目別集計、履歴再読み込み、旧採点の排除、回答文の再表示。図の全6枚と全条件の一覧、実装コンポーネントのスマホ幅・ライト/ダーク表示を確認。HTMLホストによる表示確認であり、iPhone実機での入力・キーボード操作の確認とは異なる。</p>
+<h2>参照資料</h2><ul>
+<li><a href="https://www.shoubo-shiken.or.jp/pdf_files/shoubou_otsu.pdf">消防試験研究センター・公開問題（出題形式の参照）</a></li>
+<li><a href="https://www.shoubo-shiken.or.jp/shoubou/annai/subject.html">試験科目及び問題数</a></li>
+<li><a href="https://www.shoubo-shiken.or.jp/shoubou/annai/way.html">試験の方法</a></li>
+<li><a href="https://www.fdma.go.jp/laws/tutatsu/assets/271228_yo486.pdf">消防庁・消火器の点検方法等</a></li>
+<li><a href="https://laws.e-gov.go.jp/law/339M50000008027/">消火器の技術上の規格を定める省令</a></li>
+<li><a href="https://www.syoubounet.jp/akita/pdf/tenkenkiki.pdf">点検機器・工具一覧（器具の用途）</a></li></ul>

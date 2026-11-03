@@ -720,7 +720,7 @@
     "reviewed": false
   },
   {
-    "id": "m10-31-practical-v1",
+    "id": "m10-31-practical-v2",
     "chapter": "6",
     "topic": "鑑別等（図解・複数設問）",
     "type": "choice",
@@ -743,14 +743,15 @@
     "source": "教材ベース",
     "reviewed": false,
     "practical": {
-      "stem": "図は消火器のキャップとかん合部の断面を単純化したものである。各設問に答えなさい。",
-      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"#fff\"/><path d=\"M148 274 V151 H440 V274 H398 V200 H190 V274 Z\" fill=\"#bec8d4\" stroke=\"#172b43\" stroke-width=\"4\"/><path d=\"M190 201 H398 V355 H365 V235 H224 V355 H190 Z\" fill=\"#e5eaf0\" stroke=\"#172b43\" stroke-width=\"4\"/><path d=\"M151 218 H190 M151 235 H190 M398 218 H437 M398 235 H437\" stroke=\"#172b43\" stroke-width=\"3\"/><rect x=\"398\" y=\"246\" width=\"42\" height=\"13\" fill=\"#fff\"/><path d=\"M398 246 H440 M398 259 H440\" stroke=\"#172b43\" stroke-width=\"3\"/><path d=\"M85,59 L300,161\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"300\" cy=\"161\" r=\"5\" fill=\"#172b43\"/><text x=\"65\" y=\"69\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">A</text><path d=\"M512,282 L424,252\" stroke=\"#172b43\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"424\" cy=\"252\" r=\"5\" fill=\"#172b43\"/><text x=\"492\" y=\"292\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">B</text><text x=\"160\" y=\"389\" font-size=\"18\" fill=\"#172b43\" font-family=\"sans-serif\">かん合部を拡大した断面模式図</text></svg>",
-      "caption": "自作の模式図。実物と形状・縮尺が異なる部分があります。",
+      "stem": "図は消火器の口金から取り外した部品の外観を示す。Bは側面に設けられた孔である。各設問に答えなさい。",
+      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"white\"/><image href=\"https://content.safa-lang.com/fire6/figures/practical_cap.jpg\" x=\"0\" y=\"0\" width=\"600\" height=\"400\"/></svg>",
+      "caption": "教材と共通の画風による自作図です。実物写真ではなく、製品によって形状が異なります。",
       "parts": [
         {
           "id": "name",
           "prompt": "Aの部品名を記入しなさい。",
           "kind": "text",
+          "category": "name",
           "answers": [
             "キャップ",
             "消火器キャップ"
@@ -761,6 +762,7 @@
           "id": "hole",
           "prompt": "Bの孔の名称を記入しなさい。",
           "kind": "text",
+          "category": "name",
           "answers": [
             "減圧孔",
             "減圧穴",
@@ -772,6 +774,7 @@
           "id": "function",
           "prompt": "Bの主な目的を選びなさい。",
           "kind": "symbol",
+          "category": "selection",
           "options": [
             {
               "symbol": "ア",
@@ -790,12 +793,45 @@
             "ア"
           ],
           "explain": "キャップ等には取り外す途中で有効に減圧できる構造が必要である。実際の分解・整備は有資格者が適切な手順で行う。"
+        },
+        {
+          "id": "reason",
+          "prompt": "内部に圧力が残ったままキャップを外すと、どのような危険があるか説明しなさい。",
+          "kind": "text",
+          "category": "reason",
+          "answers": [
+            "容器内の残圧によってキャップが飛び出し、人に当たってけがをする危険がある。"
+          ],
+          "explain": "容器内の残圧によってキャップが飛び出し、人に当たってけがをする危険がある。",
+          "rubric": {
+            "criteria": [
+              {
+                "label": "残圧によるキャップの飛び出し",
+                "patterns": [
+                  "(残圧|内部.{0,3}圧力|容器内.{0,3}圧力).{0,18}キャップ.{0,10}(飛|吹き飛)"
+                ]
+              },
+              {
+                "label": "人への衝突・けが",
+                "patterns": [
+                  "(人|身体|顔).{0,8}(当た|衝突)",
+                  "(けが|怪我|負傷|傷害).{0,10}(する|危険|おそれ|恐れ)",
+                  "(けが|怪我|負傷)を(負|招)"
+                ]
+              }
+            ],
+            "contradictions": [
+              "キャップ.{0,10}(飛び出さない|飛ばない)",
+              "(けが|怪我).{0,5}(しない|ない)"
+            ]
+          }
         }
-      ]
+      ],
+      "imageAsset": "cap"
     }
   },
   {
-    "id": "m10-32-practical-v1",
+    "id": "m10-32-practical-v2",
     "chapter": "6",
     "topic": "鑑別等（図解・複数設問）",
     "type": "choice",
@@ -818,14 +854,15 @@
     "source": "教材ベース",
     "reviewed": false,
     "practical": {
-      "stem": "図は消火器の点検・整備に使う器具の模式図である。記号Cに関する各設問に答えなさい。",
-      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"#fff\"/><path d=\"M65 156 H220 V178 H65 Z M91 156 V91 H117 V156 M177 156 V91 H201 V156\" fill=\"#737f90\" stroke=\"#172b43\" stroke-width=\"3\"/><path d=\"M117 117 L145 135 L177 117 M145 135 V91 M131 91 H161\" fill=\"none\" stroke=\"#172b43\" stroke-width=\"6\"/><path d=\"M378 113 A49 49 0 1 1 411 60 M378 113 L458 180\" stroke=\"#647387\" stroke-width=\"15\" fill=\"none\"/><rect x=\"74\" y=\"302\" width=\"156\" height=\"53\" rx=\"8\" fill=\"#bcc9d9\" stroke=\"#172b43\" stroke-width=\"3\"/><rect x=\"107\" y=\"255\" width=\"88\" height=\"47\" rx=\"8\" fill=\"#d8383d\"/><rect x=\"126\" y=\"320\" width=\"55\" height=\"21\" fill=\"#fff\" stroke=\"#172b43\"/><circle cx=\"411\" cy=\"286\" r=\"51\" fill=\"#fff\" stroke=\"#172b43\" stroke-width=\"6\"/><path d=\"M411 286 L428 253 M411 337 V365\" stroke=\"#172b43\" stroke-width=\"5\"/><text x=\"50\" y=\"52\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">A</text><text x=\"326\" y=\"52\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">B</text><text x=\"50\" y=\"238\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">C</text><text x=\"326\" y=\"238\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">D</text></svg>",
-      "caption": "自作の模式図。実物と形状・縮尺が異なる部分があります。",
+      "stem": "図は消火器の点検・整備に使う器具の外観図である。記号Cに関する各設問に答えなさい。",
+      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"white\"/><image href=\"https://content.safa-lang.com/fire6/figures/practical_tools.jpg\" x=\"0\" y=\"0\" width=\"600\" height=\"400\"/></svg>",
+      "caption": "教材と共通の画風による自作図です。実物写真ではなく、製品によって形状が異なります。",
       "parts": [
         {
           "id": "name",
           "prompt": "Cの器具名を記入しなさい。",
           "kind": "text",
+          "category": "name",
           "answers": [
             "はかり",
             "秤",
@@ -840,6 +877,7 @@
           "id": "purpose",
           "prompt": "その器具の用途を語群から選びなさい。",
           "kind": "symbol",
+          "category": "selection",
           "options": [
             {
               "symbol": "ア",
@@ -862,12 +900,44 @@
             "ア"
           ],
           "explain": "名称と用途を対応させる。はかりは「消火器の質量を測る」。"
+        },
+        {
+          "id": "reason",
+          "prompt": "消火器のキャップを取り外す整備では、なぜ先に内部圧力の有無を確認する必要があるか説明しなさい。",
+          "kind": "text",
+          "category": "reason",
+          "answers": [
+            "内部に残圧があると、キャップが飛び出してけがをする危険があるため。"
+          ],
+          "explain": "内部に残圧があると、キャップが飛び出してけがをする危険があるため。",
+          "rubric": {
+            "criteria": [
+              {
+                "label": "残圧がある可能性を考える",
+                "patterns": [
+                  "(内部|容器|本体).{0,10}(残圧|圧力.{0,5}残)",
+                  "(内部に)?残圧がある"
+                ]
+              },
+              {
+                "label": "キャップの飛び出しによる危険",
+                "patterns": [
+                  "キャップ.{0,10}(飛|吹き飛).{0,15}(けが|怪我|危険|負傷)"
+                ]
+              }
+            ],
+            "contradictions": [
+              "(残圧|圧力).{0,8}(確認不要|関係ない)",
+              "キャップ.{0,10}(飛び出さない|飛ばない)"
+            ]
+          }
         }
-      ]
+      ],
+      "imageAsset": "tools"
     }
   },
   {
-    "id": "m10-33-practical-v1",
+    "id": "m10-33-practical-v2",
     "chapter": "6",
     "topic": "鑑別等（図解・複数設問）",
     "type": "choice",
@@ -890,34 +960,37 @@
     "source": "教材ベース",
     "reviewed": false,
     "practical": {
-      "stem": "図の条件だけを用いて必要な能力単位と本数を計算しなさい。面積による緩和・付加能力・歩行距離等の条件は考慮しない。端数は切り上げる。",
-      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"#fff\"/><rect x=\"68\" y=\"70\" width=\"462\" height=\"215\" fill=\"#eef5fb\" stroke=\"#172b43\" stroke-width=\"4\"/><path d=\"M271 285 H331\" stroke=\"#fff\" stroke-width=\"8\"/><text x=\"110\" y=\"132\" font-size=\"32\" fill=\"#172b43\" font-family=\"sans-serif\">床面積 2700 m²</text><text x=\"110\" y=\"196\" font-size=\"27\" fill=\"#172b43\" font-family=\"sans-serif\">算定基準面積 100 m²</text><text x=\"110\" y=\"248\" font-size=\"19\" fill=\"#172b43\" font-family=\"sans-serif\">面積の緩和・付加能力は考慮しない</text><text x=\"100\" y=\"340\" font-size=\"25\" fill=\"#172b43\" font-family=\"sans-serif\">設置する消火器：能力単位 4 ／本</text></svg>",
-      "caption": "自作の模式図。実物と形状・縮尺が異なる部分があります。",
+      "stem": "図の階に設置する消火器について、必要な能力単位と最少本数を求めなさい。算定基準面積は図示の値とし、面積の緩和・付加能力・歩行距離による追加設置は考慮しない。",
+      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"white\"/><rect x=\"44\" y=\"32\" width=\"512\" height=\"203\" fill=\"#f1f7fc\"/><path d=\"M250 235 H44 V32 H556 V235 H348\" fill=\"none\" stroke=\"#103e63\" stroke-width=\"4\"/><path d=\"M250 235 V165 M250 165 A70 70 0 0 1 320 235\" fill=\"none\" stroke=\"#7394ad\" stroke-width=\"2\"/><text x=\"189\" y=\"100\" font-size=\"28\" fill=\"#103e63\" font-family=\"sans-serif\">対象となる階</text><text x=\"145\" y=\"158\" font-size=\"34\" fill=\"#103e63\" font-family=\"sans-serif\">床面積 600 m²</text><text x=\"50\" y=\"294\" font-size=\"25\" fill=\"#103e63\" font-family=\"sans-serif\">算定基準面積：100 m²</text><text x=\"50\" y=\"346\" font-size=\"25\" fill=\"#103e63\" font-family=\"sans-serif\">消火器1本の能力単位：4</text></svg>",
+      "caption": "教材と共通の画風による自作図です。実物写真ではなく、製品によって形状が異なります。",
       "parts": [
         {
           "id": "ability",
           "prompt": "必要な能力単位を整数で記入しなさい。",
           "kind": "text",
+          "category": "calculation",
           "answers": [
-            "27",
-            "27単位"
+            "6",
+            "6単位"
           ],
-          "explain": "2700÷100=27。切り上げて27単位。"
+          "explain": "600÷100=6。切り上げて6単位。"
         },
         {
           "id": "count",
           "prompt": "図の消火器を用いる場合の最少本数を記入しなさい。",
           "kind": "text",
+          "category": "calculation",
           "answers": [
-            "7",
-            "7本"
+            "2",
+            "2本"
           ],
-          "explain": "27÷4を切り上げ、7本となる。実際の設置は面積以外の条件も確認する。"
+          "explain": "6÷4を切り上げ、2本となる。実際の設置は面積以外の条件も確認する。"
         },
         {
           "id": "round",
           "prompt": "計算で整数未満の端数が出る場合の処理を選びなさい。",
           "kind": "symbol",
+          "category": "selection",
           "options": [
             {
               "symbol": "ア",
@@ -935,13 +1008,44 @@
           "answers": [
             "イ"
           ],
-          "explain": "必要量を下回らないよう、ここでは問題の条件に従って切り上げる。"
+          "explain": "必要量を下回る端数処理はできない。必要能力単位と本数は、整数未満の端数を切り上げる。"
+        },
+        {
+          "id": "reason",
+          "prompt": "最少本数の計算で、小数点以下を切り捨ててはいけない理由を説明しなさい。",
+          "kind": "text",
+          "category": "reason",
+          "answers": [
+            "切り捨てると設置する消火器の能力単位の合計が必要量を下回るため、端数を切り上げる。"
+          ],
+          "explain": "切り捨てると設置する消火器の能力単位の合計が必要量を下回るため、端数を切り上げる。",
+          "rubric": {
+            "criteria": [
+              {
+                "label": "切り捨てると必要量を下回る",
+                "patterns": [
+                  "切り捨て.{0,30}(必要量|必要.{0,5}能力|能力単位).{0,12}(下回|不足|満たせない)",
+                  "切り捨て.{0,25}(不足|下回)"
+                ]
+              },
+              {
+                "label": "端数を切り上げる",
+                "patterns": [
+                  "(端数|小数|本数).{0,10}切り上げ"
+                ]
+              }
+            ],
+            "contradictions": [
+              "(切り捨て|四捨五入).{0,8}(よい|良い|問題ない|十分)",
+              "切り上げ.{0,5}(ない|不要)"
+            ]
+          }
         }
       ]
     }
   },
   {
-    "id": "m10-34-practical-v1",
+    "id": "m10-34-practical-v2",
     "chapter": "6",
     "topic": "鑑別等（図解・複数設問）",
     "type": "choice",
@@ -964,51 +1068,85 @@
     "source": "教材ベース",
     "reviewed": false,
     "practical": {
-      "stem": "図の二酸化炭素消火器について、記載された質量だけを用いて答えなさい。容器・弁等の質量には薬剤を含まない。",
-      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"#fff\"/><rect x=\"80\" y=\"92\" width=\"98\" height=\"177\" rx=\"26\" fill=\"#23965d\" stroke=\"#172b43\" stroke-width=\"3\"/><rect x=\"81\" y=\"210\" width=\"96\" height=\"40\" fill=\"#d8383d\"/><rect x=\"115\" y=\"69\" width=\"30\" height=\"25\" fill=\"#666\"/><rect x=\"48\" y=\"270\" width=\"167\" height=\"75\" rx=\"8\" fill=\"#c4cdda\" stroke=\"#172b43\" stroke-width=\"3\"/><rect x=\"77\" y=\"290\" width=\"107\" height=\"33\" fill=\"#fff\"/><text x=\"86\" y=\"315\" font-size=\"23\" fill=\"#172b43\" font-family=\"sans-serif\">10 kg</text><text x=\"252\" y=\"123\" font-size=\"27\" fill=\"#172b43\" font-family=\"sans-serif\">二酸化炭素消火器</text><text x=\"252\" y=\"186\" font-size=\"23\" fill=\"#172b43\" font-family=\"sans-serif\">現在の総質量：10 kg</text><text x=\"252\" y=\"243\" font-size=\"21\" fill=\"#172b43\" font-family=\"sans-serif\">容器・弁等の質量：8 kg</text><text x=\"252\" y=\"292\" font-size=\"19\" fill=\"#172b43\" font-family=\"sans-serif\">差が現在の薬剤質量である</text></svg>",
-      "caption": "自作の模式図。実物と形状・縮尺が異なる部分があります。",
+      "stem": "図の二酸化炭素消火器を測定したところ、総質量は15kgであった。薬剤を除いた容器・弁等の質量は8kgである。これらの測定値を用いて答えなさい。",
+      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"white\"/><image href=\"https://content.safa-lang.com/fire6/figures/practical_co2.jpg\" x=\"0\" y=\"0\" width=\"600\" height=\"400\"/></svg>",
+      "caption": "教材と共通の画風による自作図です。実物写真ではなく、製品によって形状が異なります。",
       "parts": [
         {
           "id": "charge",
           "prompt": "現在の薬剤質量をkg単位で記入しなさい。",
           "kind": "text",
+          "category": "calculation",
           "answers": [
-            "2",
-            "2.0",
-            "2kg",
-            "2.0kg",
-            "2キログラム"
+            "7",
+            "7.0",
+            "7kg",
+            "7.0kg",
+            "7キログラム"
           ],
-          "explain": "総質量10kgから容器・弁等8kgを差し引き、2kg。"
+          "explain": "総質量15kgから容器・弁等8kgを差し引き、7kg。"
         },
         {
           "id": "tool",
           "prompt": "この測定に適した器具を選びなさい。",
           "kind": "symbol",
+          "category": "selection",
           "options": [
             {
               "symbol": "ア",
-              "text": "はかり"
+              "text": "キャップスパナ"
             },
             {
               "symbol": "イ",
-              "text": "標準圧力計"
+              "text": "はかり"
             },
             {
               "symbol": "ウ",
-              "text": "キャップスパナ"
+              "text": "標準圧力計"
             }
           ],
           "answers": [
-            "ア"
+            "イ"
           ],
           "explain": "質量の確認にははかりを用い、圧力計とは区別する。"
+        },
+        {
+          "id": "reason",
+          "prompt": "二酸化炭素消火器の薬剤量を確認するため、総質量だけでなく薬剤を除く質量も必要な理由を説明しなさい。",
+          "kind": "text",
+          "category": "reason",
+          "answers": [
+            "総質量には容器や弁の質量も含まれるため、それらを差し引いて薬剤だけの質量を求める。"
+          ],
+          "explain": "総質量には容器や弁の質量も含まれるため、それらを差し引いて薬剤だけの質量を求める。",
+          "rubric": {
+            "criteria": [
+              {
+                "label": "総質量には容器・弁なども含む",
+                "patterns": [
+                  "総質量.{0,15}(容器|弁|本体).{0,12}(含|入)"
+                ]
+              },
+              {
+                "label": "容器等の質量を差し引く",
+                "patterns": [
+                  "(それら|容器|弁|薬剤を除く|風袋).{0,18}(差し引|引い|引く|減じ).{0,18}(薬剤|質量)",
+                  "総質量.{0,15}(差し引|引く).{0,18}薬剤"
+                ]
+              }
+            ],
+            "contradictions": [
+              "(容器|弁|風袋).{0,12}(足す|加える)",
+              "総質量.{0,10}(そのまま|すべて|全て).{0,5}薬剤"
+            ]
+          }
         }
-      ]
+      ],
+      "imageAsset": "co2"
     }
   },
   {
-    "id": "m10-35-practical-v1",
+    "id": "m10-35-practical-v2",
     "chapter": "6",
     "topic": "鑑別等（図解・複数設問）",
     "type": "choice",
@@ -1031,45 +1169,79 @@
     "source": "教材ベース",
     "reviewed": false,
     "practical": {
-      "stem": "図は消火器の適応火災区分の対応を整理した学習用表示図である。各設問に答えなさい。",
-      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"#fff\"/><rect x=\"45\" y=\"88\" width=\"145\" height=\"215\" rx=\"10\" fill=\"#f3f5f8\" stroke=\"#172b43\" stroke-width=\"3\"/><rect x=\"227\" y=\"88\" width=\"145\" height=\"215\" rx=\"10\" fill=\"#f3f5f8\" stroke=\"#172b43\" stroke-width=\"3\"/><rect x=\"409\" y=\"88\" width=\"145\" height=\"215\" rx=\"10\" fill=\"#f3f5f8\" stroke=\"#172b43\" stroke-width=\"3\"/><text x=\"96\" y=\"151\" font-size=\"44\" fill=\"#172b43\" font-family=\"sans-serif\">A</text><text x=\"277\" y=\"151\" font-size=\"44\" fill=\"#172b43\" font-family=\"sans-serif\">B</text><text x=\"459\" y=\"151\" font-size=\"44\" fill=\"#172b43\" font-family=\"sans-serif\">C</text><path d=\"M78 212 L157 241 M78 241 L157 212\" stroke=\"#765238\" stroke-width=\"16\"/><path d=\"M266 211 H329 V264 H266 Z M275 211 V197 H300 V211\" fill=\"#d29c32\" stroke=\"#172b43\" stroke-width=\"3\"/><path d=\"M453 209 H513 V244 H453 Z M467 209 V187 M499 209 V187 M483 244 V272\" fill=\"#587caa\" stroke=\"#172b43\" stroke-width=\"5\"/><text x=\"68\" y=\"349\" font-size=\"22\" fill=\"#172b43\" font-family=\"sans-serif\">火災区分の対応を示した学習用の表示図</text></svg>",
-      "caption": "自作の模式図。実物と形状・縮尺が異なる部分があります。",
+      "stem": "図のCの状況で発生している火災について答えなさい。Aは木材、Bは油、Cは通電中の電気設備である。図は火災の状況であり、消火器本体の適応火災マークではない。",
+      "image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 400\"><rect width=\"600\" height=\"400\" fill=\"white\"/><image href=\"https://content.safa-lang.com/fire6/figures/practical_fires.jpg\" x=\"0\" y=\"0\" width=\"600\" height=\"400\"/></svg>",
+      "caption": "教材と共通の画風による自作図です。実物写真ではなく、製品によって形状が異なります。",
       "parts": [
         {
           "id": "fire",
-          "prompt": "Bに対応する火災の名称を記入しなさい。",
+          "prompt": "Cの火災の区分名を記入しなさい。",
           "kind": "text",
+          "category": "name",
           "answers": [
-            "油火災",
-            "B火災",
-            "油火災用"
+            "電気火災",
+            "C火災",
+            "電気火災用"
           ],
-          "explain": "Bは油火災に対応する。"
+          "explain": "Cは電気火災に対応する。"
         },
         {
           "id": "unit",
           "prompt": "電気火災の適応表示と能力単位の扱いについて正しいものを選びなさい。",
           "kind": "symbol",
+          "category": "selection",
           "options": [
             {
               "symbol": "ア",
-              "text": "電気火災は必ず能力単位3と表示する"
-            },
-            {
-              "symbol": "イ",
               "text": "電気火災用の表示があれば普通火災にも必ず使える"
             },
             {
-              "symbol": "ウ",
+              "symbol": "イ",
               "text": "電気火災では適応の有無を示し、能力単位の数値は定めない"
+            },
+            {
+              "symbol": "ウ",
+              "text": "電気火災は必ず能力単位3と表示する"
             }
           ],
           "answers": [
-            "ウ"
+            "イ"
           ],
           "explain": "A・Bの能力単位の数値と、Cの適応の有無は区別する。"
+        },
+        {
+          "id": "reason",
+          "prompt": "通電中の電気設備の火災では、消火器の適応表示を確認する必要がある理由を説明しなさい。",
+          "kind": "text",
+          "category": "reason",
+          "answers": [
+            "感電の危険があるため、電気火災に適応する消火器を選んで使用する必要がある。"
+          ],
+          "explain": "感電の危険があるため、電気火災に適応する消火器を選んで使用する必要がある。",
+          "rubric": {
+            "criteria": [
+              {
+                "label": "感電の危険を認識する",
+                "patterns": [
+                  "感電.{0,8}(危険|おそれ|恐れ|リスク)",
+                  "感電を(防|避)"
+                ]
+              },
+              {
+                "label": "電気火災に適応した消火器を選ぶ",
+                "patterns": [
+                  "(電気火災|c火災).{0,15}(適応|対応).{0,15}消火器.{0,10}(選|使用|使)"
+                ]
+              }
+            ],
+            "contradictions": [
+              "感電.{0,5}(しない|しません|ない)",
+              "(どの|どんな).{0,5}消火器.{0,5}(でも|も).{0,5}(使|使用)"
+            ]
+          }
         }
-      ]
+      ],
+      "imageAsset": "fires"
     }
   }
 ]

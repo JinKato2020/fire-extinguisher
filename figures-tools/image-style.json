@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "scope": "教材・用語・鑑別問題で共有する新規作図と改訂の基準。既存画像を一律に描き直す指定ではない。",
+  "references": ["assets/figures/ch6_f01.jpg", "assets/figures/ch6_f13.jpg", "assets/figures/ch4_f01.jpg"],
+  "physicalObjects": "白背景の精密な3Dレンダ調。金属・樹脂・ゴムの材質と機器の識別に必要な形状を表す。フラットなアイコンで代用しない。",
+  "calculationsAndTables": "数式・配置図・表は読みやすい2D。見た目の立体感より数値・単位・対応関係を優先する。",
+  "palette": {"background": "#FFFFFF", "ink": "#103E63", "panel": "#E7F3FC", "attention": "#D93030"},
+  "leaders": "紺色のエルボ型。対象に端点を合わせ、線・文字・部品が重ならないように配置。赤は注意箇所だけに使う。",
+  "typography": "標準〜中程度の太さ、紺色。小さな説明文を画像に詰めず、本文へ移す。鑑別図は記号と必要な条件だけを示し、解答の名称を焼き込まない。",
+  "newRasterMaster": {"format": "PNG", "width": 1536, "height": 1024, "aspectRatio": "3:2", "colour": "RGB"},
+  "delivery": {"format": "JPEG", "quality": 92, "subsampling": 0, "resize": false},
+  "qa": ["部品・工具を識別できる", "指示位置と設問が一致する", "図に解答が混入していない", "横幅358pxで記号を読める", "拡大時に部品が欠けない", "ライト・ダークとも図は白背景で表示する"]
+}

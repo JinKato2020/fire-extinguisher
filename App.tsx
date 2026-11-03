@@ -14,8 +14,10 @@ import { initFeedback, openRequestEmail, openAppReview, feedbackDevToolsAvailabl
 import { FeedbackCard } from './src/ui/FeedbackCard';
 import { useStudyFeedback } from './src/ui/useStudyFeedback';
 import { subscribeStudyFeedback } from './src/data/studyFeedback';
+import { PracticalAssessment } from './src/ui/PracticalAssessment';
 import { PracticalQuestion } from './src/ui/PracticalQuestion';
-import { gradePractical, questionStem, sectionScores, practicePassed } from './src/data/practical';
+import { assessmentSummary, type Points, questionStem, sectionScores, practicePassed } from './src/data/practical';
+import { ExamAttempt, type ExamAnswer } from './src/data/examAttempt';
 import { EXAM_DURATION_SECONDS, remainingSeconds, formatExamTime } from './src/data/examTiming';
 import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
@@ -704,7 +706,7 @@ function mockStat(questions: Question[]) {
     const r = getRec(q.id);
     return [q.id, r?.lastPoints ?? { earned: r?.lastCorrect ? 1 : 0, total: 1 }];
   }));
-  return { answered, correct, pct, total: questions.length, perCh, wrong, scores: sectionScores(questions, points), passed: practicePassed(questions, points) };
+  return { answered, correct, pct, total: questions.length, perCh, wrong, assessment: assessmentSummary(questions, points), scores: sectionScores(questions, points), passed: practicePassed(questions, points) };
 }
 
 // ---- 成績を確認する(クレーン同等の結果画面) ----
@@ -735,7 +737,7 @@ function MockResult({ set, onBack, onBump }: { set: QuizSet; onBack: () => void;
             <View style={s.resultHero}>
               <Ring pct={st.pct} label="全問正解率" />
               <Text style={[s.verdict, pass ? s.vOk : s.vNg, { marginTop: 10, textAlign: 'center' }]}>
-                {pass ? '練習用の合格目安を満たしています' : '分野別・鑑別の得点を確認して復習しましょう'}
+                {st.assessment.reviewCount ? '文章の自己確認を含む参考評価です' : pass ? '練習用の合格目安を満たしています' : '分野別・鑑別の得点を確認して復習しましょう'}
               </Text>
             </View>
             <View style={s.statRow}>
@@ -744,8 +746,9 @@ function MockResult({ set, onBack, onBump }: { set: QuizSet; onBack: () => void;
               <View style={s.statCell}><Text style={s.statCellV}>{st.total - st.answered}</Text><Text style={s.statCellK}>未解答</Text></View>
             </View>
             <Text style={s.guideBody}>筆記：{st.scores.writtenEarned}/{st.scores.writtenTotal}問・{st.scores.writtenPct ?? 0}%</Text>
-            {st.scores.practicalTotal ? <Text style={s.guideBody}>鑑別：{st.scores.practicalEarned}/{st.scores.practicalTotal}小問・{st.scores.practicalPct ?? 0}%（練習用採点）</Text> : null}
-            <Text style={s.guideBody}>鑑別は各小問1点。本番の配点・採点基準を再現した判定ではありません。</Text>
+            {st.scores.practicalTotal ? <Text style={s.guideBody}>鑑別：{st.scores.practicalEarned}/{st.scores.practicalTotal}点・{st.scores.practicalPct ?? 0}%（練習用採点）</Text> : null}
+            <Text style={s.guideBody}>鑑別は名称・数値・記号各1点、文章説明は要点ごとに1点。本番の配点・採点基準とは異なります。</Text>
+            <PracticalAssessment summary={st.assessment} />
             <Text style={s.sectionHead}>分野別の正答率（大問単位）</Text>
             <View style={s.barBox}>
               {chapters.map((ch) => {
@@ -814,7 +817,7 @@ function MockScoreScreen({ onBump, pro, onPaywall }: { onBump: () => void; pro: 
 
   const startSet = (set: QuizSet, locked: boolean) => {
     if (locked) { onPaywall(); return; }
-    Alert.alert('模試の制限時間', '本番は筆記・実技を合わせて105分（科目免除なし）。このアプリは択一式の練習問題です。105分モードでは解説を読む時間も含み、時間切れで終了します。', [
+    Alert.alert('模試の制限時間', '本番は筆記・実技を合わせて105分（科目免除なし）。アプリは筆記30問（四肢択一）と鑑別5大問（図・記述・記号選択）です。解説は提出後に表示します。105分モードでは時間切れで自動提出します。', [
       { text: '105分で開始', onPress: () => setSession({ title: set.title, questions: getQuestions(set.file), limitSeconds: EXAM_DURATION_SECONDS }) },
       { text: '時間制限なし', onPress: () => setSession({ title: set.title, questions: getQuestions(set.file) }) },
       { text: 'キャンセル', style: 'cancel' },
@@ -932,187 +935,140 @@ function QuizPlayer({ title, questions, limitSeconds, onExit, onBump }: { title:
   const { c } = useTheme();
   const s = useStyles();
   const [idx, setIdx] = useState(0);
-  const [selected, setSelected] = useState<number | null>(null);
-  const [practicalDraft, setPracticalDraft] = useState<Record<string, string>>({});
-  const [sessionPoints, setSessionPoints] = useState<Record<string, { earned: number; total: number }>>({});
-  const [revealed, setRevealed] = useState(false);
-  const [lowConf, setLowConf] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
-  const [finished, setFinished] = useState(false);
-  const [answeredCount, setAnsweredCount] = useState(0);
+  const attempt = useRef(new ExamAttempt(questions, limitSeconds ? Date.now() + limitSeconds * 1000 : null));
+  const [, redraw] = useState(0);
+  const [result, setResult] = useState<Record<string, Points> | null>(null);
   const [timedOut, setTimedOut] = useState(false);
-  const [deadline, setDeadline] = useState<number | null>(() => limitSeconds ? Date.now() + limitSeconds * 1000 : null);
   const [remaining, setRemaining] = useState<number | null>(limitSeconds ?? null);
-  const submitted = useRef(false);
+  const [saving, setSaving] = useState(false);
+  const [reviewIdx, setReviewIdx] = useState<number | null>(null);
+  const finished = result !== null;
   useStudyFeedback('quiz:' + title, !finished && questions.length > 0);
 
+  const finish = (timeout = false) => {
+    const current = attempt.current;
+    if (current.result) return;
+    const points = current.finish();
+    setRemaining(remainingSeconds(current.deadline, Date.now()));
+    setTimedOut(timeout); setResult(points); setSaving(true);
+    void (async () => {
+      try {
+        // Save only once, after submission. Navigation never reveals or records a grade.
+        for (const q of questions) {
+          const p = points[q.id];
+          await recordAnswer(q.id, p.earned === p.total, !!current.answers[q.id]?.flagged, p);
+        }
+        await bumpDaily();
+        await recordSnapshotIfNeeded();
+        onBump();
+      } finally { setSaving(false); }
+    })();
+  };
+  const finishRef = useRef(finish);
+  finishRef.current = finish;
   useEffect(() => {
-    if (deadline === null || finished || questions.length === 0) return;
+    if (finished || questions.length === 0) return;
     const tick = () => {
-      const left = remainingSeconds(deadline, Date.now());
+      const left = remainingSeconds(attempt.current.deadline, Date.now());
       setRemaining(left);
-      if (left === 0) { setTimedOut(true); setFinished(true); }
+      if (left === 0) finishRef.current(true);
     };
     tick();
     const timer = setInterval(tick, 1000);
     const subscription = AppState.addEventListener('change', state => { if (state === 'active') tick(); });
     return () => { clearInterval(timer); subscription.remove(); };
-  }, [deadline, finished, questions.length]);
+  }, [finished, questions.length]);
 
   const expired = () => {
-    if (remainingSeconds(deadline, Date.now()) !== 0) return false;
-    setRemaining(0); setTimedOut(true); setFinished(true);
-    return true;
+    if (!attempt.current.expired(Date.now())) return false;
+    finish(true); return true;
   };
-  const exit = () => {
-    if (deadline === null || finished || questions.length === 0) { onExit(); return; }
-    Alert.alert('模試を終了しますか？', '今回の進行状況と残り時間は保存されません。確定済みの解答履歴は残ります。', [
-      { text: '続ける', style: 'cancel' }, { text: '終了する', style: 'destructive', onPress: onExit },
+  const submit = () => {
+    if (finished || expired()) return;
+    const unanswered = questions.filter(q => !attempt.current.answered(q.id)).length;
+    Alert.alert('解答を提出しますか？', `未解答は${unanswered}問です。提出後は変更できません。終了後に正誤と解説を確認できます。`, [
+      { text: '見直す', style: 'cancel' },
+      { text: '提出して採点', onPress: () => { if (!expired()) finish(false); } },
     ]);
   };
-
-
-  if (questions.length === 0) {
-    return (
-      <View style={{ flex: 1 }}>
-        <View style={s.readerBar}>
-          <Pressable onPress={exit} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
-            <Text style={s.backTxt}>‹ 一覧へ</Text>
-          </Pressable>
-        </View>
-        <View style={s.soon}><Text style={s.soonBig}>対象なし</Text><Text style={s.soonTxt}>いま出題できる問題がありません。</Text></View>
-      </View>
-    );
-  }
-
+  const exit = () => {
+    if (finished || questions.length === 0) { if (!saving) onExit(); return; }
+    submit();
+  };
   const reset = () => {
-    setIdx(0); setSelected(null); setRevealed(false); setLowConf(false); setCorrectCount(0); setFinished(false);
-    setAnsweredCount(0); setTimedOut(false); submitted.current = false; setPracticalDraft({}); setSessionPoints({});
-    setDeadline(limitSeconds ? Date.now() + limitSeconds * 1000 : null); setRemaining(limitSeconds ?? null);
+    if (saving) return;
+    attempt.current = new ExamAttempt(questions, limitSeconds ? Date.now() + limitSeconds * 1000 : null);
+    setIdx(0); setResult(null); setTimedOut(false); setReviewIdx(null); setRemaining(limitSeconds ?? null);
   };
+  const navigate = (index: number) => { if (!expired()) setIdx(index); };
 
-  if (finished) {
-    const pct = Math.round((correctCount / questions.length) * 100);
-    const scores = sectionScores(questions, sessionPoints);
-    return (
-      <View style={{ flex: 1 }}>
-        <View style={s.readerBar}>
-          <Pressable onPress={exit} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
-            <Text style={s.backTxt}>‹ 一覧へ</Text>
-          </Pressable>
+  if (!questions.length) return <View style={s.soon}><Text style={s.soonBig}>対象なし</Text><Pressable onPress={onExit}><Text style={s.backTxt}>‹ 一覧へ</Text></Pressable></View>;
+  if (result) {
+    const scores = sectionScores(questions, result);
+    const answered = questions.filter(q => attempt.current.answered(q.id)).length;
+    const review = reviewIdx === null ? null : questions[reviewIdx];
+    return <View style={{ flex: 1 }}>
+      <View style={s.readerBar}><Pressable disabled={saving} onPress={onExit}><Text style={s.backTxt}>‹ 一覧へ</Text></Pressable></View>
+      <ScrollView contentContainerStyle={[s.pad, { paddingBottom: 40 }]} keyboardShouldPersistTaps="handled">
+        <Text style={s.viewH2}>{timedOut ? '制限時間になりました' : '採点結果'}</Text>
+        <Text style={s.guideBody}>解答済み {answered}問・未解答 {questions.length - answered}問</Text>
+        {scores.writtenTotal ? <Text style={s.guideBody}>筆記：{scores.writtenEarned}/{scores.writtenTotal}問・{scores.writtenPct}%</Text> : null}
+        {scores.practicalTotal ? <Text style={s.guideBody}>鑑別：{scores.practicalEarned}/{scores.practicalTotal}点・{scores.practicalPct}%（参考採点）</Text> : null}
+        <Text style={s.guideBody}>未解答は0点です。時間切れの場合は、直前まで入力した解答を採点しています。</Text>
+        {limitSeconds ? <Text style={s.guideBody}>所要時間 {formatExamTime(Math.min(limitSeconds, limitSeconds - (remaining ?? 0)))}</Text> : null}
+        <PracticalAssessment summary={assessmentSummary(questions, result)} />
+        <Text style={[s.guideH, { marginTop: 20 }]}>解答・解説を確認</Text>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+          {questions.map((q, i) => <Pressable key={q.id} onPress={() => setReviewIdx(i)} accessibilityLabel={`問${i + 1}の解説`} style={[s.ghostBtn, { minWidth: 48 }]}><Text style={s.ghostBtnTxt}>{i + 1}{result[q.id].earned === result[q.id].total ? ' ◯' : ' △'}</Text></Pressable>)}
         </View>
-        <ScrollView contentContainerStyle={s.soon}>
-          <Text style={s.soonTitle}>{timedOut ? '制限時間になりました' : 'おつかれさまでした'}</Text>
-          <Text style={s.resultBig}>完全正解 {correctCount} / {questions.length} 問</Text>
-          <Text style={s.soonTxt}>全問正解率 {pct}%（鑑別は大問単位）</Text>
-          {scores.writtenTotal ? <Text style={s.soonTxt}>筆記：{scores.writtenEarned}/{scores.writtenTotal}問・{scores.writtenPct}%</Text> : null}
-          {scores.practicalTotal ? <Text style={s.soonTxt}>鑑別：{scores.practicalEarned}/{scores.practicalTotal}小問・{scores.practicalPct}%（各小問1点の練習用採点）</Text> : null}
-          <Text style={s.soonTxt}>解答済み {answeredCount}問・未解答 {questions.length - answeredCount}問</Text>
-          {timedOut ? <Text style={s.soonTxt}>未解答は不正解扱いです。全問題数を分母とし、時間内に「解答する」で確定した正解だけを得点に数えます。</Text> : null}
-          {limitSeconds ? <Text style={s.soonTxt}>制限時間105分・所要時間 {formatExamTime(Math.min(limitSeconds, limitSeconds - (remaining ?? 0)))}</Text> : null}
-          <View style={{ flexDirection: 'row', gap: 10, marginTop: 18 }}>
-            <Pressable onPress={reset} style={({ pressed }) => [s.ghostBtn, pressed && s.pressed]}><Text style={s.ghostBtnTxt}>もう一度</Text></Pressable>
-            <Pressable onPress={exit} style={({ pressed }) => [s.submitBtn, { paddingHorizontal: 22 }, pressed && s.pressed]}><Text style={s.submitTxt}>終了</Text></Pressable>
-          </View>
-        </ScrollView>
-      </View>
-    );
-  }
-
-  const q = questions[idx];
-  const isLast = idx === questions.length - 1;
-  const marked = isBookmarked(q.id);
-
-  const submit = () => {
-    if ((!q.practical && selected === null) || submitted.current || revealed || finished || expired()) return;
-    submitted.current = true;
-    setAnsweredCount(x => x + 1);
-    const points = q.practical ? gradePractical(q, practicalDraft) : { earned: selected === q.answer ? 1 : 0, total: 1 };
-    const ok = points.earned === points.total;
-    setSessionPoints(previous => ({ ...previous, [q.id]: points }));
-    if (ok) setCorrectCount((x) => x + 1);
-    void recordAnswer(q.id, ok, lowConf, points).then(() => bumpDaily()).then(() => recordSnapshotIfNeeded()).then(onBump);
-    setRevealed(true);
-  };
-  const next = () => {
-    if (finished || !submitted.current || expired()) return;
-    if (isLast) { setRemaining(remainingSeconds(deadline, Date.now())); setFinished(true); return; }
-    submitted.current = false;
-    setIdx((i) => i + 1); setSelected(null); setRevealed(false); setLowConf(false); setPracticalDraft({});
-  };
-
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={s.readerBar}>
-        <Pressable onPress={exit} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
-          <Text style={s.backTxt}>‹ 一覧へ</Text>
-        </Pressable>
-        <Text style={s.qProgress}>{title}　{idx + 1} / {questions.length}</Text>
-      </View>
-      <View style={[s.quizTimerBar, remaining !== null && remaining <= 600 && s.quizTimerWarning]}>
-        <Text accessibilityRole="timer" style={[s.quizTimerText, remaining !== null && remaining <= 600 && { color: c.warn }]}>
-          {remaining === null ? '時間制限なし' : `残り ${formatExamTime(remaining)}`}
-        </Text>
-        <Text style={s.quizTimerHint}>{remaining === null ? '自分のペースで学習' : '制限105分・アプリを離れても時間は進みます'}</Text>
-      </View>
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 8 }]} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
-        {q.topic ? <Text style={s.qTopic}>{q.topic}</Text> : null}
-        <Text style={s.qStem}>{questionStem(q)}</Text>
-        {q.practical ? <PracticalQuestion key={q.id} practical={q.practical} draft={practicalDraft} revealed={revealed}
-          onChange={(id, value) => setPracticalDraft(previous => ({ ...previous, [id]: value }))} /> : <View style={{ gap: 9, marginTop: 14 }}>
-          {q.choices.map((ch, i) => {
-            const chosen = selected === i;
-            const isCorrect = i === q.answer;
-            const st = [
-              s.choice,
-              revealed && isCorrect ? s.choiceCorrect : null,
-              revealed && !isCorrect && chosen ? s.choiceWrong : null,
-              !revealed && chosen ? s.choiceSel : null,
-            ];
-            return (
-              <Pressable key={i} disabled={revealed} onPress={() => setSelected(i)} style={st}>
-                <Text style={s.choiceNum}>{QLABEL[i]}</Text>
-                <Text style={s.choiceTxt}>{ch}</Text>
-              </Pressable>
-            );
-          })}
-        </View>}
-
-        {/* ブックマーク */}
-        <Pressable
-          onPress={() => { void toggleBookmark(q.id).then(onBump); }}
-          style={[s.bmBtn, marked && s.bmBtnOn]}
-        >
-          <Icon name="bookmark" size={15} color={marked ? c.accent : c.muted} />
-          <Text style={[s.bmBtnTxt, marked && s.bmBtnTxtOn]}>{marked ? 'ブックマーク済み' : 'ブックマーク'}</Text>
-        </Pressable>
-
-        {!revealed ? (
-          <>
-            <Pressable onPress={() => setLowConf((v) => !v)} style={({ pressed }) => [s.confToggle, lowConf && s.confOn, pressed && s.pressed]}>
-              <Text style={[s.confTxt, lowConf && s.confTxtOn]}>{(lowConf ? '☑ ' : '☐ ') + '自信なし（復習に回す）'}</Text>
-            </Pressable>
-            <Pressable disabled={!q.practical && selected === null} onPress={submit} style={({ pressed }) => [s.submitBtn, !q.practical && selected === null && s.btnDisabled, pressed && s.pressed]}>
-              <Text style={s.submitTxt}>解答する</Text>
-            </Pressable>
-          </>
-        ) : (
-          <View style={s.explainBox}>
-            {!q.practical ? <><Text style={[s.verdict, selected === q.answer ? s.vOk : s.vNg]}>
-              {selected === q.answer ? '◯ 正解' : '✕ 不正解'}（正解：{QLABEL[q.answer]}）
-            </Text>
-            {q.explain ? <Text style={s.explainTxt}>{q.explain}</Text> : null}
-            {selected !== null && selected !== q.answer && q.whyWrong && q.whyWrong[selected]
-              ? <Text style={s.whyWrong}>{'あなたの選択（' + QLABEL[selected] + '）：' + q.whyWrong[selected]}</Text>
-              : null}</> : <Text style={s.guideBody}>小問正解：{sessionPoints[q.id]?.earned ?? 0}/{q.practical.parts.length}</Text>}
-            <Pressable onPress={next} style={({ pressed }) => [s.submitBtn, { marginTop: 14 }, pressed && s.pressed]}>
-              <Text style={s.submitTxt}>{isLast ? '結果を見る' : '次の問題 ›'}</Text>
-            </Pressable>
-          </View>
-        )}
+        {review ? <View style={[s.card, { marginTop: 16 }]}>
+          <Text style={s.cardTitle}>問{reviewIdx! + 1}</Text><Text style={s.qStem}>{questionStem(review)}</Text>
+          {review.practical ? <PracticalQuestion practical={review.practical} draft={attempt.current.answers[review.id]?.text ?? {}} review /> : <>
+            {review.choices.map((choice, i) => <Text key={i} style={s.guideBody}>{QLABEL[i]}　{choice}</Text>)}
+            <Text style={[s.guideBody, { marginTop: 12 }]}>あなたの解答：{attempt.current.answers[review.id]?.choice === undefined ? '未解答' : QLABEL[attempt.current.answers[review.id].choice!]}</Text>
+            <Text style={s.verdict}>正解：{QLABEL[review.answer]}</Text>
+            <Text style={s.guideBody}>{review.explain}</Text>
+            {attempt.current.answers[review.id]?.choice !== undefined && attempt.current.answers[review.id].choice !== review.answer ? <Text style={s.guideBody}>{review.whyWrong?.[attempt.current.answers[review.id].choice!]}</Text> : null}
+          </>}
+        </View> : null}
+        <Text style={s.guideBody}>{saving ? '成績を保存しています…' : '成績を保存しました。'}</Text>
+        <Pressable disabled={saving} onPress={reset} style={[s.submitBtn, { marginTop: 18 }]}><Text style={s.submitTxt}>もう一度受験する</Text></Pressable>
       </ScrollView>
+    </View>;
+  }
+  const q = questions[idx];
+  const answer = attempt.current.answers[q.id] ?? {};
+  const update = (patch: Partial<ExamAnswer>) => {
+    if (expired()) return;
+    if (attempt.current.update(q.id, patch, Date.now())) redraw(n => n + 1);
+  };
+  return <View style={{ flex: 1 }}>
+    <View style={s.readerBar}>
+      <Pressable onPress={exit}><Text style={s.backTxt}>終了・提出</Text></Pressable>
+      <Text style={s.qProgress}>{title}　{idx + 1}/{questions.length}</Text>
     </View>
-  );
+    <View style={[s.quizTimerBar, remaining !== null && remaining <= 600 && s.quizTimerWarning]}>
+      <Text accessibilityRole="timer" style={s.quizTimerText}>{remaining === null ? '時間制限なし' : `残り ${formatExamTime(remaining)}`}</Text>
+      <Text style={s.quizTimerHint}>採点・解説は提出後。解答は提出まで変更できます。</Text>
+    </View>
+    <ScrollView contentContainerStyle={[s.pad, { paddingBottom: 40 }]} keyboardShouldPersistTaps="handled">
+      <Text style={s.guideBody}>問題番号から移動できます。✓ 解答あり／★ 見直し</Text>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginVertical: 12 }}>
+        {questions.map((item, i) => <Pressable key={item.id} onPress={() => navigate(i)} accessibilityLabel={`問${i + 1}${attempt.current.answered(item.id) ? ' 解答あり' : ' 未解答'}`} style={[s.ghostBtn, i === idx && { borderColor: c.accent }, { minWidth: 44 }]}><Text style={s.ghostBtnTxt}>{i + 1}{attempt.current.answers[item.id]?.flagged ? '★' : attempt.current.answered(item.id) ? '✓' : ''}</Text></Pressable>)}
+      </View>
+      <Text style={s.qStem}>問{idx + 1}　{questionStem(q)}</Text>
+      {q.practical ? <PracticalQuestion key={q.id} practical={q.practical} draft={answer.text ?? {}} onChange={(id, value) => update({ text: { ...attempt.current.answers[q.id]?.text, [id]: value } })} /> : <View style={{ gap: 9, marginTop: 14 }}>
+        {q.choices.map((choice, i) => <Pressable key={i} onPress={() => update({ choice: i })} accessibilityRole="radio" accessibilityState={{ checked: answer.choice === i }} style={[s.choice, answer.choice === i && s.choiceSel]}><Text style={s.choiceNum}>{QLABEL[i]}</Text><Text style={s.choiceTxt}>{choice}</Text></Pressable>)}
+        <Pressable onPress={() => update({ choice: undefined })}><Text style={s.backTxt}>解答を取り消す</Text></Pressable>
+      </View>}
+      <Pressable onPress={() => update({ flagged: !answer.flagged })} style={[s.confToggle, answer.flagged && s.confOn]}><Text style={s.confTxt}>{answer.flagged ? '☑' : '☐'} あとで見直す</Text></Pressable>
+      <View style={{ flexDirection: 'row', gap: 10, marginVertical: 16 }}>
+        <Pressable disabled={idx === 0} onPress={() => navigate(idx - 1)} style={[s.ghostBtn, idx === 0 && s.btnDisabled]}><Text style={s.ghostBtnTxt}>‹ 前の問題</Text></Pressable>
+        {idx < questions.length - 1 ? <Pressable onPress={() => navigate(idx + 1)} style={s.ghostBtn}><Text style={s.ghostBtnTxt}>次の問題 ›</Text></Pressable> : null}
+      </View>
+      <Pressable onPress={submit} style={s.submitBtn}><Text style={s.submitTxt}>提出して採点</Text></Pressable>
+    </ScrollView>
+  </View>;
 }
 
 // ---- 設定 ----
@@ -1309,7 +1265,7 @@ function QuestionDetail({ question: q, onBack, onBump }: { question: Question; o
       <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingTop: 10, paddingBottom: 40 }]} showsVerticalScrollIndicator={false}>
         {q.topic ? <Text style={s.qTopic}>{q.topic}</Text> : null}
         <Text style={s.qStem}>{questionStem(q)}</Text>
-        {q.practical ? <PracticalQuestion practical={q.practical} review /> : <><View style={{ gap: 9, marginTop: 14 }}>
+        {q.practical ? <PracticalQuestion practical={q.practical} draft={getRec(q.id)?.lastPoints?.answers ?? {}} review /> : <><View style={{ gap: 9, marginTop: 14 }}>
           {q.choices.map((ch, i) => (
             <View key={i} style={[s.choice, i === q.answer && s.choiceCorrect]}>
               <Text style={s.choiceNum}>{QLABEL[i]}</Text>
@@ -1437,7 +1393,8 @@ function ExamGuideScreen({ onClose }: { onClose: () => void }) {
           <Text style={s.guideBody}>科目免除がない乙種第6類の試験時間は、筆記30問と実技（鑑別等）5問を合わせて105分（1時間45分）です。筆記と実技それぞれに105分あるわけではありません。</Text>
           <Text style={s.guideBody}>科目の一部免除を受ける場合は、免除される問題数に応じて試験時間が短縮されます。自分の試験時間は、受験票と受験地の最新の試験案内で確認してください。</Text>
           <Text style={s.guideLi}>時間配分の例：筆記60分＋実技30分＋見直し15分＝105分。これは学習の目安で、公式に指定された配分ではありません。</Text>
-          <Text style={s.guideBody}>アプリの模試では、開始時に「105分で開始」または「時間制限なし」を選べます。105分モードは解説を読む時間も含み、時間切れで終了します。弱点復習は時間制限なしです。アプリは択一式の練習問題で、本番の実技の記述式とは異なります。</Text>
+          <Text style={s.guideBody}>アプリの模試では、開始時に「105分で開始」または「時間制限なし」を選べます。105分モードでは時間切れで自動提出し、入力済みの解答を採点します。弱点復習は時間制限なしです。筆記は四肢択一30問、鑑別は図付き5大問で、複数の小問に記述入力・記号選択で解答します。</Text>
+          <Text style={s.guideBody}>本番は筆記がマークシート、実技が解答用紙への記述です。アプリの模試も提出まで正誤・解説を表示せず、問題間を移動して解答を変更できます。解説は提出後にまとめて確認します。図は自作で、写真による実物識別や当日の問題・難易度を完全に再現するものではありません。鑑別の自動採点は名称・数値の照合と文章の要点判定による参考採点であり、本番の採点基準とは異なります。</Text>
 
           <Text style={s.guideH}>形式と合格基準</Text>
           <Text style={s.guideLi}>・筆記：四肢択一のマークシート</Text>

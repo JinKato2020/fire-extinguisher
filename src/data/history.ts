@@ -2,6 +2,7 @@
 // 問題ごとに「出題回数・正解回数・直近の正誤・直近で自信なし・最終日時」を記録し、
 // 弱点復習（誤答／自信なし／未出題）の抽出に使う。
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import type { Points } from './practical';
 
 const KEY = 'fire6:history:v1';
 
@@ -11,7 +12,7 @@ export type Rec = {
   lastCorrect: boolean;  // 直近が正解だったか
   lastLowConf: boolean;  // 直近で「自信なし」だったか
   lastAt: string;        // 最終回答日時(ISO)
-  lastPoints?: { earned: number; total: number }; // 鑑別の小問別部分点（練習用）
+  lastPoints?: Points; // 鑑別の要点別部分点・評価区分（練習用）
 };
 
 type HistoryMap = Record<string, Rec>;
@@ -35,7 +36,7 @@ async function persist(): Promise<void> {
 }
 
 /** 1問の回答を記録する。 */
-export async function recordAnswer(qid: string, correct: boolean, lowConf: boolean, points?: { earned: number; total: number }): Promise<void> {
+export async function recordAnswer(qid: string, correct: boolean, lowConf: boolean, points?: Points): Promise<void> {
   const prev = getRec(qid) ?? { seen: 0, correct: 0, lastCorrect: false, lastLowConf: false, lastAt: '' };
   cache[qid] = {
     seen: prev.seen + 1,
@@ -53,6 +54,7 @@ export function getRec(qid: string): Rec | undefined {
   // Older clients can download the compatible choice fallback before their JS updates.
   // Those answers do not contain subquestion points and cannot grade the new format.
   if (/-practical-v\d+$/.test(qid) && !rec?.lastPoints) return undefined;
+  if (/-practical-v2$/.test(qid) && rec?.lastPoints?.evaluationVersion !== 2) return undefined;
   return rec;
 }
 
