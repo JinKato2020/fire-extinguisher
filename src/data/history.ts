@@ -36,7 +36,7 @@ async function persist(): Promise<void> {
 
 /** 1問の回答を記録する。 */
 export async function recordAnswer(qid: string, correct: boolean, lowConf: boolean, points?: { earned: number; total: number }): Promise<void> {
-  const prev = cache[qid] ?? { seen: 0, correct: 0, lastCorrect: false, lastLowConf: false, lastAt: '' };
+  const prev = getRec(qid) ?? { seen: 0, correct: 0, lastCorrect: false, lastLowConf: false, lastAt: '' };
   cache[qid] = {
     seen: prev.seen + 1,
     correct: prev.correct + (correct ? 1 : 0),
@@ -49,12 +49,16 @@ export async function recordAnswer(qid: string, correct: boolean, lowConf: boole
 }
 
 export function getRec(qid: string): Rec | undefined {
-  return cache[qid];
+  const rec = cache[qid];
+  // Older clients can download the compatible choice fallback before their JS updates.
+  // Those answers do not contain subquestion points and cannot grade the new format.
+  if (/-practical-v\d+$/.test(qid) && !rec?.lastPoints) return undefined;
+  return rec;
 }
 
 /** 弱点か？ = 一度でも解いて、直近が誤答 または 自信なし。 */
 export function isWeak(qid: string): boolean {
-  const r = cache[qid];
+  const r = getRec(qid);
   if (!r || r.seen === 0) return false;
   return !r.lastCorrect || r.lastLowConf;
 }
@@ -64,7 +68,7 @@ export function selectReview(qids: string[]): { weak: string[]; unseen: string[]
   const weak: string[] = [];
   const unseen: string[] = [];
   for (const id of qids) {
-    const r = cache[id];
+    const r = getRec(id);
     if (!r || r.seen === 0) unseen.push(id);
     else if (!r.lastCorrect || r.lastLowConf) weak.push(id);
   }
@@ -73,7 +77,7 @@ export function selectReview(qids: string[]): { weak: string[]; unseen: string[]
 
 /** 全体の学習状況（ホーム等の表示用）。 */
 export function overallStats(): { answered: number; correct: number; accuracy: number } {
-  const recs = Object.values(cache);
+  const recs = Object.keys(cache).map(getRec).filter((r): r is Rec => !!r);
   const answered = recs.reduce((a, r) => a + r.seen, 0);
   const correct = recs.reduce((a, r) => a + r.correct, 0);
   const accuracy = answered > 0 ? Math.round((correct / answered) * 100) : 0;

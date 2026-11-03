@@ -111,5 +111,11 @@ fs.writeFileSync('tmp/practical-ui-preview.html', `<!doctype html><meta charset=
   assert.equal(history.isWeak('practical-test'), true);
   await history.recordAnswer('written-test', true, false);
   assert.equal(history.getRec('written-test').lastCorrect, true);
+  await history.recordAnswer('old-client-practical-v1', true, false);
+  assert.equal(history.getRec('old-client-practical-v1'), undefined);
+  assert.equal(history.selectReview(['old-client-practical-v1']).unseen.length, 1);
+  await history.recordAnswer('old-client-practical-v1', false, false, { earned: 1, total: 2 });
+  assert.equal(history.getRec('old-client-practical-v1').seen, 1);
+  assert.equal(history.getRec('old-client-practical-v1').lastPoints.total, 2);
   console.log(`PASS: 12 mocks, ${groups} image groups/${parts} subquestions, aliases, partial credit, separate section scoring, history persistence and actual component rendering`);
 })().catch(error => { console.error(error); process.exitCode = 1; });
