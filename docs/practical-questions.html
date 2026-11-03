@@ -1,0 +1,22 @@
+<!doctype html><meta charset="utf-8"><title>鑑別問題の形式と採点</title>
+<style>body{font:16px/1.8 system-ui;max-width:900px;margin:30px auto;padding:0 20px}pre{background:#eef3f7;padding:16px;white-space:pre-wrap}</style>
+<h1>鑑別問題の形式と採点</h1>
+<p>模試12回の各5大問、計60大問を図付き・複数小問の形式に変更。小問は計143問。名称や計算結果の記述入力、語群からの記号選択を組み合わせる。模式図は自作SVGで同梱・R2配信のJSONに含め、外部の画像ダウンロードを待たずに表示できる。タップで拡大し、拡大画面は左右にスクロールできる。</p>
+<p>筆記は従来の30問、鑑別は5大問を維持する。鑑別は各小問1点の練習用部分点で集計し、筆記と分けて表示する。本番の小問配点・採点基準を再現したものではない。合格目安は筆記全体60%以上・各科目40%以上と鑑別60%以上を別々に確認する。法令は第1・2章、基礎は第3章、構造・規格は第4・5章で集計する。</p>
+<p>記述はUnicode NFKC・空白・大文字小文字などを正規化し、登録済みの解答・別名と照合する。自由な文章の意味をAIで判断する仕組みではない。未記入は不正解。名称の否定や無関係な語を含む解答を部分一致で正解にしない。解答後は各小問の正誤・解答例・解説を表示する。</p>
+<p>鑑別の問題IDには practical-v1 を付け、旧選択式の履歴と混在させない。新しい問題の部分点は端末に保存し、未満点の大問を弱点復習に含める。従来の筆記履歴は維持する。旧クライアント向けのchoiceフィールドは互換用に残し、新UIではpracticalフィールドを優先する。旧UIは従来の選択式を表示できる。試験中の評価依頼は発動させず、30秒以上の学習後の終了・途中離脱という既存条件を維持する。</p>
+<h2>生成・確認</h2>
+<p>問題と図の正本は tools/gen_practical_questions.py。教材本文Markdownとその生成処理は変更しない。公式問題の写真・図版を転載せず、出題形式のみ参照したオリジナル問題を使用する。</p>
+<pre>python tools/gen_practical_questions.py
+python tools/gen_practical_questions.py --check
+python tools/gen_bundled.py
+python tools/content_manifest.py
+npm run tsc
+node tools/test_practical.cjs</pre>
+<p><a href="practical-figures-review.html">図の一覧</a>。テストは全60大問・143小問の定義、解答の表記揺れ、空欄、部分点、科目別判定、履歴再読み込み、実装コンポーネントの解答前・採点後・復習表示を確認する。tmp/practical-ui-preview.html は実装をHTMLホストに変換した表示確認用で、iOS実機撮影ではない。実機での入力・キーボード・拡大・時間切れの操作確認は別途必要。</p>
+<h2>形式・知識の確認資料</h2>
+<ul><li><a href="https://www.shoubo-shiken.or.jp/pdf_files/shoubou_otsu.pdf">消防試験研究センター：公開問題（形式の確認のみ）</a></li>
+<li><a href="https://www.shoubo-shiken.or.jp/shoubou/annai/subject.html">消防試験研究センター：科目と問題数</a></li>
+<li><a href="https://www.yamatoprotec.co.jp/wp/wp-content/uploads/products_about_catalog_pdf08.pdf">ヤマトプロテック：消火器テクノブック（圧力計・器具・点検）</a></li>
+<li><a href="https://www.fdma.go.jp/laws/tutatsu/assets/271228_yo486.pdf">消防庁：消火器の点検方法等</a></li>
+<li><a href="https://laws.e-gov.go.jp/law/339M50000008027/">消火器の技術上の規格を定める省令</a></li></ul>

@@ -2,6 +2,16 @@
 // 問題本体は content/questions/<file>、目次は content/quizzes.json。すべてR2 OTAで差し替え可能。
 import { getContent } from './contentStore';
 
+export type PracticalPart = {
+  id: string;
+  prompt: string;
+  kind: 'text' | 'symbol';
+  answers: string[];
+  options?: { symbol: string; text: string }[];
+  explain: string;
+};
+export type Practical = { stem: string; image: string; caption: string; parts: PracticalPart[] };
+
 export type Question = {
   id: string;
   chapter: string;
@@ -15,6 +25,7 @@ export type Question = {
   figure?: string | null;
   source?: string;
   reviewed?: string;
+  practical?: Practical;
 };
 
 export type QuizSet = {

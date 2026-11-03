@@ -11,6 +11,7 @@ export type Rec = {
   lastCorrect: boolean;  // 直近が正解だったか
   lastLowConf: boolean;  // 直近で「自信なし」だったか
   lastAt: string;        // 最終回答日時(ISO)
+  lastPoints?: { earned: number; total: number }; // 鑑別の小問別部分点（練習用）
 };
 
 type HistoryMap = Record<string, Rec>;
@@ -34,7 +35,7 @@ async function persist(): Promise<void> {
 }
 
 /** 1問の回答を記録する。 */
-export async function recordAnswer(qid: string, correct: boolean, lowConf: boolean): Promise<void> {
+export async function recordAnswer(qid: string, correct: boolean, lowConf: boolean, points?: { earned: number; total: number }): Promise<void> {
   const prev = cache[qid] ?? { seen: 0, correct: 0, lastCorrect: false, lastLowConf: false, lastAt: '' };
   cache[qid] = {
     seen: prev.seen + 1,
@@ -42,6 +43,7 @@ export async function recordAnswer(qid: string, correct: boolean, lowConf: boole
     lastCorrect: correct,
     lastLowConf: lowConf,
     lastAt: new Date().toISOString(),
+    ...(points ? { lastPoints: points } : {}),
   };
   await persist();
 }

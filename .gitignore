@@ -3,6 +3,8 @@ node_modules/
 .expo/
 dist/
 web-build/
+/tmp/
+__pycache__/
 
 # prebuild が生成するネイティブ。CIで毎回 expo prebuild --clean するのでコミットしない
 /ios/

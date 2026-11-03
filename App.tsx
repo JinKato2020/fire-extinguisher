@@ -14,6 +14,8 @@ import { initFeedback, openRequestEmail, openAppReview, feedbackDevToolsAvailabl
 import { FeedbackCard } from './src/ui/FeedbackCard';
 import { useStudyFeedback } from './src/ui/useStudyFeedback';
 import { subscribeStudyFeedback } from './src/data/studyFeedback';
+import { PracticalQuestion } from './src/ui/PracticalQuestion';
+import { gradePractical, questionStem, sectionScores, practicePassed } from './src/data/practical';
 import { EXAM_DURATION_SECONDS, remainingSeconds, formatExamTime } from './src/data/examTiming';
 import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
@@ -698,7 +700,11 @@ function mockStat(questions: Question[]) {
     if (!r.lastCorrect) wrong.push(q);
   }
   const pct = answered > 0 ? Math.round((correct / answered) * 100) : 0;
-  return { answered, correct, pct, total: questions.length, perCh, wrong };
+  const points = Object.fromEntries(questions.map(q => {
+    const r = getRec(q.id);
+    return [q.id, r?.lastPoints ?? { earned: r?.lastCorrect ? 1 : 0, total: 1 }];
+  }));
+  return { answered, correct, pct, total: questions.length, perCh, wrong, scores: sectionScores(questions, points), passed: practicePassed(questions, points) };
 }
 
 // ---- 成績を確認する(クレーン同等の結果画面) ----
@@ -709,7 +715,7 @@ function MockResult({ set, onBack, onBump }: { set: QuizSet; onBack: () => void;
   const qs = useMemo(() => getQuestions(set.file), [set.file]);
   const st = mockStat(qs);
   if (detail) return <QuestionDetail question={detail} onBack={() => setDetail(null)} onBump={onBump} />;
-  const pass = st.pct >= 60;
+  const pass = st.passed;
   const chapters = Object.keys(st.perCh).sort();
   const weak = chapters
     .map((ch) => { const [cc, aa] = st.perCh[ch]; return { ch, p: aa ? Math.round((cc / aa) * 100) : 0 }; })
@@ -727,17 +733,20 @@ function MockResult({ set, onBack, onBump }: { set: QuizSet; onBack: () => void;
         ) : (
           <>
             <View style={s.resultHero}>
-              <Ring pct={st.pct} label="得点率" />
+              <Ring pct={st.pct} label="全問正解率" />
               <Text style={[s.verdict, pass ? s.vOk : s.vNg, { marginTop: 10, textAlign: 'center' }]}>
-                {pass ? '合格ライン(60%)を超えています。順調です！' : '合格ラインまであと少し。弱点を復習しましょう。'}
+                {pass ? '練習用の合格目安を満たしています' : '分野別・鑑別の得点を確認して復習しましょう'}
               </Text>
             </View>
             <View style={s.statRow}>
               <View style={s.statCell}><Text style={s.statCellV}>{st.correct}/{st.answered}</Text><Text style={s.statCellK}>正答数</Text></View>
-              <View style={s.statCell}><Text style={[s.statCellV, { color: c.accent }]}>{st.pct}%</Text><Text style={s.statCellK}>得点率</Text></View>
+              <View style={s.statCell}><Text style={[s.statCellV, { color: c.accent }]}>{st.pct}%</Text><Text style={s.statCellK}>大問の全問正解率</Text></View>
               <View style={s.statCell}><Text style={s.statCellV}>{st.total - st.answered}</Text><Text style={s.statCellK}>未解答</Text></View>
             </View>
-            <Text style={s.sectionHead}>分野別の正答率</Text>
+            <Text style={s.guideBody}>筆記：{st.scores.writtenEarned}/{st.scores.writtenTotal}問・{st.scores.writtenPct ?? 0}%</Text>
+            {st.scores.practicalTotal ? <Text style={s.guideBody}>鑑別：{st.scores.practicalEarned}/{st.scores.practicalTotal}小問・{st.scores.practicalPct ?? 0}%（練習用採点）</Text> : null}
+            <Text style={s.guideBody}>鑑別は各小問1点。本番の配点・採点基準を再現した判定ではありません。</Text>
+            <Text style={s.sectionHead}>分野別の正答率（大問単位）</Text>
             <View style={s.barBox}>
               {chapters.map((ch) => {
                 const [cc, aa] = st.perCh[ch];
@@ -771,7 +780,7 @@ function MockResult({ set, onBack, onBump }: { set: QuizSet; onBack: () => void;
                   {st.wrong.map((q) => (
                     <Pressable key={q.id} onPress={() => setDetail(q)} style={({ pressed }) => [s.wrongCard, pressed && s.pressed]}>
                       <View style={[s.mockPill, s.mockPillWarn, { alignSelf: 'flex-start' }]}><Text style={[s.mockPillTxt, s.mockPillWarnTxt]}>要復習</Text></View>
-                      <Text style={s.wrongStem} numberOfLines={2}>{q.stem}</Text>
+                      <Text style={s.wrongStem} numberOfLines={2}>{questionStem(q)}</Text>
                     </Pressable>
                   ))}
                 </View>
@@ -895,7 +904,7 @@ function MockScoreScreen({ onBump, pro, onPaywall }: { onBump: () => void; pro: 
                       {locked ? (
                         <View style={[s.mockPill, s.mockPillPro]}><Text style={[s.mockPillTxt, s.mockPillProTxt]}>PROで解放</Text></View>
                       ) : taken ? (
-                        <View style={[s.mockPill, st.pct >= 60 ? s.mockPillPass : s.mockPillWarn]}><Text style={[s.mockPillTxt, st.pct >= 60 ? s.mockPillPassTxt : s.mockPillWarnTxt]}>{'受験済 ' + st.pct + '点'}</Text></View>
+                        <View style={[s.mockPill, st.passed ? s.mockPillPass : s.mockPillWarn]}><Text style={[s.mockPillTxt, st.passed ? s.mockPillPassTxt : s.mockPillWarnTxt]}>{'筆記 ' + (st.scores.writtenPct ?? 0) + '%・鑑別 ' + (st.scores.practicalPct ?? 0) + '%'}</Text></View>
                       ) : (
                         <View style={[s.mockPill, s.mockPillNew]}><Text style={[s.mockPillTxt, s.mockPillNewTxt]}>未受験</Text></View>
                       )}
@@ -924,6 +933,8 @@ function QuizPlayer({ title, questions, limitSeconds, onExit, onBump }: { title:
   const s = useStyles();
   const [idx, setIdx] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
+  const [practicalDraft, setPracticalDraft] = useState<Record<string, string>>({});
+  const [sessionPoints, setSessionPoints] = useState<Record<string, { earned: number; total: number }>>({});
   const [revealed, setRevealed] = useState(false);
   const [lowConf, setLowConf] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
@@ -976,12 +987,13 @@ function QuizPlayer({ title, questions, limitSeconds, onExit, onBump }: { title:
 
   const reset = () => {
     setIdx(0); setSelected(null); setRevealed(false); setLowConf(false); setCorrectCount(0); setFinished(false);
-    setAnsweredCount(0); setTimedOut(false); submitted.current = false;
+    setAnsweredCount(0); setTimedOut(false); submitted.current = false; setPracticalDraft({}); setSessionPoints({});
     setDeadline(limitSeconds ? Date.now() + limitSeconds * 1000 : null); setRemaining(limitSeconds ?? null);
   };
 
   if (finished) {
     const pct = Math.round((correctCount / questions.length) * 100);
+    const scores = sectionScores(questions, sessionPoints);
     return (
       <View style={{ flex: 1 }}>
         <View style={s.readerBar}>
@@ -991,8 +1003,10 @@ function QuizPlayer({ title, questions, limitSeconds, onExit, onBump }: { title:
         </View>
         <ScrollView contentContainerStyle={s.soon}>
           <Text style={s.soonTitle}>{timedOut ? '制限時間になりました' : 'おつかれさまでした'}</Text>
-          <Text style={s.resultBig}>{correctCount} / {questions.length} 問正解</Text>
-          <Text style={s.soonTxt}>正答率 {pct}%</Text>
+          <Text style={s.resultBig}>完全正解 {correctCount} / {questions.length} 問</Text>
+          <Text style={s.soonTxt}>全問正解率 {pct}%（鑑別は大問単位）</Text>
+          {scores.writtenTotal ? <Text style={s.soonTxt}>筆記：{scores.writtenEarned}/{scores.writtenTotal}問・{scores.writtenPct}%</Text> : null}
+          {scores.practicalTotal ? <Text style={s.soonTxt}>鑑別：{scores.practicalEarned}/{scores.practicalTotal}小問・{scores.practicalPct}%（各小問1点の練習用採点）</Text> : null}
           <Text style={s.soonTxt}>解答済み {answeredCount}問・未解答 {questions.length - answeredCount}問</Text>
           {timedOut ? <Text style={s.soonTxt}>未解答は不正解扱いです。全問題数を分母とし、時間内に「解答する」で確定した正解だけを得点に数えます。</Text> : null}
           {limitSeconds ? <Text style={s.soonTxt}>制限時間105分・所要時間 {formatExamTime(Math.min(limitSeconds, limitSeconds - (remaining ?? 0)))}</Text> : null}
@@ -1010,19 +1024,21 @@ function QuizPlayer({ title, questions, limitSeconds, onExit, onBump }: { title:
   const marked = isBookmarked(q.id);
 
   const submit = () => {
-    if (selected === null || submitted.current || revealed || finished || expired()) return;
+    if ((!q.practical && selected === null) || submitted.current || revealed || finished || expired()) return;
     submitted.current = true;
     setAnsweredCount(x => x + 1);
-    const ok = selected === q.answer;
+    const points = q.practical ? gradePractical(q, practicalDraft) : { earned: selected === q.answer ? 1 : 0, total: 1 };
+    const ok = points.earned === points.total;
+    setSessionPoints(previous => ({ ...previous, [q.id]: points }));
     if (ok) setCorrectCount((x) => x + 1);
-    void recordAnswer(q.id, ok, lowConf).then(() => bumpDaily()).then(() => recordSnapshotIfNeeded()).then(onBump);
+    void recordAnswer(q.id, ok, lowConf, points).then(() => bumpDaily()).then(() => recordSnapshotIfNeeded()).then(onBump);
     setRevealed(true);
   };
   const next = () => {
     if (finished || !submitted.current || expired()) return;
     if (isLast) { setRemaining(remainingSeconds(deadline, Date.now())); setFinished(true); return; }
     submitted.current = false;
-    setIdx((i) => i + 1); setSelected(null); setRevealed(false); setLowConf(false);
+    setIdx((i) => i + 1); setSelected(null); setRevealed(false); setLowConf(false); setPracticalDraft({});
   };
 
   return (
@@ -1039,10 +1055,11 @@ function QuizPlayer({ title, questions, limitSeconds, onExit, onBump }: { title:
         </Text>
         <Text style={s.quizTimerHint}>{remaining === null ? '自分のペースで学習' : '制限105分・アプリを離れても時間は進みます'}</Text>
       </View>
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 8 }]} showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 8 }]} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         {q.topic ? <Text style={s.qTopic}>{q.topic}</Text> : null}
-        <Text style={s.qStem}>{q.stem}</Text>
-        <View style={{ gap: 9, marginTop: 14 }}>
+        <Text style={s.qStem}>{questionStem(q)}</Text>
+        {q.practical ? <PracticalQuestion key={q.id} practical={q.practical} draft={practicalDraft} revealed={revealed}
+          onChange={(id, value) => setPracticalDraft(previous => ({ ...previous, [id]: value }))} /> : <View style={{ gap: 9, marginTop: 14 }}>
           {q.choices.map((ch, i) => {
             const chosen = selected === i;
             const isCorrect = i === q.answer;
@@ -1059,7 +1076,7 @@ function QuizPlayer({ title, questions, limitSeconds, onExit, onBump }: { title:
               </Pressable>
             );
           })}
-        </View>
+        </View>}
 
         {/* ブックマーク */}
         <Pressable
@@ -1075,19 +1092,19 @@ function QuizPlayer({ title, questions, limitSeconds, onExit, onBump }: { title:
             <Pressable onPress={() => setLowConf((v) => !v)} style={({ pressed }) => [s.confToggle, lowConf && s.confOn, pressed && s.pressed]}>
               <Text style={[s.confTxt, lowConf && s.confTxtOn]}>{(lowConf ? '☑ ' : '☐ ') + '自信なし（復習に回す）'}</Text>
             </Pressable>
-            <Pressable disabled={selected === null} onPress={submit} style={({ pressed }) => [s.submitBtn, selected === null && s.btnDisabled, pressed && s.pressed]}>
+            <Pressable disabled={!q.practical && selected === null} onPress={submit} style={({ pressed }) => [s.submitBtn, !q.practical && selected === null && s.btnDisabled, pressed && s.pressed]}>
               <Text style={s.submitTxt}>解答する</Text>
             </Pressable>
           </>
         ) : (
           <View style={s.explainBox}>
-            <Text style={[s.verdict, selected === q.answer ? s.vOk : s.vNg]}>
+            {!q.practical ? <><Text style={[s.verdict, selected === q.answer ? s.vOk : s.vNg]}>
               {selected === q.answer ? '◯ 正解' : '✕ 不正解'}（正解：{QLABEL[q.answer]}）
             </Text>
             {q.explain ? <Text style={s.explainTxt}>{q.explain}</Text> : null}
             {selected !== null && selected !== q.answer && q.whyWrong && q.whyWrong[selected]
               ? <Text style={s.whyWrong}>{'あなたの選択（' + QLABEL[selected] + '）：' + q.whyWrong[selected]}</Text>
-              : null}
+              : null}</> : <Text style={s.guideBody}>小問正解：{sessionPoints[q.id]?.earned ?? 0}/{q.practical.parts.length}</Text>}
             <Pressable onPress={next} style={({ pressed }) => [s.submitBtn, { marginTop: 14 }, pressed && s.pressed]}>
               <Text style={s.submitTxt}>{isLast ? '結果を見る' : '次の問題 ›'}</Text>
             </Pressable>
@@ -1265,7 +1282,7 @@ function BookmarksScreen({ onClose, onBump }: { onClose: () => void; onBump: () 
               <View style={s.chNo}><Text style={s.chNoTxt}>{q.chapter}</Text></View>
               <View style={{ flex: 1, minWidth: 0 }}>
                 {q.topic ? <Text style={s.chSub}>{q.topic}</Text> : null}
-                <Text style={s.chTitle} numberOfLines={2}>{q.stem}</Text>
+                <Text style={s.chTitle} numberOfLines={2}>{questionStem(q)}</Text>
               </View>
               <Text style={s.chGo}>›</Text>
             </Pressable>
@@ -1291,8 +1308,8 @@ function QuestionDetail({ question: q, onBack, onBump }: { question: Question; o
       </View>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingTop: 10, paddingBottom: 40 }]} showsVerticalScrollIndicator={false}>
         {q.topic ? <Text style={s.qTopic}>{q.topic}</Text> : null}
-        <Text style={s.qStem}>{q.stem}</Text>
-        <View style={{ gap: 9, marginTop: 14 }}>
+        <Text style={s.qStem}>{questionStem(q)}</Text>
+        {q.practical ? <PracticalQuestion practical={q.practical} review /> : <><View style={{ gap: 9, marginTop: 14 }}>
           {q.choices.map((ch, i) => (
             <View key={i} style={[s.choice, i === q.answer && s.choiceCorrect]}>
               <Text style={s.choiceNum}>{QLABEL[i]}</Text>
@@ -1304,6 +1321,7 @@ function QuestionDetail({ question: q, onBack, onBump }: { question: Question; o
           <Text style={[s.verdict, s.vOk]}>正解：{QLABEL[q.answer]}</Text>
           {q.explain ? <Text style={s.explainTxt}>{q.explain}</Text> : null}
         </View>
+        </>}
         <Pressable
           onPress={() => { void toggleBookmark(q.id).then(() => { setTick((t) => t + 1); onBump(); }); }}
           style={[s.bmBtn, marked && s.bmBtnOn]}
