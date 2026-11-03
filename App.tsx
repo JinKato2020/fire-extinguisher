@@ -43,6 +43,7 @@ import { CHAPTER_SHORT, subjectColor, type Colors } from './src/theme/colors';
 import { SvgXml, Svg, Defs, LinearGradient, Stop, Rect } from 'react-native-svg';
 import { Icon, Ring, Tag, RadarChart, StreakBars, Segmented, type RadarAxis, type RadarSeries } from './src/ui/components';
 import { RELATION_MAPS } from './src/data/relationMaps.generated';
+import RELATION_MAP_CONTENT from './docs/relation-maps/structure.json';
 
 type TabKey = 'home' | 'learn' | 'terms' | 'mock' | 'set';
 type ModalKey = 'bookmarks' | 'relation' | 'guide' | 'examdate' | 'paywall' | null;
@@ -1292,11 +1293,14 @@ function QuestionDetail({ question: q, onBack, onBump }: { question: Question; o
 
 // ---- モーダル: 相関図(章ごとの相関図を表示・タップで全画面ズーム) ----
 function RelationMapScreen({ onClose, pro, onPaywall }: { onClose: () => void; pro: boolean; onPaywall: () => void }) {
-  const { resolved } = useTheme();
+  const { resolved, c } = useTheme();
   const s = useStyles();
-  const { width, height } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const [ch, setCh] = useState<string>('1');
   const [zoom, setZoom] = useState(false);
+  const [zoomStep, setZoomStep] = useState(3);
+  const map = RELATION_MAP_CONTENT.chapters.find((m) => String(m.chapter) === ch)!;
+  const accessible = pro || ['1', '2', '3'].includes(ch);
 
   const chapters = ['1', '2', '3', '4', '5', '6'];
   const AR = 3400 / 2200; // SVGの viewBox 比(横/縦)
@@ -1307,7 +1311,9 @@ function RelationMapScreen({ onClose, pro, onPaywall }: { onClose: () => void; p
 
   const thumbW = Math.min(width - 32, 520);
   const thumbH = Math.round(thumbW / AR);
-  const fullW = Math.min(width, 440);
+  const fitW = Math.max(280, width - 32);
+  const zoomWidths = [fitW, Math.max(fitW, 850), Math.max(fitW, 1700), Math.max(fitW, 2550), Math.max(fitW, 3400)];
+  const fullW = zoomWidths[zoomStep];
   const fullH = Math.round(fullW / AR);
 
   return (
@@ -1322,33 +1328,52 @@ function RelationMapScreen({ onClose, pro, onPaywall }: { onClose: () => void; p
           <Segmented options={chapters.map((k) => ({ key: k, label: CHAPTER_SHORT[k] }))} value={ch} onChange={setCh} />
         </View>
         <Text style={[s.cardTitle, { marginTop: 16 }]}>{'第' + ch + '章 ' + CHAPTER_SHORT[ch]}</Text>
-        <Text style={s.relHint}>6つのテーマから、役割としくみを整理した図です。図をタップすると全画面で拡大できます。</Text>
-        {(!pro && !['1', '2', '3'].includes(ch)) ? (
+        <Text style={s.relHint}>{accessible ? '図をタップして拡大できます。下の「項目で読む」では、図と同じ内容を大きな文字で確認できます。' : '6つのテーマから、役割としくみを整理した図です。'}</Text>
+        {!accessible ? (
           <ProCut onPaywall={onPaywall} title="この章の相関図はProで" sub={'無料は第1〜3章。Proで全6章の相関図が見られます。'} />
         ) : (
-          <Pressable onPress={() => setZoom(true)} style={({ pressed }) => [s.relThumb, { width: thumbW, height: thumbH }, pressed && s.pressed]}>
+          <>
+          <Pressable accessibilityRole="button" accessibilityLabel="相関図を拡大する" onPress={() => { setZoomStep(3); setZoom(true); }} style={({ pressed }) => [s.relThumb, { width: thumbW, height: thumbH }, pressed && s.pressed]}>
             {svg ? <SvgXml xml={svg} width={thumbW} height={thumbH} /> : null}
             <View style={s.relZoomHint}><Text style={s.relZoomHintTxt}>タップで拡大</Text></View>
           </Pressable>
+          <Text style={s.sectionHead}>項目で読む</Text>
+          {map.branches.map((branch, i) => (
+            <View key={branch.title} style={[s.card, { marginBottom: 12 }]}>
+              <Text style={{ color: c.accent, fontSize: 19, fontWeight: '800', marginBottom: 4 }}>{i + 1}. {branch.title}</Text>
+              {branch.topics.map((topic) => (
+                <View key={topic.name} style={{ marginTop: 14 }}>
+                  <Text style={{ color: c.fg, fontSize: 17, fontWeight: '700', marginBottom: 6 }}>{topic.name}</Text>
+                  {topic.lines.map((line) => <Text key={line} style={{ color: c.fg, fontSize: 16, lineHeight: 26, marginBottom: 4 }}>{line}</Text>)}
+                </View>
+              ))}
+            </View>
+          ))}
+          </>
         )}
       </ScrollView>
-      {zoom ? (
+      {zoom && accessible ? (
         <View style={s.relFull}>
           <View style={s.relFullBar}>
-            <Text style={s.relFullHint}>ピンチで拡大・指でスクロール</Text>
+            <Text style={s.relFullHint}>縦・横にスクロールして確認</Text>
             <Pressable onPress={() => setZoom(false)} hitSlop={12} style={({ pressed }) => [pressed && s.pressed]}><Text style={s.relFullClose}>✕ 閉じる</Text></Pressable>
           </View>
-          <ScrollView
-            style={{ flex: 1 }}
-            contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', minHeight: height - 120, minWidth: fullW }}
-            maximumZoomScale={5}
-            minimumZoomScale={1}
-            centerContent
-            bouncesZoom
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-          >
-            {svg ? <SvgXml xml={svg} width={fullW} height={fullH} /> : null}
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, padding: 12 }}>
+            {[
+              { label: '− 縮小', step: Math.max(0, zoomStep - 1), disabled: zoomStep === 0 },
+              { label: '＋ 拡大', step: Math.min(4, zoomStep + 1), disabled: zoomStep === 4 },
+              { label: '全体', step: 0, disabled: false },
+              { label: '文字サイズ', step: 3, disabled: false },
+            ].map((item) => (
+              <Pressable key={item.label} accessibilityRole="button" accessibilityState={{ disabled: item.disabled }} disabled={item.disabled} onPress={() => setZoomStep(item.step)} style={[s.countSetBtn, { minHeight: 44, justifyContent: 'center', opacity: item.disabled ? 0.4 : 1 }]}>
+                <Text style={s.countSetTxt}>{item.label}</Text>
+              </Pressable>
+            ))}
+          </View>
+          <ScrollView key={`${ch}-${zoomStep}`} style={{ flex: 1 }} nestedScrollEnabled>
+            <ScrollView horizontal nestedScrollEnabled contentContainerStyle={{ width: fullW, height: fullH }}>
+              {svg ? <SvgXml xml={svg} width={fullW} height={fullH} /> : null}
+            </ScrollView>
           </ScrollView>
         </View>
       ) : null}

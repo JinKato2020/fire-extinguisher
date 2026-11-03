@@ -1,5 +1,5 @@
 {
-  "textCount": 758,
+  "textCount": 760,
   "allWithinBounds": true,
   "text": [
     {
@@ -421,17 +421,17 @@
     {
       "chapter": 1,
       "theme": "light",
-      "text": "甲種＝工事・整備／乙種＝整備",
+      "text": "甲種＝工事・整備・点検",
       "fontSize": 32,
-      "width": 448.0,
+      "width": 352.0,
       "available": 535
     },
     {
       "chapter": 1,
       "theme": "light",
-      "text": "第6類の対象＝消火器",
+      "text": "乙種＝整備・点検／第6類は消火器",
       "fontSize": 32,
-      "width": 308.0,
+      "width": 500.0,
       "available": 535
     },
     {
@@ -925,17 +925,17 @@
     {
       "chapter": 1,
       "theme": "dark",
-      "text": "甲種＝工事・整備／乙種＝整備",
+      "text": "甲種＝工事・整備・点検",
       "fontSize": 32,
-      "width": 448.0,
+      "width": 352.0,
       "available": 535
     },
     {
       "chapter": 1,
       "theme": "dark",
-      "text": "第6類の対象＝消火器",
+      "text": "乙種＝整備・点検／第6類は消火器",
       "fontSize": 32,
-      "width": 308.0,
+      "width": 500.0,
       "available": 535
     },
     {
@@ -2093,6 +2093,14 @@
     {
       "chapter": 3,
       "theme": "light",
+      "text": "剛体ではモーメントの和も0",
+      "fontSize": 32,
+      "width": 404.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "light",
       "text": "作用反作用＝別々の2物体",
       "fontSize": 32,
       "width": 372.0,
@@ -2205,9 +2213,9 @@
     {
       "chapter": 3,
       "theme": "light",
-      "text": "応力＝荷重÷断面積",
+      "text": "軸方向の平均応力＝荷重÷断面積",
       "fontSize": 32,
-      "width": 282.0,
+      "width": 474.0,
       "available": 535
     },
     {
@@ -2285,9 +2293,9 @@
     {
       "chapter": 3,
       "theme": "light",
-      "text": "小さい面積ほど圧力は大きい",
+      "text": "同じ力なら面積が小さいほど高圧",
       "fontSize": 32,
-      "width": 416.0,
+      "width": 480.0,
       "available": 535
     },
     {
@@ -2597,6 +2605,14 @@
     {
       "chapter": 3,
       "theme": "dark",
+      "text": "剛体ではモーメントの和も0",
+      "fontSize": 32,
+      "width": 404.0,
+      "available": 535
+    },
+    {
+      "chapter": 3,
+      "theme": "dark",
       "text": "作用反作用＝別々の2物体",
       "fontSize": 32,
       "width": 372.0,
@@ -2709,9 +2725,9 @@
     {
       "chapter": 3,
       "theme": "dark",
-      "text": "応力＝荷重÷断面積",
+      "text": "軸方向の平均応力＝荷重÷断面積",
       "fontSize": 32,
-      "width": 282.0,
+      "width": 474.0,
       "available": 535
     },
     {
@@ -2789,9 +2805,9 @@
     {
       "chapter": 3,
       "theme": "dark",
-      "text": "小さい面積ほど圧力は大きい",
+      "text": "同じ力なら面積が小さいほど高圧",
       "fontSize": 32,
-      "width": 416.0,
+      "width": 480.0,
       "available": 535
     },
     {
@@ -3205,9 +3221,9 @@
     {
       "chapter": 4,
       "theme": "light",
-      "text": "薬剤と圧縮ガスを常時収納",
+      "text": "本体内に放射用の圧力を常時保持",
       "fontSize": 32,
-      "width": 384.0,
+      "width": 480.0,
       "available": 535
     },
     {
@@ -3453,9 +3469,9 @@
     {
       "chapter": 4,
       "theme": "light",
-      "text": "薬剤充てん → 減圧してガス充てん",
+      "text": "ガスは圧力調整器で減圧して充てん",
       "fontSize": 32,
-      "width": 502.0,
+      "width": 512.0,
       "available": 535
     },
     {
@@ -3709,9 +3725,9 @@
     {
       "chapter": 4,
       "theme": "dark",
-      "text": "薬剤と圧縮ガスを常時収納",
+      "text": "本体内に放射用の圧力を常時保持",
       "fontSize": 32,
-      "width": 384.0,
+      "width": 480.0,
       "available": 535
     },
     {
@@ -3957,9 +3973,9 @@
     {
       "chapter": 4,
       "theme": "dark",
-      "text": "薬剤充てん → 減圧してガス充てん",
+      "text": "ガスは圧力調整器で減圧して充てん",
       "fontSize": 32,
-      "width": 502.0,
+      "width": 512.0,
       "available": 535
     },
     {
@@ -5405,9 +5421,9 @@
     {
       "chapter": 6,
       "theme": "light",
-      "text": "標準＝細かい圧力値を読む",
+      "text": "標準＝指示圧力計の精度を確認",
       "fontSize": 32,
-      "width": 384.0,
+      "width": 448.0,
       "available": 535
     },
     {
@@ -5533,9 +5549,9 @@
     {
       "chapter": 6,
       "theme": "light",
-      "text": "6問の例で理由まで確認する",
+      "text": "記述・記号選択で理由まで確認する",
       "fontSize": 32,
-      "width": 404.0,
+      "width": 512.0,
       "available": 535
     },
     {
@@ -5909,9 +5925,9 @@
     {
       "chapter": 6,
       "theme": "dark",
-      "text": "標準＝細かい圧力値を読む",
+      "text": "標準＝指示圧力計の精度を確認",
       "fontSize": 32,
-      "width": 384.0,
+      "width": 448.0,
       "available": 535
     },
     {
@@ -6037,9 +6053,9 @@
     {
       "chapter": 6,
       "theme": "dark",
-      "text": "6問の例で理由まで確認する",
+      "text": "記述・記号選択で理由まで確認する",
       "fontSize": 32,
-      "width": 404.0,
+      "width": 512.0,
       "available": 535
     },
     {

@@ -1,9 +1,87 @@
 {
+  "verifiedOn": "2026-11-03",
   "chapters": 6,
   "themesPerChapter": 6,
   "svgCount": 12,
   "pngCount": 12,
-  "appCopiesMatch": true,
-  "svgXmlValid": true,
-  "typecheck": "passed"
+  "svgMetadataMatchesStructure": true,
+  "pngDimensions": [
+    3400,
+    2200
+  ],
+  "checks": [
+    {
+      "file": "chapter1_relation_map.svg",
+      "textCount": 65,
+      "withinCanvas": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter1_relation_map-dark.svg",
+      "textCount": 65,
+      "withinCanvas": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter2_relation_map.svg",
+      "textCount": 65,
+      "withinCanvas": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter2_relation_map-dark.svg",
+      "textCount": 65,
+      "withinCanvas": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter3_relation_map.svg",
+      "textCount": 66,
+      "withinCanvas": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter3_relation_map-dark.svg",
+      "textCount": 66,
+      "withinCanvas": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter4_relation_map.svg",
+      "textCount": 65,
+      "withinCanvas": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter4_relation_map-dark.svg",
+      "textCount": 65,
+      "withinCanvas": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter5_relation_map.svg",
+      "textCount": 66,
+      "withinCanvas": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter5_relation_map-dark.svg",
+      "textCount": 66,
+      "withinCanvas": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter6_relation_map.svg",
+      "textCount": 65,
+      "withinCanvas": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter6_relation_map-dark.svg",
+      "textCount": 65,
+      "withinCanvas": true,
+      "noTextOverlap": true
+    }
+  ],
+  "physicalDeviceTested": false
 }
