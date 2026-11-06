@@ -57,4 +57,8 @@
 
 ## 配信状態
 
-第2章はコミット `3d24076` で教材・図表・iOS OTAを公開済み。第3章の本変更は次の配信用として保存し、この段階では公開していない。
+第3章はコミット `90c3bc1419fd81969ee7b532e1305020bc85b242` で2026-11-06に本番公開済み。
+
+- [教材・図表のR2配信](https://github.com/JinKato2020/fire-extinguisher/actions/runs/42151596319)：対象コミットで成功。
+- [iOS production OTA](https://expo.dev/accounts/jinkato1914/projects/fire6-exam-app/updates/0a174a4f-75e8-4754-846d-1c7709e6d7bc)：runtime `1.1.0`、update `01a1aeb9-73ac-7c8b-9e42-3952acd00ac1`。
+- 配信先manifestの242ファイルが一致。第2章公開時から変更された15ファイルを実際に取得し、SHA-256一致を確認した。
