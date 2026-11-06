@@ -1,0 +1,26 @@
+{
+  "sourceCommit": "334e9a447411ff7838eed5e33eddaea71e905e97",
+  "version": "1.3.1",
+  "build": 1059,
+  "contentRun": 42188774105,
+  "contentVerified": true,
+  "manifestUrl": "https://content.safa-lang.com/fire6/_manifest.json",
+  "files": 254,
+  "remoteGeneratedAt": "2026-11-06T08:35:39Z",
+  "verifiedChanges": [
+    "content/exam-guide.json"
+  ],
+  "otaGroup": "7902de74-292f-4b56-aca6-075c0cc2c831",
+  "iosUpdate": "01a1b001-b5d8-7240-a244-168ef8efdc07",
+  "channelVerified": true,
+  "buildRun": 42189156832,
+  "physicalDeviceTested": false,
+  "branch": "production",
+  "channel": "production",
+  "runtime": "1.1.0",
+  "buildStatus": "completed",
+  "testFlightUploaded": true,
+  "buildUrl": "https://github.com/JinKato2020/fire-extinguisher/actions/runs/42189156832",
+  "buildConclusion": "success",
+  "buildCompletedAt": "2026-11-06T08:52:08Z"
+}

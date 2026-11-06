@@ -1,5 +1,7 @@
 # ホーム・評価導線・単語単位の強調（2026-11-06）
 
+この後のホーム・設定・総合解説の改善は[ホームUXの修正記録](../home-ux-refinement/README.md)を参照。以下はBuild 1057時点の記録。
+
 ホームの承認済み提案と、「カード全体を同系色にせず重要ワードを浮き出させる」という追加指示を実装した。教材R2とproduction iOS OTAの配信・照合が完了。その後、**v1.3.1（1057）**をビルドし、TestFlightアップロードまで成功した。[ビルド結果](https://github.com/JinKato2020/fire-extinguisher/actions/runs/42180928921)／[配信記録](release.json)。
 
 ## 教材・用語
