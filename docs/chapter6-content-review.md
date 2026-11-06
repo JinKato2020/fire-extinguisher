@@ -100,4 +100,10 @@
 
 第5章は教材・図表・iOS production OTAを本番公開済み。[第5章の配信記録](chapter5-content-review.md#配信状態)。
 
-第6章は公開前の最終検証中。この欄に公開コミット・配信結果・本番ファイル照合結果を追記する。
+第6章も2026年11月6日に、教材・図表・iOS production OTAをすべて本番公開した。
+
+- 公開コミット：`d71598dfce9854d49bd830bd98708194ce8ee1c7`
+- 教材・図表：[GitHub Actions 42160935123](https://github.com/JinKato2020/fire-extinguisher/actions/runs/42160935123) 成功。実行コミットも一致。
+- iOS OTA：[8392025d-ff96-4b40-9cc4-4099a03a87e0](https://expo.dev/accounts/jinkato1914/projects/fire6-exam-app/updates/8392025d-ff96-4b40-9cc4-4099a03a87e0)。production、runtime 1.1.0。
+- 本番manifest全250件がローカルと一致し、第5章公開時から変わった18ファイルの実体のサイズ・SHA-256も一致。[公開照合記録](chapter6-review/release.json)。
+- 第1〜5章の既存内容も同じ配信に含まれる。ネイティブ機能の追加はなく、新規ビルドは行っていない。

@@ -1,0 +1,30 @@
+{
+  "commit": "d71598dfce9854d49bd830bd98708194ce8ee1c7",
+  "workflow": 42160935123,
+  "otaGroup": "8392025d-ff96-4b40-9cc4-4099a03a87e0",
+  "iosUpdate": "01a1af0d-bbaf-7b7f-b3b3-b3d803485772",
+  "runtime": "1.1.0",
+  "branch": "production",
+  "manifestUrl": "https://content.safa-lang.com/fire6/_manifest.json",
+  "files": 250,
+  "verifiedChanges": [
+    "content/chapters/ch6.json",
+    "content/glossary.json",
+    "content/lesson-tables.json",
+    "figures/ch6_f08.jpg",
+    "figures/ch6_f22.jpg",
+    "figures/ch6_f24.jpg",
+    "figures/ch6_t01_01.jpg",
+    "figures/ch6_t02_01.jpg",
+    "figures/ch6_t03_01.jpg",
+    "figures/ch6_t04_full.jpg",
+    "figures/ch6_t05_01.jpg",
+    "figures/ch6_t06_full.jpg",
+    "figures/ch6_t07_01.jpg",
+    "figures/ch6_t08_01.jpg",
+    "figures/ch6_t09_full.jpg",
+    "figures/ch6_t10_01.jpg",
+    "figures/ch6_t11_01.jpg",
+    "figures/ch6_t12_01.jpg"
+  ]
+}
