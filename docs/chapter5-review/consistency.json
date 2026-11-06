@@ -1,0 +1,33 @@
+{
+  "unchangedChapters": [
+    1,
+    2,
+    3,
+    4,
+    6
+  ],
+  "unchangedTables": 73,
+  "unchangedFigures": [
+    "ch5_f04",
+    "ch5_f05",
+    "ch5_f07"
+  ],
+  "glossaryChanges": [
+    "hosha-seino",
+    "shiyo-ondo-hani",
+    "tosyoku",
+    "ekimen-hyoji",
+    "horn-nigiri",
+    "tesage-shiki",
+    "sueoki-shiki",
+    "seoi-shiki",
+    "shasai-shiki",
+    "juten-hi",
+    "tekio-kasai-no-ehyoji",
+    "a-kasai",
+    "b-kasai",
+    "c-kasai",
+    "kikaku-shorei"
+  ],
+  "manifestFiles": 247
+}

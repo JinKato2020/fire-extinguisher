@@ -68,4 +68,9 @@
 
 ## 配信状態
 
-依頼に従い、第3章を教材・図表・iOS OTAで本番公開してから、第4章の改訂を行った。第4章は次回配信用として保存し、この段階では本番配信していない。ネイティブ機能の追加はない。
+第4章はコミット `060542aadd17a63b8dc46314bf8c3e92eb6b907b` で2026-11-06に本番公開済み。
+
+- [教材・図表のR2配信](https://github.com/JinKato2020/fire-extinguisher/actions/runs/42155066655)：対象コミットで成功。
+- [iOS production OTA](https://expo.dev/accounts/jinkato1914/projects/fire6-exam-app/updates/3ab252f2-73b7-44e3-889e-44c476064aac)：runtime `1.1.0`、update `01a1aed8-2f49-75eb-bd76-0218301049f3`。
+- 配信先manifestの244ファイルが一致。第3章公開時から変更された28ファイルを実際に取得し、SHA-256一致を確認した。
+- [配信照合記録](chapter4-review/release.json)

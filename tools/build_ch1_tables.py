@@ -28,8 +28,9 @@ FULL_TABLE_WIDTHS = {
     'ch3_t02': [300, 440, 300],
     'ch3_t04': [180, 360, 850],
     'ch4_t19': [230, 360, 300, 300, 700],
-    'ch5_t10': [350, 500, 220, 220, 220, 220, 220],
+    'ch5_t10': [350, 500, 700],
     'ch5_t17': [350, 900],
+    'ch5_t23': [500, 300, 300, 380],
     'ch6_t04': [350, 450, 1000],
     'ch6_t06': [400, 1100],
     'ch6_t09': [350, 400, 1200],
@@ -94,7 +95,7 @@ def build_chapter(chapter, args):
         headers, data = rows[0], rows[1:]
         if any(len(row) != len(headers) for row in data):
             raise ValueError(f'{asset}: 列数が一致しません')
-        if chapter in (1, 2, 3, 4):
+        if chapter in (1, 2, 3, 4, 5):
             # Preserve the exact authored cells (including emphasis), independently
             # of raster dimensions. The reader can reflow these at the user's font size.
             readable[asset] = {'title': title, 'headers': headers, 'rows': data}
@@ -111,7 +112,7 @@ def build_chapter(chapter, args):
             group_headers = [headers[i] for i in indices]
             group_data = [[row[i] for i in indices] for row in data]
             pages.extend(layout_pages(group_headers, group_data, font, bold,
-                                      full_table=full_table, no_split=chapter in (1, 2, 3, 4),
+                                      full_table=full_table, no_split=chapter in (1, 2, 3, 4, 5),
                                       widths=FULL_TABLE_WIDTHS.get(asset)))
         markers = []
         for p, (head, hh, page, widths) in enumerate(pages, 1):
@@ -150,7 +151,7 @@ def build_chapter(chapter, args):
         if replaced != 1:
             raise ValueError(f'{asset}: 正本の対応マーカーが見つからない、または重複')
     MD.write_text(body, encoding='utf-8', newline='\n')
-    if chapter in (1, 2, 3, 4):
+    if chapter in (1, 2, 3, 4, 5):
         target = APP / 'content' / 'lesson-tables.json'
         existing = json.loads(target.read_text(encoding='utf-8')) if target.exists() else {}
         # Rebuilding one chapter must preserve the other chapters' readable tables.
