@@ -1,86 +1,313 @@
 {
-  "verifiedOn": "2026-11-03",
+  "verifiedOn": "2026-11-07",
   "chapters": 6,
-  "themesPerChapter": 6,
-  "svgCount": 12,
-  "pngCount": 12,
-  "svgMetadataMatchesStructure": true,
-  "pngDimensions": [
-    3400,
-    2200
-  ],
+  "diagrams": 19,
+  "svgCount": 38,
+  "pngCount": 38,
   "checks": [
     {
       "file": "chapter1_relation_map.svg",
-      "textCount": 65,
+      "textCount": 15,
       "withinCanvas": true,
+      "withinNode": true,
       "noTextOverlap": true
     },
     {
       "file": "chapter1_relation_map-dark.svg",
-      "textCount": 65,
+      "textCount": 15,
       "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter1_building.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter1_building-dark.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter1_checks.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter1_checks-dark.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
       "noTextOverlap": true
     },
     {
       "file": "chapter2_relation_map.svg",
-      "textCount": 65,
+      "textCount": 16,
       "withinCanvas": true,
+      "withinNode": true,
       "noTextOverlap": true
     },
     {
       "file": "chapter2_relation_map-dark.svg",
-      "textCount": 65,
+      "textCount": 16,
       "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter2_suitable.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter2_suitable-dark.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter2_hazardous.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter2_hazardous-dark.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
       "noTextOverlap": true
     },
     {
       "file": "chapter3_relation_map.svg",
-      "textCount": 66,
+      "textCount": 14,
       "withinCanvas": true,
+      "withinNode": true,
       "noTextOverlap": true
     },
     {
       "file": "chapter3_relation_map-dark.svg",
-      "textCount": 66,
+      "textCount": 14,
       "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter3_materials.svg",
+      "textCount": 15,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter3_materials-dark.svg",
+      "textCount": 15,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter3_gas.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter3_gas-dark.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
       "noTextOverlap": true
     },
     {
       "file": "chapter4_relation_map.svg",
-      "textCount": 65,
+      "textCount": 20,
       "withinCanvas": true,
+      "withinNode": true,
       "noTextOverlap": true
     },
     {
       "file": "chapter4_relation_map-dark.svg",
-      "textCount": 65,
+      "textCount": 20,
       "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter4_pressure.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter4_pressure-dark.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter4_gauge.svg",
+      "textCount": 14,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter4_gauge-dark.svg",
+      "textCount": 14,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter4_maintenance.svg",
+      "textCount": 16,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter4_maintenance-dark.svg",
+      "textCount": 16,
+      "withinCanvas": true,
+      "withinNode": true,
       "noTextOverlap": true
     },
     {
       "file": "chapter5_relation_map.svg",
-      "textCount": 66,
+      "textCount": 14,
       "withinCanvas": true,
+      "withinNode": true,
       "noTextOverlap": true
     },
     {
       "file": "chapter5_relation_map-dark.svg",
-      "textCount": 66,
+      "textCount": 14,
       "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter5_performance.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter5_performance-dark.svg",
+      "textCount": 18,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter5_parts.svg",
+      "textCount": 19,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter5_parts-dark.svg",
+      "textCount": 19,
+      "withinCanvas": true,
+      "withinNode": true,
       "noTextOverlap": true
     },
     {
       "file": "chapter6_relation_map.svg",
-      "textCount": 65,
+      "textCount": 22,
       "withinCanvas": true,
+      "withinNode": true,
       "noTextOverlap": true
     },
     {
       "file": "chapter6_relation_map-dark.svg",
-      "textCount": 65,
+      "textCount": 22,
       "withinCanvas": true,
+      "withinNode": true,
       "noTextOverlap": true
+    },
+    {
+      "file": "chapter6_function.svg",
+      "textCount": 19,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter6_function-dark.svg",
+      "textCount": 19,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter6_answer.svg",
+      "textCount": 24,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    },
+    {
+      "file": "chapter6_answer-dark.svg",
+      "textCount": 24,
+      "withinCanvas": true,
+      "withinNode": true,
+      "noTextOverlap": true
+    }
+  ],
+  "screens": [
+    {
+      "name": "screen-2-0-light-390-1",
+      "width": 390,
+      "scale": 1,
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "screen-2-0-dark-390-1",
+      "width": 390,
+      "scale": 1,
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "screen-4-1-light-320-1",
+      "width": 320,
+      "scale": 1,
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "screen-6-0-dark-430-1",
+      "width": 430,
+      "scale": 1,
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "screen-3-2-light-390-1.5",
+      "width": 390,
+      "scale": 1.5,
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "screen-1-2-light-768-1",
+      "width": 768,
+      "scale": 1,
+      "noHorizontalOverflow": true
     }
   ],
   "physicalDeviceTested": false

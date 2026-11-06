@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1236" viewBox="0 0 720 1236" role="img" aria-labelledby="title desc">
+<title id="title">第1章：用途や建物の条件は、設備の設置にどうつながる？</title>
+<desc id="desc">建物の条件から、基準に当てはめる、必要な設備を判断。必要な設備を判断から、どの範囲に？、設置の単位。必要な設備を判断から、例外はある？、例外・変更条件。設置の単位から、原則を確認、適用基準を確定。例外・変更条件から、適用を補正、適用基準を確定。適用基準を確定から、基準に従って設置、設置・届出・検査</desc>
+<rect width="720" height="1236" fill="#FFFFFF"/>
+<g font-family="Meiryo, Noto Sans CJK JP, sans-serif">
+<path d="M 360.0 174 V 205.6 H 360.0 V 268" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 265 L 360.0 279 L 368.0 265 Z" fill="#58738D"/>
+<path d="M 360.0 434 V 465.6 H 180.0 V 528" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 172.0 525 L 180.0 539 L 188.0 525 Z" fill="#58738D"/>
+<path d="M 360.0 434 V 465.6 H 540.0 V 528" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 532.0 525 L 540.0 539 L 548.0 525 Z" fill="#58738D"/>
+<path d="M 180.0 694 V 770.4 H 360.0 V 788" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 785 L 360.0 799 L 368.0 785 Z" fill="#58738D"/>
+<path d="M 540.0 694 V 770.4 H 360.0 V 788" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 785 L 360.0 799 L 368.0 785 Z" fill="#58738D"/>
+<path d="M 360.0 954 V 985.6 H 360.0 V 1048" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 1045 L 360.0 1059 L 368.0 1045 Z" fill="#58738D"/>
+<rect x="236.0" y="213.68" width="248.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="360.0" y="246.68" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">基準に当てはめる</text>
+<rect x="84.0" y="473.68" width="192.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="180.0" y="506.68" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">どの範囲に？</text>
+<rect x="444.0" y="473.68" width="192.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="540.0" y="506.68" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">例外はある？</text>
+<rect x="98.0" y="697.84" width="164.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="180.0" y="730.84" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">原則を確認</text>
+<rect x="458.0" y="697.84" width="164.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="540.0" y="730.84" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">適用を補正</text>
+<rect x="236.0" y="993.6800000000001" width="248.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="360.0" y="1026.68" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">基準に従って設置</text>
+<g id="node-a">
+<rect x="204" y="24" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 206 46 V 150" stroke="#996010" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="72.0" text-anchor="middle" font-size="34" font-weight="700" fill="#996010">建物の条件</text>
+<text x="360.0" y="126.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">用途・規模・階など</text>
+</g>
+<g id="node-b">
+<rect x="204" y="284" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 206 306 V 410" stroke="#246A9C" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="332.0" text-anchor="middle" font-size="34" font-weight="700" fill="#246A9C">必要な設備を判断</text>
+<text x="360.0" y="386.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">消火・警報・避難など</text>
+</g>
+<g id="node-c">
+<rect x="24" y="544" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 26 566 V 670" stroke="#996010" stroke-width="6" stroke-linecap="round"/>
+<text x="180.0" y="592.0" text-anchor="middle" font-size="34" font-weight="700" fill="#996010">設置の単位</text>
+<text x="180.0" y="646.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">原則は1棟</text>
+</g>
+<g id="node-d">
+<rect x="384" y="544" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 386 566 V 670" stroke="#996010" stroke-width="6" stroke-linecap="round"/>
+<text x="540.0" y="592.0" text-anchor="middle" font-size="34" font-weight="700" fill="#996010">例外・変更条件</text>
+<text x="540.0" y="646.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">条例・用途変更など</text>
+</g>
+<g id="node-e">
+<rect x="204" y="804" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 206 826 V 930" stroke="#16785B" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="852.0" text-anchor="middle" font-size="34" font-weight="700" fill="#16785B">適用基準を確定</text>
+<text x="360.0" y="906.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">両方を照らし合わせる</text>
+</g>
+<g id="node-f">
+<rect x="204" y="1064" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 206 1086 V 1190" stroke="#16785B" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="1112.0" text-anchor="middle" font-size="34" font-weight="700" fill="#16785B">設置・届出・検査</text>
+<text x="360.0" y="1166.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">対象と期限を確認</text>
+</g>
+</g></svg>

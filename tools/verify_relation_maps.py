@@ -1,51 +1,50 @@
-"""Check actual browser text bounds and generate review previews (not device QA)."""
+"""Browser verification of diagram text and actual-screen DOM previews (not device QA)."""
 from pathlib import Path
 import json
-import xml.etree.ElementTree as ET
 from PIL import Image
 from playwright.sync_api import sync_playwright
 
-ROOT = Path(__file__).resolve().parents[1]
-ASSETS = ROOT / 'assets/relation-maps'
-TMP = ROOT / 'tmp'
-TMP.mkdir(exist_ok=True)
-data = json.loads((ROOT/'docs/relation-maps/structure.json').read_text(encoding='utf8'))
-checks = []
+R = Path(__file__).resolve().parents[1]
+DOCS, TMP = R/'docs/relation-maps', R/'tmp/relation-redesign'
+data = json.loads((DOCS/'structure.json').read_text(encoding='utf8'))
+checks, screens = [], []
 with sync_playwright() as pw:
     browser = pw.chromium.launch(executable_path='C:/Program Files/Google/Chrome/Application/chrome.exe', headless=True)
-    page = browser.new_page(viewport={'width':3400, 'height':2200})
+    page = browser.new_page()
     for chapter in data['chapters']:
-        for suffix in ('', '-dark'):
-            path = ASSETS / f"chapter{chapter['chapter']}_relation_map{suffix}.svg"
-            svg = path.read_text(encoding='utf8')
-            root = ET.fromstring(svg)
-            assert json.loads(root.find('{http://www.w3.org/2000/svg}metadata').text) == chapter
-            with Image.open(path.with_suffix('.png')) as png:
-                assert png.size == (3400,2200)
-            page.set_content('<style>body{margin:0}</style>'+svg)
-            page.evaluate('document.fonts.ready')
-            boxes = page.locator('svg text').evaluate_all('''nodes => nodes.map(n => {
-              const r = n.getBBox(); return {text:n.textContent,x:r.x,y:r.y,w:r.width,h:r.height};
-            })''')
-            for i, box in enumerate(boxes):
-                assert box['x']>=0 and box['y']>=0 and box['x']+box['w']<=3400 and box['y']+box['h']<=2200, (path.name,box)
-                for other in boxes[i+1:]:
-                    overlap = min(box['x']+box['w'],other['x']+other['w']) > max(box['x'],other['x']) and min(box['y']+box['h'],other['y']+other['h']) > max(box['y'],other['y'])
-                    assert not overlap, (path.name,box['text'],other['text'])
-            checks.append({'file':path.name,'textCount':len(boxes),'withinCanvas':True,'noTextOverlap':True})
-    # Overview for visual inspection: six rows, light and dark side by side.
-    page.set_viewport_size({'width':1700,'height':3300})
-    gallery = ''.join((ASSETS/f"chapter{c['chapter']}_relation_map{s}.svg").read_text(encoding='utf8') for c in data['chapters'] for s in ('','-dark'))
-    page.set_content('<style>body{margin:0;display:grid;grid-template-columns:850px 850px}svg{width:850px;height:550px}</style>'+gallery)
-    page.screenshot(path=str(TMP/'relation-maps-overview.png'))
-    page.set_viewport_size({'width':390,'height':844})
-    for theme in ('light','dark'):
-        page.goto((TMP/f'relation-map-{theme}.html').as_uri())
-        page.screenshot(path=str(TMP/f'relation-map-{theme}-mobile.png'))
+        gallery = []
+        for diagram in chapter['diagrams']:
+            for suffix in ('', '-dark'):
+                path = R/'assets/relation-maps'/(diagram['asset'] + suffix + '.svg')
+                with Image.open(path.with_suffix('.png')) as png: assert png.size == (diagram['width'], diagram['height'])
+                xml = path.read_text(encoding='utf8')
+                page.set_viewport_size(dict(width=diagram['width'], height=diagram['height']))
+                page.set_content('<style>body{margin:0}</style>'+xml)
+                page.evaluate('document.fonts.ready')
+                escaped = page.locator('g[id^="node-"]').evaluate_all('''nodes => nodes.flatMap(g => {
+                  const r=g.querySelector('rect').getBBox();
+                  return [...g.querySelectorAll('text')].filter(t=>{const b=t.getBBox();return b.x<r.x+8||b.x+b.width>r.x+r.width-8||b.y<r.y||b.y+b.height>r.y+r.height}).map(t=>t.textContent);
+                })''')
+                assert not escaped, (path.name, 'text outside node', escaped)
+                boxes = page.locator('svg text').evaluate_all('nodes => nodes.map(n => {const r=n.getBBox();return {text:n.textContent,x:r.x,y:r.y,w:r.width,h:r.height}})')
+                for i, a in enumerate(boxes):
+                    assert a['x']>=0 and a['y']>=0 and a['x']+a['w']<=diagram['width'] and a['y']+a['h']<=diagram['height'], (path.name,a)
+                    for b in boxes[i+1:]:
+                        overlap = min(a['x']+a['w'],b['x']+b['w']) > max(a['x'],b['x']) and min(a['y']+a['h'],b['y']+b['h']) > max(a['y'],b['y'])
+                        assert not overlap, (path.name,a['text'],b['text'])
+                checks.append(dict(file=path.name,textCount=len(boxes),withinCanvas=True,withinNode=True,noTextOverlap=True))
+                if not suffix: gallery.append('<section><h2>'+diagram['title']+'</h2>'+xml+'</section>')
+        page.set_viewport_size(dict(width=720 * len(gallery),height=1700))
+        page.set_content('<style>body{margin:0;display:flex;font-family:Meiryo}section{width:720px}h2{padding:16px;margin:0}</style>'+''.join(gallery))
+        page.screenshot(path=str(TMP/f'chapter{chapter["chapter"]}-gallery.png'),full_page=True)
+    for preview in json.loads((TMP/'previews.json').read_text(encoding='utf8')):
+        page.set_viewport_size(dict(width=preview['width'],height=844))
+        page.goto((TMP/(preview['name']+'.html')).as_uri())
+        page.evaluate('document.fonts.ready')
+        overflow = page.evaluate('document.documentElement.scrollWidth > innerWidth')
+        assert not overflow, preview
+        page.screenshot(path=str(DOCS/(preview['name']+'.png')),full_page=True)
+        screens.append(dict(**preview,noHorizontalOverflow=True))
     browser.close()
-(ROOT/'docs/relation-maps/verification.json').write_text(json.dumps({
-    'verifiedOn':'2026-11-03','chapters':6,'themesPerChapter':6,'svgCount':12,'pngCount':12,
-    'svgMetadataMatchesStructure':True,'pngDimensions':[3400,2200],
-    'checks':checks,'physicalDeviceTested':False,
-},ensure_ascii=False,indent=2)+'\n',encoding='utf8')
-print('PASS: 12 SVG metadata matches, PNG dimensions, actual text bounds and no overlapping text')
+(DOCS/'verification.json').write_text(json.dumps(dict(verifiedOn='2026-11-07',chapters=6,diagrams=19,svgCount=len(checks),pngCount=len(checks),checks=checks,screens=screens,physicalDeviceTested=False),ensure_ascii=False,indent=2)+'\n',encoding='utf8',newline='\n')
+print(f'PASS: {len(checks)} SVG/PNG pairs; text in bounds and no overlaps; {len(screens)} screen previews without horizontal overflow')

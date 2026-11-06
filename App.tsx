@@ -43,10 +43,9 @@ import {
 import { ThemeProvider, useTheme, useStyles } from './src/theme/ThemeContext';
 import type { Mode } from './src/theme/ThemeContext';
 import { CHAPTER_SHORT, subjectColor, type Colors } from './src/theme/colors';
-import { SvgXml, Svg, Defs, LinearGradient, Stop, Rect } from 'react-native-svg';
+import { Svg, Defs, LinearGradient, Stop, Rect } from 'react-native-svg';
 import { Icon, Ring, Tag, RadarChart, StreakBars, Segmented, type RadarAxis, type RadarSeries } from './src/ui/components';
-import { RELATION_MAPS } from './src/data/relationMaps.generated';
-import RELATION_MAP_CONTENT from './docs/relation-maps/structure.json';
+import { RelationMapScreen } from './src/ui/RelationMapScreen';
 
 type TabKey = 'home' | 'learn' | 'terms' | 'mock' | 'set';
 type ModalKey = 'bookmarks' | 'relation' | 'guide' | 'paywall' | 'examdate' | null;
@@ -1069,96 +1068,6 @@ function QuestionDetail({ question: q, onBack, onBump }: { question: Question; o
   );
 }
 
-// ---- モーダル: 相関図(章ごとの相関図を表示・タップで全画面ズーム) ----
-function RelationMapScreen({ onClose, pro, onPaywall }: { onClose: () => void; pro: boolean; onPaywall: () => void }) {
-  const { resolved, c } = useTheme();
-  const s = useStyles();
-  const { width } = useWindowDimensions();
-  const [ch, setCh] = useState<string>('1');
-  const [zoom, setZoom] = useState(false);
-  const [zoomStep, setZoomStep] = useState(3);
-  const map = RELATION_MAP_CONTENT.chapters.find((m) => String(m.chapter) === ch)!;
-  const accessible = pro || ['1', '2', '3'].includes(ch);
-
-  const chapters = ['1', '2', '3', '4', '5', '6'];
-  const AR = 3400 / 2200; // SVGの viewBox 比(横/縦)
-  const svg = useMemo(() => {
-    const m = RELATION_MAPS[ch];
-    return m ? (resolved === 'light' ? m.light : m.dark) : '';
-  }, [ch, resolved]);
-
-  const thumbW = Math.min(width - 32, 520);
-  const thumbH = Math.round(thumbW / AR);
-  const fitW = Math.max(280, width - 32);
-  const zoomWidths = [fitW, Math.max(fitW, 850), Math.max(fitW, 1700), Math.max(fitW, 2550), Math.max(fitW, 3400)];
-  const fullW = zoomWidths[zoomStep];
-  const fullH = Math.round(fullW / AR);
-
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={s.modalBar}>
-        <Pressable onPress={onClose} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}><Text style={s.backTxt}>‹ 閉じる</Text></Pressable>
-        <Text style={s.modalTitle}>相関図</Text>
-        <View style={{ width: 56 }} />
-      </View>
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40 }]} showsVerticalScrollIndicator={false}>
-        <View style={{ marginTop: 12 }}>
-          <Segmented options={chapters.map((k) => ({ key: k, label: CHAPTER_SHORT[k] }))} value={ch} onChange={setCh} />
-        </View>
-        <Text style={[s.cardTitle, { marginTop: 16 }]}>{'第' + ch + '章 ' + CHAPTER_SHORT[ch]}</Text>
-        <Text style={s.relHint}>{accessible ? '図をタップして拡大できます。下の「項目で読む」では、図と同じ内容を大きな文字で確認できます。' : '6つのテーマから、役割としくみを整理した図です。'}</Text>
-        {!accessible ? (
-          <ProCut onPaywall={onPaywall} title="この章の相関図はProで" sub={'無料は第1〜3章。Proで全6章の相関図が見られます。'} />
-        ) : (
-          <>
-          <Pressable accessibilityRole="button" accessibilityLabel="相関図を拡大する" onPress={() => { setZoomStep(3); setZoom(true); }} style={({ pressed }) => [s.relThumb, { width: thumbW, height: thumbH }, pressed && s.pressed]}>
-            {svg ? <SvgXml xml={svg} width={thumbW} height={thumbH} /> : null}
-            <View style={s.relZoomHint}><Text style={s.relZoomHintTxt}>タップで拡大</Text></View>
-          </Pressable>
-          <Text style={s.sectionHead}>項目で読む</Text>
-          {map.branches.map((branch, i) => (
-            <View key={branch.title} style={[s.card, { marginBottom: 12 }]}>
-              <Text style={{ color: c.accent, fontSize: 19, fontWeight: '800', marginBottom: 4 }}>{i + 1}. {branch.title}</Text>
-              {branch.topics.map((topic) => (
-                <View key={topic.name} style={{ marginTop: 14 }}>
-                  <Text style={{ color: c.fg, fontSize: 17, fontWeight: '700', marginBottom: 6 }}>{topic.name}</Text>
-                  {topic.lines.map((line) => <Text key={line} style={{ color: c.fg, fontSize: 16, lineHeight: 26, marginBottom: 4 }}>{line}</Text>)}
-                </View>
-              ))}
-            </View>
-          ))}
-          </>
-        )}
-      </ScrollView>
-      {zoom && accessible ? (
-        <View style={s.relFull}>
-          <View style={s.relFullBar}>
-            <Text style={s.relFullHint}>縦・横にスクロールして確認</Text>
-            <Pressable onPress={() => setZoom(false)} hitSlop={12} style={({ pressed }) => [pressed && s.pressed]}><Text style={s.relFullClose}>✕ 閉じる</Text></Pressable>
-          </View>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, padding: 12 }}>
-            {[
-              { label: '− 縮小', step: Math.max(0, zoomStep - 1), disabled: zoomStep === 0 },
-              { label: '＋ 拡大', step: Math.min(4, zoomStep + 1), disabled: zoomStep === 4 },
-              { label: '全体', step: 0, disabled: false },
-              { label: '文字サイズ', step: 3, disabled: false },
-            ].map((item) => (
-              <Pressable key={item.label} accessibilityRole="button" accessibilityState={{ disabled: item.disabled }} disabled={item.disabled} onPress={() => setZoomStep(item.step)} style={[s.countSetBtn, { minHeight: 44, justifyContent: 'center', opacity: item.disabled ? 0.4 : 1 }]}>
-                <Text style={s.countSetTxt}>{item.label}</Text>
-              </Pressable>
-            ))}
-          </View>
-          <ScrollView key={`${ch}-${zoomStep}`} style={{ flex: 1 }} nestedScrollEnabled>
-            <ScrollView horizontal nestedScrollEnabled contentContainerStyle={{ width: fullW, height: fullH }}>
-              {svg ? <SvgXml xml={svg} width={fullW} height={fullH} /> : null}
-            </ScrollView>
-          </ScrollView>
-        </View>
-      ) : null}
-    </View>
-  );
-}
-
 // ---- モーダル: Pro(買い切り)ペイウォール ----
 function PaywallScreen({ onClose, onBump }: { onClose: () => void; onBump: () => void }) {
   const { c } = useTheme();
@@ -1348,7 +1257,9 @@ function Main() {
           {showModal ? (
             <>
               {modal === 'bookmarks' && <BookmarksScreen onClose={() => setModal(null)} onBump={bump} />}
-              {modal === 'relation' && <RelationMapScreen onClose={() => setModal(null)} pro={pro} onPaywall={() => { setModal('paywall'); }} />}
+              {modal === 'relation' && <RelationMapScreen onClose={() => setModal(null)} pro={pro} onPaywall={() => { setModal('paywall'); }} chapters={chapters}
+                renderLesson={(target, onBack, onNav) => <LessonReader backLabel="相関図に戻る" chapters={chapters} chapterNo={target.chapterNo} lessonIdx={target.lessonIdx}
+                  onBack={onBack} onNav={onNav} pro={pro} onPaywall={() => setModal('paywall')} />} />}
               {modal === 'examdate' && <ExamDateScreen onClose={() => setModal(null)} onSaved={bump} />}
               {modal === 'guide' && <ExamGuideScreen onClose={() => setModal(null)} />}
               {modal === 'paywall' && <PaywallScreen onClose={() => setModal(null)} onBump={bump} />}

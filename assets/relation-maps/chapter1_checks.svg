@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="976" viewBox="0 0 720 976" role="img" aria-labelledby="title desc">
+<title id="title">第1章：防火対象物点検と、設備の点検報告を区別できる？</title>
+<desc id="desc">点検の対象を確認から、管理を確認、防火対象物点検。点検の対象を確認から、設備を確認、消防用設備等点検。防火対象物点検から、制度を照合、対象・資格・周期。消防用設備等点検から、内容を照合、機器・総合点検。対象・資格・周期から、該当する報告、必要な報告を行う。機器・総合点検から、点検結果を報告、必要な報告を行う</desc>
+<rect width="720" height="976" fill="#FFFFFF"/>
+<g font-family="Meiryo, Noto Sans CJK JP, sans-serif">
+<path d="M 360.0 174 V 205.6 H 180.0 V 268" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 172.0 265 L 180.0 279 L 188.0 265 Z" fill="#58738D"/>
+<path d="M 360.0 174 V 205.6 H 540.0 V 268" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 532.0 265 L 540.0 279 L 548.0 265 Z" fill="#58738D"/>
+<path d="M 180.0 434 V 465.6 H 180.0 V 528" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 172.0 525 L 180.0 539 L 188.0 525 Z" fill="#58738D"/>
+<path d="M 540.0 434 V 465.6 H 540.0 V 528" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 532.0 525 L 540.0 539 L 548.0 525 Z" fill="#58738D"/>
+<path d="M 180.0 694 V 770.4 H 360.0 V 788" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 785 L 360.0 799 L 368.0 785 Z" fill="#58738D"/>
+<path d="M 540.0 694 V 770.4 H 360.0 V 788" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 785 L 360.0 799 L 368.0 785 Z" fill="#58738D"/>
+<rect x="98.0" y="213.68" width="164.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="180.0" y="246.68" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">管理を確認</text>
+<rect x="458.0" y="213.68" width="164.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="540.0" y="246.68" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">設備を確認</text>
+<rect x="98.0" y="473.68" width="164.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="180.0" y="506.68" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">制度を照合</text>
+<rect x="458.0" y="473.68" width="164.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="540.0" y="506.68" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">内容を照合</text>
+<rect x="84.0" y="697.84" width="192.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="180.0" y="730.84" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">該当する報告</text>
+<rect x="430.0" y="697.84" width="220.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="540.0" y="730.84" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">点検結果を報告</text>
+<g id="node-a">
+<rect x="204" y="24" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 206 46 V 150" stroke="#996010" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="72.0" text-anchor="middle" font-size="34" font-weight="700" fill="#996010">点検の対象を確認</text>
+<text x="360.0" y="126.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">似た制度を切り分ける</text>
+</g>
+<g id="node-b">
+<rect x="24" y="284" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 26 306 V 410" stroke="#246A9C" stroke-width="6" stroke-linecap="round"/>
+<text x="180.0" y="332.0" text-anchor="middle" font-size="34" font-weight="700" fill="#246A9C">防火対象物点検</text>
+<text x="180.0" y="386.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">防火管理の実施状況等</text>
+</g>
+<g id="node-c">
+<rect x="384" y="284" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 386 306 V 410" stroke="#246A9C" stroke-width="6" stroke-linecap="round"/>
+<text x="540.0" y="332.0" text-anchor="middle" font-size="34" font-weight="700" fill="#246A9C">消防用設備等点検</text>
+<text x="540.0" y="386.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">設備の機能・状態</text>
+</g>
+<g id="node-d">
+<rect x="24" y="544" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 26 566 V 670" stroke="#996010" stroke-width="6" stroke-linecap="round"/>
+<text x="180.0" y="592.0" text-anchor="middle" font-size="34" font-weight="700" fill="#996010">対象・資格・周期</text>
+<text x="180.0" y="646.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">この制度の規定で判断</text>
+</g>
+<g id="node-e">
+<rect x="384" y="544" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 386 566 V 670" stroke="#996010" stroke-width="6" stroke-linecap="round"/>
+<text x="540.0" y="592.0" text-anchor="middle" font-size="34" font-weight="700" fill="#996010">機器・総合点検</text>
+<text x="540.0" y="646.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">設備別の基準で判断</text>
+</g>
+<g id="node-f">
+<rect x="204" y="804" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 206 826 V 930" stroke="#16785B" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="852.0" text-anchor="middle" font-size="34" font-weight="700" fill="#16785B">必要な報告を行う</text>
+<text x="360.0" y="906.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">消防長・消防署長へ</text>
+</g>
+</g></svg>

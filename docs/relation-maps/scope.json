@@ -1,0 +1,20 @@
+{
+  "home": {
+    "unchanged": true,
+    "sha256": "c8dc60ce3fc048d525ec2015b17b3179b8b31e5fb4072208e6e352d527fa6d0a"
+  },
+  "settings": {
+    "unchanged": true,
+    "sha256": "fb87963e552e81482b15b980d19f1e640c48189eae42ec4a222b9929de21e86d"
+  },
+  "baseCommit": "7cce7fde09cf935deb602efac3256dab8a579713",
+  "nativeDependenciesChanged": false,
+  "appVersion": "1.3.1",
+  "runtimeVersion": "1.1.0",
+  "additionalBuildRequired": false,
+  "canonicalMarkdownSha256": "99c6ee4e712c80d362d07bae0a30d98910dc85087a866d26d8ad439d24028c9f",
+  "iosExport": {
+    "success": true,
+    "bundle": "index-b450b41880d416e384c9e4d659ecfcaa.hbc"
+  }
+}

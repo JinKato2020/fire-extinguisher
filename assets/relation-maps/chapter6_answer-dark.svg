@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1320" viewBox="0 0 720 1320" role="img" aria-labelledby="title desc">
+<title id="title">第6章：知っている内容を、設問に合う答えにできる？</title>
+<desc id="desc">設問を確認から、図から説明、名称・理由の問題。設問を確認から、量を求める、計算の問題。名称・理由の問題から、何のための部品？、語句を選ぶ。計算の問題から、何が一定か？、適切な式で計算。語句を選ぶから、要点を文章にする、指定に沿って回答。適切な式で計算から、単位まで確認、指定に沿って回答。指定に沿って回答から、解答例と照合、根拠を照合・復習</desc>
+<rect width="720" height="1320" fill="#191D25"/>
+<g font-family="Meiryo, Noto Sans CJK JP, sans-serif">
+<path d="M 360.0 202 V 233.6 H 180.0 V 296" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 172.0 293 L 180.0 307 L 188.0 293 Z" fill="#91A7BE"/>
+<path d="M 360.0 202 V 233.6 H 540.0 V 296" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 532.0 293 L 540.0 307 L 548.0 293 Z" fill="#91A7BE"/>
+<path d="M 180.0 490 V 521.6 H 180.0 V 584" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 172.0 581 L 180.0 595 L 188.0 581 Z" fill="#91A7BE"/>
+<path d="M 540.0 490 V 521.6 H 540.0 V 584" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 532.0 581 L 540.0 595 L 548.0 581 Z" fill="#91A7BE"/>
+<path d="M 180.0 750 V 826.4 H 360.0 V 844" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 841 L 360.0 855 L 368.0 841 Z" fill="#91A7BE"/>
+<path d="M 540.0 750 V 826.4 H 360.0 V 844" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 841 L 360.0 855 L 368.0 841 Z" fill="#91A7BE"/>
+<path d="M 360.0 1038 V 1069.6 H 360.0 V 1132" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 1129 L 360.0 1143 L 368.0 1129 Z" fill="#91A7BE"/>
+<rect x="98.0" y="241.68" width="164.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="274.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">図から説明</text>
+<rect x="458.0" y="241.68" width="164.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="274.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">量を求める</text>
+<rect x="56.0" y="529.6800000000001" width="248.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="562.6800000000001" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">何のための部品？</text>
+<rect x="444.0" y="529.6800000000001" width="192.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="562.6800000000001" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">何が一定か？</text>
+<rect x="56.0" y="753.84" width="248.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="786.84" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">要点を文章にする</text>
+<rect x="444.0" y="753.84" width="192.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="786.84" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">単位まで確認</text>
+<rect x="264.0" y="1077.68" width="192.0" height="48" rx="8" fill="#191D25"/>
+<text x="360.0" y="1110.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">解答例と照合</text>
+<g id="node-a">
+<rect x="204" y="24" width="312" height="176" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 206 46 V 178" stroke="#F3C37E" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="72.0" text-anchor="middle" font-size="34" font-weight="700" fill="#F3C37E">設問を確認</text>
+<text x="360.0" y="126.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">名称・理由</text>
+<text x="360.0" y="170.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">計算を区別</text>
+</g>
+<g id="node-b">
+<rect x="24" y="312" width="312" height="176" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 26 334 V 466" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="180.0" y="374.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">名称・理由の問題</text>
+<text x="180.0" y="428.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">図の位置や構造が根拠</text>
+</g>
+<g id="node-c">
+<rect x="384" y="312" width="312" height="176" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 386 334 V 466" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="540.0" y="360.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">計算の問題</text>
+<text x="540.0" y="414.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">条件・単位</text>
+<text x="540.0" y="458.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">基準を整理</text>
+</g>
+<g id="node-d">
+<rect x="24" y="600" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 26 622 V 726" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="180.0" y="648.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">語句を選ぶ</text>
+<text x="180.0" y="702.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">正式名称＋必要な要点</text>
+</g>
+<g id="node-e">
+<rect x="384" y="600" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 386 622 V 726" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="540.0" y="648.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">適切な式で計算</text>
+<text x="540.0" y="702.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">絶対圧・Kなどに注意</text>
+</g>
+<g id="node-f">
+<rect x="204" y="860" width="312" height="176" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 206 882 V 1014" stroke="#83D5BB" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="908.0" text-anchor="middle" font-size="34" font-weight="700" fill="#83D5BB">指定に沿って回答</text>
+<text x="360.0" y="962.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">名称・記号</text>
+<text x="360.0" y="1006.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">数値と単位</text>
+</g>
+<g id="node-g">
+<rect x="204" y="1148" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 206 1170 V 1274" stroke="#83D5BB" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="1196.0" text-anchor="middle" font-size="34" font-weight="700" fill="#83D5BB">根拠を照合・復習</text>
+<text x="360.0" y="1250.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">不足した要点を確認</text>
+</g>
+</g></svg>

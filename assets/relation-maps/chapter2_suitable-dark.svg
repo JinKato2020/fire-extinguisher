@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="976" viewBox="0 0 720 976" role="img" aria-labelledby="title desc">
+<title id="title">第2章：薬剤は、火災の種類だけで選んでよい？</title>
+<desc id="desc">消火器を選ぶから、何が燃える？、適応する火災。消火器を選ぶから、どこで使う？、設置場所の条件。適応する火災から、火災に適応、薬剤と放射形態。設置場所の条件から、場所に適合、使用・設置の制限。薬剤と放射形態から、薬剤側の条件、使える器種を選定。使用・設置の制限から、場所側の条件、使える器種を選定</desc>
+<rect width="720" height="976" fill="#191D25"/>
+<g font-family="Meiryo, Noto Sans CJK JP, sans-serif">
+<path d="M 360.0 174 V 205.6 H 180.0 V 268" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 172.0 265 L 180.0 279 L 188.0 265 Z" fill="#91A7BE"/>
+<path d="M 360.0 174 V 205.6 H 540.0 V 268" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 532.0 265 L 540.0 279 L 548.0 265 Z" fill="#91A7BE"/>
+<path d="M 180.0 434 V 465.6 H 180.0 V 528" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 172.0 525 L 180.0 539 L 188.0 525 Z" fill="#91A7BE"/>
+<path d="M 540.0 434 V 465.6 H 540.0 V 528" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 532.0 525 L 540.0 539 L 548.0 525 Z" fill="#91A7BE"/>
+<path d="M 180.0 694 V 770.4 H 360.0 V 788" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 785 L 360.0 799 L 368.0 785 Z" fill="#91A7BE"/>
+<path d="M 540.0 694 V 770.4 H 360.0 V 788" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 785 L 360.0 799 L 368.0 785 Z" fill="#91A7BE"/>
+<rect x="84.0" y="213.68" width="192.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="246.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">何が燃える？</text>
+<rect x="444.0" y="213.68" width="192.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="246.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">どこで使う？</text>
+<rect x="98.0" y="473.68" width="164.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="506.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">火災に適応</text>
+<rect x="458.0" y="473.68" width="164.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="506.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">場所に適合</text>
+<rect x="84.0" y="697.84" width="192.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="730.84" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">薬剤側の条件</text>
+<rect x="444.0" y="697.84" width="192.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="730.84" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">場所側の条件</text>
+<g id="node-a">
+<rect x="204" y="24" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 206 46 V 150" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="72.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">消火器を選ぶ</text>
+<text x="360.0" y="126.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">火災と設置場所を確認</text>
+</g>
+<g id="node-b">
+<rect x="24" y="284" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 26 306 V 410" stroke="#F3C37E" stroke-width="6" stroke-linecap="round"/>
+<text x="180.0" y="332.0" text-anchor="middle" font-size="34" font-weight="700" fill="#F3C37E">適応する火災</text>
+<text x="180.0" y="386.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">普通・油・電気</text>
+</g>
+<g id="node-c">
+<rect x="384" y="284" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 386 306 V 410" stroke="#F3C37E" stroke-width="6" stroke-linecap="round"/>
+<text x="540.0" y="332.0" text-anchor="middle" font-size="34" font-weight="700" fill="#F3C37E">設置場所の条件</text>
+<text x="540.0" y="386.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">換気・地下街など</text>
+</g>
+<g id="node-d">
+<rect x="24" y="544" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 26 566 V 670" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="180.0" y="592.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">薬剤と放射形態</text>
+<text x="180.0" y="646.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">表示と適応性を照合</text>
+</g>
+<g id="node-e">
+<rect x="384" y="544" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 386 566 V 670" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="540.0" y="592.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">使用・設置の制限</text>
+<text x="540.0" y="646.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">場所に応じた規定</text>
+</g>
+<g id="node-f">
+<rect x="204" y="804" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 206 826 V 930" stroke="#83D5BB" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="852.0" text-anchor="middle" font-size="34" font-weight="700" fill="#83D5BB">使える器種を選定</text>
+<text x="360.0" y="906.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">両方の条件を満たす</text>
+</g>
+</g></svg>

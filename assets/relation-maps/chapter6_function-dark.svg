@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1004" viewBox="0 0 720 1004" role="img" aria-labelledby="title desc">
+<title id="title">第6章：名前が思い出せないとき、どこから考える？</title>
+<desc id="desc">位置と形を確認から、組み込まれた部品、消火器の部品。位置と形を確認から、作業に使う器具、点検・整備の器具。消火器の部品から、働きをたどる、役割を言葉にする。点検・整備の器具から、作業と結び付ける、用途を言葉にする。役割を言葉にするから、役割から名称へ、名称と理由を対応。用途を言葉にするから、用途から名称へ、名称と理由を対応</desc>
+<rect width="720" height="1004" fill="#191D25"/>
+<g font-family="Meiryo, Noto Sans CJK JP, sans-serif">
+<path d="M 360.0 174 V 205.6 H 180.0 V 268" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 172.0 265 L 180.0 279 L 188.0 265 Z" fill="#91A7BE"/>
+<path d="M 360.0 174 V 205.6 H 540.0 V 268" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 532.0 265 L 540.0 279 L 548.0 265 Z" fill="#91A7BE"/>
+<path d="M 180.0 434 V 465.6 H 180.0 V 528" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 172.0 525 L 180.0 539 L 188.0 525 Z" fill="#91A7BE"/>
+<path d="M 540.0 434 V 465.6 H 540.0 V 528" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 532.0 525 L 540.0 539 L 548.0 525 Z" fill="#91A7BE"/>
+<path d="M 180.0 694 V 770.4 H 360.0 V 788" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 785 L 360.0 799 L 368.0 785 Z" fill="#91A7BE"/>
+<path d="M 540.0 694 V 770.4 H 360.0 V 788" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 785 L 360.0 799 L 368.0 785 Z" fill="#91A7BE"/>
+<rect x="56.0" y="213.68" width="248.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="246.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">組み込まれた部品</text>
+<rect x="430.0" y="213.68" width="220.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="246.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">作業に使う器具</text>
+<rect x="84.0" y="473.68" width="192.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="506.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">働きをたどる</text>
+<rect x="416.0" y="473.68" width="248.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="506.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">作業と結び付ける</text>
+<rect x="70.0" y="697.84" width="220.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="730.84" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">役割から名称へ</text>
+<rect x="430.0" y="697.84" width="220.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="730.84" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">用途から名称へ</text>
+<g id="node-a">
+<rect x="204" y="24" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 206 46 V 150" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="72.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">位置と形を確認</text>
+<text x="360.0" y="126.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">どこにある／何に使う</text>
+</g>
+<g id="node-b">
+<rect x="24" y="284" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 26 306 V 410" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="180.0" y="332.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">消火器の部品</text>
+<text x="180.0" y="386.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">流路・圧力・安全</text>
+</g>
+<g id="node-c">
+<rect x="384" y="284" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 386 306 V 410" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="540.0" y="332.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">点検・整備の器具</text>
+<text x="540.0" y="386.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">固定・開閉・測定等</text>
+</g>
+<g id="node-d">
+<rect x="24" y="544" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 26 566 V 670" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="180.0" y="592.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">役割を言葉にする</text>
+<text x="180.0" y="646.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">通す・止める・示す</text>
+</g>
+<g id="node-e">
+<rect x="384" y="544" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 386 566 V 670" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="540.0" y="592.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">用途を言葉にする</text>
+<text x="540.0" y="646.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">固定する・圧力を測る</text>
+</g>
+<g id="node-f">
+<rect x="204" y="804" width="312" height="176" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 206 826 V 958" stroke="#83D5BB" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="852.0" text-anchor="middle" font-size="34" font-weight="700" fill="#83D5BB">名称と理由を対応</text>
+<text x="360.0" y="906.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">設問に合う</text>
+<text x="360.0" y="950.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">形で答える</text>
+</g>
+</g></svg>

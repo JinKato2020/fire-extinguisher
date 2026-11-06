@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="976" viewBox="0 0 720 976" role="img" aria-labelledby="title desc">
+<title id="title">第2章：一般の建物と危険物施設で、何を切り替える？</title>
+<desc id="desc">対象を確認から、建物の基準、一般の防火対象物。対象を確認から、施設の基準、危険物施設。一般の防火対象物から、用途別に判断、消火器具の基準。危険物施設から、消火困難性等、消火設備の区分。消火器具の基準から、建物側の条件、対象の基準で算定。消火設備の区分から、施設側の条件、対象の基準で算定</desc>
+<rect width="720" height="976" fill="#191D25"/>
+<g font-family="Meiryo, Noto Sans CJK JP, sans-serif">
+<path d="M 360.0 174 V 205.6 H 180.0 V 268" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 172.0 265 L 180.0 279 L 188.0 265 Z" fill="#91A7BE"/>
+<path d="M 360.0 174 V 205.6 H 540.0 V 268" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 532.0 265 L 540.0 279 L 548.0 265 Z" fill="#91A7BE"/>
+<path d="M 180.0 434 V 465.6 H 180.0 V 528" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 172.0 525 L 180.0 539 L 188.0 525 Z" fill="#91A7BE"/>
+<path d="M 540.0 434 V 465.6 H 540.0 V 528" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 532.0 525 L 540.0 539 L 548.0 525 Z" fill="#91A7BE"/>
+<path d="M 180.0 694 V 770.4 H 360.0 V 788" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 785 L 360.0 799 L 368.0 785 Z" fill="#91A7BE"/>
+<path d="M 540.0 694 V 770.4 H 360.0 V 788" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 785 L 360.0 799 L 368.0 785 Z" fill="#91A7BE"/>
+<rect x="98.0" y="213.68" width="164.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="246.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">建物の基準</text>
+<rect x="458.0" y="213.68" width="164.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="246.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">施設の基準</text>
+<rect x="84.0" y="473.68" width="192.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="506.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">用途別に判断</text>
+<rect x="444.0" y="473.68" width="192.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="506.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">消火困難性等</text>
+<rect x="84.0" y="697.84" width="192.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="730.84" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">建物側の条件</text>
+<rect x="444.0" y="697.84" width="192.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="730.84" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">施設側の条件</text>
+<g id="node-a">
+<rect x="204" y="24" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 206 46 V 150" stroke="#F3C37E" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="72.0" text-anchor="middle" font-size="34" font-weight="700" fill="#F3C37E">対象を確認</text>
+<text x="360.0" y="126.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">適用法令を先に決める</text>
+</g>
+<g id="node-b">
+<rect x="24" y="284" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 26 306 V 410" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="180.0" y="332.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">一般の防火対象物</text>
+<text x="180.0" y="386.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">用途・面積などが基準</text>
+</g>
+<g id="node-c">
+<rect x="384" y="284" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 386 306 V 410" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="540.0" y="332.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">危険物施設</text>
+<text x="540.0" y="386.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">施設・危険物の条件</text>
+</g>
+<g id="node-d">
+<rect x="24" y="544" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 26 566 V 670" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="180.0" y="592.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">消火器具の基準</text>
+<text x="180.0" y="646.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">能力・配置を検討</text>
+</g>
+<g id="node-e">
+<rect x="384" y="544" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 386 566 V 670" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="540.0" y="592.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">消火設備の区分</text>
+<text x="540.0" y="646.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">第1種〜第5種</text>
+</g>
+<g id="node-f">
+<rect x="204" y="804" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 206 826 V 930" stroke="#83D5BB" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="852.0" text-anchor="middle" font-size="34" font-weight="700" fill="#83D5BB">対象の基準で算定</text>
+<text x="360.0" y="906.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">数値を混用しない</text>
+</g>
+</g></svg>

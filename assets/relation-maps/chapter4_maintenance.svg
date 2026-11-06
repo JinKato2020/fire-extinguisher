@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1004" viewBox="0 0 720 1004" role="img" aria-labelledby="title desc">
+<title id="title">第4章：外観の異常や年数は、次の確認にどうつながる？</title>
+<desc id="desc">外観・表示を確認から、状態と年数を照合、必要な点検を判断。必要な点検を判断から、該当する点検、内部・機能を確認。必要な点検を判断から、該当する耐圧点検、耐圧性能を確認。内部・機能を確認から、不具合を判断、結果に応じて対応。耐圧性能を確認から、耐圧の結果を判断、結果に応じて対応</desc>
+<rect width="720" height="1004" fill="#FFFFFF"/>
+<g font-family="Meiryo, Noto Sans CJK JP, sans-serif">
+<path d="M 360.0 174 V 205.6 H 360.0 V 268" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 265 L 360.0 279 L 368.0 265 Z" fill="#58738D"/>
+<path d="M 360.0 462 V 493.6 H 180.0 V 556" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 172.0 553 L 180.0 567 L 188.0 553 Z" fill="#58738D"/>
+<path d="M 360.0 462 V 493.6 H 540.0 V 556" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 532.0 553 L 540.0 567 L 548.0 553 Z" fill="#58738D"/>
+<path d="M 180.0 722 V 798.4 H 360.0 V 816" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 813 L 360.0 827 L 368.0 813 Z" fill="#58738D"/>
+<path d="M 540.0 722 V 798.4 H 360.0 V 816" fill="none" stroke="#58738D" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 813 L 360.0 827 L 368.0 813 Z" fill="#58738D"/>
+<rect x="236.0" y="213.68" width="248.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="360.0" y="246.68" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">状態と年数を照合</text>
+<rect x="84.0" y="501.68000000000006" width="192.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="180.0" y="534.6800000000001" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">該当する点検</text>
+<rect x="416.0" y="501.68000000000006" width="248.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="540.0" y="534.6800000000001" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">該当する耐圧点検</text>
+<rect x="84.0" y="725.84" width="192.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="180.0" y="758.84" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">不具合を判断</text>
+<rect x="416.0" y="725.84" width="248.0" height="48" rx="8" fill="#FFFFFF"/>
+<text x="540.0" y="758.84" text-anchor="middle" font-size="28" font-weight="500" fill="#53677A">耐圧の結果を判断</text>
+<g id="node-a">
+<rect x="204" y="24" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 206 46 V 150" stroke="#246A9C" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="72.0" text-anchor="middle" font-size="34" font-weight="700" fill="#246A9C">外観・表示を確認</text>
+<text x="360.0" y="126.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">損傷・腐食・製造年等</text>
+</g>
+<g id="node-b">
+<rect x="204" y="284" width="312" height="176" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 206 306 V 438" stroke="#996010" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="332.0" text-anchor="middle" font-size="34" font-weight="700" fill="#996010">必要な点検を判断</text>
+<text x="360.0" y="386.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">器種・年数</text>
+<text x="360.0" y="430.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">異常の有無</text>
+</g>
+<g id="node-c">
+<rect x="24" y="572" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 26 594 V 698" stroke="#246A9C" stroke-width="6" stroke-linecap="round"/>
+<text x="180.0" y="620.0" text-anchor="middle" font-size="34" font-weight="700" fill="#246A9C">内部・機能を確認</text>
+<text x="180.0" y="674.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">規定に従い判定</text>
+</g>
+<g id="node-d">
+<rect x="384" y="572" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 386 594 V 698" stroke="#246A9C" stroke-width="6" stroke-linecap="round"/>
+<text x="540.0" y="620.0" text-anchor="middle" font-size="34" font-weight="700" fill="#246A9C">耐圧性能を確認</text>
+<text x="540.0" y="674.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">対象・条件を別に確認</text>
+</g>
+<g id="node-e">
+<rect x="204" y="832" width="312" height="148" rx="16" fill="#FFFFFF" stroke="#C9D6E3" stroke-width="2"/>
+<path d="M 206 854 V 958" stroke="#16785B" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="880.0" text-anchor="middle" font-size="34" font-weight="700" fill="#16785B">結果に応じて対応</text>
+<text x="360.0" y="934.0" text-anchor="middle" font-size="27" font-weight="500" fill="#1F3446">整備・交換など</text>
+</g>
+</g></svg>

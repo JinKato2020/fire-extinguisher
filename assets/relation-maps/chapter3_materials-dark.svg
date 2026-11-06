@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="976" viewBox="0 0 720 976" role="img" aria-labelledby="title desc">
+<title id="title">第3章：荷重が同じでも、応力や伸びが変わるのはなぜ？</title>
+<desc id="desc">材料に荷重 Fから、面積で割る、内部の負担。材料に荷重 Fから、伸びを元長で割る、変形の割合。内部の負担から、応力を見る、材料の性質と照合。変形の割合から、ひずみを見る、材料の性質と照合。材料の性質と照合から、強さの基準と比較、限界と安全を判断</desc>
+<rect width="720" height="976" fill="#191D25"/>
+<g font-family="Meiryo, Noto Sans CJK JP, sans-serif">
+<path d="M 360.0 174 V 205.6 H 180.0 V 268" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 172.0 265 L 180.0 279 L 188.0 265 Z" fill="#91A7BE"/>
+<path d="M 360.0 174 V 205.6 H 540.0 V 268" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 532.0 265 L 540.0 279 L 548.0 265 Z" fill="#91A7BE"/>
+<path d="M 180.0 434 V 510.4 H 360.0 V 528" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 525 L 360.0 539 L 368.0 525 Z" fill="#91A7BE"/>
+<path d="M 540.0 434 V 510.4 H 360.0 V 528" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 525 L 360.0 539 L 368.0 525 Z" fill="#91A7BE"/>
+<path d="M 360.0 694 V 725.6 H 360.0 V 788" fill="none" stroke="#91A7BE" stroke-width="3.5" stroke-linejoin="round"/>
+<path d="M 352.0 785 L 360.0 799 L 368.0 785 Z" fill="#91A7BE"/>
+<rect x="98.0" y="213.68" width="164.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="246.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">面積で割る</text>
+<rect x="416.0" y="213.68" width="248.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="246.68" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">伸びを元長で割る</text>
+<rect x="98.0" y="437.84000000000003" width="164.0" height="48" rx="8" fill="#191D25"/>
+<text x="180.0" y="470.84000000000003" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">応力を見る</text>
+<rect x="444.0" y="437.84000000000003" width="192.0" height="48" rx="8" fill="#191D25"/>
+<text x="540.0" y="470.84000000000003" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">ひずみを見る</text>
+<rect x="236.0" y="733.6800000000001" width="248.0" height="48" rx="8" fill="#191D25"/>
+<text x="360.0" y="766.6800000000001" text-anchor="middle" font-size="28" font-weight="500" fill="#B7C2D0">強さの基準と比較</text>
+<g id="node-a">
+<rect x="204" y="24" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 206 46 V 150" stroke="#F3C37E" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="72.0" text-anchor="middle" font-size="34" font-weight="700" fill="#F3C37E">材料に荷重 F</text>
+<text x="360.0" y="126.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">断面積 A・元の長さ L</text>
+</g>
+<g id="node-b">
+<rect x="24" y="284" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 26 306 V 410" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="180.0" y="332.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">内部の負担</text>
+<text x="180.0" y="386.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">応力 σ = F / A</text>
+</g>
+<g id="node-c">
+<rect x="384" y="284" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 386 306 V 410" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="540.0" y="332.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">変形の割合</text>
+<text x="540.0" y="386.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">ひずみ ε = ΔL / L</text>
+</g>
+<g id="node-d">
+<rect x="204" y="544" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 206 566 V 670" stroke="#8EC5EE" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="592.0" text-anchor="middle" font-size="34" font-weight="700" fill="#8EC5EE">材料の性質と照合</text>
+<text x="360.0" y="646.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">比例域では σ = Eε</text>
+</g>
+<g id="node-e">
+<rect x="204" y="804" width="312" height="148" rx="16" fill="#191D25" stroke="#506078" stroke-width="2"/>
+<path d="M 206 826 V 930" stroke="#83D5BB" stroke-width="6" stroke-linecap="round"/>
+<text x="360.0" y="852.0" text-anchor="middle" font-size="34" font-weight="700" fill="#83D5BB">限界と安全を判断</text>
+<text x="360.0" y="906.0" text-anchor="middle" font-size="27" font-weight="500" fill="#EEF1F6">許容応力・安全率</text>
+</g>
+</g></svg>
