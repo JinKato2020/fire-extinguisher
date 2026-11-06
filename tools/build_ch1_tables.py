@@ -94,7 +94,7 @@ def build_chapter(chapter, args):
         headers, data = rows[0], rows[1:]
         if any(len(row) != len(headers) for row in data):
             raise ValueError(f'{asset}: 列数が一致しません')
-        if chapter == 1:
+        if chapter in (1, 2):
             # Preserve the exact authored cells (including emphasis), independently
             # of raster dimensions. The reader can reflow these at the user's font size.
             readable[asset] = {'title': title, 'headers': headers, 'rows': data}
@@ -111,7 +111,7 @@ def build_chapter(chapter, args):
             group_headers = [headers[i] for i in indices]
             group_data = [[row[i] for i in indices] for row in data]
             pages.extend(layout_pages(group_headers, group_data, font, bold,
-                                      full_table=full_table, no_split=chapter == 1,
+                                      full_table=full_table, no_split=chapter in (1, 2),
                                       widths=FULL_TABLE_WIDTHS.get(asset)))
         markers = []
         for p, (head, hh, page, widths) in enumerate(pages, 1):
@@ -150,9 +150,14 @@ def build_chapter(chapter, args):
         if replaced != 1:
             raise ValueError(f'{asset}: 正本の対応マーカーが見つからない、または重複')
     MD.write_text(body, encoding='utf-8', newline='\n')
-    if chapter == 1:
-        (APP / 'content' / 'lesson-tables.json').write_text(
-            json.dumps(readable, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
+    if chapter in (1, 2):
+        target = APP / 'content' / 'lesson-tables.json'
+        existing = json.loads(target.read_text(encoding='utf-8')) if target.exists() else {}
+        # Rebuilding one chapter must preserve the other chapters' readable tables.
+        merged = {key: value for key, value in existing.items() if not key.startswith(prefix)}
+        merged.update(readable)
+        target.write_text(
+            json.dumps(dict(sorted(merged.items())), ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
     # 正本の更新成功後、統合済みの旧分割JPEGだけを配信対象から除く。
     for asset in FULL_TABLE_WIDTHS:
         if asset.startswith(prefix) and f'[[fig:{asset}_full|' in body:

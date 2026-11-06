@@ -44,7 +44,7 @@ const source = fs.readFileSync('../教材解説/第1章_図表データ.md', 'ut
 const tables = JSON.parse(fs.readFileSync('content/lesson-tables.json', 'utf8'));
 const matches = [...source.matchAll(/^## (ch1_t\d+)\|([^\n]+)\n\n(.*?)(?=^## |$(?![\s\S]))/gms)];
 assert.equal(matches.length, 26);
-assert.equal(Object.keys(tables).length, 26);
+assert.equal(Object.keys(tables).filter(key => key.startsWith('ch1_')).length, 26);
 for (const [, id, title, text] of matches) {
   const rows = text.split('\n').filter(line => line.startsWith('|')).map(line => line.split('|').slice(1, -1).map(s => s.trim()))
     .filter(row => !row.every(cell => /^:?-+:?$/.test(cell)));

@@ -16,7 +16,69 @@ export function Inline({ text }: { text: string }) {
 
 export type StudyTableData = { title: string; headers: string[]; rows: string[][] };
 
-export function StudyTable({ table, uri, onZoom }: { table: StudyTableData; uri: string | null; onZoom: (uri: string) => void }) {
+type TableProps = { table: StudyTableData; uri: string | null; onZoom: (uri: string) => void };
+
+export function isApplicabilityMatrix(table: StudyTableData) {
+  return table.headers.length > 6 && table.rows.length > 0 && table.rows.every(row =>
+    row.length === table.headers.length && row.slice(1).every(cell => /^(○|－)$/.test(cell.replace(/\*\*/g, ''))));
+}
+
+export function StudyTable(props: TableProps) {
+  return isApplicabilityMatrix(props.table) ? <StudyMatrix {...props} /> : <StudyTableCards {...props} />;
+}
+
+/** A wide legal matrix stays readable without shrinking text or hiding columns. */
+function StudyMatrix({ table, uri, onZoom }: TableProps) {
+  const { c, resolved } = useTheme();
+  const [selected, setSelected] = useState(0);
+  const [choosing, setChoosing] = useState(false);
+  const [query, setQuery] = useState('');
+  const row = table.rows[selected] ?? table.rows[0];
+  const clean = (text: string) => text.replace(/\*\*/g, '');
+  const needle = query.trim().normalize('NFKC').toLocaleLowerCase();
+  const options = table.rows.map((cells, index) => ({ label: clean(cells[0]), index }))
+    .filter(option => option.label.normalize('NFKC').toLocaleLowerCase().includes(needle));
+  const yes = table.headers.slice(1).filter((_, index) => clean(row[index + 1]) === '○');
+  const no = table.headers.slice(1).filter((_, index) => clean(row[index + 1]) === '－');
+  return <View style={{ marginVertical: 12, borderRadius: 14, borderWidth: 1, borderColor: c.line, backgroundColor: c.card, padding: 14, gap: 12 }}>
+    <Text accessibilityRole="header" style={{ color: c.fg, fontSize: 16, lineHeight: 27, fontWeight: '800' }}>{table.title}</Text>
+    <Text style={{ color: c.muted, fontSize: 14, lineHeight: 24 }}>対象物を1つ選ぶと、消火器具の適応性を確認できます。</Text>
+    <Text style={{ color: c.fg, fontSize: 17, lineHeight: 28, fontWeight: '800' }}><Inline text={row[0]} /></Text>
+    <Pressable accessibilityRole="button" accessibilityState={{ expanded: choosing }} accessibilityLabel="適応性を確認する対象物を選ぶ"
+      onPress={() => { setChoosing(value => !value); setQuery(''); }}
+      style={({ pressed }) => ({ minHeight: 48, padding: 12, borderRadius: 10, backgroundColor: c.accentSoft, opacity: pressed ? 0.7 : 1 })}>
+      <Text style={{ color: c.accent2, fontSize: 15, lineHeight: 24, fontWeight: '700', textAlign: 'center' }}>{choosing ? '対象物の一覧を閉じる −' : '対象物を変更する ＋'}</Text>
+    </Pressable>
+    {choosing ? <View style={{ gap: 8 }}>
+      <TextInput value={query} onChangeText={setQuery} accessibilityLabel="適応性表の対象物を検索" placeholder="例：電気、第4類、指定可燃物"
+        placeholderTextColor={c.muted} returnKeyType="search"
+        style={{ color: c.fg, backgroundColor: c.card2, borderColor: c.line, borderWidth: 1, borderRadius: 10, padding: 12, minHeight: 48, fontSize: 16 }} />
+      {!options.length ? <Text accessibilityLiveRegion="polite" style={{ color: c.muted, fontSize: 15, lineHeight: 25 }}>一致する対象物がありません。</Text> : null}
+      {options.map(option => <Pressable key={option.index} accessibilityRole="button" accessibilityState={{ selected: selected === option.index }}
+        onPress={() => { setSelected(option.index); setChoosing(false); setQuery(''); }}
+        style={({ pressed }) => ({ minHeight: 48, padding: 12, borderWidth: 1, borderColor: selected === option.index ? c.accent2 : c.line,
+          borderRadius: 10, backgroundColor: c.card2, opacity: pressed ? 0.7 : 1 })}>
+        <Text style={{ color: c.fg, fontSize: 16, lineHeight: 27 }}>{option.label}{selected === option.index ? ' ✓' : ''}</Text>
+      </Pressable>)}
+    </View> : null}
+    <View accessibilityLiveRegion="polite" style={{ gap: 12 }}>
+      <View style={{ backgroundColor: c.goodSoft, borderRadius: 10, padding: 12, gap: 6 }}>
+        <Text style={{ color: resolved === 'light' ? '#167443' : c.good, fontWeight: '800', fontSize: 15, lineHeight: 25 }}>○ 適応する</Text>
+        {yes.map(label => <Text key={label} style={{ color: c.fg, fontSize: 16, lineHeight: 27 }}>・{label}</Text>)}
+      </View>
+      <View style={{ backgroundColor: c.card2, borderRadius: 10, padding: 12, gap: 6 }}>
+        <Text style={{ color: c.fg, fontWeight: '800', fontSize: 15, lineHeight: 25 }}>－ 適応の表示なし</Text>
+        {no.map(label => <Text key={label} style={{ color: c.fg, fontSize: 16, lineHeight: 27 }}>・{label}</Text>)}
+      </View>
+    </View>
+    {uri ? <Pressable onPress={() => onZoom(uri)} accessibilityRole="button" accessibilityLabel={table.title + 'の全体表を拡大'}
+      style={({ pressed }) => ({ minHeight: 48, padding: 12, opacity: pressed ? 0.7 : 1 })}>
+      <Text style={{ color: c.accent2, fontSize: 14, lineHeight: 24, fontWeight: '700', textAlign: 'center' }}>全体表を拡大 ↗</Text>
+    </Pressable> : null}
+  </View>;
+}
+
+function StudyTableCards({ table, uri, onZoom }: TableProps) {
   const { c } = useTheme();
   const [expanded, setExpanded] = useState(false);
   const [query, setQuery] = useState('');
