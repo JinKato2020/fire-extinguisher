@@ -15,6 +15,7 @@ import { FeedbackCard } from './src/ui/FeedbackCard';
 import { useStudyFeedback } from './src/ui/useStudyFeedback';
 import { startStudyFeedback, blockStudyFeedback, noteFeedbackInteraction } from './src/data/studyFeedback';
 import { HomeScreen, HomeAppearance, DeveloperMessage } from './src/ui/HomeScreen';
+import { ExamGuideScreen } from './src/ui/ExamGuideScreen';
 import { activityState, bodyTag, initActivity, rememberLesson } from './src/data/studyActivity';
 import { useReadingActivity } from './src/ui/useStudyActivity';
 import { PracticalAssessment } from './src/ui/PracticalAssessment';
@@ -34,7 +35,7 @@ import { GlossaryScreen } from './src/ui/GlossaryScreen';
 import {
   loadBookmarks, isBookmarked, toggleBookmark, bookmarkedIds, bookmarkCount,
 } from './src/data/bookmarks';
-import { loadExamDate, getExamDate, setExamDate, daysLeft, examDateText } from './src/data/examDate';
+import { loadExamDate } from './src/data/examDate';
 import {
   loadStats, bumpDaily, chapterStats, currentAccMap,
   recordSnapshotIfNeeded, snapAsOf,
@@ -48,10 +49,9 @@ import { RELATION_MAPS } from './src/data/relationMaps.generated';
 import RELATION_MAP_CONTENT from './docs/relation-maps/structure.json';
 
 type TabKey = 'home' | 'learn' | 'terms' | 'mock' | 'set';
-type ModalKey = 'bookmarks' | 'relation' | 'guide' | 'examdate' | 'paywall' | 'appearance' | null;
+type ModalKey = 'bookmarks' | 'relation' | 'guide' | 'paywall' | 'appearance' | null;
 
 const QLABEL = ['1', '2', '3', '4', '5'];
-const pad2 = (n: number) => String(n).padStart(2, '0');
 
 function tagColors(kind: NonNullable<Chapter['tagKind']>, c: Colors): { bg: string; fg: string } {
   switch (kind) {
@@ -704,9 +704,8 @@ function QuizPlayer({ title, questions, limitSeconds, onExit, onBump }: { title:
 
 // ---- 設定 ----
 function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalKey) => void; onSync: () => void; syncing: boolean; pro: boolean }) {
-  const { c, mode, setMode } = useTheme();
+  const { c, mode, setMode, resolved } = useTheme();
   const s = useStyles();
-  const dateText = examDateText();
   const [restoring, setRestoring] = useState(false);
   const [showDev, setShowDev] = useState(isFreePreviewEnabled());
   const [freePreview, setFreePreview] = useState(isFreePreviewEnabled());
@@ -740,7 +739,7 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
           {pro ? (
             <View style={s.setRow}>
               <Text style={s.setLabel}>ステータス</Text>
-              <Text style={[s.setValue, { color: c.good }]}>{isLaunchFreeActive() ? '無料開放（期限なし）' : '購入済み'}</Text>
+              <Text style={[s.setValue, { color: resolved === 'light' ? '#246547' : '#81D9A4' }]}>{isLaunchFreeActive() ? '無料開放（期限なし）' : '購入済み'}</Text>
             </View>
           ) : (
             <Pressable style={({ pressed }) => [s.setRow, pressed && s.pressed]} onPress={() => onModal('paywall')}>
@@ -763,10 +762,16 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
         </View>
 
         <View style={s.setGroup}>
-          <Text style={s.setGroupTitle}>表示</Text>
-          <Pressable accessibilityRole="button" style={s.setRow} onPress={() => onModal('appearance')}>
-            <Text style={s.setLabel}>ホームの画像</Text><Text style={s.setValue}>選ぶ ›</Text>
+          <Text style={s.setGroupTitle}>アプリについて</Text>
+          <DeveloperMessage />
+          <Pressable style={s.setRow} delayLongPress={1500} onLongPress={() => { if (feedbackDev || canUseFreePreview()) setShowDev(true); }}>
+            <Text style={s.setLabel}>バージョン</Text>
+            <Text style={s.setValue}>{Application.nativeApplicationVersion ?? "開発版"} · Build {Application.nativeBuildVersion ?? BUILD_NUMBER}</Text>
           </Pressable>
+        </View>
+
+        <View style={s.setGroup}>
+          <Text style={s.setGroupTitle}>表示</Text>
           <View style={[s.setRow, { flexDirection: 'column', alignItems: 'stretch', gap: 12 }]}>
             <Text style={s.setLabel}>外観</Text>
             <Segmented<Mode>
@@ -779,10 +784,6 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
 
         <View style={s.setGroup}>
           <Text style={s.setGroupTitle}>学習</Text>
-          <Pressable style={({ pressed }) => [s.setRow, pressed && s.pressed]} onPress={() => onModal('examdate')}>
-            <Text style={s.setLabel}>試験日</Text>
-            <Text style={s.setValue}>{dateText ?? '未設定 ›'}</Text>
-          </Pressable>
           <Pressable style={({ pressed }) => [s.setRow, pressed && s.pressed]} onPress={() => onModal('guide')}>
             <Text style={s.setLabel}>試験の総合解説</Text>
             <Text style={s.setValue}>見る ›</Text>
@@ -797,14 +798,6 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
           </Pressable>
         </View>
 
-        <View style={s.setGroup}>
-          <Text style={s.setGroupTitle}>アプリについて</Text>
-          <DeveloperMessage />
-          <Pressable style={s.setRow} delayLongPress={1500} onLongPress={() => { if (feedbackDev || canUseFreePreview()) setShowDev(true); }}>
-            <Text style={s.setLabel}>バージョン</Text>
-            <Text style={s.setValue}>{Application.nativeApplicationVersion ?? "開発版"} · Build {Application.nativeBuildVersion ?? BUILD_NUMBER}</Text>
-          </Pressable>
-        </View>
         {showDev && (feedbackDev || canUseFreePreview()) ? <View style={s.setGroup}>
           <Text style={s.setGroupTitle}>開発用</Text>
           {feedbackDev ? <>
@@ -1011,113 +1004,6 @@ function RelationMapScreen({ onClose, pro, onPaywall }: { onClose: () => void; p
   );
 }
 
-// ---- モーダル: 試験総合解説 ----
-function ExamGuideScreen({ onClose }: { onClose: () => void }) {
-  const { resolved } = useTheme();
-  const s = useStyles();
-  const img = resolved === 'light' ? require('./assets/examguide-light.png') : require('./assets/examguide-dark.png');
-  const Stat = ({ k, v }: { k: string; v: string }) => (
-    <View style={s.guideStat}><Text style={s.guideStatK}>{k}</Text><Text style={s.guideStatV}>{v}</Text></View>
-  );
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={s.modalBar}>
-        <Pressable onPress={onClose} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}><Text style={s.backTxt}>‹ 閉じる</Text></Pressable>
-        <Text style={s.modalTitle}>試験の総合解説</Text>
-        <View style={{ width: 56 }} />
-      </View>
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
-        <View style={{ borderRadius: 0, overflow: 'hidden' }}>
-          <Image source={img} style={{ width: '100%', height: 170 }} resizeMode="cover" />
-        </View>
-        <View style={s.pad}>
-          <Text style={s.guideH}>消防設備士 乙種第6類とは</Text>
-          <Text style={s.guideBody}>消火器の整備・点検を行うための国家資格です。乙種は受験資格の制限がなく、誰でも受験できます。</Text>
-
-          <Text style={s.guideH}>出題のしくみ</Text>
-          <Stat k="筆記（合計）" v="30 問" />
-          <Stat k="　消防関係法令（共通）" v="6 問" />
-          <Stat k="　消防関係法令（第6類）" v="4 問" />
-          <Stat k="　基礎的知識（機械）" v="5 問" />
-          <Stat k="　構造・機能・整備（機械）" v="9 問" />
-          <Stat k="　構造・機能・整備（規格）" v="6 問" />
-          <Stat k="実技（鑑別等）" v="5 問" />
-          <Stat k="試験時間" v="1時間45分" />
-
-          <Text style={s.guideH}>制限時間と時間配分</Text>
-          <Text style={s.guideBody}>科目免除がない乙種第6類の試験時間は、筆記30問と実技（鑑別等）5問を合わせて105分（1時間45分）です。筆記と実技それぞれに105分あるわけではありません。</Text>
-          <Text style={s.guideBody}>科目の一部免除を受ける場合は、免除される問題数に応じて試験時間が短縮されます。自分の試験時間は、受験票と受験地の最新の試験案内で確認してください。</Text>
-          <Text style={s.guideLi}>時間配分の例：筆記60分＋実技30分＋見直し15分＝105分。これは学習の目安で、公式に指定された配分ではありません。</Text>
-          <Text style={s.guideBody}>アプリの模試では、開始時に「105分で開始」または「時間制限なし」を選べます。105分モードでは時間切れで自動提出し、入力済みの解答を採点します。弱点復習は時間制限なしです。筆記は四肢択一30問、鑑別は図付き5大問で、複数の小問に記述入力・記号選択で解答します。</Text>
-          <Text style={s.guideBody}>本番は筆記がマークシート、実技が解答用紙への記述です。アプリの模試も提出まで正誤・解説を表示せず、問題間を移動して解答を変更できます。解説は提出後にまとめて確認します。図は自作で、写真による実物識別や当日の問題・難易度を完全に再現するものではありません。鑑別の自動採点は名称・数値の照合と文章の要点判定による参考採点であり、本番の採点基準とは異なります。</Text>
-
-          <Text style={s.guideH}>形式と合格基準</Text>
-          <Text style={s.guideLi}>・筆記：四肢択一のマークシート</Text>
-          <Text style={s.guideLi}>・実技：写真・イラスト・図面等による記述式</Text>
-          <Text style={s.guideLi}>・合格基準：筆記は各科目40%以上かつ全体60%以上、さらに実技60%以上</Text>
-
-          <Text style={s.guideH}>合格への学び方</Text>
-          <Text style={s.guideLi}>① 教材で各章の基礎を読む</Text>
-          <Text style={s.guideLi}>② 用語集で重要用語を固める</Text>
-          <Text style={s.guideLi}>③ 模試で本番形式に慣れる</Text>
-          <Text style={s.guideLi}>④ 弱点復習で間違いを潰す</Text>
-
-          <Text style={s.guideLink}>出典：消防試験研究センター（www.shoubo-shiken.or.jp）</Text>
-        </View>
-      </ScrollView>
-    </View>
-  );
-}
-
-// ---- モーダル: 試験日の設定 ----
-function Stepper({ label, value, onDec, onInc }: { label: string; value: string; onDec: () => void; onInc: () => void }) {
-  const { c } = useTheme();
-  return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 6 }}>
-      <Text style={{ color: c.fg, fontSize: 15, fontWeight: '700' }}>{label}</Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
-        <Pressable hitSlop={10} onPress={onDec} style={{ width: 40, height: 40, borderRadius: 10, borderWidth: 1, borderColor: c.line, backgroundColor: c.card2, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: c.fg, fontSize: 22, fontWeight: '900' }}>−</Text></Pressable>
-        <Text style={{ color: c.fg, fontSize: 18, fontWeight: '900', minWidth: 54, textAlign: 'center' }}>{value}</Text>
-        <Pressable hitSlop={10} onPress={onInc} style={{ width: 40, height: 40, borderRadius: 10, borderWidth: 1, borderColor: c.line, backgroundColor: c.card2, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: c.fg, fontSize: 22, fontWeight: '900' }}>＋</Text></Pressable>
-      </View>
-    </View>
-  );
-}
-
-function ExamDateScreen({ onClose, onSaved }: { onClose: () => void; onSaved: () => void }) {
-  const s = useStyles();
-  const init = getExamDate();
-  const now = new Date();
-  const [y, setY] = useState(init ? +init.split('-')[0] : now.getFullYear());
-  const [m, setM] = useState(init ? +init.split('-')[1] : now.getMonth() + 1);
-  const [d, setD] = useState(init ? +init.split('-')[2] : now.getDate());
-
-  const daysInMonth = new Date(y, m, 0).getDate();
-  const dd = Math.min(d, daysInMonth);
-
-  const save = () => { void setExamDate(`${y}-${pad2(m)}-${pad2(dd)}`).then(() => { onSaved(); onClose(); }); };
-  const clear = () => { void setExamDate(null).then(() => { onSaved(); onClose(); }); };
-
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={s.modalBar}>
-        <Pressable onPress={onClose} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}><Text style={s.backTxt}>‹ 閉じる</Text></Pressable>
-        <Text style={s.modalTitle}>試験日の設定</Text>
-        <View style={{ width: 56 }} />
-      </View>
-      <View style={[s.pad, { paddingTop: 18 }]}>
-        <View style={s.card}>
-          <Stepper label="年" value={`${y}`} onDec={() => setY((v) => Math.max(now.getFullYear() - 1, v - 1))} onInc={() => setY((v) => Math.min(now.getFullYear() + 3, v + 1))} />
-          <Stepper label="月" value={`${m}`} onDec={() => setM((v) => (v <= 1 ? 12 : v - 1))} onInc={() => setM((v) => (v >= 12 ? 1 : v + 1))} />
-          <Stepper label="日" value={`${dd}`} onDec={() => setD(() => (dd <= 1 ? daysInMonth : dd - 1))} onInc={() => setD(() => (dd >= daysInMonth ? 1 : dd + 1))} />
-        </View>
-        <Pressable onPress={save} style={({ pressed }) => [s.submitBtn, pressed && s.pressed]}><Text style={s.submitTxt}>{`${y}年${m}月${dd}日 を試験日にする`}</Text></Pressable>
-        <Pressable onPress={clear} style={({ pressed }) => [s.ghostBtn, { marginTop: 10 }, pressed && s.pressed]}><Text style={s.ghostBtnTxt}>試験日をクリア</Text></Pressable>
-      </View>
-    </View>
-  );
-}
-
 // ---- モーダル: Pro(買い切り)ペイウォール ----
 function PaywallScreen({ onClose, onBump }: { onClose: () => void; onBump: () => void }) {
   const { c } = useTheme();
@@ -1308,9 +1194,8 @@ function Main() {
             <>
               {modal === 'bookmarks' && <BookmarksScreen onClose={() => setModal(null)} onBump={bump} />}
               {modal === 'relation' && <RelationMapScreen onClose={() => setModal(null)} pro={pro} onPaywall={() => { setModal('paywall'); }} />}
-              {modal === 'appearance' && <HomeAppearance onClose={() => setModal(null)} />}
+              {modal === 'appearance' && <HomeAppearance onClose={() => setModal(null)} onSaved={bump} />}
               {modal === 'guide' && <ExamGuideScreen onClose={() => setModal(null)} />}
-              {modal === 'examdate' && <ExamDateScreen onClose={() => setModal(null)} onSaved={bump} />}
               {modal === 'paywall' && <PaywallScreen onClose={() => setModal(null)} onBump={bump} />}
             </>
           ) : (
@@ -1318,7 +1203,7 @@ function Main() {
               {tab === 'home' && <HomeScreen chapters={chapters} onGo={goTab} onFavTerms={goFavTerms} ver={dataVersion}
                 onResume={(no, idx) => { setOpenNo(no); setLessonIdx(idx); setTab('learn'); }}
                 onAppearance={() => setModal('appearance')} onBookmarks={() => setModal('bookmarks')}
-                onRelation={() => setModal('relation')} onGuide={() => setModal('guide')} onExamDate={() => setModal('examdate')} onLicense={() => goTab('set')} />}
+                onRelation={() => setModal('relation')} onGuide={() => setModal('guide')} onLicense={() => goTab('set')} />}
               {tab === 'learn' && (openChapter
                 ? (lessonIdx === null
                     ? <LessonListScreen chapter={openChapter} chapters={chapters} onOpenLesson={(i) => setLessonIdx(i)} onBack={() => setOpenNo(null)} onNavChapter={(no) => { setOpenNo(no); setLessonIdx(null); }} pro={pro} onPaywall={() => setModal('paywall')} />

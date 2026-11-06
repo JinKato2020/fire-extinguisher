@@ -1,0 +1,8 @@
+{
+  "homeRenders": 25,
+  "heroAspectRatios": true,
+  "calendarPersistenceAndLeapDay": true,
+  "settingsOrderAndSingleReview": true,
+  "auxiliaryRoutes": true,
+  "errors": []
+}

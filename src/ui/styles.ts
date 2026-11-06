@@ -279,9 +279,9 @@ export function makeStyles(c: Colors) {
     // ---- 設定 ----
     setGroup: { marginTop: 18 },
     setGroupTitle: { color: c.muted, fontSize: 11, fontWeight: '800', letterSpacing: 1, marginBottom: 8, marginLeft: 2 },
-    setRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 12, paddingVertical: 14, paddingHorizontal: 14, marginBottom: 8 },
-    setLabel: { color: c.fg, fontSize: 14.5, fontWeight: '700' },
-    setValue: { color: c.muted, fontSize: 13 },
+    setRow: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 12, rowGap: 8, alignItems: 'center', justifyContent: 'space-between', backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 12, paddingVertical: 14, paddingHorizontal: 14, marginBottom: 8, minHeight: 52 },
+    setLabel: { color: c.fg, fontSize: 14.5, lineHeight: 24, fontWeight: '700', flexShrink: 1, maxWidth: '100%' },
+    setValue: { color: c.muted, fontSize: 13, lineHeight: 22, flexShrink: 1, maxWidth: '100%' },
     segmented: { flexDirection: 'row', backgroundColor: c.card2, borderRadius: 10, padding: 3, gap: 3 },
     seg: { paddingVertical: 7, paddingHorizontal: 12, borderRadius: 8 },
     segOn: { backgroundColor: c.accent },
