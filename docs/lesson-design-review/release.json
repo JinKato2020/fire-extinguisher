@@ -1,0 +1,39 @@
+{
+  "manifestUrl": "https://content.safa-lang.com/fire6/_manifest.json",
+  "files": 253,
+  "remoteGeneratedAt": "2026-11-06T06:14:04Z",
+  "verifiedChanges": [
+    "content/chapters/ch1.json",
+    "content/chapters/ch2.json",
+    "content/chapters/ch3.json",
+    "content/chapters/ch4.json",
+    "content/chapters/ch5.json",
+    "content/chapters/ch6.json",
+    "content/glossary.json",
+    "figures/term_gas_parts.jpg",
+    "figures/term_hand_tools.jpg",
+    "figures/term_strain.jpg"
+  ],
+  "commit": "75fc3ec00e2a2b8179816733e06753c5293c4861",
+  "contentWorkflow": 42173119534,
+  "contentConclusion": "success",
+  "otaGroup": "c2463895-e2f8-4d7d-9140-dad8cb6c7bf6",
+  "iosUpdate": "01a1af80-64d1-75bd-938d-afd809ed2545",
+  "runtime": "1.1.0",
+  "branch": "production",
+  "channel": "production",
+  "channelVerified": true,
+  "version": "1.3.1",
+  "build": "1055",
+  "buildWorkflow": 42173515373,
+  "buildStatus": "completed",
+  "testFlightUploaded": true,
+  "physicalDeviceTested": false,
+  "proposalOnly": [
+    "Home redesign and hero selection",
+    "Revised review-request flow and schedule"
+  ],
+  "buildConclusion": "success",
+  "buildUrl": "https://github.com/JinKato2020/fire-extinguisher/actions/runs/42173515373",
+  "buildCompletedAt": "2026-11-06T06:30:32Z"
+}

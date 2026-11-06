@@ -76,6 +76,6 @@
 - 実Reactコンポーネントをブラウザー用ネイティブホストで表示し、106語×2条件＝212画面を検証。390px通常文字・320px文字150%で、明暗テーマ、横はみ出し、図の読込みを確認。
 - 検索、一覧・関連語の戻り位置、教材への往復、お気に入り永続化、検索結果なし、無料範囲からの迂回防止、旧版フォールバック、データ更新、画像失敗時、1024px幅、拡大表示を確認。JavaScript例外なし。
 - iOS向けExpo/Hermes出力成功。実機・VoiceOverの操作確認は未実施。ブラウザー検証は実機テストの代替とはしていない。
-- この変更は作業ツリーに実装済み。コミット・プッシュ・R2配信・EAS OTA配信はまだ実施していない。
+- 2026-11-06にコミット `75fc3ec` をプッシュし、R2配信とiOS productionのEAS OTA配信を完了した。公開先のmanifest 253件と変更ファイル10件のSHA-256・サイズを照合済み。配信・ビルド記録は [release.json](lesson-design-review/release.json) を参照。
 
 画面確認：[一覧](glossary-review/home-light.png)／[詳細](glossary-review/detail-light-top.png)／[具体例・注意点](glossary-review/detail-light-body.png)／[大きな文字・ダーク](glossary-review/detail-dark-large.png)／[画像拡大](glossary-review/figure-zoom.png)。

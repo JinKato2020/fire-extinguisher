@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-06T04:58:49.825473+00:00",
+  "checkedAt": "2026-11-06T13:58:49.825473+09:00",
   "terms": 106,
   "revised": 90,
   "new": 16,
@@ -19,7 +19,6 @@
     "text contrast: regular >=4.5:1 / large >=3:1 in all 212 term renders"
   ],
   "physicalDeviceTest": false,
-  "published": false,
   "sha256": {
     "../教材解説/用語集.md": "cafa75362aadf5c9e5848a4aada367e0f93fcb3026c393f5fceeda4445d0be2d",
     "../教材解説/教材_第3章_機械に関する基礎的知識.md": "23be8c9581680a953015fc5f3cabd3a057d4c06d63d1ac40b9e94df3f2334a15",
@@ -32,5 +31,7 @@
     "src/ui/LessonFigure.tsx": "57fe97c473355b05fbfcdf3749815d5eb411b08608014c10ea06bcb6b8c50f51",
     "src/ui/styles.ts": "0eb31055980054cc4072e42c0c993fe82d19837e94dce2999ceed3897ee14618"
   },
-  "iosBundle": "index-28dea798c7975aa9a7e0e0162c593703.hbc"
+  "iosBundle": "index-28dea798c7975aa9a7e0e0162c593703.hbc",
+  "releaseRecord": "../lesson-design-review/release.json",
+  "publishedAtVerification": false
 }

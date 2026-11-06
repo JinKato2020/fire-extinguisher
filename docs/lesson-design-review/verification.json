@@ -37,7 +37,6 @@
     "file": "tmp/lesson-design-ios-export/_expo/static/js/ios/index-9615f91bcddfad3a9c1edd0be93c7edc.hbc"
   },
   "physicalDeviceTested": false,
-  "published": false,
   "canonicalSources": {
     "教材_第1章_消防関係法令(共通).md": "c7f9d76fe842c08668cbfae4841fe89f6936ef3cffb4b4d2994416b15454a25d",
     "教材_第2章_消防関係法令(第6類).md": "82f6404f8700161bfc99cbea56a5d53b664b59dd42b590969f1e1ea7bf4a52ef",
@@ -46,5 +45,7 @@
     "教材_第5章_消火器の規格.md": "adac892e5d7d0579023430a930e70e7d2c4c005d87f6404254169a3e44aebc4a",
     "教材_第6章_実技試験(鑑別等)関連.md": "02506498576a72190b1d5e9c465343e06a4058b94eac6cfe26e5a670f0829120"
   },
-  "existingWordingPreserved": true
+  "existingWordingPreserved": true,
+  "releaseRecord": "../lesson-design-review/release.json",
+  "publishedAtVerification": false
 }

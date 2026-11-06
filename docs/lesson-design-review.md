@@ -79,6 +79,8 @@
 - iOS向けExpo書き出し（Hermes）成功。クラウドビルド・App Store提出ではない。
 - manifest 253件のファイルサイズ・SHA-256照合。
 
-実機のキーボード・VoiceOver・ネイティブ描画は未確認。ブラウザー検証は実機テストの代替ではない。コミット・プッシュ・OTA配信は今回未実施。
+実機のキーボード・VoiceOver・ネイティブ描画は未確認。ブラウザー検証は実機テストの代替ではない。
+
+2026-11-06にコミット `75fc3ec` をプッシュし、R2配信とiOS productionのEAS OTA配信を完了した。公開先のmanifest 253件と変更ファイル10件のSHA-256・サイズを照合済み。続いてv1.3.1（1055）のビルドとTestFlightへのアップロードも成功した。配信・ビルド記録は [release.json](lesson-design-review/release.json) を参照。
 
 画面例と検証記録は `lesson-design-review/` に保存する。
