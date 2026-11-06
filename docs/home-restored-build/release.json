@@ -1,0 +1,19 @@
+{
+  "task": "restored-home-native-build",
+  "phase": "complete",
+  "version": "1.3.1",
+  "expectedBuild": 1065,
+  "settingsPreserved": true,
+  "buildStartsBeforeDispatch": 4,
+  "dailyLimit": 5,
+  "physicalDeviceTested": false,
+  "sourceCommit": "17e34d4f43beb94ca887c2404043bee7f9a108dd",
+  "buildRun": 42233934526,
+  "build": 1065,
+  "buildUrl": "https://github.com/JinKato2020/fire-extinguisher/actions/runs/42233934526",
+  "testFlightUploaded": true,
+  "buildConclusion": "success",
+  "buildCompletedAt": "2026-11-06T14:37:34Z",
+  "originalHeroMatchesPreRedesign": true,
+  "ipaVerified": true
+}
