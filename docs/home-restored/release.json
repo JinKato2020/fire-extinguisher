@@ -1,0 +1,21 @@
+{
+  "task": "restore-original-home",
+  "phase": "complete",
+  "restoredHomeFrom": "961ca58",
+  "settingsPreservedFrom": "11fb20b",
+  "version": "1.3.1",
+  "existingBuild": 1061,
+  "additionalBuild": false,
+  "typecheck": true,
+  "studyActivityRegression": true,
+  "studyFeedbackRegression": true,
+  "uiScenarios": 24,
+  "iosExport": true,
+  "physicalDeviceTested": false,
+  "sourceCommit": "01d9131d9bca0e16071b7814f5277682641f6e31",
+  "otaGroup": "4453db45-6498-4159-8b58-681aec350e0c",
+  "iosUpdate": "01a1b0b1-2fd5-7439-8380-0f430ddfdf0f",
+  "channel": "production",
+  "channelVerified": true,
+  "runtime": "1.1.0"
+}
