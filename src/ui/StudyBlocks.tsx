@@ -89,7 +89,7 @@ function StudyTableCards({ table, uri, onZoom }: TableProps) {
   return <View style={{ marginVertical: 12, borderRadius: 14, borderWidth: 1, borderColor: c.line, backgroundColor: c.card, padding: 14, gap: 12 }}>
     <Text accessibilityRole="header" style={{ color: c.fg, fontSize: 16, lineHeight: 26, fontWeight: '800' }}><Inline text={table.title.replace(/^\d+\.\s+/, '')} /></Text>
     {table.rows.length > 10 ? <TextInput accessibilityLabel={table.title + 'の項目を検索'} value={query} onChangeText={setQuery}
-      placeholder="用途・項番号で検索" placeholderTextColor={c.muted} returnKeyType="search"
+      placeholder="項目・キーワードで検索" placeholderTextColor={c.muted} returnKeyType="search"
       style={{ color: c.fg, backgroundColor: c.card2, borderColor: c.line, borderWidth: 1, borderRadius: 10, padding: 12, minHeight: 48, fontSize: 16 }} /> : null}
     {large ? <Text accessibilityLiveRegion="polite" style={{ color: c.muted, fontSize: 13, lineHeight: 21 }}>{needle ? `${filtered.length}件の検索結果` : `${visible.length} / ${table.rows.length}項目を表示`}</Text> : null}
     {visible.map((row, ri) => <View key={ri} style={{ backgroundColor: c.card2, borderRadius: 10, padding: 12, gap: 8 }}>
@@ -99,7 +99,7 @@ function StudyTableCards({ table, uri, onZoom }: TableProps) {
         <Text style={{ color: c.fg, fontSize: 16, lineHeight: 27 }}><Inline text={cell || '―'} /></Text>
       </View>)}
     </View>)}
-    {!filtered.length ? <Text style={{ color: c.muted, fontSize: 15, lineHeight: 25 }}>一致する項目がありません。別の用途名・項番号で検索してください。</Text> : null}
+    {!filtered.length ? <Text style={{ color: c.muted, fontSize: 15, lineHeight: 25 }}>一致する項目がありません。別のキーワードで検索してください。</Text> : null}
     {large && !expanded && !needle ? <Pressable onPress={() => setExpanded(true)} accessibilityRole="button" accessibilityState={{ expanded: false }}
       style={({ pressed }) => ({ padding: 12, minHeight: 48, borderRadius: 10, backgroundColor: c.accentSoft, opacity: pressed ? 0.7 : 1 })}>
       <Text style={{ color: c.accent2, fontSize: 15, lineHeight: 24, fontWeight: '700', textAlign: 'center' }}>{`全${table.rows.length}項目を読む ＋`}</Text>

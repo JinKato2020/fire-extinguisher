@@ -42,3 +42,10 @@
 - iOS向け `expo export` 成功。実機での目視確認はこの検証には含まない。
 
 主な根拠は本文末尾に掲載した消防法施行令・施行規則、危険物の規制に関する政令・規則、消防庁通知。確認日以降の改正は別途確認が必要。
+
+## 公開確認
+
+- 公開コミット：`3d2407612496014b546e9578717aa042119db2ca`。
+- [R2教材配信：GitHub Actions run 42147527307](https://github.com/JinKato2020/fire-extinguisher/actions/runs/42147527307) 成功。
+- [iOS production OTA：51a247c1-38c3-4ddb-8466-9bd1c1ed7e9c](https://expo.dev/accounts/jinkato1914/projects/fire6-exam-app/updates/51a247c1-38c3-4ddb-8466-9bd1c1ed7e9c) 成功、runtime `1.1.0`。
+- 公開先manifest全238ファイルとローカルの一致を確認。更新した本文・テキスト表・JPEG計11ファイルを配信先から取得し、SHA-256一致を確認した。
