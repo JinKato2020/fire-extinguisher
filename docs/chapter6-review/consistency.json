@@ -1,0 +1,31 @@
+{
+  "baselineCommit": "9c8e2c00240f5509197f7d5891764374689c87de",
+  "regeneratedFiles": 16,
+  "unchangedChapters": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "preservedReadableTables": 96,
+  "readableTables": 108,
+  "chapter6Tables": 12,
+  "editedIllustrations": [
+    "ch6_f08",
+    "ch6_f22",
+    "ch6_f24"
+  ],
+  "unchangedIllustrations": 22,
+  "changedGlossaryTerms": [
+    "kanbetsu",
+    "soshitsuryo-ni-yoru-yakuzairyo-kakunin",
+    "hyojun-atsuryokukei",
+    "clamp-dai",
+    "cap-spanner",
+    "air-gun",
+    "plier",
+    "mokusei-hammer"
+  ],
+  "manifestFilesVerified": 250
+}

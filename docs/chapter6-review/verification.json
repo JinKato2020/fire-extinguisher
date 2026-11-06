@@ -1,0 +1,8 @@
+{
+  "renders": 20,
+  "largeTextRenders": 12,
+  "checks": 24,
+  "tables": 12,
+  "physicalDevice": false,
+  "errors": []
+}
