@@ -3,8 +3,8 @@ import { Image, Pressable, Text, View } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
 
 /** Preserve natural proportions: tall tables must not shrink inside a landscape slot. */
-export function LessonFigure({ uri, caption, width, onZoom }: {
-  uri: string | null; caption: string; width: number; onZoom: (uri: string) => void;
+export function LessonFigure({ uri, caption, width, onZoom, captionSize = 12 }: {
+  uri: string | null; caption: string; width: number; onZoom: (uri: string) => void; captionSize?: number;
 }) {
   const { c } = useTheme();
   const [ratio, setRatio] = useState(1.5);
@@ -25,10 +25,10 @@ export function LessonFigure({ uri, caption, width, onZoom }: {
       <Image source={{ uri }} style={imageStyle} resizeMode="contain"
         onLoad={e => { const { width: w, height: h } = e.nativeEvent.source; if (w > 0 && h > 0) setRatio(w / h); }}
         onError={() => setFailed(true)} />
-      <Text style={{ color: c.accent, fontSize: 12, lineHeight: 20, fontWeight: '700', marginTop: 5 }}>タップして拡大・ピンチで細部を確認</Text>
-    </Pressable> : <View style={[imageStyle, { borderWidth: 1, borderColor: c.line, alignItems: 'center', justifyContent: 'center' }]}>
+      <Text style={{ color: c.accent2, fontSize: captionSize, lineHeight: captionSize + 8, fontWeight: '700', marginTop: 5 }}>タップして拡大・ピンチで細部を確認</Text>
+    </Pressable> : <View style={[imageStyle, { backgroundColor: c.card, borderWidth: 1, borderColor: c.line, alignItems: 'center', justifyContent: 'center' }]}>
       <Text style={{ color: c.muted, fontSize: 13 }}>{failed ? '図を読み込めませんでした' : '図は準備中'}</Text>
     </View>}
-    {caption ? <Text style={{ color: c.muted, fontSize: 12, lineHeight: 20, marginTop: 4 }}>{'図：' + caption}</Text> : null}
+    {caption ? <Text style={{ color: c.muted, fontSize: captionSize, lineHeight: captionSize + 8, marginTop: 4 }}>{'図：' + caption}</Text> : null}
   </View>;
 }

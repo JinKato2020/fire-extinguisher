@@ -23,14 +23,13 @@ import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
 import { getFigureUri } from './src/data/contentStore';
 import { ImageZoom } from './src/ui/ImageZoom';
-import { Markdown } from './src/ui/LessonMarkdown';
+import { LessonStudy } from './src/ui/LessonStudy';
 import { parseLessons, type Lesson } from './src/ui/lessons';
 import { getQuizSets, getQuestions, getAllQuestions, type Question, type QuizSet } from './src/data/questions';
 import { loadHistory, recordAnswer, selectReview, overallStats, getRec } from './src/data/history';
-import { getGlossary, type Term } from './src/data/glossary';
+import { GlossaryScreen } from './src/ui/GlossaryScreen';
 import {
   loadBookmarks, isBookmarked, toggleBookmark, bookmarkedIds, bookmarkCount,
-  isFavTerm, toggleFavTerm,
 } from './src/data/bookmarks';
 import { loadExamDate, getExamDate, setExamDate, daysLeft, examDateText } from './src/data/examDate';
 import {
@@ -278,7 +277,7 @@ function LearnScreen({ chapters, onOpen }: { chapters: Chapter[]; onOpen: (c: Ch
         <View style={s.viewHead}>
           <Text style={s.eyebrow}>STUDY</Text>
           <Text style={s.viewH2}>教材</Text>
-          <Text style={s.viewSub}>章を選んで、読んで学ぶ。難しい章ほど解説を厚くしています。</Text>
+          <Text style={s.viewSub}>要点をつかみ、図と具体例で理解し、クイズで確かめましょう。</Text>
         </View>
         <View style={{ gap: 10, marginTop: 16 }}>
           {chapters.map((ch) => {
@@ -381,7 +380,7 @@ function LessonListScreen({ chapter, chapters, onOpenLesson, onBack, onNavChapte
 }
 
 // ---- レッスン本文(左右スワイプで隣のレッスンへ。章をまたいで連続) ----
-function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPaywall }: { chapters: Chapter[]; chapterNo: string; lessonIdx: number; onBack: () => void; onNav: (chapterNo: string, lessonIdx: number) => void; pro: boolean; onPaywall: () => void }) {
+function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPaywall, backLabel = 'レッスン一覧' }: { chapters: Chapter[]; chapterNo: string; lessonIdx: number; onBack: () => void; onNav: (chapterNo: string, lessonIdx: number) => void; pro: boolean; onPaywall: () => void; backLabel?: string }) {
   const s = useStyles();
   const chapter = chapters.find((x) => x.no === chapterNo) ?? null;
   const lessons = useMemo(() => parseLessons(chapter?.body ?? ''), [chapter?.body]);
@@ -419,17 +418,17 @@ function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPa
     <View style={{ flex: 1 }} {...pan.panHandlers}>
       <View style={s.readerBar}>
         <Pressable onPress={onBack} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
-          <Text style={s.backTxt}>‹ レッスン一覧</Text>
+          <Text style={s.backTxt}>{'‹ ' + backLabel}</Text>
         </Pressable>
         <Text style={s.qProgress} numberOfLines={1}>{(chapter ? '第' + chapter.no + '章' : '') + (lessons.length ? '・' + (safeIdx + 1) + '/' + lessons.length : '')}</Text>
       </View>
-      <ScrollView key={chapterNo + '-' + safeIdx} style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}>
+      <LessonStudy key={chapterNo + '-' + safeIdx} body={!locked ? lesson?.body : undefined} onLessonLink={number => {
+        const target = lessons.findIndex(l => new RegExp('^Lesson\\s+0*' + number + '\\s').test(l.label));
+        if (target >= 0) onNav(chapterNo, target);
+      }}>
         {locked
           ? <ProCut onPaywall={onPaywall} title="このレッスンはProで" sub={'無料で読めるレッスンの先です。Proですべてのレッスン・用語・相関図・模試が解放されます。'} />
-          : lesson ? <Markdown key={chapterNo + lesson.key} body={lesson.body} onLessonLink={number => {
-              const target = lessons.findIndex(l => new RegExp('^Lesson\\s+0*' + number + '\\s').test(l.label));
-              if (target >= 0) onNav(chapterNo, target);
-            }} /> : <View style={s.soon}><Text style={s.soonBig}>準備中</Text></View>}
+          : lesson ? null : <View style={s.soon}><Text style={s.soonBig}>準備中</Text></View>}
         {!locked && lesson?.key !== 'review' && lessons.some(l => l.key === 'review') ? <Pressable accessibilityRole="button"
           onPress={() => onNav(chapterNo, lessons.findIndex(l => l.key === 'review'))}
           style={({ pressed }) => [s.readerNavBtn, { marginTop: 20, flex: 0 }, pressed && s.pressed]}>
@@ -443,178 +442,12 @@ function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPa
             {nextTarget ? <Text style={s.readerNavTxt}>次のレッスン ›</Text> : null}
           </Pressable>
         </View>
-      </ScrollView>
+      </LessonStudy>
     </View>
   );
 }
 
 // ---- 用語集 ----
-function GlossaryScreen({ onBump, ver, favInit, pro, onPaywall }: { onBump: () => void; ver: number; favInit?: boolean; pro: boolean; onPaywall: () => void }) {
-  const { c } = useTheme();
-  const s = useStyles();
-  const [q, setQ] = useState('');
-  // sel: null = 章の選択画面 / '1'〜'6' = その章 / 'fav' = お気に入り
-  const [sel, setSel] = useState<string | null>(favInit ? 'fav' : null);
-  const terms = useMemo(() => getGlossary(), [ver]);
-  // 無料は各章の先頭6語まで(Proで全解放)
-  const posInCh = useMemo(() => {
-    const m: Record<string, number> = {}; const cnt: Record<string, number> = {};
-    for (const t of terms) { const k = t.chapter; const n = cnt[k] ?? 0; m[t.id] = n; cnt[k] = n + 1; }
-    return m;
-  }, [terms]);
-  const canSee = (t: Term) => pro || (posInCh[t.id] ?? 99) < 6;
-  const needle = q.trim();
-  const readable = terms.some(t => canSee(t)
-    && (sel === 'fav' ? isFavTerm(t.term) : sel === null ? !!needle : t.chapter === sel)
-    && (!needle || t.term.includes(needle) || t.def.includes(needle) || (sel !== null && (t.reading ?? '').includes(needle))));
-  useStudyFeedback('terms:' + (sel ?? 'search'), readable);
-  const chapters = ['1', '2', '3', '4', '5', '6'];
-  const chCount = (k: string) => terms.filter((t) => t.chapter === k).length;
-  const favCount = terms.filter((t) => isFavTerm(t.term)).length;
-
-  // ---- 章の選択画面 ----
-  if (sel === null) {
-    const nq = q.trim();
-    const results = nq
-      ? terms.filter((t) => t.term.includes(nq) || (t.reading ?? '').includes(nq) || t.def.includes(nq))
-      : [];
-    return (
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
-        <View style={s.pad}>
-          <View style={s.viewHead}>
-            <Text style={s.eyebrow}>GLOSSARY</Text>
-            <Text style={s.viewH2}>用語集</Text>
-            <Text style={s.viewSub}>章を選ぶと、その章の重要用語が見られます。★でお気に入りに登録できます。</Text>
-          </View>
-          {/* 用語検索窓(お気に入りの上・全章から検索) */}
-          <View style={s.search}>
-            <Icon name="search" size={18} color={c.faint} />
-            <TextInput
-              style={s.searchInput}
-              placeholder="用語を検索（全章から）"
-              placeholderTextColor={c.faint}
-              value={q}
-              onChangeText={setQ}
-              returnKeyType="search"
-            />
-            {q ? <Pressable onPress={() => setQ('')} hitSlop={8}><Text style={{ color: c.faint, fontSize: 15, fontWeight: '800' }}>✕</Text></Pressable> : null}
-          </View>
-          {nq ? (
-            results.length ? (
-              <View style={{ marginTop: 10 }}>
-                {results.filter(canSee).map((t) => <TermCard key={t.id} term={t} onBump={onBump} />)}
-                {!pro && results.some((t) => !canSee(t)) ? <ProCut onPaywall={onPaywall} title="ほかの用語はProで" sub={'無料は各章の先頭6語まで。Proで全用語を検索・閲覧できます。'} /> : null}
-              </View>
-            ) : (
-              <Text style={[s.viewSub, { marginTop: 16 }]}>{`「${q}」に一致する用語は見つかりませんでした。`}</Text>
-            )
-          ) : (
-            <View style={{ gap: 10, marginTop: 16 }}>
-              <Pressable style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => setSel('fav')}>
-                <View style={s.chNo}><Text style={s.chNoTxt}>★</Text></View>
-                <View style={{ flex: 1, minWidth: 0 }}>
-                  <Text style={s.chTitle}>お気に入りの用語</Text>
-                  <Text style={s.chSub}>{favCount > 0 ? `★をつけた用語 ${favCount}語` : 'まだ登録がありません'}</Text>
-                </View>
-                <Text style={s.chGo}>›</Text>
-              </Pressable>
-              {chapters.map((k) => (
-                <Pressable key={k} style={({ pressed }) => [s.ch, pressed && s.pressed]} onPress={() => setSel(k)}>
-                  <View style={s.chNo}><Text style={s.chNoTxt}>{k}</Text></View>
-                  <View style={{ flex: 1, minWidth: 0 }}>
-                    <Text style={s.chTitle}>{CHAPTER_SHORT[k]}</Text>
-                    <Text style={s.chSub}>{`重要用語 ${chCount(k)}語`}</Text>
-                  </View>
-                  <Text style={s.chGo}>›</Text>
-                </Pressable>
-              ))}
-            </View>
-          )}
-        </View>
-      </ScrollView>
-    );
-  }
-
-  // ---- 章 / お気に入りの用語一覧 ----
-  const title = sel === 'fav' ? 'お気に入りの用語' : `第${sel}章 ${CHAPTER_SHORT[sel]}`;
-  const list = terms.filter((t) => {
-    if (sel === 'fav') { if (!isFavTerm(t.term)) return false; }
-    else if (t.chapter !== sel) return false;
-    if (q.trim()) {
-      const needle = q.trim();
-      if (!(t.term.includes(needle) || (t.reading ?? '').includes(needle) || t.def.includes(needle))) return false;
-    }
-    return true;
-  });
-
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={s.readerBar}>
-        <Pressable onPress={() => { setSel(null); setQ(''); }} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}>
-          <Text style={s.backTxt}>‹ 章の選択</Text>
-        </Pressable>
-        <Text style={s.qProgress}>{title}</Text>
-      </View>
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
-        <View style={s.pad}>
-          <View style={s.search}>
-            <Icon name="search" size={18} color={c.faint} />
-            <TextInput
-              style={s.searchInput}
-              placeholder="用語・よみ・説明で検索"
-              placeholderTextColor={c.faint}
-              value={q}
-              onChangeText={setQ}
-            />
-          </View>
-
-          {list.length === 0 ? (
-            <Text style={[s.radarEmpty, { marginTop: 24 }]}>
-              {sel === 'fav' ? '★をつけた用語がここに集まります。' : '該当する用語がありません。'}
-            </Text>
-          ) : (
-            <>
-              {list.filter(canSee).map((t) => (
-                <TermCard key={t.id} term={t} onBump={onBump} />
-              ))}
-              {!pro && sel !== 'fav' && list.some((t) => !canSee(t)) ? (
-                <ProCut onPaywall={onPaywall} title={`残り${list.filter((t) => !canSee(t)).length}語はProで`} sub={'無料は各章の先頭6語まで。Proでこの章の全用語が読めます。'} />
-              ) : null}
-            </>
-          )}
-        </View>
-      </ScrollView>
-    </View>
-  );
-}
-
-function TermCard({ term, onBump }: { term: Term; onBump: () => void }) {
-  const { c } = useTheme();
-  const s = useStyles();
-  const fav = isFavTerm(term.term);
-  const figUri = term.figure ? getFigureUri(term.figure) : null;
-  const [zoomFig, setZoomFig] = useState(false);
-  return (
-    <View style={s.termCard}>
-      <View style={s.termTop}>
-        <View style={{ flex: 1 }}>
-          <Text style={s.termWord}>{term.term}</Text>
-          {term.reading ? <Text style={s.termReading}>{term.reading}</Text> : null}
-        </View>
-        <Pressable hitSlop={8} onPress={() => { void toggleFavTerm(term.term).then(onBump); }}>
-          <Text style={[s.heart, { color: fav ? c.accent : c.faint }]}>{fav ? '★' : '☆'}</Text>
-        </Pressable>
-      </View>
-      <Text style={s.termDef}>{term.def}</Text>
-      {figUri ? <Pressable onPress={() => setZoomFig(true)}><Image source={{ uri: figUri }} style={s.termFig} resizeMode="contain" /></Pressable> : null}
-      {zoomFig && figUri ? <ImageZoom uri={figUri} onClose={() => setZoomFig(false)} /> : null}
-      {term.related && term.related.length > 0 ? (
-        <Text style={s.termRel}>{'関連: ' + term.related.join('、')}</Text>
-      ) : null}
-    </View>
-  );
-}
-
 // ---- 模試・成績 ----
 // 無料=模試①②、Pro=模試③〜⑧＋弱点復習(買い切りProで解放)。
 const FREE_MOCK_COUNT = 1;
@@ -1622,7 +1455,9 @@ function Main() {
                     ? <LessonListScreen chapter={openChapter} chapters={chapters} onOpenLesson={(i) => setLessonIdx(i)} onBack={() => setOpenNo(null)} onNavChapter={(no) => { setOpenNo(no); setLessonIdx(null); }} pro={pro} onPaywall={() => setModal('paywall')} />
                     : <LessonReader chapters={chapters} chapterNo={openChapter.no} lessonIdx={lessonIdx} onBack={() => setLessonIdx(null)} onNav={(no, i) => { setOpenNo(no); setLessonIdx(i); }} pro={pro} onPaywall={() => setModal('paywall')} />)
                 : <LearnScreen chapters={chapters} onOpen={(x) => { setOpenNo(x.no); setLessonIdx(null); }} />)}
-              {tab === 'terms' && <GlossaryScreen onBump={bump} ver={dataVersion} favInit={termsFav} pro={pro} onPaywall={() => setModal('paywall')} />}
+              {tab === 'terms' && <GlossaryScreen onBump={bump} ver={contentVersion} favInit={termsFav} pro={pro} onPaywall={() => setModal('paywall')} chapters={chapters}
+                renderLesson={(target, onBack, onNav) => <LessonReader backLabel="用語に戻る" chapters={chapters} chapterNo={target.chapterNo} lessonIdx={target.lessonIdx}
+                  onBack={onBack} onNav={onNav} pro={pro} onPaywall={() => setModal('paywall')} />} />}
               {tab === 'mock' && <MockScoreScreen onBump={bump} pro={pro} onPaywall={() => setModal('paywall')} />}
               {tab === 'set' && <SettingsScreen onModal={setModal} onSync={doSync} syncing={syncing} pro={pro} />}
             </>

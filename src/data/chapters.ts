@@ -18,7 +18,7 @@ export function getChapters(): Chapter[] {
   const idx = getContent<IndexFile>('content/index.json');
   const list = idx?.chapters ?? [];
   return list.map((m) => {
-    const data = getContent<{ body?: string; bodyV2?: string }>(m.file);
-    return { no: m.no, title: m.title, sub: m.sub, tag: m.tag, tagKind: m.tagKind, body: data?.bodyV2 ?? data?.body };
+    const data = getContent<{ body?: string; bodyV2?: string; bodyV3?: string }>(m.file);
+    return { no: m.no, title: m.title, sub: m.sub, tag: m.tag, tagKind: m.tagKind, body: data?.bodyV3 ?? data?.bodyV2 ?? data?.body };
   });
 }

@@ -6,6 +6,7 @@ export type MarkdownBlock = {
   title?: string;
   answer?: string;
   items?: string[];
+  choice?: { options: string[]; correct: number; prompt: string };
 };
 
 /** Callout markers live in the canonical Markdown, not in generated JSON or UI heuristics. */
@@ -23,11 +24,22 @@ export function parseMarkdown(body: string): MarkdownBlock[] {
       if (end === lines.length) throw new Error('学習ブロックの閉じ記号 ::: がありません: ' + studyBlock[2]);
       i = end;
       if (studyBlock[1] === 'check') {
+        const choiceLine = content[0]?.match(/^@choice: ([1-4])$/);
+        if (content.some(line => line.includes('@choice')) && (!choiceLine || content.slice(1).some(line => line.includes('@choice')))) throw new Error('選択問題の正解指定が不正です: ' + studyBlock[2]);
+        if (choiceLine) content.shift();
         const divider = content.findIndex(line => line.trim() === '---');
         const question = content.slice(0, divider).join('\n').trim();
         const answer = content.slice(divider + 1).join('\n').trim();
         if (divider < 1 || !question || !answer) throw new Error('確認問題には問題文・---・解答が必要です: ' + studyBlock[2]);
-        out.push({ type: 'check', title: studyBlock[2], text: question, answer });
+        let choice: MarkdownBlock['choice'];
+        if (choiceLine) {
+          const options = [...question.matchAll(/^([1-4])\. (.+)$/gm)];
+          const correct = Number(choiceLine[1]) - 1;
+          const prompt = question.replace(/^[1-4]\. .+$/gm, '').trim();
+          if (!prompt || options.length < 2 || options.length > 4 || correct >= options.length || options.some((m, n) => Number(m[1]) !== n + 1)) throw new Error('選択肢と正解番号が不正です: ' + studyBlock[2]);
+          choice = { options: options.map(m => m[2]), correct, prompt };
+        }
+        out.push({ type: 'check', title: studyBlock[2], text: question, answer, ...(choice ? { choice } : {}) });
       } else {
         const items = content.filter(line => line.trim()).map(line => line.replace(/^\d+\.\s+/, ''));
         out.push({ type: 'steps', title: studyBlock[2], text: '', items });

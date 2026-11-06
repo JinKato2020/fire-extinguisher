@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 r"""教材解説(..\..\教材解説\教材_第N章_*.md)を正本として content/chapters/chN.json を再生成する。
-- no/title は content/index.json から引く。新記法がある章は bodyV2=正本全文、body=旧画面互換版。
+- no/title は content/index.json から引く。bodyV3=正本全文、bodyV2/body=旧画面互換版。
 - 旧 scratchpad\gen_content_json.py の代替(リポジトリ常設版)。
 使い方: python tools/gen_content_json.py            全章
         python tools/gen_content_json.py --check     再生成せず現JSONとの差分だけ確認
         python tools/gen_content_json.py 1 4          指定章だけ
 """
 import json, os, sys, glob, re
+from lesson_format import reading_markdown
 
 ROOT = os.getcwd()                                  # fire6-exam-app 直下で実行
 PROJ = os.path.dirname(ROOT)                        # 消防設備士6類
@@ -53,10 +54,13 @@ for n in range(1, 7):
     if not m or not p:
         print(f"[warn] 章{n}: index/md 不足"); missing += 1; continue
     body = open(p, encoding="utf-8").read()
-    data = {"no": str(n), "title": m["title"], "body": body}
+    reading = reading_markdown(body)
+    data = {"no": str(n), "title": m["title"], "body": reading}
     if re.search(r'^:::(check|steps) ', body, re.M):
-        data['bodyV2'] = body  # Canonical Markdown, read by the enhanced lesson UI.
-        data['body'] = legacy_markdown(body)  # Safe even when content arrives before JS OTA.
+        data['bodyV2'] = reading
+        data['body'] = legacy_markdown(reading)  # Safe even when content arrives before JS OTA.
+    if reading != body:
+        data['bodyV3'] = body  # Canonical recall/choice markup for the new lesson reader.
     out = os.path.join(OUT_DIR, f"ch{n}.json")
     new = json.dumps(data, ensure_ascii=False) + "\n"  # 既存JSONと同じ整形(compact+改行)
     old = open(out, encoding="utf-8").read() if os.path.exists(out) else None

@@ -17,7 +17,7 @@ assert.equal(sample.at(-1)?.text, '> literal');
 for (let n = 1; n <= 6; n++) {
   const path = `content/chapters/ch${n}.json`;
   const data = JSON.parse(readFileSync(path, 'utf8'));
-  const body: string = data.bodyV2 ?? data.body;
+  const body: string = data.bodyV3 ?? data.bodyV2 ?? data.body;
   const source = readdirSync('../教材解説').find(name => name.startsWith(`教材_第${n}章_`) && name.endsWith('.md'))!;
   const old = readFileSync(`../教材解説/${source}`, 'utf8').replace(/\r\n/g, '\n');
   assert.equal(body, old, `Chapter ${n}: JSON differs from canonical Markdown`);
