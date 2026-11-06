@@ -1,0 +1,40 @@
+{
+  "installedBuildReportedByUser": 1061,
+  "distribution": "TestFlight",
+  "build1061ContainsNewHeroChoices": true,
+  "ipa1061UpdatesEnabled": true,
+  "ipa1061LaunchWaitMs": 0,
+  "servedUpdateId": "01a1b0b1-2fd5-7439-8380-0f430ddfdf0f",
+  "servedHeroAssets": [
+    "hero.jpg"
+  ],
+  "deviceUpdateApplied": false,
+  "deviceUpdateFailureCause": "Not determined; device logs unavailable.",
+  "action": "Build the restored home directly into the next TestFlight binary.",
+  "settingsPreserved": true,
+  "homeMatchesOriginalImageAndAspectRatio": true,
+  "dailyLimit": 5,
+  "guardBoundaryCases": [
+    {
+      "countIncludingCurrentRun": 1,
+      "allowed": true
+    },
+    {
+      "countIncludingCurrentRun": 4,
+      "allowed": true
+    },
+    {
+      "countIncludingCurrentRun": 5,
+      "allowed": true
+    },
+    {
+      "countIncludingCurrentRun": 6,
+      "allowed": false
+    },
+    {
+      "countIncludingCurrentRun": 7,
+      "allowed": false
+    }
+  ],
+  "physicalDeviceTested": false
+}

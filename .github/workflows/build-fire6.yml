@@ -75,7 +75,8 @@ jobs:
             | node -e 'const a=JSON.parse(require("fs").readFileSync(0,"utf8"));const t=process.env.TODAY;console.log(a.filter(r=>String(r.createdAt).startsWith(t)).length)' \
             || echo 0)
           echo "::notice::本日(UTC $TODAY)の消防6類ビルド起動回数=$COUNT / 上限=$LIMIT"
-          if [ "$COUNT" -ge "$LIMIT" ]; then
+          # COUNT includes this running workflow; allow the configured fifth run, block the sixth.
+          if [ "$COUNT" -gt "$LIMIT" ]; then
             echo "::error::本日のiOSビルドが上限($LIMIT回)に達しています。Apple 1日上限(error 90382)を避けるため提出を止めました。翌日まで待つか、どうしても必要なら force_ios=true で再実行してください。"
             exit 1
           fi
