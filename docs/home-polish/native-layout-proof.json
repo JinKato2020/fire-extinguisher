@@ -1,0 +1,33 @@
+{
+  "engine": "Yoga 3.2.1",
+  "nativeDefaultsSource": "node_modules/react-native/Libraries/Image/Image.ios.js",
+  "containerWidth": 350,
+  "oldStyle": {
+    "width": "100%",
+    "height": 887,
+    "aspectRatio": 2
+  },
+  "oldComputed": {
+    "width": 1774,
+    "height": 887
+  },
+  "newStyle": {
+    "width": 350,
+    "height": 175
+  },
+  "newComputed": {
+    "width": 350,
+    "height": 175
+  },
+  "cause": "The native intrinsic height remains and Yoga derives the cross-axis width from it. The parent clips the enlarged image to its pale left edge.",
+  "solution": "Measure the actual parent width; explicitly set numeric image width and height; contain the full artwork; cap hero height for the viewport.",
+  "physicalDeviceTested": false,
+  "nativeRegressionCases": 51,
+  "uiScenarios": 32,
+  "checksPassed": 29,
+  "iosExportPassed": true,
+  "assetsChanged": false,
+  "originalGuideArtworkRestored": true,
+  "canonicalContentChanged": false,
+  "buildGuardFix": "Export TODAY so the existing Node guard can count daily build starts."
+}

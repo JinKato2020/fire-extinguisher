@@ -69,7 +69,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TODAY=$(date -u +%Y-%m-%d)
+          export TODAY=$(date -u +%Y-%m-%d)
           LIMIT=${IOS_DAILY_LIMIT}
           COUNT=$(gh run list --workflow build-fire6.yml --limit 100 --json createdAt \
             | node -e 'const a=JSON.parse(require("fs").readFileSync(0,"utf8"));const t=process.env.TODAY;console.log(a.filter(r=>String(r.createdAt).startsWith(t)).length)' \

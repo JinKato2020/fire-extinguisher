@@ -1,0 +1,473 @@
+{
+  "rendering": "DOM adapter with native asset metadata; Yoga separately verified; physical device not tested",
+  "passed": 32,
+  "results": [
+    {
+      "scenario": "320x568 anime",
+      "images": [
+        {
+          "name": "anime.png",
+          "width": 280,
+          "height": 140
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "320x568 photo",
+      "images": [
+        {
+          "name": "photo.png",
+          "width": 280,
+          "height": 140
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "320x568 calm",
+      "images": [
+        {
+          "name": "calm.png",
+          "width": 280,
+          "height": 140
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "320x568 classic",
+      "images": [
+        {
+          "name": "hero.jpg",
+          "width": 280,
+          "height": 165
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "320x568 none",
+      "images": [
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "390x844 anime",
+      "images": [
+        {
+          "name": "anime.png",
+          "width": 350,
+          "height": 175
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 350,
+          "height": 135
+        }
+      ]
+    },
+    {
+      "scenario": "390x844 photo",
+      "images": [
+        {
+          "name": "photo.png",
+          "width": 350,
+          "height": 175
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 350,
+          "height": 135
+        }
+      ]
+    },
+    {
+      "scenario": "390x844 calm",
+      "images": [
+        {
+          "name": "calm.png",
+          "width": 350,
+          "height": 175
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 350,
+          "height": 135
+        }
+      ]
+    },
+    {
+      "scenario": "390x844 classic",
+      "images": [
+        {
+          "name": "hero.jpg",
+          "width": 350,
+          "height": 240
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 350,
+          "height": 135
+        }
+      ]
+    },
+    {
+      "scenario": "390x844 none",
+      "images": [
+        {
+          "name": "examguide-dark.png",
+          "width": 350,
+          "height": 135
+        }
+      ]
+    },
+    {
+      "scenario": "844x390 anime",
+      "images": [
+        {
+          "name": "anime.png",
+          "width": 400,
+          "height": 120
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 400,
+          "height": 154
+        }
+      ]
+    },
+    {
+      "scenario": "844x390 photo",
+      "images": [
+        {
+          "name": "photo.png",
+          "width": 400,
+          "height": 120
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 400,
+          "height": 154
+        }
+      ]
+    },
+    {
+      "scenario": "844x390 calm",
+      "images": [
+        {
+          "name": "calm.png",
+          "width": 400,
+          "height": 120
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 400,
+          "height": 154
+        }
+      ]
+    },
+    {
+      "scenario": "844x390 classic",
+      "images": [
+        {
+          "name": "hero.jpg",
+          "width": 400,
+          "height": 120
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 400,
+          "height": 154
+        }
+      ]
+    },
+    {
+      "scenario": "844x390 none",
+      "images": [
+        {
+          "name": "examguide-dark.png",
+          "width": 400,
+          "height": 154
+        }
+      ]
+    },
+    {
+      "scenario": "1024x1366 anime",
+      "images": [
+        {
+          "name": "anime.png",
+          "width": 400,
+          "height": 200
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 400,
+          "height": 154
+        }
+      ]
+    },
+    {
+      "scenario": "1024x1366 photo",
+      "images": [
+        {
+          "name": "photo.png",
+          "width": 400,
+          "height": 200
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 400,
+          "height": 154
+        }
+      ]
+    },
+    {
+      "scenario": "1024x1366 calm",
+      "images": [
+        {
+          "name": "calm.png",
+          "width": 400,
+          "height": 200
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 400,
+          "height": 154
+        }
+      ]
+    },
+    {
+      "scenario": "1024x1366 classic",
+      "images": [
+        {
+          "name": "hero.jpg",
+          "width": 400,
+          "height": 240
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 400,
+          "height": 154
+        }
+      ]
+    },
+    {
+      "scenario": "1024x1366 none",
+      "images": [
+        {
+          "name": "examguide-dark.png",
+          "width": 400,
+          "height": 154
+        }
+      ]
+    },
+    {
+      "scenario": "320px large text dark anime",
+      "images": [
+        {
+          "name": "anime.png",
+          "width": 280,
+          "height": 140
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "320px large text dark photo",
+      "images": [
+        {
+          "name": "photo.png",
+          "width": 280,
+          "height": 140
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "320px large text dark calm",
+      "images": [
+        {
+          "name": "calm.png",
+          "width": 280,
+          "height": 140
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "320px large text dark classic",
+      "images": [
+        {
+          "name": "hero.jpg",
+          "width": 280,
+          "height": 193
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "320px large text dark none",
+      "images": [
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "date none",
+      "images": [
+        {
+          "name": "anime.png",
+          "width": 280,
+          "height": 140
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "date 0",
+      "images": [
+        {
+          "name": "anime.png",
+          "width": 280,
+          "height": 140
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "date -1",
+      "images": [
+        {
+          "name": "anime.png",
+          "width": 280,
+          "height": 140
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "date 365",
+      "images": [
+        {
+          "name": "anime.png",
+          "width": 280,
+          "height": 140
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "date 9999",
+      "images": [
+        {
+          "name": "anime.png",
+          "width": 280,
+          "height": 140
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    },
+    {
+      "scenario": "editor and guide interactions",
+      "passed": true,
+      "thumbnails": [
+        {
+          "w": 167,
+          "h": 84,
+          "parent": 167
+        },
+        {
+          "w": 165,
+          "h": 83,
+          "parent": 165
+        },
+        {
+          "w": 167,
+          "h": 84,
+          "parent": 167
+        },
+        {
+          "w": 167,
+          "h": 84,
+          "parent": 167
+        }
+      ]
+    },
+    {
+      "scenario": "live rotation/resize 390 to 320",
+      "images": [
+        {
+          "name": "photo.png",
+          "width": 280,
+          "height": 140
+        },
+        {
+          "name": "examguide-dark.png",
+          "width": 280,
+          "height": 108
+        }
+      ]
+    }
+  ],
+  "pageErrors": []
+}

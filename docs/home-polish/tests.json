@@ -1,0 +1,295 @@
+[
+  {
+    "command": [
+      "node",
+      "node_modules/typescript/bin/tsc",
+      "--noEmit"
+    ],
+    "exitCode": 0,
+    "seconds": 3.85,
+    "output": ""
+  },
+  {
+    "command": [
+      "python",
+      "-X",
+      "utf8",
+      "tools\\gen_content_json.py",
+      "--check"
+    ],
+    "exitCode": 0,
+    "seconds": 0.16,
+    "output": "check: changed=0 same=6 missing=0\n"
+  },
+  {
+    "command": [
+      "python",
+      "-X",
+      "utf8",
+      "tools\\gen_glossary.py",
+      "--check"
+    ],
+    "exitCode": 0,
+    "seconds": 0.31,
+    "output": "PASS: 106 glossary entries match canonical Markdown\n"
+  },
+  {
+    "command": [
+      "python",
+      "-X",
+      "utf8",
+      "tools\\gen_exam_guide.py",
+      "--check"
+    ],
+    "exitCode": 0,
+    "seconds": 0.18,
+    "output": "PASS: overview matches canonical Markdown\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_ch2_content.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.61,
+    "output": "PASS: chapter 2 has 7 entries, 23 checks, 15 complete canonical tables, 195 verified legal matrix cells, readable legacy fallback\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_ch3_content.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.56,
+    "output": "PASS: chapter 3 has 8 entries, 26 checks with verified calculations, 11 canonical tables, 20 diagrams, readable legacy fallback\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_ch4_content.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.61,
+    "output": "PASS: chapter 4: 14 entries, 46 checks, 21 canonical tables, 21 diagrams; sampling, filling ratio and pressure calculations verified\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_ch5_content.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.46,
+    "output": "PASS: chapter 5: 8 entries, 36 checks, 23 canonical tables, 5 illustrations; capability, pressure, valve and filter calculations verified\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_ch6_content.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.47,
+    "output": "PASS: chapter 6: 5 entries, 24 answer groups, 6 exercises / 19 subquestions, 12 canonical tables, 25 illustrations; classification, thresholds and calculations checked\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_emphasis.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.61,
+    "output": "PASS: all 106 terms have selective emphasis (276 spans); text is unchanged, overlaps and density are bounded\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_exam_attempt.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.66,
+    "output": "PASS: deferred grading, navigation edits, clear answer, current text at timeout, deadline lock, skipped answers, single submission, retry\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_exam_attempt_ui.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.96,
+    "output": "PASS: actual QuizPlayer hides written/practical explanations in all 35 questions; review unlocks only after submission\n"
+  },
+  {
+    "command": [
+      "python",
+      "-X",
+      "utf8",
+      "tools\\test_exam_guide_generator.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.21,
+    "output": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nOK\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_exam_timing.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.45,
+    "output": "PASS: 105-minute duration, background elapsed time, deadline boundaries, untimed mode, retry\n"
+  },
+  {
+    "command": [
+      "node",
+      "tools\\test_free_preview.cjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.17,
+    "output": "PASS: purchase reaches SDK; success exits preview; cancel/failure keep preview; free restrictions and production exclusion preserved\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_glossary.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.54,
+    "output": "PASS: 106 structured terms, lesson/figure/related links, access boundaries, Japanese search and legacy OTA\n"
+  },
+  {
+    "command": [
+      "python",
+      "-X",
+      "utf8",
+      "tools\\test_glossary_generator.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.45,
+    "output": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.267s\n\nOK\n"
+  },
+  {
+    "command": [
+      "node",
+      "tools\\test_home_artwork.cjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.16,
+    "output": "PASS: 51 native asset/default-size and measured-column cases; rotation, portrait art and thumbnails remain bounded\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_image_zoom.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.37,
+    "output": "PASS: pinch focus, pan bounds, zoom limits, portrait/landscape fit and 6000 repeated pinch operations\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_launch_rules.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.37,
+    "output": "PASS: permanent installed grant, later paid cohort, offline behavior, third-day start, 10-day interval and new learning, 30-second foreground study checkpoints\n"
+  },
+  {
+    "command": [
+      "node",
+      "tools\\test_launch_runtime.cjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.21,
+    "output": "PASS: launch rights, payment guards, third-day/10-day feedback, new-learning requirement, cross-checkpoint deduplication and OS-owned display limit, email, review link, TestFlight diagnostics and production exclusion\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_lesson_content.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.42,
+    "output": "PASS: 19 entries, 40 hidden-answer checks, valid review links, 26 complete canonical tables, existing chapters preserved\n"
+  },
+  {
+    "command": [
+      "python",
+      "-X",
+      "utf8",
+      "tools\\test_lesson_format.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.2,
+    "output": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nOK\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_lesson_recall.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.5,
+    "output": "┌─────────┬─────────┬─────────┬────────┬────────┬─────────┐\n│ (index) │ chapter │ lessons │ blanks │ checks │ choices │\n├─────────┼─────────┼─────────┼────────┼────────┼─────────┤\n│ 0       │ 1       │ 17      │ 128    │ 40     │ 38      │\n│ 1       │ 2       │ 5       │ 37     │ 23     │ 4       │\n│ 2       │ 3       │ 6       │ 51     │ 26     │ 0       │\n│ 3       │ 4       │ 12      │ 76     │ 46     │ 0       │\n│ 4       │ 5       │ 6       │ 48     │ 36     │ 0       │\n│ 5       │ 6       │ 3       │ 17     │ 24     │ 0       │\n└─────────┴─────────┴─────────┴────────┴────────┴─────────┘\nPASS: 49 lessons, 357 authored recall cues, 195 checks, correct choice metadata, stable navigation and both legacy formats\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_markdown.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.77,
+    "output": "Chapter 1: text, figures, headings and callouts OK\nChapter 2: text, figures, headings and callouts OK\nChapter 3: text, figures, headings and callouts OK\nChapter 4: text, figures, headings and callouts OK\nChapter 5: text, figures, headings and callouts OK\nChapter 6: text, figures, headings and callouts OK\nMarkdown checks passed\n"
+  },
+  {
+    "command": [
+      "node",
+      "tools\\test_practical.cjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.33,
+    "output": "PASS: 12 mocks, 60 image groups/203 subquestions, aliases, partial credit, separate section scoring, history persistence and actual component rendering\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/tsx/dist/cli.mjs",
+      "tools\\test_relation_maps.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 1.47,
+    "output": "PASS: all 6 chapters / 2 themes, 108 readable topics, access gating, zoom controls, SVG registry consistency\n"
+  },
+  {
+    "command": [
+      "node",
+      "tools\\test_study_activity.cjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.28,
+    "output": "PASS: hero and reading position persist; daily deduplication, exam/check totals, history pruning and corrupt-data fallback\n"
+  },
+  {
+    "command": [
+      "node",
+      "tools\\test_study_feedback.cjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.24,
+    "output": "PASS: foreground exposure, 30-second threshold, partial quiz exit, no in-test prompts, navigation deferral and duplicate cleanup\n"
+  }
+]

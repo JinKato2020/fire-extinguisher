@@ -5,6 +5,7 @@ import { getContent } from '../data/contentStore';
 import { Markdown } from './LessonMarkdown';
 import { emphasisStyle } from './emphasis';
 import bundled from '../../content/exam-guide.json';
+import { ExamGuideArtwork } from './ExamGuideArtwork';
 
 export function ExamGuideScreen({ onClose }: { onClose: () => void }) {
   const { c, resolved } = useTheme();
@@ -17,6 +18,7 @@ export function ExamGuideScreen({ onClose }: { onClose: () => void }) {
       <Pressable accessibilityRole="button" onPress={onClose} style={{ minHeight: 44, justifyContent: 'center', paddingHorizontal: 8 }}><Text style={{ color: c.accent2, fontSize: 15 }}>閉じる</Text></Pressable>
     </View>
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 36 }}>
+      <View style={{ borderRadius: 18, overflow: 'hidden', marginBottom: 12 }}><ExamGuideArtwork dark={resolved === 'dark'} /></View>
       <Text style={{ color: c.muted, fontSize: 12, lineHeight: 21, marginTop: 6 }}>消防設備士 乙種第6類</Text>
       <Text accessibilityRole="header" style={{ color: c.fg, fontSize: 26, lineHeight: 39, fontWeight: '800', marginTop: 6, marginBottom: 16 }}>まず、試験の全体像を。</Text>
       <View style={{ flexDirection: fontScale > 1.3 ? 'column' : 'row', gap: 8, marginBottom: 18 }}>
