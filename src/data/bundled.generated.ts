@@ -11,6 +11,7 @@ export const BUNDLED: Record<string, unknown> = {
   'content/chapters/ch6.json': require('../../content/chapters/ch6.json'),
   'content/glossary.json': require('../../content/glossary.json'),
   'content/index.json': require('../../content/index.json'),
+  'content/lesson-tables.json': require('../../content/lesson-tables.json'),
   'content/questions/mock1.json': require('../../content/questions/mock1.json'),
   'content/questions/mock10.json': require('../../content/questions/mock10.json'),
   'content/questions/mock11.json': require('../../content/questions/mock11.json'),

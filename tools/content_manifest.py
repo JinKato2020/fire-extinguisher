@@ -64,7 +64,7 @@ def main():
     }
     out_path = os.path.join(root, MANIFEST_OUT)
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    with open(out_path, "w", encoding="utf-8") as f:
+    with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(manifest, f, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
         f.write("\n")
 

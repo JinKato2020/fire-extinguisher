@@ -114,18 +114,18 @@ export function makeStyles(c: Colors) {
     // ---- リーダー / マークダウン ----
     readerBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: c.line },
     backBtn: { alignSelf: 'flex-start', paddingVertical: 4, paddingHorizontal: 6 },
-    backTxt: { color: c.accent, fontSize: 14, fontWeight: '700' },
+    backTxt: { color: c.accent2, fontSize: 14, fontWeight: '700' },
     mdH1: { color: c.fg, fontSize: 24, lineHeight: 34, fontWeight: '900', marginTop: 12, marginBottom: 18 },
     mdH2: { color: c.fg, fontSize: 20, lineHeight: 30, fontWeight: '900', marginTop: 24, marginBottom: 14, borderLeftWidth: 4, borderLeftColor: c.accent, paddingLeft: 12 },
     mdH3: { color: c.fg, fontSize: 17, lineHeight: 27, fontWeight: '800', marginTop: 20, marginBottom: 10 },
     mdH4: { color: c.accent, fontSize: 15, lineHeight: 25, fontWeight: '800', marginTop: 16, marginBottom: 8 },
-    mdP: { color: c.fg, fontSize: 15, lineHeight: 26, marginBottom: 12 },
+    mdP: { color: c.fg, fontSize: 16, lineHeight: 28, marginBottom: 16 },
     mdList: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: 8, paddingLeft: 4 },
-    mdListMark: { color: c.accent, fontSize: 15, lineHeight: 26, minWidth: 26, paddingRight: 6, fontWeight: '700' },
-    mdListBody: { color: c.fg, fontSize: 15, lineHeight: 26, flex: 1 },
+    mdListMark: { color: c.accent, fontSize: 16, lineHeight: 28, minWidth: 26, paddingRight: 6, fontWeight: '700' },
+    mdListBody: { color: c.fg, fontSize: 16, lineHeight: 28, flex: 1 },
     quote: { borderWidth: 1, borderLeftWidth: 4, padding: 14, borderRadius: 12, marginTop: 4, marginBottom: 16 },
-    quoteTitle: { fontSize: 14, lineHeight: 23, fontWeight: '800', marginBottom: 6 },
-    quoteTxt: { color: c.fg, fontSize: 14.5, lineHeight: 25, marginBottom: 4 },
+    quoteTitle: { fontSize: 15, lineHeight: 25, fontWeight: '800', marginBottom: 8 },
+    quoteTxt: { color: c.fg, fontSize: 16, lineHeight: 27, marginBottom: 6 },
     code: { backgroundColor: c.card2, borderWidth: 1, borderColor: c.line, borderRadius: 8, padding: 12, marginVertical: 6 },
     codeTxt: { color: c.muted, fontSize: 13, lineHeight: 20, fontFamily: 'Courier' },
     // ---- マークダウン表(罫線つき) ----
@@ -141,7 +141,7 @@ export function makeStyles(c: Colors) {
     // ---- リーダー: 前/次の章ナビ ----
     readerNav: { flexDirection: 'row', gap: 12, marginTop: 28 },
     readerNavBtn: { flex: 1, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14, minHeight: 56, justifyContent: 'center' },
-    readerNavTxt: { color: c.accent, fontSize: 13, fontWeight: '900' },
+    readerNavTxt: { color: c.accent2, fontSize: 14, lineHeight: 23, fontWeight: '800' },
     readerNavSub: { color: c.muted, fontSize: 11.5, marginTop: 3 },
 
     // ---- Pro / ペイウォール ----
@@ -217,7 +217,7 @@ export function makeStyles(c: Colors) {
     reviewBtn: { marginTop: 16, backgroundColor: c.card, borderWidth: 1, borderColor: c.good, borderRadius: 14, padding: 15 },
     reviewBtnTitle: { color: c.good, fontSize: 16, fontWeight: '900' },
     reviewBtnSub: { color: c.muted, fontSize: 12, marginTop: 3 },
-    qProgress: { color: c.muted, fontSize: 13, fontWeight: '700' },
+    qProgress: { color: c.muted, fontSize: 13, fontWeight: '700', flexShrink: 1, minWidth: 0 },
     qTopic: { color: c.accent, fontSize: 12, fontWeight: '800', marginBottom: 6 },
     qStem: { color: c.fg, fontSize: 17, lineHeight: 26, fontWeight: '700' },
     choice: { flexDirection: 'row', alignItems: 'center', gap: 11, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, borderRadius: 12, paddingVertical: 13, paddingHorizontal: 13 },

@@ -23,8 +23,8 @@ import { initContent } from './src/data/initContent';
 import { getChapters, type Chapter } from './src/data/chapters';
 import { getFigureUri } from './src/data/contentStore';
 import { ImageZoom } from './src/ui/ImageZoom';
-import { LessonFigure } from './src/ui/LessonFigure';
-import { parseMarkdown } from './src/ui/markdown';
+import { Markdown } from './src/ui/LessonMarkdown';
+import { parseLessons, type Lesson } from './src/ui/lessons';
 import { getQuizSets, getQuestions, getAllQuestions, type Question, type QuizSet } from './src/data/questions';
 import { loadHistory, recordAnswer, selectReview, overallStats, getRec } from './src/data/history';
 import { getGlossary, type Term } from './src/data/glossary';
@@ -58,73 +58,6 @@ function tagColors(kind: NonNullable<Chapter['tagKind']>, c: Colors): { bg: stri
     case 'easy': return { bg: c.goodSoft, fg: c.good };
     case 'done': return { bg: c.goodSoft, fg: c.good };
   }
-}
-
-function rich(text: string): React.ReactNode {
-  return text.split(/(\*\*.+?\*\*|`[^`]+`)/g).map((part, i) =>
-    part.startsWith('**') && part.endsWith('**')
-      ? <Text key={i} style={{ fontWeight: '800' }}>{part.slice(2, -2)}</Text>
-      : part.startsWith('`') && part.endsWith('`') ? part.slice(1, -1) : part);
-}
-
-// ---- 軽量マークダウン表示 ----
-function Markdown({ body }: { body: string }) {
-  const { c } = useTheme();
-  const s = useStyles();
-  const { width } = useWindowDimensions();
-  const imgW = Math.min(width, 440) - 32;
-  const blocks = useMemo(() => parseMarkdown(body), [body]);
-  const [zoomUri, setZoomUri] = useState<string | null>(null);
-
-  return (
-    <View>
-      {blocks.map((b, i) => {
-        if (b.type === 'fig') {
-          const [asset, cap] = b.text.split('\u0001');
-          const uri = getFigureUri(asset);
-          return <LessonFigure key={i} uri={uri} caption={cap} width={imgW} onZoom={setZoomUri} />;
-        }
-        if (b.type === 'figpending') return <Text key={i} style={{ color: c.faint, fontSize: 12, marginVertical: 4 }}>{'【図】' + b.text}</Text>;
-        if (b.type === 'gap') return <View key={i} style={{ height: 8 }} />;
-        if (b.type === 'hr') return <View key={i} style={s.hr} />;
-        if (b.type === 'h1') return <Text key={i} style={s.mdH1}>{rich(b.text)}</Text>;
-        if (b.type === 'h2') return <Text key={i} style={s.mdH2}>{rich(b.text)}</Text>;
-        if (b.type === 'h3') return <Text key={i} style={s.mdH3}>{rich(b.text)}</Text>;
-        if (b.type === 'h4') return <Text key={i} style={s.mdH4}>{rich(b.text)}</Text>;
-        if (b.type === 'quote') {
-          const ink = b.tone === 'warning' ? c.warn : b.tone === 'important' ? c.good : c.accent;
-          const bg = b.tone === 'warning' ? c.warnSoft : b.tone === 'important' ? c.goodSoft : c.accentSoft;
-          return <View key={i} style={[s.quote, { borderColor: ink, backgroundColor: bg }]}>
-            {b.title ? <Text style={[s.quoteTitle, { color: ink }]}>{b.title}</Text> : null}
-            {b.text.split('\n').map((line, j) => line ? <Text key={j} style={s.quoteTxt}>{rich(line.replace(/^[-*] /, '・'))}</Text> : <View key={j} style={{ height: 6 }} />)}
-          </View>;
-        }
-        if (b.type === 'code') return <View key={i} style={s.code}><Text style={s.codeTxt}>{b.text}</Text></View>;
-        if (b.type === 'table' && b.rows) {
-          const rows = b.rows;
-          return (
-            <View key={i} style={s.table}>
-              {rows.map((r, ri) => (
-                <View key={ri} style={[s.tableRow, ri === 0 && s.tableHeadRow, ri === rows.length - 1 && { borderBottomWidth: 0 }]}>
-                  {r.map((cell, ci) => (
-                    <View key={ci} style={[s.tableCell, ci > 0 && s.tableCellDiv]}>
-                      <Text style={[s.tableCellTxt, ri === 0 && s.tableHeadTxt]}>{rich(cell)}</Text>
-                    </View>
-                  ))}
-                </View>
-              ))}
-            </View>
-          );
-        }
-        if (b.type === 'li' || b.type === 'ol') return <View key={i} style={s.mdList}>
-          <Text style={s.mdListMark}>{b.type === 'li' ? '・' : b.text.match(/^\d+\./)?.[0]}</Text>
-          <Text style={s.mdListBody}>{rich(b.type === 'li' ? b.text : b.text.replace(/^\d+\. /, ''))}</Text>
-        </View>;
-        return <Text key={i} style={s.mdP}>{rich(b.text)}</Text>;
-      })}
-      {zoomUri ? <ImageZoom uri={zoomUri} onClose={() => setZoomUri(null)} /> : null}
-    </View>
-  );
 }
 
 // ---- 分野別レーダー(現在+2週前+1ヶ月前) ----
@@ -315,26 +248,6 @@ function MenuTile({ icon, title, sub, onPress, badge, soon }: { icon: string; ti
 }
 
 // ---- 教材(章一覧 / リーダー) ----
-// 章本文を「## Lesson NN」見出しでレッスンに分割(先頭の導入部は「はじめに・準備」)。
-type Lesson = { key: string; label: string; body: string };
-function parseLessons(body: string): Lesson[] {
-  if (!body) return [];
-  const lines = body.split('\n');
-  const idxs: number[] = [];
-  lines.forEach((ln, i) => { if (/^##\s+Lesson\s/i.test(ln.trim())) idxs.push(i); });
-  if (idxs.length === 0) return [{ key: 'all', label: '本文', body }];
-  const out: Lesson[] = [];
-  const intro = lines.slice(0, idxs[0]).join('\n').trim();
-  if (intro) out.push({ key: 'intro', label: 'はじめに・準備', body: intro });
-  for (let k = 0; k < idxs.length; k++) {
-    const start = idxs[k];
-    const end = k + 1 < idxs.length ? idxs[k + 1] : lines.length;
-    const head = lines[start].trim().replace(/^##\s+/, '');
-    out.push({ key: 'l' + k, label: head, body: lines.slice(start, end).join('\n') });
-  }
-  return out;
-}
-
 // ---- Pro誘導カード(無料範囲の先で表示) ----
 function ProCut({ onPaywall, title, sub }: { onPaywall: () => void; title: string; sub: string }) {
   const { c } = useTheme();
@@ -395,6 +308,8 @@ function LessonListScreen({ chapter, chapters, onOpenLesson, onBack, onNavChapte
   const s = useStyles();
   const lessons = useMemo(() => parseLessons(chapter.body ?? ''), [chapter.body]);
   const freeCount = freeLessonEntries(chapter.no, lessons);
+  const reviewIdx = lessons.findIndex(l => l.key === 'review');
+  const reviewChecks = (lessons[reviewIdx]?.body.match(/^:::check /gm) || []).length;
   const idx = chapters.findIndex((x) => x.no === chapter.no);
   const prev = idx > 0 ? chapters[idx - 1] : null;
   const next = idx >= 0 && idx < chapters.length - 1 ? chapters[idx + 1] : null;
@@ -426,6 +341,12 @@ function LessonListScreen({ chapter, chapters, onOpenLesson, onBack, onNavChapte
             <Text style={s.viewH2}>{chapter.title}</Text>
             <Text style={s.viewSub}>レッスンを選んで読み進めましょう。左右スワイプで隣の章へ移動できます。</Text>
           </View>
+          {reviewIdx >= 0 ? <Pressable accessibilityRole="button"
+            onPress={() => { if (!pro && reviewIdx >= freeCount) onPaywall(); else onOpenLesson(reviewIdx); }}
+            style={({ pressed }) => [s.readerNavBtn, { marginTop: 16, flex: 0 }, pressed && s.pressed]}>
+            <Text style={s.readerNavTxt}>試験前チェックへ ›</Text>
+            <Text style={[s.readerNavSub, { fontSize: 13, lineHeight: 22 }]}>{`${reviewChecks}問の確認と、数値・例外の振り返り`}</Text>
+          </Pressable> : null}
           {lessons.length === 0 ? (
             <View style={s.soon}><Text style={s.soonBig}>準備中</Text><Text style={s.soonTxt}>{'第' + chapter.no + '章の解説はこれから追加します。'}</Text></View>
           ) : (
@@ -434,8 +355,11 @@ function LessonListScreen({ chapter, chapters, onOpenLesson, onBack, onNavChapte
                 const locked = !pro && i >= freeCount;
                 return (
                   <Pressable key={l.key} style={({ pressed }) => [s.ch, locked && s.chLocked, pressed && s.pressed]} onPress={() => (locked ? onPaywall() : onOpenLesson(i))}>
-                    <View style={s.chNo}><Text style={s.chNoTxt}>{i + 1}</Text></View>
-                    <View style={{ flex: 1, minWidth: 0 }}><Text style={s.chTitle} numberOfLines={2}>{l.label}</Text></View>
+                    <View style={s.chNo}><Text style={s.chNoTxt}>{l.key === 'intro' ? '序' : l.key === 'review' ? '復' : l.label.match(/^Lesson\s+(\d+)/i)?.[1] ?? i + 1}</Text></View>
+                    <View style={{ flex: 1, minWidth: 0 }}>
+                      <Text style={s.chTitle}>{l.label.replace(/^Lesson\s+\d+\s+/i, '')}</Text>
+                      {(l.body.match(/^:::check /gm) || []).length ? <Text style={[s.chSub, { marginTop: 5 }]}>{`確認問題 ${(l.body.match(/^:::check /gm) || []).length}問`}</Text> : null}
+                    </View>
                     {locked ? <View style={s.proPill}><Text style={s.proPillTxt}>Pro</Text></View> : <Text style={s.chGo}>›</Text>}
                   </Pressable>
                 );
@@ -502,7 +426,15 @@ function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPa
       <ScrollView key={chapterNo + '-' + safeIdx} style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingBottom: 40, paddingTop: 6 }]} showsVerticalScrollIndicator={false}>
         {locked
           ? <ProCut onPaywall={onPaywall} title="このレッスンはProで" sub={'無料で読めるレッスンの先です。Proですべてのレッスン・用語・相関図・模試が解放されます。'} />
-          : lesson ? <Markdown body={lesson.body} /> : <View style={s.soon}><Text style={s.soonBig}>準備中</Text></View>}
+          : lesson ? <Markdown key={chapterNo + lesson.key} body={lesson.body} onLessonLink={number => {
+              const target = lessons.findIndex(l => new RegExp('^Lesson\\s+0*' + number + '\\s').test(l.label));
+              if (target >= 0) onNav(chapterNo, target);
+            }} /> : <View style={s.soon}><Text style={s.soonBig}>準備中</Text></View>}
+        {!locked && lesson?.key !== 'review' && lessons.some(l => l.key === 'review') ? <Pressable accessibilityRole="button"
+          onPress={() => onNav(chapterNo, lessons.findIndex(l => l.key === 'review'))}
+          style={({ pressed }) => [s.readerNavBtn, { marginTop: 20, flex: 0 }, pressed && s.pressed]}>
+          <Text style={s.readerNavTxt}>この章の試験前チェックへ ›</Text>
+        </Pressable> : null}
         <View style={s.readerNav}>
           <Pressable disabled={!prevTarget} onPress={() => prevTarget && onNav(prevTarget.no, prevTarget.i)} style={({ pressed }) => [s.readerNavBtn, !prevTarget && s.btnDisabled, pressed && s.pressed]}>
             {prevTarget ? <Text style={s.readerNavTxt}>‹ 前のレッスン</Text> : null}

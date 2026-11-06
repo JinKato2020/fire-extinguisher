@@ -7,6 +7,7 @@
 フォントは --font で日本語TrueTypeフォントを指定できる。
 """
 import argparse
+import json
 from pathlib import Path
 import re
 from PIL import Image, ImageDraw, ImageFont
@@ -17,7 +18,7 @@ TABLE = re.compile(r'^\|.*(?:\n\|.*)*', re.M)
 # 比較表・一覧は全体を保つ。列幅は内容に合わせ、文字サイズは下げない。
 FULL_TABLE_WIDTHS = {
     'ch1_t01': [180, 780, 180],
-    'ch1_t05': [190, 1100, 156],
+    'ch1_t05': [190, 1100, 190],
     'ch1_t06': [430, 500, 740],
     'ch1_t12': [160, 400, 850],
     'ch1_t15': [370, 390, 1100],
@@ -85,6 +86,7 @@ def build_chapter(chapter, args):
     OUT.mkdir(parents=True, exist_ok=True)
     MASTER.mkdir(parents=True, exist_ok=True)
     count = 0
+    readable = {}
     for asset, title, table in re.findall(rf'^## ({prefix}\d+)\|([^\n]+)\n\n(.*?)(?=^## |\Z)', SOURCE.read_text(encoding='utf-8'), re.M | re.S):
         rows = [[c.strip() for c in line.split('|')[1:-1]]
                 for line in table.splitlines() if line.startswith('|')]
@@ -92,6 +94,10 @@ def build_chapter(chapter, args):
         headers, data = rows[0], rows[1:]
         if any(len(row) != len(headers) for row in data):
             raise ValueError(f'{asset}: 列数が一致しません')
+        if chapter == 1:
+            # Preserve the exact authored cells (including emphasis), independently
+            # of raster dimensions. The reader can reflow these at the user's font size.
+            readable[asset] = {'title': title, 'headers': headers, 'rows': data}
         # 横に広い表は行名を繰り返して列を分割する。
         # 7列表は区分・細区分の2列を共通にする。
         keep = 2 if len(headers) == 7 else 1
@@ -105,7 +111,7 @@ def build_chapter(chapter, args):
             group_headers = [headers[i] for i in indices]
             group_data = [[row[i] for i in indices] for row in data]
             pages.extend(layout_pages(group_headers, group_data, font, bold,
-                                      full_table=full_table,
+                                      full_table=full_table, no_split=chapter == 1,
                                       widths=FULL_TABLE_WIDTHS.get(asset)))
         markers = []
         for p, (head, hh, page, widths) in enumerate(pages, 1):
@@ -143,7 +149,10 @@ def build_chapter(chapter, args):
         body, replaced = re.subn(pattern, '\n\n'.join(markers), body, flags=re.M)
         if replaced != 1:
             raise ValueError(f'{asset}: 正本の対応マーカーが見つからない、または重複')
-    MD.write_text(body, encoding='utf-8')
+    MD.write_text(body, encoding='utf-8', newline='\n')
+    if chapter == 1:
+        (APP / 'content' / 'lesson-tables.json').write_text(
+            json.dumps(readable, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
     # 正本の更新成功後、統合済みの旧分割JPEGだけを配信対象から除く。
     for asset in FULL_TABLE_WIDTHS:
         if asset.startswith(prefix) and f'[[fig:{asset}_full|' in body:
@@ -152,7 +161,7 @@ def build_chapter(chapter, args):
     print(f'Chapter {chapter}: Generated {count} figures. Next: python tools/gen_content_json.py {chapter}')
 
 
-def layout_pages(headers, data, font, bold, full_table=False, widths=None):
+def layout_pages(headers, data, font, bold, full_table=False, widths=None, no_split=False):
     widths = widths or (([480] + [200] * (len(headers) - 1)) if full_table else {1: [1136], 2: [400, 736], 3: [250, 440, 446], 4: [300, 278, 279, 279]}[len(headers)])
     # 用途区分は用途欄を広くして、特定欄も明示する。
     if not full_table and headers == ['項', '用途(代表例)', '特定']:
@@ -166,7 +175,7 @@ def layout_pages(headers, data, font, bold, full_table=False, widths=None):
     pages, page, used = [], [], 0
     for row in data:
         cells, height = layout(row, font)
-        if not full_table and page and used + height > 590 - hh:
+        if not full_table and not no_split and page and used + height > 590 - hh:
             pages.append(page)
             page, used = [], 0
         page.append((cells, height))

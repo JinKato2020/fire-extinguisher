@@ -1,0 +1,86 @@
+import React, { useMemo, useState } from 'react';
+import { Alert, Linking, Pressable, Text, TextInput, View } from 'react-native';
+import { useTheme } from '../theme/ThemeContext';
+
+/** Only authored HTTPS links are interactive; emphasis remains native scalable text. */
+export function Inline({ text }: { text: string }) {
+  const { c } = useTheme();
+  return <>{text.split(/(\*\*.+?\*\*|`[^`]+`|\[[^\]]+\]\(https:\/\/[^\s)]+\))/g).map((part, i) => {
+    const link = part.match(/^\[([^\]]+)\]\((https:\/\/[^\s)]+)\)$/);
+    if (link) return <Text key={i} accessibilityRole="link" style={{ color: c.accent2, textDecorationLine: 'underline' }}
+      onPress={() => Linking.openURL(link[2]).catch(() => Alert.alert('リンクを開けませんでした', '通信環境を確認して、もう一度お試しください。'))}>{link[1]}</Text>;
+    if (part.startsWith('**') && part.endsWith('**')) return <Text key={i} style={{ fontWeight: '800' }}>{part.slice(2, -2)}</Text>;
+    return part.startsWith('`') && part.endsWith('`') ? part.slice(1, -1) : part;
+  })}</>;
+}
+
+export type StudyTableData = { title: string; headers: string[]; rows: string[][] };
+
+export function StudyTable({ table, uri, onZoom }: { table: StudyTableData; uri: string | null; onZoom: (uri: string) => void }) {
+  const { c } = useTheme();
+  const [expanded, setExpanded] = useState(false);
+  const [query, setQuery] = useState('');
+  const large = table.rows.length > 6;
+  const needle = query.trim().normalize('NFKC').toLocaleLowerCase();
+  const filtered = useMemo(() => table.rows.filter(row => !needle || row.join(' ').normalize('NFKC').toLocaleLowerCase().includes(needle)), [table, needle]);
+  const visible = large && !expanded && !needle ? filtered.slice(0, 3) : filtered;
+  return <View style={{ marginVertical: 12, borderRadius: 14, borderWidth: 1, borderColor: c.line, backgroundColor: c.card, padding: 14, gap: 12 }}>
+    <Text accessibilityRole="header" style={{ color: c.fg, fontSize: 16, lineHeight: 26, fontWeight: '800' }}><Inline text={table.title.replace(/^\d+\.\s+/, '')} /></Text>
+    {table.rows.length > 10 ? <TextInput accessibilityLabel={table.title + 'の項目を検索'} value={query} onChangeText={setQuery}
+      placeholder="用途・項番号で検索" placeholderTextColor={c.muted} returnKeyType="search"
+      style={{ color: c.fg, backgroundColor: c.card2, borderColor: c.line, borderWidth: 1, borderRadius: 10, padding: 12, minHeight: 48, fontSize: 16 }} /> : null}
+    {large ? <Text accessibilityLiveRegion="polite" style={{ color: c.muted, fontSize: 13, lineHeight: 21 }}>{needle ? `${filtered.length}件の検索結果` : `${visible.length} / ${table.rows.length}項目を表示`}</Text> : null}
+    {visible.map((row, ri) => <View key={ri} style={{ backgroundColor: c.card2, borderRadius: 10, padding: 12, gap: 8 }}>
+      <Text style={{ color: c.fg, fontSize: 16, lineHeight: 27, fontWeight: '700' }}><Inline text={row[0]} /></Text>
+      {row.slice(1).map((cell, ci) => <View key={ci} style={{ gap: 2 }}>
+        <Text style={{ color: c.muted, fontSize: 13, lineHeight: 21 }}>{table.headers[ci + 1]}</Text>
+        <Text style={{ color: c.fg, fontSize: 16, lineHeight: 27 }}><Inline text={cell || '―'} /></Text>
+      </View>)}
+    </View>)}
+    {!filtered.length ? <Text style={{ color: c.muted, fontSize: 15, lineHeight: 25 }}>一致する項目がありません。別の用途名・項番号で検索してください。</Text> : null}
+    {large && !expanded && !needle ? <Pressable onPress={() => setExpanded(true)} accessibilityRole="button" accessibilityState={{ expanded: false }}
+      style={({ pressed }) => ({ padding: 12, minHeight: 48, borderRadius: 10, backgroundColor: c.accentSoft, opacity: pressed ? 0.7 : 1 })}>
+      <Text style={{ color: c.accent2, fontSize: 15, lineHeight: 24, fontWeight: '700', textAlign: 'center' }}>{`全${table.rows.length}項目を読む ＋`}</Text>
+    </Pressable> : null}
+    {uri ? <Pressable onPress={() => onZoom(uri)} accessibilityRole="button" accessibilityLabel={table.title + 'の全体表を拡大'}
+      style={({ pressed }) => ({ minHeight: 44, paddingVertical: 10, opacity: pressed ? 0.7 : 1 })}>
+      <Text style={{ color: c.accent2, fontSize: 14, lineHeight: 24, fontWeight: '700', textAlign: 'center' }}>全体表を拡大 ↗</Text>
+    </Pressable> : <Text style={{ color: c.muted, fontSize: 12, lineHeight: 20 }}>比較用の画像はコンテンツ取得後に拡大できます。</Text>}
+  </View>;
+}
+
+export function StudyCheck({ title, question, answer, onLessonLink }: { title: string; question: string; answer: string; onLessonLink?: (lesson: number) => void }) {
+  const { c, resolved } = useTheme();
+  const [open, setOpen] = useState(false);
+  const answerInk = resolved === 'light' ? '#167443' : c.good;
+  const links = onLessonLink ? answer.match(/→ Lesson ([\d・]+)/)?.[1].split('・').map(Number) ?? [] : [];
+  return <View style={{ borderWidth: 1, borderColor: c.line, borderRadius: 14, backgroundColor: c.card, padding: 16, marginBottom: 16, gap: 12 }}>
+    <Text accessibilityRole="header" style={{ color: c.accent2, fontWeight: '800', fontSize: 15, lineHeight: 25 }}>{title}</Text>
+    {question.split('\n').map((line, i) => <Text key={i} style={{ color: c.fg, fontSize: 16, lineHeight: 27 }}><Inline text={line} /></Text>)}
+    <Pressable accessibilityRole="button" accessibilityState={{ expanded: open }} accessibilityLabel={title + (open ? 'の解答・解説を閉じる' : 'の解答・解説を開く')}
+      onPress={() => setOpen(v => !v)} style={({ pressed }) => ({ backgroundColor: c.accentSoft, padding: 12, minHeight: 48, borderRadius: 10, opacity: pressed ? 0.7 : 1 })}>
+      <Text style={{ color: c.accent2, fontSize: 15, lineHeight: 24, fontWeight: '700', textAlign: 'center' }}>{open ? '解答・解説を閉じる −' : '解答・解説を開く ＋'}</Text>
+    </Pressable>
+    {open ? <View style={{ borderLeftWidth: 3, borderLeftColor: answerInk, backgroundColor: c.goodSoft, padding: 12, borderRadius: 8 }}>
+      <Text style={{ color: c.fg, fontSize: 16, lineHeight: 28 }}><Inline text={links.length ? answer.replace(/→ Lesson [\d・]+/, '').trim() : answer} /></Text>
+      {links.map(number => <Pressable key={number} accessibilityRole="button" onPress={() => onLessonLink?.(number)} style={{ minHeight: 44, paddingTop: 12 }}>
+        <Text style={{ color: c.accent2, fontSize: 15, lineHeight: 25, fontWeight: '700' }}>{`Lesson ${String(number).padStart(2, '0')}で復習する ›`}</Text>
+      </Pressable>)}
+    </View> : null}
+  </View>;
+}
+
+export function StudySteps({ title, items }: { title: string; items: string[] }) {
+  const { c, resolved } = useTheme();
+  const ink = resolved === 'light' ? '#153852' : '#9BCBF2';
+  return <View style={{ borderWidth: 1, borderColor: c.line, borderRadius: 14, padding: 14, marginVertical: 12, backgroundColor: c.card }}>
+    <Text accessibilityRole="header" style={{ color: ink, fontSize: 16, lineHeight: 27, fontWeight: '800', marginBottom: 14 }}>{title}</Text>
+    {items.map((item, i) => <React.Fragment key={i}>
+      {i ? <Text accessibilityElementsHidden importantForAccessibility="no" style={{ color: ink, textAlign: 'center', fontSize: 24, lineHeight: 32 }}>↓</Text> : null}
+      <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 10, padding: 12, backgroundColor: c.card2, borderRadius: 10 }}>
+        <Text style={{ color: ink, fontSize: 16, lineHeight: 27, fontWeight: '800' }}>{i + 1}</Text>
+        <Text style={{ flex: 1, color: c.fg, fontSize: 16, lineHeight: 27 }}><Inline text={item} /></Text>
+      </View>
+    </React.Fragment>)}
+  </View>;
+}

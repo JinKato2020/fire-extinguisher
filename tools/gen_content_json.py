@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 r"""教材解説(..\..\教材解説\教材_第N章_*.md)を正本として content/chapters/chN.json を再生成する。
-- 各 chN.json = {"no","title","body"}。no/title は content/index.json から引く。body = md 全文。
+- no/title は content/index.json から引く。新記法がある章は bodyV2=正本全文、body=旧画面互換版。
 - 旧 scratchpad\gen_content_json.py の代替(リポジトリ常設版)。
 使い方: python tools/gen_content_json.py            全章
         python tools/gen_content_json.py --check     再生成せず現JSONとの差分だけ確認
         python tools/gen_content_json.py 1 4          指定章だけ
 """
-import json, os, sys, glob
+import json, os, sys, glob, re
 
 ROOT = os.getcwd()                                  # fire6-exam-app 直下で実行
 PROJ = os.path.dirname(ROOT)                        # 消防設備士6類
@@ -27,6 +27,23 @@ def md_path(n: int):
     return hits[0] if hits else None
 
 
+def legacy_markdown(body: str) -> str:
+    """Old OTA readers only understand regular Markdown, not interactive blocks."""
+    def convert(match):
+        kind, title, text = match.groups()
+        if kind == 'steps':
+            return f'#### {title}\n\n{text.strip()}\n'
+        question, separator, answer = text.partition('\n---\n')
+        if not separator or not answer.strip():
+            raise ValueError(f'確認問題の解答がありません: {title}')
+        quote = '\n'.join('> ' + line for line in answer.strip().splitlines())
+        return f'#### {title}\n\n{question.strip()}\n\n> [!NOTE] 解答・解説\n{quote}\n'
+    converted = re.sub(r'^:::(check|steps) ([^\n]+)\n(.*?)^:::[ \t]*$', convert, body, flags=re.M | re.S)
+    if re.search(r'^:::', converted, re.M):
+        raise ValueError('旧画面用に変換できない学習ブロックがあります')
+    return converted
+
+
 changed = same = missing = 0
 for n in range(1, 7):
     if n not in want:
@@ -37,6 +54,9 @@ for n in range(1, 7):
         print(f"[warn] 章{n}: index/md 不足"); missing += 1; continue
     body = open(p, encoding="utf-8").read()
     data = {"no": str(n), "title": m["title"], "body": body}
+    if re.search(r'^:::(check|steps) ', body, re.M):
+        data['bodyV2'] = body  # Canonical Markdown, read by the enhanced lesson UI.
+        data['body'] = legacy_markdown(body)  # Safe even when content arrives before JS OTA.
     out = os.path.join(OUT_DIR, f"ch{n}.json")
     new = json.dumps(data, ensure_ascii=False) + "\n"  # 既存JSONと同じ整形(compact+改行)
     old = open(out, encoding="utf-8").read() if os.path.exists(out) else None
@@ -46,7 +66,9 @@ for n in range(1, 7):
     if CHECK:
         print(f"[diff] ch{n}.json は md と不一致(再生成で更新される)")
     else:
-        open(out, "w", encoding="utf-8").write(new)
+        open(out, "w", encoding="utf-8", newline="\n").write(new)
         print(f"[write] ch{n}.json ← {os.path.basename(p)} ({len(body)}字)")
 
 print(f"{'check' if CHECK else 'done'}: changed={changed} same={same} missing={missing}")
+if CHECK and (changed or missing):
+    sys.exit(1)

@@ -4,6 +4,8 @@ export type MarkdownBlock = {
   rows?: string[][];
   tone?: 'important' | 'warning' | 'note';
   title?: string;
+  answer?: string;
+  items?: string[];
 };
 
 /** Callout markers live in the canonical Markdown, not in generated JSON or UI heuristics. */
@@ -13,6 +15,25 @@ export function parseMarkdown(body: string): MarkdownBlock[] {
   for (let i = 0; i < lines.length; i++) {
     const ln = lines[i].trimEnd();
     if (!ln.trim()) continue;
+    const studyBlock = ln.match(/^:::(check|steps)\s+(.+)$/);
+    if (studyBlock) {
+      const content: string[] = [];
+      let end = i + 1;
+      while (end < lines.length && lines[end].trim() !== ':::') content.push(lines[end++]);
+      if (end === lines.length) throw new Error('学習ブロックの閉じ記号 ::: がありません: ' + studyBlock[2]);
+      i = end;
+      if (studyBlock[1] === 'check') {
+        const divider = content.findIndex(line => line.trim() === '---');
+        const question = content.slice(0, divider).join('\n').trim();
+        const answer = content.slice(divider + 1).join('\n').trim();
+        if (divider < 1 || !question || !answer) throw new Error('確認問題には問題文・---・解答が必要です: ' + studyBlock[2]);
+        out.push({ type: 'check', title: studyBlock[2], text: question, answer });
+      } else {
+        const items = content.filter(line => line.trim()).map(line => line.replace(/^\d+\.\s+/, ''));
+        out.push({ type: 'steps', title: studyBlock[2], text: '', items });
+      }
+      continue;
+    }
     if (ln.trimStart().startsWith('```')) {
       const code: string[] = [];
       while (++i < lines.length && !lines[i].trimStart().startsWith('```')) code.push(lines[i]);
@@ -24,7 +45,9 @@ export function parseMarkdown(body: string): MarkdownBlock[] {
       do { quote.push(lines[i].replace(/^> ?/, '').trimEnd()); i++; } while (i < lines.length && lines[i].startsWith('>'));
       i--;
       const marker = quote[0].match(/^\[!(IMPORTANT|WARNING|NOTE)\](?:\s+(.+))?$/);
-      out.push({ type: 'quote', text: (marker ? quote.slice(1) : quote).join('\n'),
+      const text = (marker ? quote.slice(1) : quote).join('\n');
+      if (!text.trim()) continue;
+      out.push({ type: 'quote', text,
         tone: marker?.[1] === 'IMPORTANT' ? 'important' : marker?.[1] === 'WARNING' ? 'warning' : 'note',
         title: marker ? marker[2] || ({ IMPORTANT: '重要ポイント', WARNING: '注意点', NOTE: '補足' }[marker[1]]) : undefined });
       continue;
