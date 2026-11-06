@@ -1,4 +1,5 @@
 import unittest
+import re
 from gen_glossary import generate, SOURCE
 
 class GlossaryGeneratorTests(unittest.TestCase):
@@ -19,6 +20,12 @@ class GlossaryGeneratorTests(unittest.TestCase):
                     self.body.replace('教材：2', '教材：true', 1),
                     self.body.replace('### 具体例', '### 解説', 1)]:
             with self.subTest(bad=bad[:100]):
+                with self.assertRaises(ValueError): generate(bad)
+
+    def test_reject_invalid_highlights(self):
+        for metadata in ['{"unknown":["用語"]}', '{"key":["本文に存在しない架空の語句"]}', '{"key":[]}', '{"key":"用語"}', '{"num":[12]}']:
+            with self.subTest(metadata=metadata):
+                bad = re.sub(r'^強調：.*$', lambda _: '強調：' + metadata, self.body, count=1, flags=re.M)
                 with self.assertRaises(ValueError): generate(bad)
 
 if __name__ == '__main__': unittest.main()

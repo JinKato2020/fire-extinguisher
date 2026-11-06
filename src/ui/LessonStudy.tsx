@@ -5,10 +5,13 @@ import { Markdown } from './LessonMarkdown';
 import { parseMarkdown } from './markdown';
 import { chooseRecall, readingSections, recallCandidates, RECALL_LABELS, type RecallCategory } from './recall';
 import { StudyRecallContext, type CheckResult } from './StudyRecallContext';
+import { recordActivity } from '../data/studyActivity';
+import { EmphasisLegend } from './ImportantText';
 
 /** Reading and retrieval share the same authored content, with a persistent answer toolbar. */
-export function LessonStudy({ body, onLessonLink, children }: {
+export function LessonStudy({ body, onLessonLink, children, studyId, initialScrollOffset = 0, onScrollPosition }: {
   body?: string; onLessonLink?: (number: number) => void; children?: React.ReactNode;
+  studyId?: string; initialScrollOffset?: number; onScrollPosition?: (y: number) => void;
 }) {
   const { c, resolved } = useTheme();
   const blocks = useMemo(() => parseMarkdown(body ?? ''), [body]);
@@ -23,11 +26,13 @@ export function LessonStudy({ body, onLessonLink, children }: {
   const [results, setResults] = useState<Record<string, CheckResult>>({});
   const [outline, setOutline] = useState(false);
   const scroll = useRef<ScrollView>(null);
+  const restored = useRef(false);
   const bodyY = useRef(0);
   const positions = useRef<Record<number, number>>({});
   useEffect(() => {
     setActive(false); setCategory('all'); setRound(0); setRevealed(new Set()); setResults({}); setOutline(false);
-    scroll.current?.scrollTo({ y: 0, animated: false });
+    restored.current = false;
+    scroll.current?.scrollTo({ y: initialScrollOffset, animated: false });
   }, [body]);
   const selected = useMemo(() => chooseRecall(candidates, category, round), [candidates, category, round]);
   const selectedMap = useMemo(() => new Map((active ? selected : []).map(b => [b.id, b])), [active, selected]);
@@ -37,7 +42,10 @@ export function LessonStudy({ body, onLessonLink, children }: {
   const ink = resolved === 'light' ? '#225D84' : '#9BCBF2';
   const jump = (start: number) => scroll.current?.scrollTo({ y: bodyY.current + (positions.current[start] ?? 0), animated: true });
   const toggle = (id: string) => setRevealed(prev => { const next = new Set(prev); if (next.has(id)) next.delete(id); else next.add(id); return next; });
-  const report = (id: string, result: CheckResult | null) => setResults(prev => { const next = {...prev}; if (result) next[id] = result; else delete next[id]; return next; });
+  const report = (id: string, result: CheckResult | null) => {
+    setResults(prev => { const next = {...prev}; if (result) next[id] = result; else delete next[id]; return next; });
+    if (studyId && result && result !== 'seen') void recordActivity('checks', studyId + ':' + id);
+  };
   const button = (label: string, action: () => void, selectedState?: boolean, accessibilityLabel = label) => <Pressable accessibilityRole="button" accessibilityLabel={accessibilityLabel} accessibilityState={{ selected: selectedState }} onPress={action}
     style={{ minHeight: 44, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 10, backgroundColor: selectedState ? c.accentSoft : c.card2,
       borderWidth: 1, borderColor: selectedState ? c.accent2 : c.line, justifyContent: 'center', maxWidth: '100%' }}>
@@ -46,10 +54,13 @@ export function LessonStudy({ body, onLessonLink, children }: {
 
   return <StudyRecallContext.Provider value={{selected: selectedMap, revealed, toggle, report}}>
     <View style={{ flex: 1 }}>
-      <ScrollView ref={scroll} style={{ flex: 1 }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" automaticallyAdjustKeyboardInsets contentContainerStyle={{ padding: 16, paddingTop: 12, paddingBottom: 40 }}>
+      <ScrollView ref={scroll} style={{ flex: 1 }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" automaticallyAdjustKeyboardInsets contentContainerStyle={{ padding: 16, paddingTop: 12, paddingBottom: 40 }}
+        scrollEventThrottle={250} onScroll={e => { if (restored.current) onScrollPosition?.(Math.max(0, e.nativeEvent.contentOffset.y)); }}
+        onContentSizeChange={(_, height) => { if (!restored.current && height > 0) { restored.current = true; scroll.current?.scrollTo({ y: initialScrollOffset, animated: false }); } }}>
         {body ? <>
           <Text accessibilityRole="header" style={{ color: c.fg, fontSize: 23, lineHeight: 35, fontWeight: '800', marginBottom: 12 }}>{title}</Text>
           <Text style={{ color: c.muted, fontSize: 14, lineHeight: 24, marginBottom: 16 }}>要点をつかむ → 図・具体例で理解 → クイズで確認</Text>
+          <EmphasisLegend />
           {candidates.length > 0 ? <View style={{ borderWidth: 1, borderColor: c.line, borderRadius: 14, padding: 14, backgroundColor: c.card, gap: 12, marginBottom: 16 }}>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
               {button('本文を読む', () => setActive(false), !active)}

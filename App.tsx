@@ -10,10 +10,13 @@ import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-cont
 import { BUILD_NUMBER } from './src/buildInfo';
 import * as Application from 'expo-application';
 import { initLaunchAccess, isLaunchFreeActive, launchAccessStatus } from './src/data/launchAccess';
-import { initFeedback, openRequestEmail, openAppReview, feedbackDevToolsAvailable, triggerReviewForDevelopment } from './src/data/feedback';
+import { initFeedback, openAppReview, feedbackDevToolsAvailable, triggerReviewForDevelopment } from './src/data/feedback';
 import { FeedbackCard } from './src/ui/FeedbackCard';
 import { useStudyFeedback } from './src/ui/useStudyFeedback';
-import { subscribeStudyFeedback } from './src/data/studyFeedback';
+import { startStudyFeedback, blockStudyFeedback, noteFeedbackInteraction } from './src/data/studyFeedback';
+import { HomeScreen, HomeAppearance, DeveloperMessage } from './src/ui/HomeScreen';
+import { activityState, bodyTag, initActivity, rememberLesson } from './src/data/studyActivity';
+import { useReadingActivity } from './src/ui/useStudyActivity';
 import { PracticalAssessment } from './src/ui/PracticalAssessment';
 import { PracticalQuestion } from './src/ui/PracticalQuestion';
 import { assessmentSummary, type Points, questionStem, sectionScores, practicePassed } from './src/data/practical';
@@ -33,19 +36,19 @@ import {
 } from './src/data/bookmarks';
 import { loadExamDate, getExamDate, setExamDate, daysLeft, examDateText } from './src/data/examDate';
 import {
-  loadStats, bumpDaily, chapterStats, currentAccMap, recentDaily, studyStreak,
+  loadStats, bumpDaily, chapterStats, currentAccMap,
   recordSnapshotIfNeeded, snapAsOf,
 } from './src/data/stats';
 import { ThemeProvider, useTheme, useStyles } from './src/theme/ThemeContext';
 import type { Mode } from './src/theme/ThemeContext';
 import { CHAPTER_SHORT, subjectColor, type Colors } from './src/theme/colors';
-import { SvgXml, Svg, Defs, LinearGradient, Stop, Rect } from 'react-native-svg';
-import { Icon, Ring, Tag, RadarChart, StreakBars, Segmented, type RadarAxis, type RadarSeries } from './src/ui/components';
+import { SvgXml } from 'react-native-svg';
+import { Icon, Ring, Tag, RadarChart, Segmented, type RadarAxis, type RadarSeries } from './src/ui/components';
 import { RELATION_MAPS } from './src/data/relationMaps.generated';
 import RELATION_MAP_CONTENT from './docs/relation-maps/structure.json';
 
 type TabKey = 'home' | 'learn' | 'terms' | 'mock' | 'set';
-type ModalKey = 'bookmarks' | 'relation' | 'guide' | 'examdate' | 'paywall' | null;
+type ModalKey = 'bookmarks' | 'relation' | 'guide' | 'examdate' | 'paywall' | 'appearance' | null;
 
 const QLABEL = ['1', '2', '3', '4', '5'];
 const pad2 = (n: number) => String(n).padStart(2, '0');
@@ -89,160 +92,6 @@ function SubjectRadar({ compact }: { compact?: boolean }) {
         <View style={s.legendItem}><View style={[s.legendDash, { borderTopColor: c.good, borderStyle: 'dashed', width: 16 }]} /><Text style={s.legendTxt}>合格目安60%</Text></View>
       </View>
     </View>
-  );
-}
-
-// ---- ホーム ----
-function HomeScreen({ onGo, onModal, onFavTerms, ver }: { onGo: (t: TabKey) => void; onModal: (m: ModalKey) => void; onFavTerms: () => void; ver: number }) {
-  const { c, resolved } = useTheme();
-  const s = useStyles();
-  const { width } = useWindowDimensions();
-  const heroW = Math.min(width, 440);
-
-  const stats = useMemo(() => overallStats(), [ver]);
-  const left = useMemo(() => daysLeft(), [ver]);
-  const dateText = useMemo(() => examDateText(), [ver]);
-  const streak = useMemo(() => studyStreak(), [ver]);
-  const recent = useMemo(() => recentDaily(14), [ver]);
-  const bmCount = useMemo(() => bookmarkCount(), [ver]);
-  const cs = useMemo(() => chapterStats(), [ver]);
-  const answeredAny = stats.answered > 0;
-  const weak = Object.values(cs).some((x) => x.answered > 0 && x.acc <= 40);
-  const allPass = answeredAny && !weak && stats.accuracy >= 60;
-  const guideImg = resolved === 'light'
-    ? require('./assets/examguide-light.png')
-    : require('./assets/examguide-dark.png');
-
-  return (
-    <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
-      <View>
-        <Image source={require('./assets/hero.jpg')} style={{ width: heroW, height: heroW * (888 / 853) }} resizeMode="cover" />
-        {/* ヒーロー下端を背景色へグラデーションで溶け込ませる(クレーン流儀) */}
-        <View style={s.heroFade} pointerEvents="none">
-          <Svg width="100%" height="100%">
-            <Defs>
-              <LinearGradient id="heroFade" x1="0" y1="0" x2="0" y2="1">
-                {/* 上側は透明のまま消火器を見せ、下端だけ勾配強め(急)で背景へ溶かす */}
-                <Stop offset="0" stopColor={c.bg} stopOpacity={0} />
-                <Stop offset="0.4" stopColor={c.bg} stopOpacity={0} />
-                <Stop offset="0.82" stopColor={c.bg} stopOpacity={0.92} />
-                <Stop offset="1" stopColor={c.bg} stopOpacity={1} />
-              </LinearGradient>
-            </Defs>
-            <Rect x="0" y="0" width="100%" height="100%" fill="url(#heroFade)" />
-          </Svg>
-        </View>
-      </View>
-
-      <View style={s.pad}>
-        {/* 試験日カウントダウン */}
-        <Pressable style={({ pressed }) => [s.countCard, pressed && s.pressed]} onPress={() => onModal('examdate')}>
-          <Icon name="calendar" size={30} color={c.accent} />
-          <View style={s.countLeft}>
-            <Text style={s.countLabel}>試験日まで</Text>
-            {left === null ? (
-              <Text style={[s.countBig, { marginTop: 4 }]}>日付を設定</Text>
-            ) : left >= 0 ? (
-              <View style={s.countRow}><Text style={s.countNum}>{left}</Text><Text style={s.countUnit}>日</Text></View>
-            ) : (
-              <Text style={[s.countBig, { marginTop: 4 }]}>試験おつかれさま</Text>
-            )}
-            <Text style={s.countSub}>{dateText ?? 'タップして試験日を登録'}</Text>
-          </View>
-          <View style={s.countSetBtn}><Text style={s.countSetTxt}>設定</Text></View>
-        </Pressable>
-
-        {/* 分野別レーダー */}
-        <View style={s.radarCard}>
-          <View style={s.radarHead}>
-            <Text style={s.cardTitle}>分野ごとの実力</Text>
-            {answeredAny ? (
-              <View style={[s.radarBadge, { backgroundColor: allPass ? c.goodSoft : c.warnSoft }]}>
-                <Text style={[s.radarBadgeTxt, { color: allPass ? c.good : c.warn }]}>{allPass ? '合格圏' : '弱点あり'}</Text>
-              </View>
-            ) : null}
-          </View>
-          <SubjectRadar compact />
-          {answeredAny ? <Text style={s.radarHelp}>各分野40%以上・全体60%以上が合格の目安です。40%以下の分野は要注意。</Text> : null}
-        </View>
-
-        {/* メニュー6カード(2列×3段) */}
-        <View style={s.grid}>
-          <MenuTile icon="book" title="教材で学ぶ" sub={'基礎から\nしっかり学ぶ'} onPress={() => onGo('learn')} />
-          <MenuTile icon="terms" title="用語" sub={'重要用語を\n確認する'} onPress={() => onGo('terms')} />
-          <MenuTile icon="doc" title="模試試験" sub={'本番形式で\n実力を試す'} onPress={() => onGo('mock')} />
-          <MenuTile icon="map" title="相関図" sub={'用語のつながり\nを見る'} onPress={() => onModal('relation')} />
-          <MenuTile icon="star" title="お気に入りの用語" sub={'★をつけた\n用語を見返す'} onPress={onFavTerms} />
-          <MenuTile icon="bookmark" title="ブックマーク" sub={'気になる問題を\n見返す'} badge={bmCount > 0 ? String(bmCount) : undefined} onPress={() => onModal('bookmarks')} />
-        </View>
-
-        {/* 試験総合解説カード */}
-        <Pressable style={({ pressed }) => [s.guideCard, pressed && s.pressed]} onPress={() => onModal('guide')}>
-          <Image source={guideImg} style={s.guideImg} resizeMode="cover" />
-          {/* 下側だけグラデーション(画像の上部は明るいまま・文字は下で読める) */}
-          <View style={s.guideScrim} pointerEvents="none">
-            <Svg width="100%" height="100%">
-              <Defs>
-                <LinearGradient id="guideFade" x1="0" y1="0" x2="0" y2="1">
-                  <Stop offset="0" stopColor="#000" stopOpacity={0} />
-                  <Stop offset="1" stopColor="#000" stopOpacity={0.62} />
-                </LinearGradient>
-              </Defs>
-              <Rect x="0" y="0" width="100%" height="100%" fill="url(#guideFade)" />
-            </Svg>
-          </View>
-          <View style={s.guideOverlay}>
-            <Text style={s.guideEyebrow}>EXAM GUIDE</Text>
-            <Text style={s.guideTitle}>試験の総合解説</Text>
-            <Text style={s.guideSub}>出題のしくみ・合格基準・学び方(公式情報ベース)</Text>
-          </View>
-        </Pressable>
-
-        {/* 学習ストリーク */}
-        <View style={s.streakCard}>
-          <View style={s.streakTop}>
-            <View>
-              <Text style={s.streakLbl}>学習の継続</Text>
-              <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 4 }}>
-                <Text style={s.streakNum}>{streak}</Text><Text style={s.streakLbl}>日連続</Text>
-              </View>
-            </View>
-            <View style={{ alignItems: 'flex-end' }}>
-              <Text style={s.streakLbl}>のべ解答</Text>
-              <Text style={s.streakNum}>{stats.answered}</Text>
-            </View>
-          </View>
-          <StreakBars data={recent} />
-          <View style={s.streakAxis}><Text style={s.streakAxisTxt}>14日前</Text><Text style={s.streakAxisTxt}>今日</Text></View>
-          <Text style={s.streakHelp}>解いた問題数の推移。毎日つづけて、連続日数をのばそう。</Text>
-        </View>
-
-        <View style={s.motiv}>
-          <View style={s.motivRule}>
-            <View style={s.motivLine} />
-            <Icon name="flame" size={15} color={c.accent} />
-            <View style={s.motivLine} />
-          </View>
-          <Text style={s.motivMain}>最初の一本で、火を制す。</Text>
-          <Text style={s.motivKicker}>THE FIRST LINE OF DEFENSE</Text>
-        </View>
-      </View>
-    </ScrollView>
-  );
-}
-
-function MenuTile({ icon, title, sub, onPress, badge, soon }: { icon: string; title: string; sub: string; onPress: () => void; badge?: string; soon?: boolean }) {
-  const { c } = useTheme();
-  const s = useStyles();
-  return (
-    <Pressable style={({ pressed }) => [s.tile, pressed && s.pressed]} onPress={onPress}>
-      <View style={s.tileIco}><Icon name={icon} size={20} color={c.accent} /></View>
-      <Text style={s.tileTitle}>{title}</Text>
-      <Text style={s.tileSub}>{sub}</Text>
-      {badge ? <View style={s.tileBadge}><Text style={s.tileBadgeTxt}>{badge}</Text></View> : null}
-      {soon ? <View style={s.tileSoon}><Text style={s.tileSoonTxt}>準備中</Text></View> : null}
-      <Text style={s.tileGo}>›</Text>
-    </Pressable>
   );
 }
 
@@ -388,6 +237,22 @@ function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPa
   const lesson = lessons[safeIdx] ?? null;
   const locked = !pro && safeIdx >= freeLessonEntries(chapterNo, lessons);
   useStudyFeedback('lesson:' + chapterNo + ':' + safeIdx, !locked && !!lesson);
+  const studyId = chapterNo + ':' + (lesson?.key ?? '');
+  useReadingActivity('lessons', studyId, !locked && !!lesson);
+  const tag = useMemo(() => bodyTag(lesson?.body ?? ''), [lesson?.body]);
+  const initialOffset = useMemo(() => {
+    const r = activityState().resume;
+    return r?.chapterNo === chapterNo && r.lessonKey === lesson?.key && r.bodyTag === tag ? r.offset : 0;
+  }, [chapterNo, lesson?.key, tag]);
+  const offset = useRef(initialOffset);
+  useEffect(() => {
+    if (locked || !lesson) return;
+    offset.current = initialOffset;
+    const save = () => { void rememberLesson({ chapterNo, lessonKey: lesson.key, label: lesson.label, offset: offset.current, bodyTag: tag, at: Date.now() }); };
+    save();
+    const sub = AppState.addEventListener('change', state => { if (state !== 'active') save(); });
+    return () => { sub.remove(); save(); };
+  }, [chapterNo, lesson?.key, tag, locked]);
   const chIdx = chapters.findIndex((x) => x.no === chapterNo);
 
   const prevTarget = (() => {
@@ -422,7 +287,7 @@ function LessonReader({ chapters, chapterNo, lessonIdx, onBack, onNav, pro, onPa
         </Pressable>
         <Text style={s.qProgress} numberOfLines={1}>{(chapter ? '第' + chapter.no + '章' : '') + (lessons.length ? '・' + (safeIdx + 1) + '/' + lessons.length : '')}</Text>
       </View>
-      <LessonStudy key={chapterNo + '-' + safeIdx} body={!locked ? lesson?.body : undefined} onLessonLink={number => {
+      <LessonStudy key={chapterNo + '-' + safeIdx} studyId={studyId} initialScrollOffset={initialOffset} onScrollPosition={y => { offset.current = y; }} body={!locked ? lesson?.body : undefined} onLessonLink={number => {
         const target = lessons.findIndex(l => new RegExp('^Lesson\\s+0*' + number + '\\s').test(l.label));
         if (target >= 0) onNav(chapterNo, target);
       }}>
@@ -899,6 +764,9 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
 
         <View style={s.setGroup}>
           <Text style={s.setGroupTitle}>表示</Text>
+          <Pressable accessibilityRole="button" style={s.setRow} onPress={() => onModal('appearance')}>
+            <Text style={s.setLabel}>ホームの画像</Text><Text style={s.setValue}>選ぶ ›</Text>
+          </Pressable>
           <View style={[s.setRow, { flexDirection: 'column', alignItems: 'stretch', gap: 12 }]}>
             <Text style={s.setLabel}>外観</Text>
             <Segmented<Mode>
@@ -931,10 +799,7 @@ function SettingsScreen({ onModal, onSync, syncing, pro }: { onModal: (m: ModalK
 
         <View style={s.setGroup}>
           <Text style={s.setGroupTitle}>アプリについて</Text>
-          <Pressable accessibilityRole="button" style={({ pressed }) => [s.setRow, pressed && s.pressed]} onPress={() => { void openRequestEmail(); }}>
-            <Text style={s.setLabel}>ご意見・ご要望をメールで送る</Text>
-            <Text style={s.setValue}>送る ›</Text>
-          </Pressable>
+          <DeveloperMessage />
           <Pressable style={s.setRow} delayLongPress={1500} onLongPress={() => { if (feedbackDev || canUseFreePreview()) setShowDev(true); }}>
             <Text style={s.setLabel}>バージョン</Text>
             <Text style={s.setValue}>{Application.nativeApplicationVersion ?? "開発版"} · Build {Application.nativeBuildVersion ?? BUILD_NUMBER}</Text>
@@ -1396,15 +1261,15 @@ function Main() {
   const [modal, setModal] = useState<ModalKey>(null);
   const [syncing, setSyncing] = useState(false);
   const [pro, setPro] = useState(isProActive());
-  const [showFeedback, setShowFeedback] = useState(false);
-  useEffect(() => subscribeStudyFeedback(() => setShowFeedback(true)), []);
+  useEffect(() => startStudyFeedback(), []);
+  useEffect(() => { if (modal !== null || tab === 'set') return blockStudyFeedback(); }, [modal, tab]);
   const { width } = useWindowDimensions();
 
   const bump = () => setDataVersion((v) => v + 1);
 
   useEffect(() => {
     void (async () => {
-      await Promise.all([loadHistory(), loadBookmarks(), loadExamDate(), loadStats()]);
+      await Promise.all([loadHistory(), loadBookmarks(), loadExamDate(), loadStats(), initActivity()]);
       bump();
       await recordSnapshotIfNeeded();
     })();
@@ -1433,23 +1298,27 @@ function Main() {
   };
 
   const showModal = modal !== null;
-  const topPad = (tab === 'home' && !openChapter && !showModal) ? 0 : insets.top;
+  const topPad = insets.top;
 
   return (
-    <View style={{ flex: 1, backgroundColor: c.bg }}>
+    <View style={{ flex: 1, backgroundColor: c.bg }} onTouchStart={noteFeedbackInteraction}>
       <View style={[s.appCol, { width: Math.min(width, 440) }]}>
         <View style={{ flex: 1, paddingTop: topPad }}>
           {showModal ? (
             <>
               {modal === 'bookmarks' && <BookmarksScreen onClose={() => setModal(null)} onBump={bump} />}
               {modal === 'relation' && <RelationMapScreen onClose={() => setModal(null)} pro={pro} onPaywall={() => { setModal('paywall'); }} />}
+              {modal === 'appearance' && <HomeAppearance onClose={() => setModal(null)} />}
               {modal === 'guide' && <ExamGuideScreen onClose={() => setModal(null)} />}
               {modal === 'examdate' && <ExamDateScreen onClose={() => setModal(null)} onSaved={bump} />}
               {modal === 'paywall' && <PaywallScreen onClose={() => setModal(null)} onBump={bump} />}
             </>
           ) : (
             <>
-              {tab === 'home' && <HomeScreen onGo={goTab} onModal={setModal} onFavTerms={goFavTerms} ver={dataVersion} />}
+              {tab === 'home' && <HomeScreen chapters={chapters} onGo={goTab} onFavTerms={goFavTerms} ver={dataVersion}
+                onResume={(no, idx) => { setOpenNo(no); setLessonIdx(idx); setTab('learn'); }}
+                onAppearance={() => setModal('appearance')} onBookmarks={() => setModal('bookmarks')}
+                onRelation={() => setModal('relation')} onGuide={() => setModal('guide')} onExamDate={() => setModal('examdate')} onLicense={() => goTab('set')} />}
               {tab === 'learn' && (openChapter
                 ? (lessonIdx === null
                     ? <LessonListScreen chapter={openChapter} chapters={chapters} onOpenLesson={(i) => setLessonIdx(i)} onBack={() => setOpenNo(null)} onNavChapter={(no) => { setOpenNo(no); setLessonIdx(null); }} pro={pro} onPaywall={() => setModal('paywall')} />
@@ -1465,15 +1334,6 @@ function Main() {
         </View>
         {!showModal ? <TabBar tab={tab} onTab={goTab} insetBottom={insets.bottom} /> : null}
       </View>
-      {showFeedback ? <View accessibilityViewIsModal style={{ position: 'absolute', top: insets.top, bottom: 0, left: 0, right: 0, backgroundColor: c.bg, zIndex: 100 }}>
-        <View style={s.modalBar}>
-          <Pressable accessibilityRole="button" onPress={() => setShowFeedback(false)} style={s.backBtn}><Text style={s.backTxt}>‹ 閉じる</Text></Pressable>
-          <Text style={s.modalTitle}>ご意見・ご要望</Text>
-        </View>
-        <ScrollView contentContainerStyle={{ padding: 20 }}>
-          <FeedbackCard preview onDismiss={() => setShowFeedback(false)} />
-        </ScrollView>
-      </View> : null}
       <StatusBar style={resolved === 'dark' ? 'light' : 'dark'} />
     </View>
   );

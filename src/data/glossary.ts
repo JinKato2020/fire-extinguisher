@@ -1,5 +1,6 @@
 // 用語集データのアクセサ。content/glossary.json(同梱＋OTA override)から引く。
 import { getContent } from './contentStore';
+import type { EmphasisHints } from '../ui/emphasis';
 
 export type Term = {
   id: string;
@@ -16,6 +17,7 @@ export type Term = {
   aliases?: string[];
   lesson?: number;
   figureCaption?: string;
+  highlights?: EmphasisHints;
 };
 
 type GlossaryFile = { version?: number; terms: Term[] };

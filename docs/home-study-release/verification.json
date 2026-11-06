@@ -1,0 +1,11 @@
+{
+  "typescript": true,
+  "iosExport": true,
+  "homeRenders": 25,
+  "lessonRenders": 122,
+  "glossaryRenders": 212,
+  "glossaryTerms": 106,
+  "emphasizedSpans": 276,
+  "definitionsUnchanged": true,
+  "errors": []
+}

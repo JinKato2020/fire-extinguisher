@@ -8,7 +8,7 @@ APP = Path(__file__).resolve().parents[1]
 SOURCE = APP.parent / '教材解説' / '用語集.md'
 TARGET = APP / 'content' / 'glossary.json'
 FIELDS = {'用語': 'term', '読み': 'reading', '章': 'chapter', '関連': 'related', '図': 'figure',
-          '別名': 'aliases', '教材': 'lesson', '図の説明': 'figureCaption'}
+          '別名': 'aliases', '教材': 'lesson', '図の説明': 'figureCaption', '強調': 'highlights'}
 SECTIONS = {'ひとことで': 'summary', '解説': 'explanation', '具体例': 'example', '間違えやすい点': 'caution'}
 
 
@@ -34,7 +34,7 @@ def generate(body):
             label, colon, value = line.partition('：')
             if label not in FIELDS or not colon or FIELDS[label] in term:
                 raise ValueError(f'{ident}: 不明または重複した項目: {line}')
-            term[FIELDS[label]] = json.loads(value) if label in ('関連', '別名', '教材') else value
+            term[FIELDS[label]] = json.loads(value) if label in ('関連', '別名', '教材', '強調') else value
         if not term.get('term') or term.get('chapter') not in {'1', '2', '3', '4', '5', '6'}:
             raise ValueError(f'{ident}: 用語名・章が不正')
         for field in ('related', 'aliases'):
@@ -54,6 +54,14 @@ def generate(body):
         if int(version[1]) >= 2 and not all(authored.get(k) for k in ('summary', 'explanation', 'example')):
             raise ValueError(f'{ident}: 短い定義・解説・具体例が必要です')
         term.update(authored)
+        if 'highlights' in term:
+            hints = term['highlights']
+            all_text = '\n'.join(authored.values())
+            if not isinstance(hints, dict) or not hints or set(hints) - {'key', 'num', 'trap'}:
+                raise ValueError(f'{ident}: 強調の種類が不正')
+            for kind, words in hints.items():
+                if not isinstance(words, list) or not words or not all(isinstance(word, str) and 1 <= len(word) <= 32 and word in all_text for word in words):
+                    raise ValueError(f'{ident}: 本文に存在しないか、長すぎる強調語句: {kind}')
         # Old clients still render def as plain text; do not leak section markup.
         term['def'] = '\n\n'.join(filter(None, [authored.get('summary'), authored['explanation'],
             '具体例：' + authored['example'] if authored.get('example') else '',

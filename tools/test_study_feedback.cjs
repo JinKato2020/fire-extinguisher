@@ -14,12 +14,13 @@ const AppState = { currentState: 'active', addEventListener(_event, fn) {
   changes.add(fn); return { remove() { changes.delete(fn); } };
 } };
 const api = load('src/data/studyFeedback.ts', {
-  'react-native': { AppState }, './feedback': { async offerFeedback() { offers++; return true; } },
+  'react-native': { AppState }, './feedback': { async recordFeedbackStudy() {}, async offerFeedback(eligible) { if (eligible()) offers++; return true; } },
 }, {
   setTimeout(fn, delay) { const id = ++sequence; timers.set(id, { at: now + delay, fn }); return id; },
   clearTimeout(id) { timers.delete(id); },
 });
 async function advance(ms) {
+  await Promise.resolve();
   now += ms;
   for (const [id, timer] of timers) if (timer.at <= now) { timers.delete(id); timer.fn(); }
   await Promise.resolve();
@@ -29,22 +30,30 @@ function foreground(active) {
   for (const fn of changes) fn(AppState.currentState);
 }
 (async () => {
-  const unsubscribe = api.subscribeStudyFeedback(() => shown++);
+  const unsubscribe = api.startStudyFeedback();
   const short = api.beginStudyFeedback(); short(false);
-  await advance(400); assert.equal(offers, 0);
+  await advance(2000); assert.equal(offers, 0);
   const quiz = api.beginStudyFeedback();
   await advance(30000); assert.equal(offers, 0); // Never during a test, regardless of elapsed time.
   quiz(true); // Partial exit qualifies; no question-count/completion requirement.
-  await advance(399); assert.equal(offers, 0);
-  await advance(1); assert.equal(offers, 1); assert.equal(shown, 1);
-  quiz(true); await advance(400); assert.equal(offers, 1); // Cleanup cannot duplicate an exit.
+  await advance(1999); assert.equal(offers, 0);
+  await advance(1); assert.equal(offers, 1);
+  quiz(true); await advance(2000); assert.equal(offers, 1); // Cleanup cannot duplicate an exit.
   const lesson = api.beginStudyFeedback(); lesson(true);
   const nextQuiz = api.beginStudyFeedback();
   await advance(120000); assert.equal(offers, 1); // A pending request never interrupts another test.
-  nextQuiz(false); await advance(400); assert.equal(offers, 2);
+  nextQuiz(false); await advance(2000); assert.equal(offers, 2);
   const paused = api.beginStudyFeedback(); foreground(false); paused(true);
   await advance(10000); assert.equal(offers, 2);
-  foreground(true); await advance(400); assert.equal(offers, 3);
+  foreground(true); await advance(2000); assert.equal(offers, 2); // No delayed prompt on foreground.
+  const afterResume = api.beginStudyFeedback(); afterResume(true);
+  await advance(1999); api.noteFeedbackInteraction();
+  await advance(1999); assert.equal(offers, 2);
+  await advance(1); assert.equal(offers, 3);
+  const blocked = api.blockStudyFeedback();
+  const reading = api.beginStudyFeedback(); reading(true);
+  await advance(5000); assert.equal(offers, 3);
+  blocked(); await advance(5000); assert.equal(offers, 3);
   unsubscribe();
 
   // The React hook ends exposure only on cleanup/completion, not on a timeout.

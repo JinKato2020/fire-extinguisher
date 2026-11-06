@@ -3,10 +3,11 @@ import { Alert, Linking, Pressable, Text, TextInput, View } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { useStudyRecall } from './StudyRecallContext';
 import type { MarkdownBlock } from './markdown';
+import { emphasisStyle, type EmphasisKind } from './emphasis';
 
 /** Only authored HTTPS links are interactive; emphasis remains native scalable text. */
 export function Inline({ text, field, offset = 0 }: { text: string; field?: string; offset?: number }) {
-  const { c } = useTheme();
+  const { c, resolved } = useTheme();
   const recall = useStudyRecall();
   let cursor = 0;
   return <>{text.split(/(\*\*.+?\*\*|\{\{[^{}\n]+?::(?:key|num|trap)\}\}|`[^`]+`|\[[^\]]+\]\(https:\/\/[^\s)]+\))/g).map((part, i) => {
@@ -22,12 +23,12 @@ export function Inline({ text, field, offset = 0 }: { text: string; field?: stri
         onPress={() => recall?.toggle(id)} style={{ color: c.accent2, backgroundColor: c.accentSoft, fontWeight: '800', textDecorationLine: 'underline' }}>
         {shown ? `【${blank[1]}】` : `【${number} ${blank[2] === 'num' ? '数値' : blank[2] === 'trap' ? '条件' : '用語'}？】`}
       </Text>;
-      return <Text key={i} style={{ fontWeight: '800' }}>{blank[1]}</Text>;
+      return <Text key={i} style={blank[1].length <= 32 ? emphasisStyle(resolved === 'dark', blank[2] as EmphasisKind) : { fontWeight: '800' }}>{blank[1]}</Text>;
     }
     const link = part.match(/^\[([^\]]+)\]\((https:\/\/[^\s)]+)\)$/);
     if (link) return <Text key={i} accessibilityRole="link" style={{ color: c.accent2, textDecorationLine: 'underline' }}
       onPress={() => Linking.openURL(link[2]).catch(() => Alert.alert('リンクを開けませんでした', '通信環境を確認して、もう一度お試しください。'))}>{link[1]}</Text>;
-    if (part.startsWith('**') && part.endsWith('**')) return <Text key={i} style={{ fontWeight: '800' }}><Inline text={part.slice(2, -2)} field={field} offset={offset + start + 2} /></Text>;
+    if (part.startsWith('**') && part.endsWith('**')) return <Text key={i} style={part.length <= 28 && !part.includes('{{') ? emphasisStyle(resolved === 'dark', 'key') : { fontWeight: '800' }}><Inline text={part.slice(2, -2)} field={field} offset={offset + start + 2} /></Text>;
     return part.startsWith('`') && part.endsWith('`') ? part.slice(1, -1) : part;
   })}</>;
 }

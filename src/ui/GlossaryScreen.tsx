@@ -10,6 +10,8 @@ import { parseLessons } from './lessons';
 import { LessonFigure } from './LessonFigure';
 import { ImageZoom } from './ImageZoom';
 import { useStudyFeedback } from './useStudyFeedback';
+import { useReadingActivity } from './useStudyActivity';
+import { ImportantText, EmphasisLegend } from './ImportantText';
 
 type LessonTarget = { chapterNo: string; lessonIdx: number };
 type Props = {
@@ -37,6 +39,7 @@ export function GlossaryScreen({ onBump, ver, favInit, pro, onPaywall, chapters,
   // Reading related terms is one study session. A prompt can occur on leaving it,
   // never merely because a different term was opened.
   useStudyFeedback('terms', !lesson && (current ? canRead(current) : showList && visible.length > 0));
+  useReadingActivity('terms', current?.id ?? '', !lesson && !!current && canRead(current));
   const open = (t: Term) => {
     Keyboard.dismiss();
     if (!canRead(t)) { onPaywall(); return; }
@@ -76,7 +79,7 @@ export function GlossaryScreen({ onBump, ver, favInit, pro, onPaywall, chapters,
               {!chapter || chapter === 'fav' ? <Text style={{ color: c.muted, fontSize: 12, lineHeight: 19 }}>第{t.chapter}章 · {CHAPTER_SHORT[t.chapter]}</Text> : null}
               <Text style={{ color: c.fg, fontSize: 19, lineHeight: 29, fontWeight: '800' }}>{t.term}</Text>
               {t.reading ? <Text style={{ color: c.muted, fontSize: 13, lineHeight: 21 }}>{t.reading}</Text> : null}
-              <Text style={{ color: c.fg, fontSize: 15, lineHeight: 25 }}>{t.summary || t.def.split(/\n|。/)[0] + '。'}</Text>
+              <Text style={{ color: c.fg, fontSize: 15, lineHeight: 25 }}><ImportantText text={t.summary || t.def.split(/\n|。/)[0] + '。'} hints={t.highlights} /></Text>
               <Text style={{ color: c.accent2, fontSize: 13, lineHeight: 22 }}>解説を読む ›</Text>
             </Pressable>
             <Favorite term={t} onChange={changed} />
@@ -131,12 +134,9 @@ function TermDetail({ term: t, terms, chapters, onRelated, onChange, onLesson }:
   const lessonIdx = t.lesson ? lessons.findIndex(l => l.key === 'l' + (t.lesson! - 1)) : -1;
   const section = (title: string, text: string | undefined, kind: 'plain' | 'blue' | 'green' | 'red') => {
     if (!text) return null;
-    const dark = resolved === 'dark';
-    const ink = kind === 'blue' ? (dark ? '#8DC9F4' : '#225D84') : kind === 'green' ? (dark ? '#84D6AD' : '#216444') : kind === 'red' ? (dark ? '#FFB6A8' : '#9E3627') : c.fg;
-    const bg = kind === 'blue' ? (dark ? '#152B3C' : '#EBF5FC') : kind === 'green' ? (dark ? '#172E26' : '#EFF8F2') : kind === 'red' ? (dark ? '#38221F' : '#FFF2ED') : 'transparent';
-    return <View style={{ padding: 16, borderRadius: 12, backgroundColor: bg, borderLeftWidth: kind === 'plain' ? 0 : 4, borderLeftColor: ink, gap: 8 }}>
-      <Text accessibilityRole="header" style={{ color: ink, fontSize: 15, lineHeight: 24, fontWeight: '800' }}>{title}</Text>
-      <Text style={{ color: c.fg, fontSize: 16, lineHeight: 28 }}>{text}</Text>
+    return <View style={{ padding: 16, borderRadius: 12, backgroundColor: c.card, borderWidth: 1, borderColor: c.line, gap: 8 }}>
+      <Text accessibilityRole="header" style={{ color: c.fg, fontSize: 15, lineHeight: 24, fontWeight: '800' }}>{title}</Text>
+      <Text style={{ color: c.fg, fontSize: 16, lineHeight: 28 }}><ImportantText text={text} hints={t.highlights} /></Text>
     </View>;
   };
   return <>
@@ -149,6 +149,7 @@ function TermDetail({ term: t, terms, chapters, onRelated, onChange, onLesson }:
         </View><Favorite term={t} onChange={onChange} />
       </View>
       {t.aliases?.length ? <Text style={{ color: c.muted, fontSize: 13, lineHeight: 23 }}>別名・検索の手がかり：{t.aliases.join('、')}</Text> : null}
+      <EmphasisLegend />
       {section('ひとことで', t.summary, 'blue')}
       {section('解説', t.explanation || t.def, 'plain')}
       {t.figure ? <View onLayout={e => setImageWidth(Math.max(1, e.nativeEvent.layout.width))}>

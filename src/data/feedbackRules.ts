@@ -1,7 +1,10 @@
-export const FEEDBACK_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000;
+export const FEEDBACK_INTERVAL_MS = 10 * 24 * 60 * 60 * 1000;
 export const STUDY_FEEDBACK_MIN_MS = 30 * 1000;
-export type FeedbackSchedule = { firstUsedAt: number; lastOfferedAt: number | null; reviewAttempts: number[] };
+export type FeedbackSchedule = { firstUsedAt: number; lastOfferedAt: number | null; reviewAttempts: number[]; studySessions?: number[] };
 export function feedbackDue(schedule: FeedbackSchedule, now: number): boolean {
+  const sessions = (schedule.studySessions ?? []).filter(at => at > (schedule.lastOfferedAt ?? -1) && at <= now);
+  const days = new Set(sessions.map(at => { const d = new Date(at); return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`; }));
+  if (sessions.length < 3 || days.size < 2) return false;
   if (schedule.lastOfferedAt !== null) return now - schedule.lastOfferedAt >= FEEDBACK_INTERVAL_MS;
   // Count the first local date of use as day one. DST does not shift the third day.
   const thirdDay = new Date(schedule.firstUsedAt);
@@ -22,7 +25,4 @@ export class StudyExposure {
     this.setActive(now, false);
     return this.elapsed >= STUDY_FEEDBACK_MIN_MS;
   }
-}
-export function canAttemptReview(attempts: number[], now: number): boolean {
-  return attempts.filter(at => at > now - 365 * 24 * 60 * 60 * 1000).length < 3;
 }

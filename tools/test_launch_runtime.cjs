@@ -74,7 +74,7 @@ function access(storage = new Map(), { open = true, offline = false, failWrite =
   let now = new Date(2026, 10, 1, 18).getTime(), reviews = 0, mailUrl = '', available = true, alerts = 0;
   class Clock extends Date { static now() { return now; } }
   const storage = new Map();
-  const feedback = load('src/data/feedback.ts', {
+  const feedbackDependencies = {
     '@react-native-async-storage/async-storage': {
       async getItem(k) { return storage.get(k) ?? null; }, async setItem(k, v) { storage.set(k, v); },
     },
@@ -82,7 +82,8 @@ function access(storage = new Map(), { open = true, offline = false, failWrite =
     'expo-store-review': { async isAvailableAsync() { return available; }, async requestReview() { reviews++; } },
     'expo-application': { nativeApplicationVersion: '1.3.0', nativeBuildVersion: 'test' },
     './feedbackRules': feedbackRules,
-  }, { Date: Clock, __DEV__: false });
+  };
+  const feedback = load('src/data/feedback.ts', feedbackDependencies, { Date: Clock, __DEV__: false });
   await feedback.initFeedback();
   assert.equal(await feedback.offerFeedback(), false); // No startup prompt.
   now = new Date(2026, 10, 3).getTime() - 1;
@@ -94,13 +95,16 @@ function access(storage = new Map(), { open = true, offline = false, failWrite =
       assert.equal(await feedback.offerFeedback(), false);
       now++;
     }
+    await feedback.recordFeedbackStudy(now - 86400000);
+    await feedback.recordFeedbackStudy(now - 60000);
+    await feedback.recordFeedbackStudy(now);
     const results = await Promise.all([feedback.offerFeedback(), feedback.offerFeedback()]);
     assert.equal(results.filter(Boolean).length, 1); // No duplicate checkpoint prompt.
-    assert.equal(reviews, Math.min(i, 3));
+    assert.equal(reviews, i);
   }
   now += feedbackRules.FEEDBACK_INTERVAL_MS;
   available = false;
-  assert.equal(await feedback.offerFeedback(), true); // Mail remains available without StoreKit review.
+  assert.equal(await feedback.offerFeedback(), false); // No automatic email prompt or fallback.
   await feedback.openRequestEmail();
   assert.ok(mailUrl.startsWith('mailto:contact@safa-lang.com?'));
   assert.ok(decodeURIComponent(mailUrl).includes('ご意見・ご要望'));
@@ -111,11 +115,23 @@ function access(storage = new Map(), { open = true, offline = false, failWrite =
   assert.equal(await feedback.feedbackDevToolsAvailable(), true); // TestFlight can use diagnostics without a purchase.
   await feedback.triggerReviewForDevelopment();
   assert.equal(alerts, 1); // Explain Apple's TestFlight restriction instead of silently failing.
-  assert.equal(reviews, 3);
+  assert.equal(reviews, 4);
   available = true;
   assert.equal(await feedback.feedbackDevToolsAvailable(), false); // Production excludes these diagnostics.
   await feedback.triggerReviewForDevelopment();
-  assert.equal(reviews, 3);
+  assert.equal(reviews, 4);
   assert.equal(storage.get('fire6:feedback:v1'), savedSchedule); // No effect on the normal schedule.
-  console.log('PASS: launch rights, payment guards, third-day/weekly feedback, cross-checkpoint deduplication and review cap, email, review link, TestFlight diagnostics and production exclusion');
+  // Existing installations keep their dates, but three old API calls never mean three actual displays.
+  const oldSchedule = { firstUsedAt: now - 60 * 86400000, lastOfferedAt: now - feedbackRules.FEEDBACK_INTERVAL_MS, reviewAttempts: [now - 30 * 86400000, now - 20 * 86400000, now - 10 * 86400000] };
+  storage.set('fire6:feedback:v1', JSON.stringify(oldSchedule));
+  const migrated = load('src/data/feedback.ts', feedbackDependencies, { Date: Clock, __DEV__: false });
+  await migrated.initFeedback();
+  assert.equal(await migrated.offerFeedback(), false); // New learning is still required after an OTA.
+  await migrated.recordFeedbackStudy(now - 86400000);
+  await migrated.recordFeedbackStudy(now - 60000);
+  await migrated.recordFeedbackStudy(now);
+  assert.equal(await migrated.offerFeedback(), true);
+  assert.equal(reviews, 5);
+  assert.equal(JSON.parse(storage.get('fire6:feedback:v1')).firstUsedAt, oldSchedule.firstUsedAt);
+  console.log('PASS: launch rights, payment guards, third-day/10-day feedback, new-learning requirement, cross-checkpoint deduplication and OS-owned display limit, email, review link, TestFlight diagnostics and production exclusion');
 })().catch(error => { console.error(error); process.exitCode = 1; });

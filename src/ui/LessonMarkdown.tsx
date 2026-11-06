@@ -40,8 +40,7 @@ export function Markdown({ body, onLessonLink, hideTitle = false, onSectionLayou
         if (b.type === 'h4') return <Text key={i} accessibilityRole="header" style={s.mdH4}>{rich(b.text)}</Text>;
         if (b.type === 'quote') {
           const ink = b.tone === 'warning' ? (resolved === 'light' ? '#B3321E' : c.warn) : b.tone === 'important' ? (resolved === 'light' ? '#167443' : c.good) : (resolved === 'light' ? '#215A80' : '#9BCBF2');
-          const bg = b.tone === 'warning' ? c.warnSoft : b.tone === 'important' ? c.goodSoft : (resolved === 'light' ? '#EAF2F9' : '#192B3B');
-          return <View key={i} style={[s.quote, { borderColor: ink, backgroundColor: bg }]}>
+          return <View key={i} style={[s.quote, { borderColor: c.line, backgroundColor: c.card }]}>
             {b.title ? <Text style={[s.quoteTitle, { color: ink }]}>{b.title}</Text> : null}
             {b.text.split('\n').map((line, j) => line ? <Text key={j} style={s.quoteTxt}>{rich(line.replace(/^[-*] /, '・'), `b${i}:q${j}`)}</Text> : <View key={j} style={{ height: 6 }} />)}
           </View>;
@@ -73,12 +72,12 @@ export function Markdown({ body, onLessonLink, hideTitle = false, onSectionLayou
     {sections.map(section => {
       if (!section.title) return <View key={section.start}>{section.blocks.map(({block, index}) => renderBlock(block, index))}</View>;
       const example = section.kind === 'example', check = section.kind === 'check';
-      const ink = example ? (resolved === 'light' ? '#225D84' : '#9BCBF2') : check ? c.accent2 : c.fg;
+      const ink = c.fg;
       return <View key={section.start} onLayout={e => onSectionLayout?.(section.start, e.nativeEvent.layout.y)}
         style={{ marginTop: 12, marginBottom: 12, padding: check ? 0 : 16, borderRadius: 16,
-          backgroundColor: check ? 'transparent' : example ? (resolved === 'light' ? '#EBF5FC' : '#152B3C') : c.card,
-          borderWidth: check ? 0 : 1, borderColor: example ? ink : c.line }}>
-        <Text style={{ color: example || check ? ink : c.muted, fontSize: 12, lineHeight: 21, fontWeight: '700', marginBottom: 6 }}>{example ? '使って理解する' : check ? '思い出して定着させる' : '理解する'}</Text>
+          backgroundColor: check ? 'transparent' : c.card,
+          borderWidth: check ? 0 : 1, borderColor: c.line }}>
+        <Text style={{ color: c.muted, fontSize: 12, lineHeight: 21, fontWeight: '700', marginBottom: 6 }}>{example ? '使って理解する' : check ? '思い出して定着させる' : '理解する'}</Text>
         <Text accessibilityRole="header" style={{ color: ink, fontSize: 19, lineHeight: 30, fontWeight: '800', marginBottom: 16 }}>{section.title}</Text>
         {section.blocks.map(({block, index}) => renderBlock(block, index))}
       </View>;
