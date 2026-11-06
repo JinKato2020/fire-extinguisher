@@ -1,0 +1,148 @@
+{
+  "rendering": "DOM adapter with native image metadata, not a physical-device test",
+  "passed": 24,
+  "checks": [
+    {
+      "query": "days=42",
+      "width": 320,
+      "height": 568,
+      "imageWidth": 320,
+      "imageHeight": 333.125
+    },
+    {
+      "query": "days=42",
+      "width": 390,
+      "height": 844,
+      "imageWidth": 390,
+      "imageHeight": 406
+    },
+    {
+      "query": "days=42",
+      "width": 844,
+      "height": 390,
+      "imageWidth": 440,
+      "imageHeight": 458.046875
+    },
+    {
+      "query": "days=42",
+      "width": 1024,
+      "height": 1366,
+      "imageWidth": 440,
+      "imageHeight": 458.046875
+    },
+    {
+      "query": "oldHero=none",
+      "width": 390,
+      "height": 844,
+      "imageWidth": 390,
+      "imageHeight": 406
+    },
+    {
+      "query": "oldHero=anime",
+      "width": 390,
+      "height": 844,
+      "imageWidth": 390,
+      "imageHeight": 406
+    },
+    {
+      "query": "oldHero=calm",
+      "width": 390,
+      "height": 844,
+      "imageWidth": 390,
+      "imageHeight": 406
+    },
+    {
+      "query": "days=none",
+      "width": 390,
+      "height": 844,
+      "imageWidth": 390,
+      "imageHeight": 406
+    },
+    {
+      "query": "days=0",
+      "width": 390,
+      "height": 844,
+      "imageWidth": 390,
+      "imageHeight": 406
+    },
+    {
+      "query": "days=-1",
+      "width": 390,
+      "height": 844,
+      "imageWidth": 390,
+      "imageHeight": 406
+    },
+    {
+      "query": "days=365",
+      "width": 390,
+      "height": 844,
+      "imageWidth": 390,
+      "imageHeight": 406
+    },
+    {
+      "query": "fontScale=1.5&theme=dark",
+      "width": 390,
+      "height": 844,
+      "imageWidth": 390,
+      "imageHeight": 406
+    },
+    {
+      "query": "history=1",
+      "width": 390,
+      "height": 844,
+      "imageWidth": 390,
+      "imageHeight": 406
+    },
+    {
+      "query": "days=42",
+      "width": 390,
+      "height": 844,
+      "imageWidth": 390,
+      "imageHeight": 406
+    },
+    {
+      "action": "learn",
+      "passed": true
+    },
+    {
+      "action": "terms",
+      "passed": true
+    },
+    {
+      "action": "mock",
+      "passed": true
+    },
+    {
+      "action": "relation",
+      "passed": true
+    },
+    {
+      "action": "favorites",
+      "passed": true
+    },
+    {
+      "action": "bookmarks",
+      "passed": true
+    },
+    {
+      "action": "guide",
+      "passed": true
+    },
+    {
+      "action": "exam date save and return; no hero selector",
+      "passed": true
+    },
+    {
+      "query": "theme=dark&history=1",
+      "width": 390,
+      "height": 844,
+      "imageWidth": 390,
+      "imageHeight": 406
+    },
+    {
+      "action": "existing answer history renders radar",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

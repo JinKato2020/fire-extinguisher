@@ -14,7 +14,7 @@ import { initFeedback, openAppReview, feedbackDevToolsAvailable, triggerReviewFo
 import { FeedbackCard } from './src/ui/FeedbackCard';
 import { useStudyFeedback } from './src/ui/useStudyFeedback';
 import { startStudyFeedback, blockStudyFeedback, noteFeedbackInteraction } from './src/data/studyFeedback';
-import { HomeScreen, HomeAppearance, DeveloperMessage } from './src/ui/HomeScreen';
+import { ExamDateScreen, DeveloperMessage } from './src/ui/HomeScreen';
 import { ExamGuideScreen } from './src/ui/ExamGuideScreen';
 import { activityState, bodyTag, initActivity, rememberLesson } from './src/data/studyActivity';
 import { useReadingActivity } from './src/ui/useStudyActivity';
@@ -35,21 +35,21 @@ import { GlossaryScreen } from './src/ui/GlossaryScreen';
 import {
   loadBookmarks, isBookmarked, toggleBookmark, bookmarkedIds, bookmarkCount,
 } from './src/data/bookmarks';
-import { loadExamDate } from './src/data/examDate';
+import { loadExamDate, daysLeft, examDateText } from './src/data/examDate';
 import {
-  loadStats, bumpDaily, chapterStats, currentAccMap,
+  loadStats, bumpDaily, chapterStats, currentAccMap, recentDaily, studyStreak,
   recordSnapshotIfNeeded, snapAsOf,
 } from './src/data/stats';
 import { ThemeProvider, useTheme, useStyles } from './src/theme/ThemeContext';
 import type { Mode } from './src/theme/ThemeContext';
 import { CHAPTER_SHORT, subjectColor, type Colors } from './src/theme/colors';
-import { SvgXml } from 'react-native-svg';
-import { Icon, Ring, Tag, RadarChart, Segmented, type RadarAxis, type RadarSeries } from './src/ui/components';
+import { SvgXml, Svg, Defs, LinearGradient, Stop, Rect } from 'react-native-svg';
+import { Icon, Ring, Tag, RadarChart, StreakBars, Segmented, type RadarAxis, type RadarSeries } from './src/ui/components';
 import { RELATION_MAPS } from './src/data/relationMaps.generated';
 import RELATION_MAP_CONTENT from './docs/relation-maps/structure.json';
 
 type TabKey = 'home' | 'learn' | 'terms' | 'mock' | 'set';
-type ModalKey = 'bookmarks' | 'relation' | 'guide' | 'paywall' | 'appearance' | null;
+type ModalKey = 'bookmarks' | 'relation' | 'guide' | 'paywall' | 'examdate' | null;
 
 const QLABEL = ['1', '2', '3', '4', '5'];
 
@@ -116,6 +116,161 @@ function freeLessonEntries(_chapterNo: string, lessons: Lesson[]): number {
   const n = 5;
   return base + n;
 }
+
+// ---- ホーム ----
+function HomeScreen({ onGo, onModal, onFavTerms, ver }: { onGo: (t: TabKey) => void; onModal: (m: ModalKey) => void; onFavTerms: () => void; ver: number }) {
+  const { c, resolved } = useTheme();
+  const s = useStyles();
+  const { width } = useWindowDimensions();
+  const heroW = Math.min(width, 440);
+
+  const stats = useMemo(() => overallStats(), [ver]);
+  const left = useMemo(() => daysLeft(), [ver]);
+  const dateText = useMemo(() => examDateText(), [ver]);
+  const streak = useMemo(() => studyStreak(), [ver]);
+  const recent = useMemo(() => recentDaily(14), [ver]);
+  const bmCount = useMemo(() => bookmarkCount(), [ver]);
+  const cs = useMemo(() => chapterStats(), [ver]);
+  const answeredAny = stats.answered > 0;
+  const weak = Object.values(cs).some((x) => x.answered > 0 && x.acc <= 40);
+  const allPass = answeredAny && !weak && stats.accuracy >= 60;
+  const guideImg = resolved === 'light'
+    ? require('./assets/examguide-light.png')
+    : require('./assets/examguide-dark.png');
+
+  return (
+    <ScrollView style={{ flex: 1 }} onScroll={noteFeedbackInteraction} scrollEventThrottle={200} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
+      <View>
+        <Image source={require('./assets/hero.jpg')} style={{ width: heroW, height: heroW * (888 / 853) }} resizeMode="cover" />
+        {/* ヒーロー下端を背景色へグラデーションで溶け込ませる(クレーン流儀) */}
+        <View style={s.heroFade} pointerEvents="none">
+          <Svg width="100%" height="100%">
+            <Defs>
+              <LinearGradient id="heroFade" x1="0" y1="0" x2="0" y2="1">
+                {/* 上側は透明のまま消火器を見せ、下端だけ勾配強め(急)で背景へ溶かす */}
+                <Stop offset="0" stopColor={c.bg} stopOpacity={0} />
+                <Stop offset="0.4" stopColor={c.bg} stopOpacity={0} />
+                <Stop offset="0.82" stopColor={c.bg} stopOpacity={0.92} />
+                <Stop offset="1" stopColor={c.bg} stopOpacity={1} />
+              </LinearGradient>
+            </Defs>
+            <Rect x="0" y="0" width="100%" height="100%" fill="url(#heroFade)" />
+          </Svg>
+        </View>
+      </View>
+
+      <View style={s.pad}>
+        {/* 試験日カウントダウン */}
+        <Pressable accessibilityRole="button" accessibilityLabel="試験日を設定" style={({ pressed }) => [s.countCard, pressed && s.pressed]} onPress={() => onModal('examdate')}>
+          <Icon name="calendar" size={30} color={c.accent} />
+          <View style={s.countLeft}>
+            <Text style={s.countLabel}>試験日まで</Text>
+            {left === null ? (
+              <Text style={[s.countBig, { marginTop: 4 }]}>日付を設定</Text>
+            ) : left >= 0 ? (
+              <View style={s.countRow}><Text style={s.countNum}>{left}</Text><Text style={s.countUnit}>日</Text></View>
+            ) : (
+              <Text style={[s.countBig, { marginTop: 4 }]}>試験おつかれさま</Text>
+            )}
+            <Text style={s.countSub}>{dateText ?? 'タップして試験日を登録'}</Text>
+          </View>
+          <View style={s.countSetBtn}><Text style={s.countSetTxt}>設定</Text></View>
+        </Pressable>
+
+        {/* 分野別レーダー */}
+        <View style={s.radarCard}>
+          <View style={s.radarHead}>
+            <Text style={s.cardTitle}>分野ごとの実力</Text>
+            {answeredAny ? (
+              <View style={[s.radarBadge, { backgroundColor: allPass ? c.goodSoft : c.warnSoft }]}>
+                <Text style={[s.radarBadgeTxt, { color: allPass ? c.good : c.warn }]}>{allPass ? '合格圏' : '弱点あり'}</Text>
+              </View>
+            ) : null}
+          </View>
+          <SubjectRadar compact />
+          {answeredAny ? <Text style={s.radarHelp}>各分野40%以上・全体60%以上が合格の目安です。40%以下の分野は要注意。</Text> : null}
+        </View>
+
+        {/* メニュー6カード(2列×3段) */}
+        <View style={s.grid}>
+          <MenuTile icon="book" title="教材で学ぶ" sub={'基礎から\nしっかり学ぶ'} onPress={() => onGo('learn')} />
+          <MenuTile icon="terms" title="用語" sub={'重要用語を\n確認する'} onPress={() => onGo('terms')} />
+          <MenuTile icon="doc" title="模試試験" sub={'本番形式で\n実力を試す'} onPress={() => onGo('mock')} />
+          <MenuTile icon="map" title="相関図" sub={'用語のつながり\nを見る'} onPress={() => onModal('relation')} />
+          <MenuTile icon="star" title="お気に入りの用語" sub={'★をつけた\n用語を見返す'} onPress={onFavTerms} />
+          <MenuTile icon="bookmark" title="ブックマーク" sub={'気になる問題を\n見返す'} badge={bmCount > 0 ? String(bmCount) : undefined} onPress={() => onModal('bookmarks')} />
+        </View>
+
+        {/* 試験総合解説カード */}
+        <Pressable accessibilityRole="button" accessibilityLabel="試験の総合解説" style={({ pressed }) => [s.guideCard, pressed && s.pressed]} onPress={() => onModal('guide')}>
+          <Image source={guideImg} style={s.guideImg} resizeMode="cover" />
+          {/* 下側だけグラデーション(画像の上部は明るいまま・文字は下で読める) */}
+          <View style={s.guideScrim} pointerEvents="none">
+            <Svg width="100%" height="100%">
+              <Defs>
+                <LinearGradient id="guideFade" x1="0" y1="0" x2="0" y2="1">
+                  <Stop offset="0" stopColor="#000" stopOpacity={0} />
+                  <Stop offset="1" stopColor="#000" stopOpacity={0.62} />
+                </LinearGradient>
+              </Defs>
+              <Rect x="0" y="0" width="100%" height="100%" fill="url(#guideFade)" />
+            </Svg>
+          </View>
+          <View style={s.guideOverlay}>
+            <Text style={s.guideEyebrow}>EXAM GUIDE</Text>
+            <Text style={s.guideTitle}>試験の総合解説</Text>
+            <Text style={s.guideSub}>出題のしくみ・合格基準・学び方(公式情報ベース)</Text>
+          </View>
+        </Pressable>
+
+        {/* 学習ストリーク */}
+        <View style={s.streakCard}>
+          <View style={s.streakTop}>
+            <View>
+              <Text style={s.streakLbl}>学習の継続</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 4 }}>
+                <Text style={s.streakNum}>{streak}</Text><Text style={s.streakLbl}>日連続</Text>
+              </View>
+            </View>
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={s.streakLbl}>のべ解答</Text>
+              <Text style={s.streakNum}>{stats.answered}</Text>
+            </View>
+          </View>
+          <StreakBars data={recent} />
+          <View style={s.streakAxis}><Text style={s.streakAxisTxt}>14日前</Text><Text style={s.streakAxisTxt}>今日</Text></View>
+          <Text style={s.streakHelp}>解いた問題数の推移。毎日つづけて、連続日数をのばそう。</Text>
+        </View>
+
+        <View style={s.motiv}>
+          <View style={s.motivRule}>
+            <View style={s.motivLine} />
+            <Icon name="flame" size={15} color={c.accent} />
+            <View style={s.motivLine} />
+          </View>
+          <Text style={s.motivMain}>最初の一本で、火を制す。</Text>
+          <Text style={s.motivKicker}>THE FIRST LINE OF DEFENSE</Text>
+        </View>
+      </View>
+    </ScrollView>
+  );
+}
+
+function MenuTile({ icon, title, sub, onPress, badge, soon }: { icon: string; title: string; sub: string; onPress: () => void; badge?: string; soon?: boolean }) {
+  const { c } = useTheme();
+  const s = useStyles();
+  return (
+    <Pressable accessibilityRole="button" accessibilityLabel={title} style={({ pressed }) => [s.tile, pressed && s.pressed]} onPress={onPress}>
+      <View style={s.tileIco}><Icon name={icon} size={20} color={c.accent} /></View>
+      <Text style={s.tileTitle}>{title}</Text>
+      <Text style={s.tileSub}>{sub}</Text>
+      {badge ? <View style={s.tileBadge}><Text style={s.tileBadgeTxt}>{badge}</Text></View> : null}
+      {soon ? <View style={s.tileSoon}><Text style={s.tileSoonTxt}>準備中</Text></View> : null}
+      <Text style={s.tileGo}>›</Text>
+    </Pressable>
+  );
+}
+
 
 function LearnScreen({ chapters, onOpen }: { chapters: Chapter[]; onOpen: (c: Chapter) => void }) {
   const { c } = useTheme();
@@ -1194,16 +1349,13 @@ function Main() {
             <>
               {modal === 'bookmarks' && <BookmarksScreen onClose={() => setModal(null)} onBump={bump} />}
               {modal === 'relation' && <RelationMapScreen onClose={() => setModal(null)} pro={pro} onPaywall={() => { setModal('paywall'); }} />}
-              {modal === 'appearance' && <HomeAppearance onClose={() => setModal(null)} onSaved={bump} />}
+              {modal === 'examdate' && <ExamDateScreen onClose={() => setModal(null)} onSaved={bump} />}
               {modal === 'guide' && <ExamGuideScreen onClose={() => setModal(null)} />}
               {modal === 'paywall' && <PaywallScreen onClose={() => setModal(null)} onBump={bump} />}
             </>
           ) : (
             <>
-              {tab === 'home' && <HomeScreen chapters={chapters} onGo={goTab} onFavTerms={goFavTerms} ver={dataVersion}
-                onResume={(no, idx) => { setOpenNo(no); setLessonIdx(idx); setTab('learn'); }}
-                onAppearance={() => setModal('appearance')} onBookmarks={() => setModal('bookmarks')}
-                onRelation={() => setModal('relation')} onGuide={() => setModal('guide')} onLicense={() => goTab('set')} />}
+              {tab === 'home' && <HomeScreen onGo={goTab} onModal={setModal} onFavTerms={goFavTerms} ver={dataVersion} />}
               {tab === 'learn' && (openChapter
                 ? (lessonIdx === null
                     ? <LessonListScreen chapter={openChapter} chapters={chapters} onOpenLesson={(i) => setLessonIdx(i)} onBack={() => setOpenNo(null)} onNavChapter={(no) => { setOpenNo(no); setLessonIdx(null); }} pro={pro} onPaywall={() => setModal('paywall')} />

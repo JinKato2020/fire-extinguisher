@@ -1,0 +1,8 @@
+{
+  "typecheck": true,
+  "studyActivityRegression": true,
+  "studyFeedbackRegression": true,
+  "uiScenarios": 24,
+  "iosExport": true,
+  "physicalDeviceTested": false
+}
