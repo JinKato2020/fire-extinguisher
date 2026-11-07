@@ -1,0 +1,17 @@
+{
+  "status": "verified-published",
+  "sourceCommit": "f51156d2afbce57dad779b52e94cc5c0e984e238",
+  "group": "8c792575-0aee-4d47-8e81-226559fa00e2",
+  "iosUpdateId": "01a1b5d3-a020-79d7-82e8-8a03c095e174",
+  "createdAt": "2026-11-07T11:45:07.616Z",
+  "runtimeVersion": "1.1.0",
+  "channel": "production",
+  "platform": "ios",
+  "manifestResponseMatchesPublishedUpdate": true,
+  "servedBundleMatchesCommittedExport": true,
+  "servedBundleSha256": "4532fbca4b4e9593eae64ac1b89969d7da12f2a2c5b261e1ab2958dbd575d9d6",
+  "originalHeroVerified": true,
+  "originalHeroSha256": "5d681266feaf553e0a209021cedef057ffa3ff7e2c4a7e95e5f2d1c7d3722104",
+  "additionalBuildRequired": false,
+  "physicalDeviceTested": false
+}
