@@ -1,0 +1,20 @@
+{
+  "version": "1.3.1",
+  "buildNumber": 1068,
+  "sourceCommit": "0ad44865efab8fa0b415517e8c1d06fcaf74366c",
+  "workflowId": 42347669866,
+  "workflowUrl": "https://github.com/JinKato2020/fire-extinguisher/actions/runs/42347669866",
+  "createdAt": "2026-11-07T06:35:11Z",
+  "completedAt": "2026-11-07T06:46:07Z",
+  "buildSucceeded": true,
+  "testFlightUploadSucceeded": true,
+  "ipaVersionVerified": true,
+  "relationshipDiagramsBundled": true,
+  "originalHomeBundled": true,
+  "originalHeroSha256": "5d681266feaf553e0a209021cedef057ffa3ff7e2c4a7e95e5f2d1c7d3722104",
+  "bundleSha256": "4d64f33be92eb0fe174ca27695652e5a6110177569ce08d9643ce5859824371b",
+  "runtimeVersion": "1.1.0",
+  "channel": "production",
+  "physicalDeviceTested": false,
+  "appleProcessingStatus": "not-queried"
+}
