@@ -121,7 +121,10 @@ function HomeScreen({ onGo, onModal, onFavTerms, ver }: { onGo: (t: TabKey) => v
   const { c, resolved } = useTheme();
   const s = useStyles();
   const { width } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
   const heroW = Math.min(width, 440);
+  const heroH = heroW * (888 / 853);
+  const [heroUnderStatusBar, setHeroUnderStatusBar] = useState(true);
 
   const stats = useMemo(() => overallStats(), [ver]);
   const left = useMemo(() => daysLeft(), [ver]);
@@ -138,9 +141,17 @@ function HomeScreen({ onGo, onModal, onFavTerms, ver }: { onGo: (t: TabKey) => v
     : require('./assets/examguide-dark.png');
 
   return (
-    <ScrollView style={{ flex: 1 }} onScroll={noteFeedbackInteraction} scrollEventThrottle={200} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
+    <>
+    <StatusBar style={heroUnderStatusBar || resolved === 'dark' ? 'light' : 'dark'} />
+    <ScrollView style={{ flex: 1 }} contentInsetAdjustmentBehavior="never" automaticallyAdjustContentInsets={false}
+      onScroll={(event) => {
+        noteFeedbackInteraction();
+        // The clock sits near the middle of the top inset. Switch to the theme's
+        // text color when that point reaches the opaque end of the hero fade.
+        setHeroUnderStatusBar(event.nativeEvent.contentOffset.y < heroH - insets.top / 2 - 10);
+      }} scrollEventThrottle={200} contentContainerStyle={{ paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
       <View>
-        <Image source={require('./assets/hero.jpg')} style={{ width: heroW, height: heroW * (888 / 853) }} resizeMode="cover" />
+        <Image source={require('./assets/hero.jpg')} style={{ width: heroW, height: heroH }} resizeMode="cover" />
         {/* ヒーロー下端を背景色へグラデーションで溶け込ませる(クレーン流儀) */}
         <View style={s.heroFade} pointerEvents="none">
           <Svg width="100%" height="100%">
@@ -252,6 +263,9 @@ function HomeScreen({ onGo, onModal, onFavTerms, ver }: { onGo: (t: TabKey) => v
         </View>
       </View>
     </ScrollView>
+    {!heroUnderStatusBar && <View pointerEvents="none" accessible={false}
+      style={{ position: 'absolute', top: 0, left: 0, right: 0, height: insets.top, backgroundColor: c.bg }} />}
+    </>
   );
 }
 
@@ -1248,7 +1262,10 @@ function Main() {
   };
 
   const showModal = modal !== null;
-  const topPad = insets.top;
+  // As in Crane's home, the photograph extends behind the status bar. Other
+  // screens retain their safe area so headings and close buttons stay reachable.
+  const edgeToEdgeHome = tab === 'home' && !showModal;
+  const topPad = edgeToEdgeHome ? 0 : insets.top;
 
   return (
     <View style={{ flex: 1, backgroundColor: c.bg }} onTouchStart={noteFeedbackInteraction}>
@@ -1282,7 +1299,7 @@ function Main() {
         </View>
         {!showModal ? <TabBar tab={tab} onTab={goTab} insetBottom={insets.bottom} /> : null}
       </View>
-      <StatusBar style={resolved === 'dark' ? 'light' : 'dark'} />
+      {!edgeToEdgeHome && <StatusBar style={resolved === 'dark' ? 'light' : 'dark'} />}
     </View>
   );
 }

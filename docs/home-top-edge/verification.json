@@ -1,0 +1,95 @@
+{
+  "checkedOn": "2026-11-07",
+  "preview": "Actual Home and Main rendered with browser host adapters and simulated system status bar",
+  "physicalDeviceTested": false,
+  "heroSizeUnchanged": true,
+  "contentMovesUpByTopInset": true,
+  "otherScreensKeepSafeArea": true,
+  "clockContrastAfterScroll": true,
+  "checks": [
+    {
+      "name": "iphone15-light-before",
+      "heroTop": 59,
+      "heroWidth": 393,
+      "heroHeight": 409.125,
+      "countdownTop": 468.125,
+      "statusBarStyle": "dark"
+    },
+    {
+      "name": "iphone15-light-after",
+      "heroTop": 0,
+      "heroWidth": 393,
+      "heroHeight": 409.125,
+      "countdownTop": 409.125,
+      "statusBarStyle": "light"
+    },
+    {
+      "name": "iphone15-dark-before",
+      "heroTop": 59,
+      "heroWidth": 393,
+      "heroHeight": 409.125,
+      "countdownTop": 468.125,
+      "statusBarStyle": "light"
+    },
+    {
+      "name": "iphone15-dark-after",
+      "heroTop": 0,
+      "heroWidth": 393,
+      "heroHeight": 409.125,
+      "countdownTop": 409.125,
+      "statusBarStyle": "light"
+    },
+    {
+      "name": "small-iphone-before",
+      "heroTop": 20,
+      "heroWidth": 320,
+      "heroHeight": 333.125,
+      "countdownTop": 353.125,
+      "statusBarStyle": "dark"
+    },
+    {
+      "name": "small-iphone-after",
+      "heroTop": 0,
+      "heroWidth": 320,
+      "heroHeight": 333.125,
+      "countdownTop": 333.125,
+      "statusBarStyle": "light"
+    },
+    {
+      "name": "tablet-before",
+      "heroTop": 24,
+      "heroWidth": 440,
+      "heroHeight": 458.046875,
+      "countdownTop": 482.046875,
+      "statusBarStyle": "dark"
+    },
+    {
+      "name": "tablet-after",
+      "heroTop": 0,
+      "heroWidth": 440,
+      "heroHeight": 458.046875,
+      "countdownTop": 458.046875,
+      "statusBarStyle": "light"
+    },
+    {
+      "name": "settings-before",
+      "screenTop": 59,
+      "safeAreaPreserved": true
+    },
+    {
+      "name": "settings-after",
+      "screenTop": 59,
+      "safeAreaPreserved": true
+    },
+    {
+      "name": "relation-modal-before",
+      "screenTop": 59,
+      "safeAreaPreserved": true
+    },
+    {
+      "name": "relation-modal-after",
+      "screenTop": 59,
+      "safeAreaPreserved": true
+    }
+  ]
+}

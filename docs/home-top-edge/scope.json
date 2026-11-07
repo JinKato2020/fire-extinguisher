@@ -1,0 +1,13 @@
+{
+  "baseCommit": "27a313eea902a53a29f4c0bd1366bcab1b31bbd4",
+  "settingsUnchanged": true,
+  "heroImageUnchanged": true,
+  "heroSha256": "5d681266feaf553e0a209021cedef057ffa3ff7e2c4a7e95e5f2d1c7d3722104",
+  "imageRatio": "888 / 853",
+  "homeTopInset": 0,
+  "otherScreensTopInset": "device safe-area inset",
+  "bottomSafeAreaUnchanged": true,
+  "feedbackUnchanged": true,
+  "nativeConfigurationChanged": false,
+  "additionalBuildRequired": false
+}
