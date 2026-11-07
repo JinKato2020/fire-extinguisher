@@ -1,0 +1,24 @@
+{
+  "result": "passed",
+  "listScrollPreservedAt": 668,
+  "incorrectQuestionNumbersOnly": [
+    2,
+    9,
+    18,
+    31,
+    35
+  ],
+  "checks": [
+    "same list DOM and scroll offset after two visits and bookmarking",
+    "previous/next and swipe",
+    "question begins at top",
+    "first/last/single/empty boundaries",
+    "vertical/short/multitouch/cancelled gestures",
+    "zoom prevents navigation",
+    "bookmark detail unaffected",
+    "fixed buttons at 320/393/768 widths and 1.3 font scale"
+  ],
+  "sourceSha256": "52f9676df6fd3376a885fac3c903941bc6cdfc8392c31fa96da7af4c1d9d6df6",
+  "browserHostSimulation": true,
+  "physicalDeviceTested": false
+}

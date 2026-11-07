@@ -1,0 +1,11 @@
+{
+  "unchangedFunctions": {
+    "HomeScreen": true,
+    "SettingsScreen": true,
+    "QuizPlayer": true,
+    "MockScoreScreen": true,
+    "Main": true
+  },
+  "nativeConfigurationChanged": false,
+  "contentChanged": false
+}

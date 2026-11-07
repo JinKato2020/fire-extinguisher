@@ -515,7 +515,7 @@ function MockResult({ set, onBack, onBump }: { set: QuizSet; onBack: () => void;
   const [detail, setDetail] = useState<Question | null>(null);
   const qs = useMemo(() => getQuestions(set.file), [set.file]);
   const st = mockStat(qs);
-  if (detail) return <QuestionDetail question={detail} onBack={() => setDetail(null)} onBump={onBump} />;
+  const reviewIndex = detail ? st.wrong.findIndex(q => q.id === detail.id) : -1;
   const pass = st.passed;
   const chapters = Object.keys(st.perCh).sort();
   const weak = chapters
@@ -524,6 +524,9 @@ function MockResult({ set, onBack, onBump }: { set: QuizSet; onBack: () => void;
     .sort((a, b) => a.p - b.p);
   return (
     <View style={{ flex: 1 }}>
+      {/* Keep the results mounted at their original size so returning preserves the exact scroll position. */}
+      <View style={{ flex: 1, opacity: detail ? 0 : 1 }} pointerEvents={detail ? 'none' : 'auto'}
+        accessibilityElementsHidden={!!detail} importantForAccessibility={detail ? 'no-hide-descendants' : 'auto'}>
       <View style={s.readerBar}>
         <Pressable onPress={onBack} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}><Text style={s.backTxt}>‹ 模試一覧</Text></Pressable>
         <Text style={s.qProgress} numberOfLines={1}>{set.title} 成績</Text>
@@ -592,6 +595,17 @@ function MockResult({ set, onBack, onBump }: { set: QuizSet; onBack: () => void;
           </>
         )}
       </ScrollView>
+      </View>
+      {detail ? <View accessibilityViewIsModal style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: c.bg }}>
+        <QuestionDetail key={detail.id} question={detail} onBack={() => setDetail(null)} onBump={onBump}
+          review={reviewIndex < 0 ? undefined : {
+            position: reviewIndex + 1,
+            total: st.wrong.length,
+            questionNumber: qs.findIndex(q => q.id === detail.id) + 1,
+            onPrevious: reviewIndex > 0 ? () => setDetail(st.wrong[reviewIndex - 1]) : undefined,
+            onNext: reviewIndex < st.wrong.length - 1 ? () => setDetail(st.wrong[reviewIndex + 1]) : undefined,
+          }} />
+      </View> : null}
     </View>
   );
 }
@@ -1041,23 +1055,54 @@ function BookmarksScreen({ onClose, onBump }: { onClose: () => void; onBump: () 
   );
 }
 
-function QuestionDetail({ question: q, onBack, onBump }: { question: Question; onBack: () => void; onBump: () => void }) {
+type WrongQuestionReview = {
+  position: number; total: number; questionNumber: number;
+  onPrevious?: () => void; onNext?: () => void;
+};
+
+function QuestionDetail({ question: q, onBack, onBump, review }: {
+  question: Question; onBack: () => void; onBump: () => void; review?: WrongQuestionReview;
+}) {
   useStudyFeedback('question:' + q.id, true);
   const { c } = useTheme();
   const s = useStyles();
   const marked = isBookmarked(q.id);
   const [, setTick] = useState(0);
+  const imageZoomOpen = useRef(false);
+  const swipeCancelled = useRef(false);
+  const reviewRef = useRef(review);
+  reviewRef.current = review;
+  const pan = useRef(PanResponder.create({
+    onMoveShouldSetPanResponderCapture: (_event, gesture) => {
+      if (imageZoomOpen.current || gesture.numberActiveTouches !== 1) return false;
+      const navigation = reviewRef.current;
+      return Math.abs(gesture.dx) > 24 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.8
+        && !!(gesture.dx < 0 ? navigation?.onNext : navigation?.onPrevious);
+    },
+    onPanResponderGrant: () => { swipeCancelled.current = false; },
+    onPanResponderMove: (_event, gesture) => {
+      if (gesture.numberActiveTouches !== 1) swipeCancelled.current = true;
+    },
+    onPanResponderRelease: (_event, gesture) => {
+      if (swipeCancelled.current || imageZoomOpen.current || Math.abs(gesture.dx) <= Math.abs(gesture.dy) * 1.8) return;
+      if (gesture.dx <= -60) reviewRef.current?.onNext?.();
+      else if (gesture.dx >= 60) reviewRef.current?.onPrevious?.();
+    },
+  })).current;
   return (
     <View style={{ flex: 1 }}>
       <View style={s.modalBar}>
-        <Pressable onPress={onBack} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}><Text style={s.backTxt}>‹ 戻る</Text></Pressable>
-        <Text style={s.modalTitle}>問題</Text>
-        <View style={{ width: 56 }} />
+        <Pressable accessibilityRole="button" onPress={onBack} hitSlop={10} style={({ pressed }) => [s.backBtn, pressed && s.pressed]}><Text style={s.backTxt}>{review ? '‹ 一覧へ' : '‹ 戻る'}</Text></Pressable>
+        <Text accessibilityRole="header" style={s.modalTitle}>{review ? `復習 ${review.position} / ${review.total}` : '問題'}</Text>
+        <View style={{ width: review ? 72 : 56 }} />
       </View>
+      <View style={{ flex: 1 }} {...(review ? pan.panHandlers : {})}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={[s.pad, { paddingTop: 10, paddingBottom: 40 }]} showsVerticalScrollIndicator={false}>
+        {review ? <Text style={[s.qTopic, { color: c.muted }]}>間違えた問題 · 模試の問{review.questionNumber}</Text> : null}
         {q.topic ? <Text style={s.qTopic}>{q.topic}</Text> : null}
         <Text style={s.qStem}>{questionStem(q)}</Text>
-        {q.practical ? <PracticalQuestion practical={q.practical} draft={getRec(q.id)?.lastPoints?.answers ?? {}} review /> : <><View style={{ gap: 9, marginTop: 14 }}>
+        {q.practical ? <PracticalQuestion practical={q.practical} draft={getRec(q.id)?.lastPoints?.answers ?? {}} review
+          onZoomChange={open => { imageZoomOpen.current = open; }} /> : <><View style={{ gap: 9, marginTop: 14 }}>
           {q.choices.map((ch, i) => (
             <View key={i} style={[s.choice, i === q.answer && s.choiceCorrect]}>
               <Text style={s.choiceNum}>{QLABEL[i]}</Text>
@@ -1078,6 +1123,22 @@ function QuestionDetail({ question: q, onBack, onBump }: { question: Question; o
           <Text style={[s.bmBtnTxt, marked && s.bmBtnTxtOn]}>{marked ? 'ブックマーク解除' : 'ブックマーク'}</Text>
         </Pressable>
       </ScrollView>
+      </View>
+      {review ? <View style={{ paddingHorizontal: 18, paddingTop: 10, paddingBottom: 12, borderTopWidth: 1, borderTopColor: c.line, backgroundColor: c.bg, gap: 8 }}>
+        <View style={{ flexDirection: 'row', gap: 12 }}>
+          <Pressable accessibilityRole="button" accessibilityLabel="前の間違えた問題へ"
+            accessibilityState={{ disabled: !review.onPrevious }} disabled={!review.onPrevious} onPress={review.onPrevious}
+            style={({ pressed }) => [s.bmBtn, { flex: 1, marginTop: 0, minHeight: 48, justifyContent: 'center', opacity: review.onPrevious ? 1 : 0.35 }, pressed && s.pressed]}>
+            <Text style={[s.submitTxt, { color: c.fg }]}>‹ 前へ</Text>
+          </Pressable>
+          <Pressable accessibilityRole="button" accessibilityLabel="次の間違えた問題へ"
+            accessibilityState={{ disabled: !review.onNext }} disabled={!review.onNext} onPress={review.onNext}
+            style={({ pressed }) => [s.submitBtn, { flex: 1, marginTop: 0, minHeight: 48, justifyContent: 'center', opacity: review.onNext ? 1 : 0.35 }, pressed && s.pressed]}>
+            <Text style={s.submitTxt}>次へ ›</Text>
+          </Pressable>
+        </View>
+        <Text style={{ color: c.muted, fontSize: 12, textAlign: 'center' }}>{review.total === 1 ? 'この模試の復習対象は1問です' : review.position === review.total ? '最後の問題です · 右スワイプで前へ' : '左右スワイプでも移動できます'}</Text>
+      </View> : null}
     </View>
   );
 }
