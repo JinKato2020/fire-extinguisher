@@ -1,0 +1,16 @@
+{
+  "status": "verified-published",
+  "purpose": "Retain incorrect-question list position and add previous/next and swipe navigation",
+  "sourceCommit": "d6811745a9ef180b5f734d51387ec7371c4c29f9",
+  "group": "c934b888-50f2-4aee-b4f4-6b4976b0928a",
+  "iosUpdateId": "01a1b5e0-9d65-78cd-b439-d8171dbaaf10",
+  "createdAt": "2026-11-07T11:59:18.885Z",
+  "runtimeVersion": "1.1.0",
+  "channel": "production",
+  "platform": "ios",
+  "manifestResponseMatchesPublishedUpdate": true,
+  "servedBundleMatchesCommittedExport": true,
+  "servedBundleSha256": "6fdf7a1d3d1b209d14aef352cdc0c8c74c897fc092b9149038f25e4d35be906a",
+  "additionalBuildRequired": false,
+  "physicalDeviceTested": false
+}
